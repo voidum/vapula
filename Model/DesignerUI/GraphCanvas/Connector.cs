@@ -10,7 +10,6 @@ namespace TCM.Model.Designer
     public class Connector : Entity
     {
         #region 字段
-        protected bool _Dragable;
         protected Entity _Container;
         protected List<Connector> _Attached;
         protected Connector _AttachedTo;
@@ -22,7 +21,7 @@ namespace TCM.Model.Designer
         /// </summary>
         public bool Dragable
         {
-            get { return _Dragable; }
+            get { return (_Container is Connection); }
         }
 
         /// <summary>
@@ -84,8 +83,9 @@ namespace TCM.Model.Designer
         {
             if (container == null)
                 throw new Exception("初始化连结点必须耦合容器。");
-            _Dragable = container is Connection;
-            if (!_Dragable) _Attached = new List<Connector>();
+            _Container = container;
+            if (!Dragable) 
+                _Attached = new List<Connector>();
             _Location = location;
             _Container = container;
         }
@@ -94,9 +94,9 @@ namespace TCM.Model.Designer
         {
             base.ConfigCache();
             _Cache.CachePen("1",
-                new Pen(Color.FromArgb(200, Color.DarkRed), 1f));
+                new Pen(Color.FromArgb(200, Color.SkyBlue), 1f));
             _Cache.CachePen("2",
-                new Pen(Color.FromArgb(200, Color.DarkRed), 2f));
+                new Pen(Color.FromArgb(150, Color.DarkRed), 2f));
             _Cache.CacheBrush("1",
                 new SolidBrush(Color.FromArgb(200, Color.SkyBlue)));
             _Cache.CacheBrush("2",
@@ -110,7 +110,7 @@ namespace TCM.Model.Designer
         /// </summary>
         public bool IfLink(Connector target)
         {
-            if (!_Dragable) return false;
+            if (!Dragable) return false;
             Connection con = _Container as Connection;
             if (this == con.From)
             {
@@ -131,7 +131,7 @@ namespace TCM.Model.Designer
         /// </summary>
         public void AttachConnector(Connector c)
         {
-            if (c._Dragable) return; //要求目标不可移动
+            if (c.Dragable) return; //要求目标不可移动
             Shape shp = c.Container as Shape;
             if (shp.IfHasAttached(this)) return; //不重复关联
             Location = new Point(c.Location.X, c.Location.Y); //吸附
@@ -150,28 +150,8 @@ namespace TCM.Model.Designer
             _AttachedTo = null;
         }
         #endregion
-        #region 重写
-        public override void Paint(Graphics g)
-        {
-            if (_IsHovered)
-            {
-                Pen pen = _Cache.GetPen("1");
-                Brush brush1 = _Cache.GetBrush("1");
-                Brush brush2 = _Cache.GetBrush("2");
-                g.DrawEllipse(pen, _Location.X - 10, _Location.Y - 10, 20, 20);
-                g.FillEllipse(_Dragable ? brush1 : brush2, _Location.X - 10, _Location.Y - 10, 20, 20);
-            }
-            else
-            {
-                Pen pen = _Cache.GetPen("2");
-                g.DrawEllipse(pen, _Location.X - 4, _Location.Y - 4, 8, 8);
-                if (_IsSelected)
-                    g.FillEllipse(Brushes.Red, _Location.X - 3, _Location.Y - 3, 6, 6);
-                else
-                    g.FillEllipse(Brushes.WhiteSmoke, _Location.X - 3, _Location.Y - 3, 6, 6);
-            }
-        }
 
+        #region 重写
         public override bool IsHit(Point p)
         {
             Point b = _Location;
@@ -181,36 +161,46 @@ namespace TCM.Model.Designer
             return rd.Contains(rp);
         }
 
-        public override void Invalidate()
-        {
-            Point p = _Location;
-            p.Offset(-15, -15);
-            _Canvas.Invalidate(new Rectangle(p.X, p.Y, 30, 30));
-        }
-
-        /// <summary>
-        /// 根据指定矢量移动
-        /// </summary>
         public override void MoveAs(Point v)
         {
             _Location.X += v.X;
             _Location.Y += v.Y;
+            Invalidate();
         }
 
+        public override void MoveTo(Point p)
+        {
+            _Location.X = p.X;
+            _Location.Y = p.Y;
+            Invalidate();
+        }
 
-        public override void MouseDown(System.Windows.Forms.MouseEventArgs e)
+        public override void Invalidate()
+        {
+            _Canvas.Invalidate();
+        }
+
+        public override void Invalidate(Rectangle rect)
         {
             throw new NotImplementedException();
         }
 
-        public override void MouseUp(System.Windows.Forms.MouseEventArgs e)
+        public override void OnPaint(Graphics g)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseMove(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
+            if (_IsHovered)
+            {
+                Pen pen = _Cache.GetPen("1");
+                Brush brush1 = _Cache.GetBrush("1");
+                Brush brush2 = _Cache.GetBrush("2");
+                g.DrawEllipse(pen, _Location.X - 12, _Location.Y - 12, 24, 24);
+                g.FillEllipse(Dragable ? brush1 : brush2, _Location.X - 11, _Location.Y - 11, 22, 22);
+            }
+            else if (_IsSelected)
+            {
+                Pen pen = _Cache.GetPen("2");
+                g.DrawEllipse(pen, _Location.X - 4, _Location.Y - 4, 8, 8);
+                g.FillEllipse(Brushes.Red, _Location.X - 3, _Location.Y - 3, 6, 6);
+            }
         }
         #endregion
     }

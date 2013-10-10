@@ -11,11 +11,11 @@ namespace TCM.Model.Designer
         #region 字段
         protected int _Id = -1;
         protected Point _Location = new Point(0, 0);
+        protected int _Style = 0;
 
         protected bool _IsHovered = false;
         protected bool _IsSelected = false;
-
-        protected int _Style = 0;
+        protected object _Tag = null;
 
         protected GDIPlusCache _Cache = new GDIPlusCache();
         protected Canvas _Canvas;
@@ -28,6 +28,15 @@ namespace TCM.Model.Designer
         public int Id
         {
             get { return _Id; }
+        }
+
+        /// <summary>
+        /// 获取或设置图元的附加对象
+        /// </summary>
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
         }
 
         /// <summary>
@@ -104,9 +113,7 @@ namespace TCM.Model.Designer
             set 
             {
                 if (value != _Canvas) 
-                {
                     _Canvas = value;
-                }
             }
         }
         #endregion
@@ -125,11 +132,6 @@ namespace TCM.Model.Designer
 
         #region 方法
         /// <summary>
-        /// 在指定Graphics对象上绘制图元
-        /// </summary>
-        public abstract void Paint(Graphics g);
-
-        /// <summary>
         /// 测试指定位置是否命中
         /// </summary>
         public abstract bool IsHit(Point p);
@@ -140,24 +142,24 @@ namespace TCM.Model.Designer
         public abstract void MoveAs(Point v);
 
         /// <summary>
+        /// 移动图元到指定位置
+        /// </summary>
+        public abstract void MoveTo(Point v);
+
+        /// <summary>
         /// 通知重绘
         /// </summary>
         public abstract void Invalidate();
 
         /// <summary>
-        /// 触发图元的鼠标按下
+        /// 指定重绘范围
         /// </summary>
-        public abstract void MouseDown(MouseEventArgs e);
+        public abstract void Invalidate(Rectangle rect);
 
         /// <summary>
-        /// 触发图元的鼠标抬起
+        /// 在指定Graphics对象上绘制图元
         /// </summary>
-        public abstract void MouseUp(MouseEventArgs e);
-
-        /// <summary>
-        /// 触发图元的鼠标移动
-        /// </summary>
-        public abstract void MouseMove(MouseEventArgs e);
+        public abstract void OnPaint(Graphics g);
         #endregion
     }
 }

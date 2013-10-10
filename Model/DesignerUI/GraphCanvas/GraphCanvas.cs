@@ -17,14 +17,14 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 通知容器当前画布的选中对象已经变更
         /// </summary>
-        public event Action<Entity> OnSelectedChanged;
+        public event Action SelectedItemsChanged;
         #endregion
 
         #region 字段
         private bool _IfShowGrid = true;
         private bool _IfShowStatus = true;
 
-        private Size _GridSize = new Size(10, 10);
+        private Size _GridSize = new Size(25, 25);
         
         private int _Complexity = 0;
         private int _MaxComplexity = 100;
@@ -32,13 +32,12 @@ namespace TCM.Model.Designer
         private List<Shape> _Shapes = new List<Shape>();
         private List<Connection> _Connections = new List<Connection>();
 
-        private Entity _HoveredEntity;
-        private List<Entity> _SelectedEntities;
-
-        private bool _IsDraging = false;
-        private bool _IsAppendSelect = false;
+        private List<Entity> _SelectedEntities = new List<Entity>();
 
         private Point _DragRefPoint;
+        private bool _IsDraging = false;
+
+        private bool _IsMultiSelect = false;
 
         private ContextMenu _Menu;
         #endregion
@@ -175,9 +174,17 @@ namespace TCM.Model.Designer
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             foreach (var con in _Connections)
-                con.Paint(g);
+            {
+                con.OnPaint(g);
+                con.From.OnPaint(g);
+                con.To.OnPaint(g);
+            }
             foreach (var shp in _Shapes)
-                shp.Paint(g);
+            {
+                shp.OnPaint(g);
+                foreach (var cop in shp.Connectors)
+                    cop.OnPaint(g);
+            }
         }
         #endregion
 
@@ -196,7 +203,6 @@ namespace TCM.Model.Designer
                         foreach (Connector cop2 in cop.Attached)
                             cop2.AttachedTo = null;
                     _Shapes.Remove(shp);
-                    //_Model.RemoveNode(_SelectedEntity.Model as NodeBase);
                     Invalidate();
                 }
                 else if (typeof(Connection).IsInstanceOfType(ent))
@@ -254,75 +260,100 @@ namespace TCM.Model.Designer
          */
 
         #region 事件响应
-        protected override void OnKeyDown(KeyEventArgs e)
+        /// <summary>
+        /// 鼠标移动事件
+        /// </summary>
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Control) 
-                _IsAppendSelect = true;
-            base.OnKeyDown(e);
+            Point p = new Point(e.X, e.Y);
+            if (p.X < WorkRect.Left) p.X = WorkRect.Left;
+            if (p.Y < WorkRect.Top) p.Y = WorkRect.Top;
+            if (p.X > WorkRect.Right) p.X = WorkRect.Right;
+            if (p.Y > WorkRect.Bottom) p.Y = WorkRect.Bottom;
+            if (_IsDraging)
+            {
+                Point v = new Point(
+                    p.X - _DragRefPoint.X,
+                    p.Y - _DragRefPoint.Y);
+                int vx = Math.Abs(v.X);
+                int vy = Math.Abs(v.Y);
+                if (vx > 0 || vy > 0)
+                {
+                    _DragRefPoint = p;
+                    foreach (Entity ent in _SelectedEntities)
+                        ent.MoveAs(v);
+                }
+            }
+            foreach (Connection con in _Connections)
+            {
+                if (con.From.IsHovered = con.From.IsHit(p)) return;
+                if(con.To.IsHovered = con.To.IsHit(p)) return;
+            }
+            foreach (Shape spb in _Shapes)
+            {
+                foreach (Connector cop in spb.Connectors)
+                    if(cop.IsHovered = cop.IsHit(p)) return;
+                if (spb.IsHovered = spb.IsHit(p)) return;
+            }
+            foreach (Connection con in _Connections)
+            {
+                if (con.IsHovered = con.IsHit(p)) 
+                    return;
+            }
         }
 
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            MessageBox.Show("up");
-            if (e.Control) { MessageBox.Show("ctrl"); }
-            else { MessageBox.Show("unctrl"); }
-            base.OnKeyUp(e);
-        }
-
-        /*
         /// <summary>
         /// 鼠标按下事件
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            _DragRefPoint = e.Location;
             if (e.Button == MouseButtons.Right)
             {
                 _Menu.Show(this, e.Location);
                 return;
             }
-            foreach (Connection con in _Connections)
+            Point p = e.Location;
+            if (p.X < WorkRect.Left ||
+                p.Y < WorkRect.Top ||
+                p.X > WorkRect.Right ||
+                p.Y > WorkRect.Bottom)
+                return;
+            Action<Entity> Select = new Action<Entity>(
+                (ent) => {
+                    if (!_IsMultiSelect)
+                    {
+                        foreach (var tmp_ent in _SelectedEntities)
+                            tmp_ent.IsSelected = false;
+                        _SelectedEntities.Clear();
+                    }
+                    if (ent != null)
+                    {
+                        _IsDraging = true;
+                        _DragRefPoint = e.Location;
+                        ent.IsSelected = true;
+                        _SelectedEntities.Add(ent);
+                    }
+                    if(SelectedItemsChanged != null)
+                        SelectedItemsChanged();
+                });
+            if (e.Button == MouseButtons.Left)
             {
-                if (con.From.IsHit(_DragRefPoint)) //命中节点
+                foreach (Connection con in _Connections)
                 {
-                    UpdateSelected(con.From);
-                    _IsDraging = true;
-                    OnSelectedChanged(con.From);
-                    return;
+                    if (con.From.IsHit(p)) { Select(con.From); return; }
+                    if (con.To.IsHit(p)) { Select(con.To); return; }
                 }
-                if (con.To.IsHit(_DragRefPoint)) //命中结点
+                foreach (Shape shp in _Shapes)
                 {
-                    //if(_Tracking) to attach 不知是否合理啊。。。
-                    UpdateSelected(con.To);
-                    _IsDraging = true;
-                    OnSelectedChanged(con.To);
-                    return;
+                    if (shp.IsHit(p)) { Select(shp); return; }
                 }
+                foreach (Connection con in _Connections)
+                {
+                    if (con.IsHit(p)) { Select(con); return; }
+                }
+                Select(null);
+                Invalidate();
             }
-            foreach (Shape shp in _Shapes)
-            {
-                if (shp.IsHit(_DragRefPoint)) //命中形状
-                {
-                    _IsDraging = true;
-                    shp.MouseDown(e);
-                    UpdateSelected(shp);
-                    OnSelectedChanged(shp);
-                    return;
-                }
-            }
-            foreach (Connection con in _Connections)
-            {
-                if (con.IsHit(_DragRefPoint)) //命中连接线
-                {
-                    UpdateSelected(con);
-                    OnSelectedChanged(con);
-                    return;
-                }
-            }
-            if (_SelectedEntity != null) _SelectedEntity.IsSelected = false;
-            _SelectedEntity = null;
-            OnSelectedChanged(null);
-            Invalidate();
         }
 
         /// <summary>
@@ -330,9 +361,10 @@ namespace TCM.Model.Designer
         /// </summary>
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (_Draging)
+            if (_IsDraging)
             {
-                Point p = new Point(e.X, e.Y);
+                Point p = e.Location;
+                /*
                 if (typeof(Connector).IsInstanceOfType(_SelectedEntity))
                 {
                     Connector cop = _SelectedEntity as Connector;
@@ -351,73 +383,18 @@ namespace TCM.Model.Designer
                     }
                     cop.DetachConnector();
                 }
-                _Draging = false;
+                 */
+                _IsDraging = false;
             }
         }
-
-        /// <summary>
-        /// 鼠标移动事件
-        /// </summary>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            Point p = new Point(e.X, e.Y);
-            if (p.X < WorkRect.Left) p.X = WorkRect.Left;
-            if (p.Y < WorkRect.Top) p.Y = WorkRect.Top;
-            if (p.X > WorkRect.Right) p.X = WorkRect.Right;
-            if (p.Y > WorkRect.Bottom) p.Y = WorkRect.Bottom;
-            if (_Draging)
-            {
-                _SelectedEntity.MoveAs(
-                    new Point(p.X - _DragRefPoint.X, p.Y - _DragRefPoint.Y));
-                _DragRefPoint = p;
-                Invalidate();
-                if (typeof(Connector).IsInstanceOfType(_SelectedEntity))
-                {
-                    foreach (Shape spb in _Shapes)
-                        spb.GetHitConnector(p);
-                }
-            }
-            foreach (Connection con in _Connections)
-            {
-                if (con.From.IsHit(p))
-                {
-                    UpdateHovered(con.From);
-                    return;
-                }
-                else con.From.IsHovered = false;
-                if (con.To.IsHit(p))
-                {
-                    UpdateHovered(con.To);
-                    return;
-                }
-                else con.To.IsHovered = false;
-            }
-            foreach (Shape spb in _Shapes)
-            {
-                foreach (Connector cop in spb.Connectors)
-                {
-                    if (cop.IsHit(p))
-                    {
-                        UpdateHovered(cop);
-                        return;
-                    }
-                    else cop.IsHovered = false;
-                }
-                if (spb.IsHit(p))
-                {
-                    UpdateHovered(spb);
-                    return;
-                }
-                else spb.IsHovered = false;
-            }
-            foreach (Connection con in _Connections)
-            {
-                if (con.IsHit(p)) UpdateHovered(con);
-                else con.IsHovered = false;
-            }
-        }
-         */
         #endregion
+
+        public void AddConnection(Point p1, Point p2)
+        {
+            Connection con = new Connection(p1, p2);
+            con.Canvas = this;
+            _Connections.Add(con);
+        }
 
         #region 集合
         public bool Find(int id, out Entity entity)

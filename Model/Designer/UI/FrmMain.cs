@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using TCM.Model;
+using RibbonLib;
+using RibbonLib.Interop;
 
 namespace Model
 {
@@ -15,6 +18,7 @@ namespace Model
         {
             Library library = Library.Load(@"E:\Projects\Vapula\Core\Sample\library\sample_lib.tcm.xml");
             library.Clear();
+            canvas.AddConnection(new Point(50, 50), new Point(100, 100));
         }
     }
 }

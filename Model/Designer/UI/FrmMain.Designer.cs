@@ -28,27 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.canvasGraph1 = new TCM.Model.Designer.CanvasGraph();
+            this.canvas = new TCM.Model.Designer.CanvasGraph();
+            this.ribbon1 = new RibbonLib.Ribbon();
             this.SuspendLayout();
             // 
-            // canvasGraph1
+            // canvas
             // 
-            this.canvasGraph1.AllowDrop = true;
-            this.canvasGraph1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.canvasGraph1.IfShowGrid = true;
-            this.canvasGraph1.IfShowStatus = true;
-            this.canvasGraph1.Location = new System.Drawing.Point(0, 0);
-            this.canvasGraph1.Name = "canvasGraph1";
-            this.canvasGraph1.Size = new System.Drawing.Size(584, 362);
-            this.canvasGraph1.TabIndex = 0;
-            this.canvasGraph1.WorkSize = new System.Drawing.Size(600, 400);
+            this.canvas.AllowDrop = true;
+            this.canvas.IfShowGrid = true;
+            this.canvas.IfShowStatus = true;
+            this.canvas.Location = new System.Drawing.Point(0, 105);
+            this.canvas.Name = "canvas";
+            this.canvas.Size = new System.Drawing.Size(584, 397);
+            this.canvas.TabIndex = 0;
+            this.canvas.WorkSize = new System.Drawing.Size(600, 400);
+            // 
+            // ribbon1
+            // 
+            this.ribbon1.Location = new System.Drawing.Point(0, 0);
+            this.ribbon1.Minimized = false;
+            this.ribbon1.Name = "ribbon1";
+            this.ribbon1.ResourceName = null;
+            this.ribbon1.ShortcutTableResourceName = null;
+            this.ribbon1.Size = new System.Drawing.Size(584, 99);
+            this.ribbon1.TabIndex = 1;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 362);
-            this.Controls.Add(this.canvasGraph1);
+            this.Controls.Add(this.ribbon1);
+            this.Controls.Add(this.canvas);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Model Designer";
@@ -59,7 +70,8 @@
 
         #endregion
 
-        private TCM.Model.Designer.CanvasGraph canvasGraph1;
+        private TCM.Model.Designer.CanvasGraph canvas;
+        private RibbonLib.Ribbon ribbon1;
     }
 }
 

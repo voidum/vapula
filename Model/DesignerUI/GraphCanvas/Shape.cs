@@ -193,25 +193,9 @@ namespace TCM.Model.Designer
         #endregion
 
         #region 重写
-        /// <summary>
-        /// 重绘逻辑，需要进一步实现本身的绘制
-        /// </summary>
-        public override void Paint(Graphics g)
-        {
-            foreach (Connector cop in _Connectors)
-            {
-                if (cop.IsHovered) cop.Paint(g);
-            }
-        }
-
         public override bool IsHit(Point p)
         {
             throw new Exception("不要调用ShapeBase的命中测试。");
-        }
-
-        public override void Invalidate()
-        {
-            if (_Canvas != null) _Canvas.Invalidate();
         }
 
         public override void MoveAs(Point v)
@@ -221,21 +205,34 @@ namespace TCM.Model.Designer
             foreach (Connector cop in _Connectors) cop.MoveAs(v);
             Invalidate();
         }
+
+        public override void MoveTo(Point p)
+        {
+            Point v = new Point(X - p.X, Y - p.Y);
+            _Location.X = p.X;
+            _Location.Y = p.Y;
+            foreach (Connector cop in _Connectors) 
+                cop.MoveAs(v);
+            Invalidate();
+        }
+
+        public override void Invalidate()
+        {
+            if (_Canvas != null) _Canvas.Invalidate();
+        }
+
+        public override void Invalidate(Rectangle rect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnPaint(Graphics g)
+        {
+            foreach (Connector cop in _Connectors)
+            {
+                if (cop.IsHovered) cop.OnPaint(g);
+            }
+        }
         #endregion
-
-        public override void MouseDown(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseUp(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseMove(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

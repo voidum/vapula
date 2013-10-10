@@ -48,12 +48,22 @@ namespace TCM.Model.Designer
             get { return Math.Abs(_From.Location.Y - _To.Location.Y); }
         }
 
+        public int Left 
+        {
+            get { return _From.Location.X < _To.Location.X ? _From.Location.X : _To.Location.X; }
+        }
+
+        public int Top
+        {
+            get { return _From.Location.Y < _To.Location.Y ? _From.Location.Y : _To.Location.Y; }
+        }
+
         /// <summary>
         /// 获取连接线中点X坐标
         /// </summary>
         public int X
         {
-            get { return (_From.Location.X < _To.Location.X ? _From.Location.X : _To.Location.X) + Width / 2; }
+            get { return Left + Width / 2; }
         }
 
         /// <summary>
@@ -61,7 +71,15 @@ namespace TCM.Model.Designer
         /// </summary>
         public int Y
         {
-            get { return (_From.Location.Y < _To.Location.Y ? _From.Location.Y : _To.Location.Y) + Height / 2; }
+            get { return Top + Height / 2; }
+        }
+
+        /// <summary>
+        /// 获取连接线中点位置
+        /// </summary>
+        public override Point Location
+        {
+            get { return new Point(X, Y); }
         }
 
         /// <summary>
@@ -94,11 +112,10 @@ namespace TCM.Model.Designer
         #endregion
 
         #region 构造
-        public Connection(Point from, Point to, int id)
+        public Connection(Point from, Point to)
         {
             _From = new Connector(from, this);
-            _To = new Connector(from, this);
-            _Id = id;
+            _To = new Connector(to, this);
         }
 
         public override void ConfigCache()
@@ -106,28 +123,12 @@ namespace TCM.Model.Designer
             Pen pen = new Pen(Color.Black, 2f);
             pen.CustomEndCap = new AdjustableArrowCap(6, 6, true);
             _Cache.CachePen("1", pen);
-            _Cache.CachePen("2", new Pen(Color.Red, 2f));
-            _Cache.CachePen("3", new Pen(Color.FromArgb(50, Color.Red), 5f));
+            _Cache.CachePen("2", new Pen(Color.FromArgb(50, Color.Red), 5f));
+            _Cache.CachePen("3", new Pen(Color.FromArgb(50, Color.Blue), 5f));
         }
         #endregion
 
         #region 重写
-        public override void Paint(Graphics g)
-        {
-            if (_IsHovered || IsSelected)
-            {
-                Pen pen1 = _Cache.GetPen("1");
-                Pen pen2 = _Cache.GetPen("2");
-                g.DrawLine(pen2, From.Location, To.Location);
-                g.DrawLine(pen1, From.Location, To.Location);
-            }
-            else
-            {
-                Pen pen1 = _Cache.GetPen("1");
-                g.DrawLine(pen1, From.Location, To.Location);
-            }
-        }
-
         public override bool IsHit(Point p)
         {
             Point p1, p2;
@@ -161,6 +162,21 @@ namespace TCM.Model.Designer
             return false;
         }
 
+        public override void MoveAs(Point v)
+        {
+            Rectangle rect1 = new Rectangle(Left - 2, Top - 2, Width + 5, Height + 5);
+            _From.MoveAs(v);
+            _To.MoveAs(v);
+            Rectangle rect2 = new Rectangle(Left - 2, Top - 2, Width + 5, Height + 5);
+            Invalidate(rect1);
+            Invalidate(rect2);
+        }
+
+        public override void MoveTo(Point p)
+        {
+            throw new Exception("不适合的方法");
+        }
+
         public override void Invalidate()
         {
             Rectangle f = new Rectangle(_From.Location, new Size(10, 10));
@@ -168,24 +184,31 @@ namespace TCM.Model.Designer
             _Canvas.Invalidate(Rectangle.Union(f, t));
         }
 
-        public override void MoveAs(Point v)
+        public override void Invalidate(Rectangle rect)
         {
-            throw new NotImplementedException();
+            _Canvas.Invalidate(rect);
         }
 
-        public override void MouseDown(System.Windows.Forms.MouseEventArgs e)
+        public override void OnPaint(Graphics g)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseUp(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MouseMove(System.Windows.Forms.MouseEventArgs e)
-        {
-            throw new NotImplementedException();
+            Pen pen = _Cache.GetPen("1");
+            Pen pen_dec = null;
+            if (_IsHovered)
+            {
+                pen_dec = _Cache.GetPen("2");
+                g.DrawLine(pen_dec, From.Location, To.Location);
+                g.DrawLine(pen, From.Location, To.Location);
+            }
+            else if (_IsSelected)
+            {
+                pen_dec = _Cache.GetPen("3");
+                g.DrawLine(pen_dec, From.Location, To.Location);
+                g.DrawLine(pen, From.Location, To.Location);
+            }
+            else
+            {
+                g.DrawLine(pen, From.Location, To.Location);
+            }
         }
         #endregion
     }
