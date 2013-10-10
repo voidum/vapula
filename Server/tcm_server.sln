@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_server", "tcm_server\tcm_server.csproj", "{D5BB5004-F96A-4ACC-B398-330983ED7D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_client", "tcm_client\tcm_client.csproj", "{F38260B5-F32E-413B-8980-C48EC08A157D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5BB5004-F96A-4ACC-B398-330983ED7D76}.Debug|x86.ActiveCfg = Debug|x86
+		{D5BB5004-F96A-4ACC-B398-330983ED7D76}.Debug|x86.Build.0 = Debug|x86
+		{D5BB5004-F96A-4ACC-B398-330983ED7D76}.Release|x86.ActiveCfg = Release|x86
+		{D5BB5004-F96A-4ACC-B398-330983ED7D76}.Release|x86.Build.0 = Release|x86
+		{F38260B5-F32E-413B-8980-C48EC08A157D}.Debug|x86.ActiveCfg = Debug|x86
+		{F38260B5-F32E-413B-8980-C48EC08A157D}.Debug|x86.Build.0 = Debug|x86
+		{F38260B5-F32E-413B-8980-C48EC08A157D}.Release|x86.ActiveCfg = Release|x86
+		{F38260B5-F32E-413B-8980-C48EC08A157D}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <target>
+    <dir><![CDATA[]]></dir>
+    <cid></cid>
+    <fid></fid>
+    <params>
+      <param id=""><![CDATA[]]></param>
+    </params>
+  </target>
+  <extension>
+    <tags>
+      <tag key=""><![CDATA[]]></tag>
+    </tags>
+    <control>
+      <mode>0</mode>
+      <config>
+        <path><![CDATA[lua path]]></path>
+        <export>
+          <param id="0" key="" />
+        </export>
+      </config>
+    </control>
+  </extension>
+</root>

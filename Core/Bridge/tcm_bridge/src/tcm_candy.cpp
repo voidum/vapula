@@ -1,0 +1,240 @@
+#include "stdafx.h"
+#include "tcm_candy.h"
+
+namespace tcm
+{
+	Uncopiable::Uncopiable() { }
+
+	Uncopiable::~Uncopiable() { }
+
+	Lock::Lock()
+	{
+		_A = 15;
+		_B = 300;
+		_C = 10;
+		_Core = (long*)_aligned_malloc(1, sizeof(long));
+		InterlockedExchange(_Core, FALSE);
+	}
+
+	Lock::~Lock()
+	{
+		_aligned_free(_Core);
+	}
+
+	void Lock::Set(int a, int b, int c)
+	{
+		_A = a;
+		_B = b;
+		_C = c;
+	}
+
+	bool Lock::Enter()
+	{
+		for(int i=0; i<MAXINT; i++)
+		{
+			if(InterlockedExchange(_Core, TRUE) == FALSE)
+				return true;
+			Sleep(0);
+		}
+		return false;
+	}
+
+	bool Lock::EnterEx()
+	{
+		for(int i=0; i<_C; i++) //³¤Ë¯Ãß
+		{
+			int speed_old = 0x00;
+			int speed_new = 0x01;
+			for(int j=0; j<_A; j++) //Ë¥¼õ
+			{
+				if(speed_old >= _B) break;
+				if(InterlockedExchange(_Core, TRUE) == FALSE)
+					return true;
+				Sleep(speed_old);
+				speed_old = speed_new;
+				speed_new += speed_old;
+			}
+			Sleep(_B);
+		}
+		return false;
+	}
+
+	void Lock::Leave()
+	{
+		InterlockedExchange(_Core, FALSE);
+	}
+
+	VarAOO::VarAOO()
+	{
+		_Token = new BYTE[1];
+		_Value = NULL;
+	}
+
+	VarAOO::~VarAOO()
+	{
+		if(_Token != NULL)
+			delete [] (BYTE*)_Token;
+		if(_Value != NULL)
+			delete [] (BYTE*)(_Value);
+	}
+
+	bool VarAOO::CanSet()
+	{
+		return (_Token != NULL);
+	}
+
+	void VarAOO::_Set(LPVOID data, UINT len)
+	{
+		_Value = new BYTE[len];
+		memcpy(_Value, data, len);
+		delete [] (BYTE*)_Token;
+		_Token = NULL;
+	}
+
+	Flag::Flag()
+	{
+		_Lock = new Lock();
+		_Value = 0;
+	}
+
+	Flag::~Flag()
+	{
+		delete _Lock;
+	}
+
+	void Flag::Enable(int flag)
+	{
+		_Lock->Enter();
+		_Value |= flag;
+		_Lock->Leave();
+	}
+
+	void Flag::Disable(int flag)
+	{
+		int tmp = flag ^ 0xFFFFFFFF;
+		_Lock->Enter();
+		_Value &= tmp;
+		_Lock->Leave();
+	}
+
+	bool Flag::Valid(int flag)
+	{
+		_Lock->Enter();
+		int v = _Value;
+		_Lock->Leave();
+		return ((v & flag) == flag);
+	}
+
+	Dictionary::Dictionary()
+	{
+		_Lock = new Lock();
+	}
+
+	Dictionary::~Dictionary()
+	{
+		Clear();
+		delete _Lock;
+	}
+
+	int Dictionary::GetCount()
+	{
+		_Lock->EnterEx();
+		int i = _Keys.size();
+		_Lock->Leave();
+		return i;
+	}
+
+	bool Dictionary::Contain(PCWSTR key)
+	{
+		if(key == NULL) return false;
+		bool ret = false;
+		_Lock->EnterEx();
+		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
+		{
+			if(wcscmp(key, *i) != 0) continue;
+			_Lock->Leave();
+			ret = true; break;
+		}
+		_Lock->Leave();
+		return ret;
+	}
+
+	bool Dictionary::Add(PCWSTR key, PCWSTR value)
+	{
+		if(key == NULL || value == NULL) return false;
+		if(Contain(key)) return false;
+		_Lock->EnterEx();
+		_Keys.push_back(CopyStrW(key));
+		_Values.push_back(CopyStrW(value));
+		_Lock->Leave();
+		return true;
+	}
+
+	bool Dictionary::Remove(PCWSTR key)
+	{
+		if(key == NULL) return false;
+		int i = 0;
+		bool ret = false;
+		_Lock->EnterEx();
+		for(iter i1 = _Keys.begin(); i1 != _Keys.end(); i1++)
+		{
+			if(wcscmp(key, *i1) != 0) 	
+			{
+				i++;
+				continue;
+			}
+			delete *i1; _Keys.erase(i1);
+			iter i2 = _Values.begin() + i;
+			delete *i2; _Values.erase(i2);
+			ret = true; break;
+		}
+		_Lock->Leave();
+		return ret;
+	}
+
+	PCWSTR Dictionary::GetKey(UINT id)
+	{
+		_Lock->EnterEx();
+		PCWSTR ret = NULL;
+		if(id < _Keys.size())
+			ret = CopyStrW(_Keys[id]);
+		_Lock->Leave();
+		return ret;
+	}
+
+	PCWSTR Dictionary::GetValue(UINT id)
+	{
+		_Lock->EnterEx();
+		PCWSTR ret = NULL;
+		if(id < _Values.size())
+			ret = CopyStrW(_Values[id]);
+		_Lock->Leave();
+		return ret;
+	}
+
+	void Dictionary::Clear()
+	{
+		_Lock->EnterEx();
+		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
+			delete *i;
+		_Keys.clear();
+		for(iter i = _Values.begin(); i != _Values.end(); i++)
+			delete *i;
+		_Values.clear();
+		_Lock->Leave();
+	}
+
+	PCWSTR Dictionary::Find(PCWSTR key)
+	{
+		if(key == NULL) return NULL;
+		PCWSTR ret = NULL;
+		_Lock->EnterEx();
+		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
+		{
+			if(wcscmp(key, *i) != 0) continue;
+			ret = CopyStrW(*i); break;
+		}
+		_Lock->Leave();
+		return ret;
+	}
+}
