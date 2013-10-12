@@ -24,10 +24,7 @@ bool ExecutorCRT::Initialize(Library* lib, int fid)
 
 UINT ExecutorCRT::_ThreadProc()
 {
-	Stopwatch* sw = _Context->GetStopwatch();
-	sw->Start();
 	int retcode = _Entry(_FuncId, _Envelope, _Context);
-	sw->Stop();
 	_Context->SetReturnCode(_ContextToken, retcode);
 	_Context->SetState(_ContextToken, TCM_STATE_IDLE);
 	return 0;

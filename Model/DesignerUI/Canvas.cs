@@ -47,6 +47,7 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 工作区
         /// </summary>
+        [Browsable(false)]
         public Rectangle WorkRect
         {
             get { return new Rectangle(_Padding, _Padding, _WorkSize.Width, WorkSize.Height); }
@@ -55,6 +56,7 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 工作区尺寸
         /// </summary>
+        [Category("布局")]
         public Size WorkSize
         {
             get { return _WorkSize; }
@@ -87,24 +89,15 @@ namespace TCM.Model.Designer
 
         #region 方法
         /// <summary>
-        /// 获取新的标识
-        /// </summary>
-        public int GetNewId()
-        {
-            List<int> ids = new List<int>();
-            foreach (Entity e in _Entities)
-                ids.Add(e.Id);
-            ids.Sort();
-            for (int i = 0; i < ids.Count; i++)
-                if (ids[i] != i) return i;
-            return ids.Count;
-        }
-
-        /// <summary>
         /// 配置缓存
         /// </summary>
         public virtual void ConfigCache() 
         {
+        }
+
+        public virtual int GetNewId(Entity entity)
+        {
+            return -1;
         }
 
         /// <summary>

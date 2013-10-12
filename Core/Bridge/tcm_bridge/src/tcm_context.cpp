@@ -10,17 +10,13 @@ namespace tcm
 		_ReturnCode = TCM_RETURN_NORMAL;
 		_CtrlCode = TCM_CTRL_NULL;
 		_ProgValue = 0;
-		_Stopwatch = new Stopwatch();
 		_Lock = new Lock();
 		_TokenKey = new VarAOO();
-		_Logger = new Logger();
 	}
 
 	Context::~Context()
 	{
 		Clear(_TokenKey);
-		Clear(_Logger);
-		Clear(_Stopwatch);
 		Clear(_Lock);
 	}
 
@@ -41,16 +37,6 @@ namespace tcm
 		_Lock->Enter();
 		_TokenKey->Set(&key);
 		_Lock->Leave();
-	}
-
-	Stopwatch* Context::GetStopwatch()
-	{
-		return _Stopwatch;
-	}
-
-	Logger* Context::GetLogger()
-	{
-		return _Logger;
 	}
 
 	void Context::SetState(Token* token, int state)

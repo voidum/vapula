@@ -102,9 +102,7 @@ namespace TCM.Model.Designer
             get { return _Canvas; }
             set
             {
-                if (value == _Canvas) return;
-                _Canvas = value;
-                _Id = _Canvas.GetNewId();
+                base.Canvas = value;
                 _From.Canvas = value;
                 _To.Canvas = value;
             }
@@ -120,7 +118,7 @@ namespace TCM.Model.Designer
 
         public override void ConfigCache()
         {
-            Pen pen = new Pen(Color.Black, 2f);
+            Pen pen = new Pen(Color.Black, 1.6f);
             pen.CustomEndCap = new AdjustableArrowCap(6, 6, true);
             _Cache.CachePen("1", pen);
             _Cache.CachePen("2", new Pen(Color.FromArgb(50, Color.Red), 5f));
@@ -195,13 +193,13 @@ namespace TCM.Model.Designer
             Pen pen_dec = null;
             if (_IsHovered)
             {
-                pen_dec = _Cache.GetPen("2");
+                pen_dec = _Cache.GetPen("3");
                 g.DrawLine(pen_dec, From.Location, To.Location);
                 g.DrawLine(pen, From.Location, To.Location);
             }
             else if (_IsSelected)
             {
-                pen_dec = _Cache.GetPen("3");
+                pen_dec = _Cache.GetPen("2");
                 g.DrawLine(pen_dec, From.Location, To.Location);
                 g.DrawLine(pen, From.Location, To.Location);
             }
@@ -209,6 +207,13 @@ namespace TCM.Model.Designer
             {
                 g.DrawLine(pen, From.Location, To.Location);
             }
+        }
+
+        public override void Dispose()
+        {
+            _From.Dispose();
+            _To.Dispose();
+            base.Dispose();
         }
         #endregion
     }

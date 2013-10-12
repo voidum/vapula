@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ribbon">
-      <HintPath>..\3rdparty\RibbonLib\Ribbon.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,9 +44,18 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="xDockPanel">
+      <HintPath>..\3rdparty\xDockPanel\xDockPanel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="UI\FrmDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmDocument.Designer.cs">
+      <DependentUpon>FrmDocument.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,19 +64,33 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\FrmProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmProperty.Designer.cs">
+      <DependentUpon>FrmProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmToolbox.Designer.cs">
+      <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UI\FrmDocument.resx">
+      <DependentUpon>FrmDocument.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <EmbeddedResource Include="UI\FrmProperty.resx">
+      <DependentUpon>FrmProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmToolbox.resx">
+      <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -80,11 +100,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="UI\RibbonMarkup.log">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RibbonMarkup.xml</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DesignerUI\DesignerUI.csproj">
@@ -96,14 +111,11 @@
       <Name>tcm_model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="UI\RibbonMarkup.xml">
-      <Generator>RibbonGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>RibbonMarkup.log</LastGenOutput>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

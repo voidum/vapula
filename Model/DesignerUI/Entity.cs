@@ -1,12 +1,12 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System;
+using System.Drawing;
 
 namespace TCM.Model.Designer
 {
     /// <summary>
     /// 图元
     /// </summary>
-    public abstract class Entity
+    public abstract class Entity : IDisposable
     {
         #region 字段
         protected int _Id = -1;
@@ -112,8 +112,9 @@ namespace TCM.Model.Designer
             get { return _Canvas; }
             set 
             {
-                if (value != _Canvas) 
-                    _Canvas = value;
+                if (value == _Canvas) return;
+                _Canvas = value;
+                _Id = _Canvas.GetNewId(this);
             }
         }
         #endregion
@@ -160,6 +161,14 @@ namespace TCM.Model.Designer
         /// 在指定Graphics对象上绘制图元
         /// </summary>
         public abstract void OnPaint(Graphics g);
+
+        /// <summary>
+        /// 销毁图元
+        /// </summary>
+        public virtual void Dispose()
+        {
+            _Cache.Clear();
+        }
         #endregion
     }
 }

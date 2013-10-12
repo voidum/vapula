@@ -1,0 +1,3 @@
+"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\UICC.exe" "$(ProjectDir)UI\Ribbon\RibbonMarkup.xml" "$(ProjectDir)UI\Ribbon\RibbonMarkup.bml" /res:"$(ProjectDir)UI\Ribbon\RibbonMarkup.rc" 
+"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\rc.exe" /v "$(ProjectDir)UI\Ribbon\RibbonMarkup.rc" 
+cmd /c "("$(DevEnvDir)..\..\VC\bin\vcvars32.bat") && ("$(DevEnvDir)..\..\VC\bin\link.exe" /VERBOSE /NOENTRY /DLL /OUT:"$(ProjectDir)UI\Ribbon\$(TargetName).ribbon" "$(ProjectDir)UI\Ribbon\RibbonMarkup.res")"

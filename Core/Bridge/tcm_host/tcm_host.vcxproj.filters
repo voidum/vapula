@@ -45,6 +45,9 @@
     <ClInclude Include="worker_scp_lua.h">
       <Filter>头文件\task</Filter>
     </ClInclude>
+    <ClInclude Include="..\tcm_bridge\include\tcm_task.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="worker_scp_lua.cpp">
       <Filter>源文件\task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tcm_bridge\src\tcm_task.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

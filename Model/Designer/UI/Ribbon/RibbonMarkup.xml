@@ -2,8 +2,8 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
   <Application.Commands>
   </Application.Commands>
-  <Application.View>
+  <Application.Views>
     <Ribbon>
     </Ribbon>
-  </Application.View>
+  </Application.Views>
 </Application>

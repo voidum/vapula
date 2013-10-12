@@ -105,7 +105,6 @@
     <ClInclude Include="include\tcm_log.h" />
     <ClInclude Include="include\tcm_driver.h" />
     <ClInclude Include="include\tcm_pipe.h" />
-    <ClInclude Include="include\tcm_task.h" />
     <ClInclude Include="include\tcm_time.h" />
     <ClInclude Include="include\tcm_token.h" />
     <ClInclude Include="include\tcm_translator.h" />
@@ -126,7 +125,6 @@
     <ClCompile Include="src\tcm_executor.cpp" />
     <ClCompile Include="src\tcm_log.cpp" />
     <ClCompile Include="src\tcm_pipe.cpp" />
-    <ClCompile Include="src\tcm_task.cpp" />
     <ClCompile Include="src\tcm_time.cpp" />
     <ClCompile Include="src\tcm_token.cpp" />
     <ClCompile Include="src\tcm_translator.cpp" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System;
 
 namespace TCM.Model.Designer
 {
@@ -98,11 +99,11 @@ namespace TCM.Model.Designer
         {
             foreach (var e in _Data)
             {
-                if (e.Key.GetType().Name == "Pen")
+                if (e.Value is Pen)
                     (e.Value as Pen).Dispose();
-                if (e.Key.GetType().Name == "Brush")
+                if (e.Value is Brush)
                     (e.Value as Brush).Dispose();
-                if (e.Key.GetType().Name == "Font")
+                if (e.Value is Font)
                     (e.Value as Font).Dispose();
             }
         }

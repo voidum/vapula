@@ -9,7 +9,7 @@ using namespace tcm;
 enum HostReturnCode
 {
 	TCM_HOST_RETURN_NORMAL = 0,
-	TCM_HOST_RETURN_INVALIDCMDLINE = 1,
+	TCM_HOST_RETURN_INVALIDCMD = 1,
 	TCM_HOST_RETURN_INVALIDTASK = 2,
 	TCM_HOST_RETURN_FAILEXEC = 3
 };
@@ -27,7 +27,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	if(argc < 2)
 	{
 		ShowHelp();
-		return TCM_HOST_RETURN_INVALIDCMDLINE;
+		return TCM_HOST_RETURN_INVALIDCMD;
 	}
 
 	Config* config = Config::GetInstance();

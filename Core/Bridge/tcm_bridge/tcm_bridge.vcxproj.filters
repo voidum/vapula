@@ -81,9 +81,6 @@
     <ClInclude Include="include\tcm_config.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
-    <ClInclude Include="include\tcm_task.h">
-      <Filter>头文件\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\tcm_dev_drv.h">
       <Filter>头文件\sdk</Filter>
     </ClInclude>
@@ -145,9 +142,6 @@
     </ClCompile>
     <ClCompile Include="src\tcm_config.cpp">
       <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_task.cpp">
-      <Filter>源文件\core</Filter>
     </ClCompile>
     <ClCompile Include="src\tcm_log.cpp">
       <Filter>源文件\utility</Filter>

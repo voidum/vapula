@@ -22,8 +22,6 @@ namespace tcm
 		int _CtrlCode;
 		float _ProgValue; //0 - 100
 	private:
-		Dictionary* _Extend;
-	private:
 		bool ValidToken(Token* token);
 	public:
 		//封签上下文
@@ -31,12 +29,6 @@ namespace tcm
 
 		//检测是否可封签
 		bool CanSeal();
-	public:
-		//获取精确计时器
-		Stopwatch* GetStopwatch();
-
-		//获取日志器
-		Logger* GetLogger();
 	public:
 		//安全调用：设置状态
 		void SetState(Token* token, int state);

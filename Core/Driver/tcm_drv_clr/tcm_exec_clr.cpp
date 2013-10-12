@@ -39,11 +39,8 @@ bool ExecutorCLR::Initialize(Library* lib, int fid)
 
 UINT ExecutorCLR::_ThreadProc()
 {
-	Stopwatch* sw = _Context->GetStopwatch();
-	sw->Start();
 	DriverCLR* drv = DriverCLR::GetInstance();
 	int retcode = drv->CallBridge(L"CallEntry", GetHandle());
-	sw->Stop();
 	_Context->SetReturnCode(_ContextToken, retcode);
 	_Context->SetState(_ContextToken, TCM_STATE_IDLE);
 	return 0;

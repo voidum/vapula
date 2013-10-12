@@ -46,11 +46,11 @@ Task* TaskEx::Parse(PCWSTR path)
 	wstring str_path = dir;
 	str_path += cid;
 	str_path += L".tcm.xml";
-	task->_Com = Component::Load(str_path.c_str());
+	task->_Lib = Library::Load(str_path.c_str());
 	delete path;
 	delete cid;
 	task->_FuncId = xml::ValueInt(xe_target->first_node("fid"));
-	task->_Executor = task->_Com->CreateExecutor(task->_FuncId);
+	task->_Executor = task->_Lib->CreateExecutor(task->_FuncId);
 
 	Envelope* env = task->_Executor->GetEnvelope();
 	xml_node<>* xe_param = (xml_node<>*)xml::Path(xe_target, 2, "params", "param");
@@ -93,7 +93,7 @@ bool TaskEx::RunAs(Worker* worker)
 	if(!flag->Valid(TCM_CONFIG_SILENT))
 	{
 		wstring str = L"TCM host has executed task:\n";
-		str += _Com->GetComponentId();
+		str += _Lib->GetLibraryId();
 		str += L"=>";
 		str += ValueToStrW(_FuncId);
 		str += L"\nReturn code:";

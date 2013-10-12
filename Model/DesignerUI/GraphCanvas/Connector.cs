@@ -135,7 +135,7 @@ namespace TCM.Model.Designer
             Shape shp = c.Container as Shape;
             if (shp.IfHasAttached(this)) return; //不重复关联
             Location = new Point(c.Location.X, c.Location.Y); //吸附
-            _Canvas.Invalidate(); //TODO：此处更新区域太大
+            _Canvas.Invalidate();
             c._Attached.Add(this);
             _AttachedTo = c;
         }
@@ -201,6 +201,19 @@ namespace TCM.Model.Designer
                 g.DrawEllipse(pen, _Location.X - 4, _Location.Y - 4, 8, 8);
                 g.FillEllipse(Brushes.Red, _Location.X - 3, _Location.Y - 3, 6, 6);
             }
+        }
+
+        public override void Dispose()
+        {
+            if (_AttachedTo != null)
+                _AttachedTo.Attached.Remove(this);
+            if (_Attached != null)
+            {
+                foreach (var cop in _Attached)
+                    cop.AttachedTo = null;
+                _Attached.Clear();
+            }
+            base.Dispose();
         }
         #endregion
     }

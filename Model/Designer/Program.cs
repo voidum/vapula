@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
-namespace Model
+namespace TCM.Model.Designer
 {
     static class Program
     {
@@ -15,7 +13,10 @@ namespace Model
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+
+            AppData.Instance.FormMain.Show();
+            
+            Application.Run();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Drawing;
 namespace TCM.Model.Designer
 {
     /// <summary>
-    /// 形状基类
+    /// 图元：形状
     /// </summary>
     public class Shape : Entity
     {
@@ -13,28 +13,31 @@ namespace TCM.Model.Designer
         protected Size _Size;
         protected List<Connector> _Connectors = new List<Connector>();
         protected List<string> _Texts = new List<string>();
-        private Size _HalfSize;
         #endregion
 
         #region 属性
+        /// <summary>
+        /// 获取形状的所有连结点
+        /// </summary>
         public List<Connector> Connectors
         {
             get { return _Connectors; }
         }
 
-        public List<string> Texts
-        {
-            get { return _Texts; }
-        }
-
+        /// <summary>
+        /// 获取边界矩形
+        /// </summary>
         public Rectangle Bounds
         {
             get { return new Rectangle(X - Width / 2, Y - Height / 2, Width, Height); }
         }
 
+        /// <summary>
+        /// 获取或设置左边缘的X坐标
+        /// </summary>
         public int Left
         {
-            get { return _Location.X - _HalfSize.Width; }
+            get { return _Location.X - _Size.Width / 2; }
             set
             {
                 if (value == Left) return;
@@ -42,9 +45,12 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置右边缘的X坐标
+        /// </summary>
         public int Right
         {
-            get { return _Location.X + _HalfSize.Width; }
+            get { return _Location.X + _Size.Width / 2; }
             set
             {
                 if (value == Right) return;
@@ -52,9 +58,12 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置上边缘的Y坐标
+        /// </summary>
         public int Top
         {
-            get { return _Location.Y - _HalfSize.Height; }
+            get { return _Location.Y - _Size.Height / 2; }
             set
             {
                 if (value == Top) return;
@@ -62,9 +71,12 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置下边缘的Y坐标
+        /// </summary>
         public int Bottom
         {
-            get { return _Location.Y + _HalfSize.Height; }
+            get { return _Location.Y + _Size.Height / 2; }
             set
             {
                 if (value == Bottom) return;
@@ -72,6 +84,9 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置宽度
+        /// </summary>
         public int Width
         {
             get { return _Size.Width; }
@@ -82,6 +97,9 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置高度
+        /// </summary>
         public int Height
         {
             get { return _Size.Height; }
@@ -92,6 +110,9 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置中心的X坐标
+        /// </summary>
         public int X
         {
             get { return _Location.X; }
@@ -102,13 +123,35 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 获取或设置中心的Y坐标
+        /// </summary>
         public int Y
         {
             get { return _Location.Y; }
             set
             {
-                if (value == _Location.Y) return;
-                MoveAs(new Point(value - Y, 0)); ;
+                if (value == _Location.Y)
+                    return;
+                MoveAs(new Point(0, value - Y)); ;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置形状中心点位置
+        /// </summary>
+        public override Point Location
+        {
+            get { return base.Location; }
+            set
+            {
+                if (value == _Location)
+                    return;
+                _Location.X = value.X;
+                _Location.Y = value.Y;
+                MoveAs(new Point(
+                    value.X - _Location.X, 
+                    value.Y - _Location.Y));
             }
         }
 
@@ -117,10 +160,9 @@ namespace TCM.Model.Designer
             get { return _Canvas; }
             set
             {
-                if (value == _Canvas) return;
-                _Canvas = value;
-                _Id = _Canvas.GetNewId();
-                foreach (Connector cop in _Connectors) cop.Canvas = value;
+                base.Canvas = value;
+                foreach (Connector cop in _Connectors)
+                    cop.Canvas = value;
             }
         }
         #endregion
@@ -129,22 +171,18 @@ namespace TCM.Model.Designer
         public Shape()
         {
             _Location = new Point(0, 0);
-            _Texts.Add("编号：" + _Id.ToString());
         }
         #endregion
 
         #region 方法
-
         /// <summary>
-        /// <para>重设尺寸，仅实现基本逻辑，不刷新</para>
-        /// <para>需要进一步实现其关联对象的变化及刷新</para>
+        /// <para>重设尺寸</para>
         /// </summary>
-        public virtual void Resize(Size newsize)
+        public virtual void Resize(Size size)
         {
-            _Size.Width = newsize.Width;
-            _Size.Height = newsize.Height;
-            _HalfSize.Width = newsize.Width / 2;
-            _HalfSize.Height = newsize.Height / 2;
+            _Size.Width = size.Width;
+            _Size.Height = size.Height;
+            Invalidate();
         }
 
         /// <summary>
@@ -202,7 +240,8 @@ namespace TCM.Model.Designer
         {
             _Location.X += v.X;
             _Location.Y += v.Y;
-            foreach (Connector cop in _Connectors) cop.MoveAs(v);
+            foreach (Connector cop in _Connectors)
+                cop.MoveAs(v);
             Invalidate();
         }
 
@@ -218,7 +257,8 @@ namespace TCM.Model.Designer
 
         public override void Invalidate()
         {
-            if (_Canvas != null) _Canvas.Invalidate();
+            if (_Canvas != null)
+                _Canvas.Invalidate();
         }
 
         public override void Invalidate(Rectangle rect)
@@ -230,8 +270,16 @@ namespace TCM.Model.Designer
         {
             foreach (Connector cop in _Connectors)
             {
-                if (cop.IsHovered) cop.OnPaint(g);
+                if (cop.IsHovered)
+                    cop.OnPaint(g);
             }
+        }
+
+        public override void Dispose()
+        {
+            foreach (Connector cop in _Connectors)
+                cop.Dispose();
+            base.Dispose();
         }
         #endregion
     }
