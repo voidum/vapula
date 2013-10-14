@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System;
 
 namespace TCM.Model.Designer
 {
@@ -36,11 +37,6 @@ namespace TCM.Model.Designer
         /// GDI+对象缓存
         /// </summary>
         protected GDIPlusCache _Cache = new GDIPlusCache();
-
-        /// <summary>
-        /// 图元集合
-        /// </summary>
-        protected List<Entity> _Entities = new List<Entity>();
         #endregion
 
         #region 属性
@@ -84,6 +80,7 @@ namespace TCM.Model.Designer
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.ResizeRedraw, true);
             ConfigCache();
+            ConfigEntityTable();
         }
         #endregion
 
@@ -95,6 +92,16 @@ namespace TCM.Model.Designer
         {
         }
 
+        /// <summary>
+        /// 配置图元表
+        /// </summary>
+        public virtual void ConfigEntityTable()
+        {
+        }
+
+        /// <summary>
+        /// 获取图元新标识
+        /// </summary>
         public virtual int GetNewId(Entity entity)
         {
             return -1;

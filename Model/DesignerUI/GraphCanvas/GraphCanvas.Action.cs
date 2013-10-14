@@ -1,10 +1,31 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace TCM.Model.Designer
 {
     public partial class CanvasGraph
     {
+        /// <summary>
+        /// 选择图元
+        /// </summary>
+        private void SelectEntity(Entity entity)
+        {
+            if (!_IsMultiSelect)
+                ClearSelection();
+            if (entity != null)
+            {
+                _IsDraging = true;
+                entity.IsSelected = true;
+                _SelectedEntities.Add(entity);
+            }
+            if (SelectedItemsChanged != null)
+                SelectedItemsChanged();
+        }
+
+        /// <summary>
+        /// 清除选中
+        /// </summary>
         private void ClearSelection()
         {
             foreach (var tmp_ent in _SelectedEntities)
@@ -13,7 +34,7 @@ namespace TCM.Model.Designer
         }
 
         /// <summary>
-        /// 删除画布上的选中对象
+        /// 移除画布上的选中图元
         /// </summary>
         public void RemoveEntities(params Entity[] entities)
         {
@@ -36,6 +57,9 @@ namespace TCM.Model.Designer
             }
         }
 
+        /// <summary>
+        /// 移除所有图元
+        /// </summary>
         public void RemoveAllEntities()
         {
             foreach (Connection con in _Connections)
@@ -50,7 +74,7 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 添加连接线
         /// </summary>
-        public void AddConnection(Point p)
+        public Connection AddConnection(Point p)
         {
             Connection con = new Connection(p, p);
             con.Canvas = this;
@@ -59,55 +83,70 @@ namespace TCM.Model.Designer
             _SelectedEntities.Add(con.To);
             _IsDraging = true;
             Invalidate();
+            return con;
         }
 
+        /// <summary>
+        /// 添加执行形状
+        /// </summary>
         public void AddShapeProcess(Point p)
         {
-            ShapeProcess shp = new ShapeProcess();
+            ShapeProcess shp = new ShapeProcess(p);
             shp.Canvas = this;
-            shp.Location = p;
             _Shapes.Add(shp);
             Invalidate();
         }
 
+        /// <summary>
+        /// 添加决策形状
+        /// </summary>
         public void AddShapeDecision(Point p)
         {
-            ShapeDecision shp = new ShapeDecision();
+            ShapeDecision shp = new ShapeDecision(p);
             shp.Canvas = this;
-            shp.Location = p;
             _Shapes.Add(shp);
             Invalidate();
         }
 
         #region 集合
-        public bool Find(int id, out Entity entity)
+        /// <summary>
+        /// 获取指定标识对应的形状
+        /// </summary>
+        public Shape FindShape(int id)
         {
-            entity = null;
-            return false;
-        }
-        public bool Find(int id, out Shape shape)
-        {
-            shape = null;
-            return false;
-        }
-        public bool Find(int id, out Connection connection)
-        {
-            connection = null;
-            return false;
+            foreach (var shp in _Shapes)
+                if (shp.Id == id)
+                    return shp;
+            return null;
         }
 
-        public int GetNewId(Entity trait)
+        /// <summary>
+        /// 获取指定标识对应的连接线
+        /// </summary>
+        public Connection FindConnection(int id)
         {
+            foreach (var con in _Connections)
+                if (con.Id == id)
+                    return con;
+            return null;
+        }
 
-            return 0;
-        }
-        public int GetNewId(Shape trait)
+        /// <summary>
+        /// 获取图元新标识
+        /// </summary>
+        public override int GetNewId(Entity entity)
         {
-            return 0;
-        }
-        public int GetNewId(Connection trait)
-        {
-            return 0;
+            List<int> ids = new List<int>();
+            if (entity is Connection)
+                foreach (var con in _Connections)
+                    ids.Add(con.Id);
+            else if(entity is Shape)
+                foreach (var shp in _Shapes)
+                    ids.Add(shp.Id);
+            ids.Sort();
+            for (int i = 0; i < ids.Count; i++)
+                if (ids[i] != i) return i;
+            return ids.Count;
         }
         #endregion
     }

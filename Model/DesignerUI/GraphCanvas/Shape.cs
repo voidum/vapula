@@ -172,6 +172,11 @@ namespace TCM.Model.Designer
         {
             _Location = new Point(0, 0);
         }
+
+        public Shape(Point p)
+        {
+            _Location = p;
+        }
         #endregion
 
         #region 方法
@@ -183,50 +188,6 @@ namespace TCM.Model.Designer
             _Size.Width = size.Width;
             _Size.Height = size.Height;
             Invalidate();
-        }
-
-        /// <summary>
-        /// 获得命中的结点
-        /// </summary>
-        public Connector GetHitConnector(Point p)
-        {
-            if (_IsSelected) return null; //todo: diff hit logic
-            foreach (Connector cop in _Connectors)
-            {
-                if (cop.IsHit(p))
-                {
-                    cop.IsHovered = true;
-                    return cop;
-                }
-                else cop.IsHovered = false;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// 分析目标结点的关联源是否与自身发生过关联
-        /// </summary>
-        public bool IfHasAttached(Connector c)
-        {
-            /*
-            Connection con = c.Container as Connection;
-            Connector coptmp = con.GetAnotherConnector(c).AttachedTo;
-            ShapeBase shp = null;
-            if (coptmp != null) shp = coptmp.Container as ShapeBase;
-            foreach (Connector cop in _Connectors) 
-            {
-                foreach (Connector cop2 in cop.Attached)
-                {
-                    Connection con2 = cop2.Container as Connection;
-                    if ((cop2 == con2.From) ^ (c == con.From)) continue;
-                    coptmp = con2.GetAnotherConnector(cop2).AttachedTo;
-                    if (coptmp == null) continue;
-                    ShapeBase shp2 = coptmp.Container as ShapeBase;
-                    if (shp2 == shp) return true;
-                }
-            }
-             */
-            return false;
         }
         #endregion
 
@@ -247,7 +208,7 @@ namespace TCM.Model.Designer
 
         public override void MoveTo(Point p)
         {
-            Point v = new Point(X - p.X, Y - p.Y);
+            Point v = new Point(p.X - X, p.Y - Y);
             _Location.X = p.X;
             _Location.Y = p.Y;
             foreach (Connector cop in _Connectors) 

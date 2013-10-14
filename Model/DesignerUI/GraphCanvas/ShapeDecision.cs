@@ -7,9 +7,10 @@ namespace TCM.Model.Designer
     class ShapeDecision : Shape
     {
         #region 构造
-        public ShapeDecision()
+        public ShapeDecision(Point p)
+            : base(p)
         {
-            _Size = new Size(100, 56);
+            _Size = new Size(75, 40);
 
             //up right bottom left
             _Connectors.Add(new Connector(new Point(X, Top), this));
@@ -21,23 +22,26 @@ namespace TCM.Model.Designer
         public override void ConfigCache()
         {
             base.ConfigCache();
-            _Cache.CachePen("1", new Pen(Color.Blue, 1.5f));
-            _Cache.CachePen("2", new Pen(Color.Red, 1.5f));
-            _Cache.CachePen("3", new Pen(Color.Black, 1.5f));
+            _Cache.CachePen("0", new Pen(Color.Black, 1.5f));
+            _Cache.CachePen("1", new Pen(Color.Blue, 1.6f));
+            _Cache.CachePen("2", new Pen(Color.Red, 1.6f));
             Color c = Color.FromArgb(0xCC, 0xFF, 0xEE);
-            _Cache.CacheBrush("1",
+            _Cache.CacheBrush("0",
                 new LinearGradientBrush(
-                    new Rectangle(0, 0, 100, 100), c, GDIHelper.GetDeepColor(c), 30f));
-            _Cache.CacheBrush("2", new SolidBrush(Color.FromArgb(175, Color.White)));
-            _Cache.CacheFont("1", new Font("微软雅黑", 9));
+                    new Rectangle(0, 0, 100, 100),
+                    c, GDIHelper.GetDeepColor(c), 30f));
+            _Cache.CacheBrush("1",
+                new SolidBrush(Color.FromArgb(175, Color.White)));
+            _Cache.CacheFont("0",
+                new Font("微软雅黑", 9));
         }
         #endregion
 
         #region 方法
         public override bool IsHit(Point p)
         {
-            Rectangle rp = new Rectangle(p, new Size(5, 5));
-            if (Bounds.Contains(rp)) return true;
+            if (Bounds.Contains(p))
+                return true;
             return false;
         }
 
@@ -53,20 +57,21 @@ namespace TCM.Model.Designer
             if (IsHovered)
             {
                 g.FillPolygon(_Cache.GetBrush("1"), polygon);
-                g.DrawPolygon(_Cache.GetPen("0"), polygon);
-                foreach (Connector cop in _Connectors) cop.OnPaint(g);
-                float tw_fi = g.MeasureString(_Texts[0], _Cache.GetFont("0")).Width;
-                g.DrawString(_Texts[0], _Cache.GetFont("0"), Brushes.Black, X + 50 - tw_fi / 2, Y + 20);
+                g.DrawPolygon(_Cache.GetPen("1"), polygon);
+                foreach (Connector cop in _Connectors)
+                    cop.OnPaint(g);
+                //float tw_fi = g.MeasureString(_Texts[0], _Cache.GetFont("0")).Width;
+                //g.DrawString(_Texts[0], _Cache.GetFont("0"), Brushes.Black, X + 50 - tw_fi / 2, Y + 20);
             }
             else if (IsSelected)
             {
-                g.DrawPolygon(_Cache.GetPen("1"), polygon);
+                g.DrawPolygon(_Cache.GetPen("2"), polygon);
                 foreach (Connector cop in _Connectors) 
                     cop.OnPaint(g);
             }
             else
             {
-                g.DrawPolygon(_Cache.GetPen("2"), polygon);
+                g.DrawPolygon(_Cache.GetPen("0"), polygon);
             }
             base.OnPaint(g);
         }
@@ -79,16 +84,14 @@ namespace TCM.Model.Designer
             if (_Canvas != null) _Canvas.Invalidate(r);
         }
 
-        public override void  Resize(Size newsize)
+        public override void Resize(Size newsize)
         {
-            base.Resize(newsize);
             //up right bottom left
             _Connectors[0].Location = new Point(X, Top);
             _Connectors[1].Location = new Point(Right, Y);
             _Connectors[2].Location = new Point(X, Bottom);
             _Connectors[3].Location = new Point(Left, Y);
-            Invalidate();
-
+            base.Resize(newsize);
         }
         #endregion
     }

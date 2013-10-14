@@ -19,9 +19,10 @@ namespace TCM.Model.Designer
         #endregion
 
         #region 构造
-        public ShapeProcess()
+        public ShapeProcess(Point p)
+            : base(p)
         {
-            _Size = new Size(90, 56);
+            _Size = new Size(60, 40);
             //_Texts.Add(_Texts[1].Length > 11 ? _Texts[1].Substring(0, 8) + "..." : _Texts[1]);
 
             //up right bottom left
@@ -34,9 +35,9 @@ namespace TCM.Model.Designer
         public override void ConfigCache()
         {
             base.ConfigCache();
-            _Cache.CachePen("0", new Pen(Color.Blue, 1.6f));
-            _Cache.CachePen("1", new Pen(Color.Red, 1.6f));
-            _Cache.CachePen("2", new Pen(Color.Black, 1.5f));
+            _Cache.CachePen("0", new Pen(Color.Black, 1.5f));
+            _Cache.CachePen("1", new Pen(Color.Blue, 1.6f));
+            _Cache.CachePen("2", new Pen(Color.Red, 1.6f));
             Color c = Color.FromArgb(0xFF, 0xEE, 0xCC);
             _Cache.CacheBrush("0", 
                 new LinearGradientBrush(
@@ -52,8 +53,8 @@ namespace TCM.Model.Designer
         #region 方法
         public override bool IsHit(Point p)
         {
-            Rectangle rp = new Rectangle(p, new Size(5, 5));
-            if (Bounds.Contains(rp)) return true;
+            if (Bounds.Contains(p))
+                return true;
             return false;
         }
 
@@ -70,22 +71,19 @@ namespace TCM.Model.Designer
                 //float tw_fn = g.MeasureString(_Texts[2], _Cache.GetFont("0")).Width;
                 //g.DrawString(_Texts[0], _Cache.GetFont("0"), Brushes.Black, X + 45 - tw_fi / 2, trect.Y + 2);
                 //g.DrawString(_Texts[2], _Cache.GetFont("0"), Brushes.Black, X + 45 - tw_fn / 2, trect.Y + 17);
-            }
-            if (IsHovered)
-            {
-                g.DrawRectangle(_Cache.GetPen("0"), Bounds);
+                g.DrawRectangle(_Cache.GetPen("1"), Bounds);
                 foreach (Connector cop in _Connectors) 
                     cop.OnPaint(g);
             }
             else if (IsSelected)
             {
-                g.DrawRectangle(_Cache.GetPen("1"), Bounds);
+                g.DrawRectangle(_Cache.GetPen("2"), Bounds);
                 foreach (Connector cop in _Connectors) 
                     cop.OnPaint(g);
             }
             else
             {
-                g.DrawRectangle(_Cache.GetPen("2"), Bounds);
+                g.DrawRectangle(_Cache.GetPen("0"), Bounds);
             }
             base.OnPaint(g);
         }
@@ -98,15 +96,14 @@ namespace TCM.Model.Designer
             if(_Canvas != null) _Canvas.Invalidate(r);
         }
 
-        public override void  Resize(Size newsize)
+        public override void Resize(Size newsize)
         {
-            base.Resize(newsize);
             //up right bottom left
             _Connectors[0].Location = new Point(X, Top);
             _Connectors[1].Location = new Point(Right, Y);
             _Connectors[2].Location = new Point(X, Bottom);
             _Connectors[3].Location = new Point(Left, Y);
-            Invalidate();
+            base.Resize(newsize);
         }
         #endregion
     }

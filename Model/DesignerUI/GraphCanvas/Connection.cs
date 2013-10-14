@@ -21,6 +21,7 @@ namespace TCM.Model.Designer
         public Connector From
         {
             get { return _From; }
+            set { _From = value; }
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace TCM.Model.Designer
         public override void ConfigCache()
         {
             Pen pen = new Pen(Color.Black, 1.6f);
-            pen.CustomEndCap = new AdjustableArrowCap(6, 6, true);
+            pen.CustomEndCap = new AdjustableArrowCap(5, 5, true);
             _Cache.CachePen("1", pen);
             _Cache.CachePen("2", new Pen(Color.FromArgb(50, Color.Red), 5f));
             _Cache.CachePen("3", new Pen(Color.FromArgb(50, Color.Blue), 5f));

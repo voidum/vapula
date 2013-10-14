@@ -29,12 +29,17 @@ namespace TCM.Model.Designer
         private int _Complexity = 0;
         private int _MaxComplexity = 100;
 
-        private List<Shape> _Shapes = new List<Shape>();
-        private List<Connection> _Connections = new List<Connection>();
+        private List<Connection> _Connections 
+            = new List<Connection>();
+        private List<Connector> _Connectors 
+            = new List<Connector>();
+        private List<Shape> _Shapes 
+            = new List<Shape>();
 
-        private List<Entity> _SelectedEntities = new List<Entity>();
+        private List<Entity> _SelectedEntities 
+            = new List<Entity>();
 
-        private Point _DragRefPoint;
+        private Point _RefPoint;
         private bool _IsDraging = false;
 
         private bool _IsMultiSelect = false;
@@ -137,13 +142,13 @@ namespace TCM.Model.Designer
             _Menu = new ContextMenu();
             MenuItem mnuAddCon = new MenuItem("添加关联", 
                 new EventHandler(
-                    (o, e) => { AddConnection(_DragRefPoint); }));
+                    (o, e) => { AddConnection(_RefPoint); }));
             MenuItem mnuAddTask = new MenuItem("添加执行",
                 new EventHandler(
-                    (o, e) => { AddShapeProcess(_DragRefPoint); }));
+                    (o, e) => { AddShapeProcess(_RefPoint); }));
             MenuItem mnuAddJudge = new MenuItem("添加决策",
                 new EventHandler(
-                    (o, e) => { AddShapeDecision(_DragRefPoint); }));
+                    (o, e) => { AddShapeDecision(_RefPoint); }));
             _Menu.MenuItems.Add(mnuAddCon);
             _Menu.MenuItems.Add(mnuAddTask);
             _Menu.MenuItems.Add(mnuAddJudge);
@@ -203,11 +208,17 @@ namespace TCM.Model.Designer
         #endregion
 
         #region 事件响应
+        /// <summary>
+        /// 绘制事件
+        /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
             DrawEntity(e.Graphics);
         }
 
+        /// <summary>
+        /// 绘制背景事件
+        /// </summary>
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             base.OnPaintBackground(e);
@@ -230,33 +241,28 @@ namespace TCM.Model.Designer
             if (_IsDraging)
             {
                 Point v = new Point(
-                    p.X - _DragRefPoint.X,
-                    p.Y - _DragRefPoint.Y);
+                    p.X - _RefPoint.X,
+                    p.Y - _RefPoint.Y);
                 int vx = Math.Abs(v.X);
                 int vy = Math.Abs(v.Y);
                 if (vx > 0 || vy > 0)
                 {
-                    _DragRefPoint = p;
+                    _RefPoint = p;
                     foreach (Entity ent in _SelectedEntities)
                         ent.MoveAs(v);
                 }
             }
             foreach (Connection con in _Connections)
             {
-                if (con.From.IsHovered = con.From.IsHit(p)) return;
-                if(con.To.IsHovered = con.To.IsHit(p)) return;
+                if (con.From.IsHovered = con.From.IsHit(p)) break;
+                if (con.To.IsHovered = con.To.IsHit(p)) break;
+                if (con.IsHovered = con.IsHit(p)) return;
             }
-            foreach (Shape spb in _Shapes)
+            foreach (Shape shp in _Shapes)
             {
-                foreach (Connector cop in spb.Connectors)
-                    if(cop.IsHovered = cop.IsHit(p))
-                        return;
-                if (spb.IsHovered = spb.IsHit(p))
-                    return;
-            }
-            foreach (Connection con in _Connections)
-            {
-                if (con.IsHovered = con.IsHit(p)) 
+                foreach (Connector cot in shp.Connectors)
+                    cot.IsHovered = cot.IsHit(p);
+                if (shp.IsHovered = shp.IsHit(p))
                     return;
             }
         }
@@ -266,7 +272,7 @@ namespace TCM.Model.Designer
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            _DragRefPoint = e.Location;
+            _RefPoint = e.Location;
             if (e.Button == MouseButtons.Right)
             {
                 _Menu.Show(this, e.Location);
@@ -278,35 +284,29 @@ namespace TCM.Model.Designer
                 p.X > WorkRect.Right ||
                 p.Y > WorkRect.Bottom)
                 return;
-            Action<Entity> Select = new Action<Entity>(
-                (ent) => {
-                    if (!_IsMultiSelect)
-                        ClearSelection();
-                    if (ent != null)
-                    {
-                        _IsDraging = true;
-                        ent.IsSelected = true;
-                        _SelectedEntities.Add(ent);
-                    }
-                    if(SelectedItemsChanged != null)
-                        SelectedItemsChanged();
-                });
             if (e.Button == MouseButtons.Left)
             {
                 foreach (Connection con in _Connections)
                 {
-                    if (con.From.IsHit(p)) { Select(con.From); return; }
-                    if (con.To.IsHit(p)) { Select(con.To); return; }
+                    if (con.From.IsHit(p)) { SelectEntity(con.From); return; }
+                    if (con.To.IsHit(p)) { SelectEntity(con.To); return; }
                 }
                 foreach (Shape shp in _Shapes)
                 {
-                    if (shp.IsHit(p)) { Select(shp); return; }
+                    foreach (Connector cot in shp.Connectors)
+                        if (cot.IsHit(p))
+                        {
+                            Connection con = AddConnection(p);
+                            con.From.AttachConnector(cot);
+                            return;
+                        }
+                    if (shp.IsHit(p)) { SelectEntity(shp); return; }
                 }
                 foreach (Connection con in _Connections)
                 {
-                    if (con.IsHit(p)) { Select(con); return; }
+                    if (con.IsHit(p)) { SelectEntity(con); return; }
                 }
-                Select(null);
+                SelectEntity(null);
                 Invalidate();
             }
         }
@@ -319,26 +319,28 @@ namespace TCM.Model.Designer
             if (_IsDraging)
             {
                 Point p = e.Location;
-                /*
-                if (typeof(Connector).IsInstanceOfType(_SelectedEntity))
+                if (_SelectedEntities.Count != 1) return;
+                Entity ent = _SelectedEntities[0];
+                if (ent is Connector)
                 {
-                    Connector cop = _SelectedEntity as Connector;
+                    Connector cot_sel = ent as Connector;
                     foreach (Shape shp in _Shapes)
                     {
-                        Connector cop2 = shp.GetHitConnector(p);
-                        if (cop2 != null)
+                        Connector cot_target = 
+                            shp.Connectors.Find(
+                            (cot) => { return cot.IsHit(p); });
+                        if (cot_target != null)
                         {
-                            if (cop2.Dragable || cop.IfLinkSelf(cop2)) return;
-                            cop.DetachConnector();
-                            cop.AttachConnector(cop2);
-                            cop2.IsHovered = false;
-                            _Draging = false;
+                            if (cot_target.Dragable) return; //线-线关联
+                            cot_sel.DetachConnector();
+                            cot_sel.AttachConnector(cot_target);
+                            cot_sel.IsHovered = false;
+                            _IsDraging = false;
                             return;
                         }
                     }
-                    cop.DetachConnector();
+                    cot_sel.DetachConnector();
                 }
-                 */
                 _IsDraging = false;
             }
         }

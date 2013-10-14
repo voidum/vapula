@@ -106,48 +106,27 @@ namespace TCM.Model.Designer
 
         #region 方法
         /// <summary>
-        /// 检查结点所属关联的另一端是否链接了指定结点的容器
-        /// </summary>
-        public bool IfLink(Connector target)
-        {
-            if (!Dragable) return false;
-            Connection con = _Container as Connection;
-            if (this == con.From)
-            {
-                if (con.To._AttachedTo == null) return false;
-                return con.To._AttachedTo._Container == target._Container;
-            }
-            else
-            {
-                if (con.From._AttachedTo == null) return false;
-                return con.From._AttachedTo._Container == target._Container;
-            }
-        }
-
-        public bool IfLinkSelf(Connector c) { return false; }
-
-        /// <summary>
         /// 将当前（主动）结点关联到指定（被动）结点
         /// </summary>
-        public void AttachConnector(Connector c)
+        public void AttachConnector(Connector target)
         {
-            if (c.Dragable) return; //要求目标不可移动
-            Shape shp = c.Container as Shape;
-            if (shp.IfHasAttached(this)) return; //不重复关联
-            Location = new Point(c.Location.X, c.Location.Y); //吸附
+            if (target.Dragable) return; //要求目标不可移动
+            target._Attached.Add(this);
+            _AttachedTo = target;
+            MoveTo(new Point(target.Location.X, target.Location.Y)); //吸附
             _Canvas.Invalidate();
-            c._Attached.Add(this);
-            _AttachedTo = c;
         }
 
         /// <summary>
-        /// 取消当前（主动）结点与被动结点的关联
+        /// 解除当前（主动）结点与被动结点的关联
         /// </summary>
         public void DetachConnector()
         {
-            if (_AttachedTo == null) return;
-            _AttachedTo._Attached.Remove(this);
-            _AttachedTo = null;
+            if (_AttachedTo != null)
+            {
+                _AttachedTo._Attached.Remove(this);
+                _AttachedTo = null;
+            }
         }
         #endregion
 
@@ -155,9 +134,9 @@ namespace TCM.Model.Designer
         public override bool IsHit(Point p)
         {
             Point b = _Location;
-            b.Offset(-4, -4);
+            b.Offset(-6, -6);
             Rectangle rp = new Rectangle(p.X, p.Y, 0, 0);
-            Rectangle rd = new Rectangle(b.X, b.Y, 9, 9);
+            Rectangle rd = new Rectangle(b.X, b.Y, 12, 12);
             return rd.Contains(rp);
         }
 
@@ -165,6 +144,9 @@ namespace TCM.Model.Designer
         {
             _Location.X += v.X;
             _Location.Y += v.Y;
+            if (_Attached != null)
+                foreach (Connector cot in _Attached)
+                    cot.MoveAs(v);
             Invalidate();
         }
 
@@ -172,6 +154,9 @@ namespace TCM.Model.Designer
         {
             _Location.X = p.X;
             _Location.Y = p.Y;
+            if (_Attached != null)
+                foreach (Connector cot in _Attached)
+                    cot.MoveTo(p);
             Invalidate();
         }
 
