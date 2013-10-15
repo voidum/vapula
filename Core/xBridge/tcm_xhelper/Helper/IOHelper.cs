@@ -5,6 +5,14 @@ namespace TCM.Helper
     public class IOHelper
     {
         /// <summary>
+        /// 获取当前路径
+        /// </summary>
+        public static string AppDir
+        {
+            get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
+        /// <summary>
         /// <para>合并路径</para>
         /// <para>第一部分必须不是文件的路径</para>
         /// <para>第二部分可以是相对路径，包括"..\"</para>

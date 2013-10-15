@@ -66,15 +66,6 @@ namespace TCM
         public const string RuntimeId = "clr";
 
         /// <summary>
-        /// 获取当前路径
-        /// 待测试
-        /// </summary>
-        public static string AppDir
-        {
-            get { return AppDomain.CurrentDomain.BaseDirectory; }
-        }
-
-        /// <summary>
         /// 获取TCM数据类型对应的CLR类型
         /// </summary>
         public static Type GetCLRType(DataType type)

@@ -43,7 +43,7 @@ namespace sample_xcom
 
         public ReturnCode Function_Out()
         {
-            _Envelope.Write(0, "中文Engligh日本語テスト");
+            _Envelope.Write(0, "中文English日本語テスト");
             return ReturnCode.Normal;
         }
 

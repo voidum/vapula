@@ -63,7 +63,6 @@
     <Compile Include="GraphCanvas\ShapeDecision.cs" />
     <Compile Include="GraphCanvas\ShapeProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UITag.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\xBridge\tcm_xhelper\tcm_xhelper.csproj">

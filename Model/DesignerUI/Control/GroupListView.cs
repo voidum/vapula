@@ -6,6 +6,41 @@ using TCM.API;
 
 namespace TCM.Model.Designer
 {
+    public enum ListViewGroupMask
+    {
+        None = 0,
+        Header = 1,
+        Footer = 2,
+        State = 4,
+        Align = 8,
+        GroupId = 0x10,
+        SubTitle = 0x100,
+        Task = 0x200,
+        DescriptionTop = 0x400,
+        DescriptionBottom = 0x800,
+        TitleImage = 0x1000,
+        ExtendedImage = 0x2000,
+        Items = 0x4000,
+        Subset = 0x8000,
+        SubsetItems = 0x10000
+    }
+
+    public enum ListViewGroupState
+    {
+        Normal = 0,
+        Collapsed = 1,
+        Hidden = 2,
+        NoHeader = 4,
+        Collapsible = 8,
+        Focused = 16,
+        Selected = 32,
+        SubSeted = 64,
+        SubSetLinkFocused = 128,
+    }
+    
+    /// <summary>
+    /// 增强组操作的ListView
+    /// </summary>
     public class GroupListView : ListView
     {
         public GroupListView()
@@ -14,6 +49,9 @@ namespace TCM.Model.Designer
                 throw new Exception("不支持此早期版本操作系统");
         }
 
+        /// <summary>
+        /// 获取群组内部标识
+        /// </summary>
         private int GetGroupID(ListViewGroup lvg)
         {
             Type type = typeof(ListViewGroup);
@@ -28,6 +66,9 @@ namespace TCM.Model.Designer
             else return -1;
         }
 
+        /// <summary>
+        /// 设置组状态
+        /// </summary>
         public void SetGroupState(ListViewGroup lvg, ListViewGroupState state)
         {
             if (InvokeRequired)
@@ -43,11 +84,13 @@ namespace TCM.Model.Designer
                 group.mask = (uint)ListViewGroupMask.State;
                 group.iGroupId = id;
                 User32.SendMessage(Handle, User32.LVM_SETGROUPINFO, id, ref group);
-                User32.SendMessage(Handle, User32.LVM_SETGROUPINFO, id, ref group);
-                lvg.ListView.Refresh();
+                Refresh();
             }
         }
 
+        /// <summary>
+        /// 设置组页脚
+        /// </summary>
         public void SetGroupFooter(ListViewGroup lvg, string footer)
         {
             if (InvokeRequired)
@@ -63,6 +106,7 @@ namespace TCM.Model.Designer
                 group.mask = (uint)ListViewGroupMask.Footer;
                 group.iGroupId = id;
                 User32.SendMessage(Handle, User32.LVM_SETGROUPINFO, id, ref group);
+                Refresh();
             }
         }
 
@@ -72,36 +116,5 @@ namespace TCM.Model.Designer
                 base.DefWndProc(ref m);
             base.WndProc(ref m);
         }
-    }
-
-    public enum ListViewGroupMask
-    {
-        None = 0x00000,
-        Header = 0x00001,
-        Footer = 0x00002,
-        State = 0x00004,
-        Align = 0x00008,
-        GroupId = 0x00010,
-        SubTitle = 0x00100,
-        Task = 0x00200,
-        DescriptionTop = 0x00400,
-        DescriptionBottom = 0x00800,
-        TitleImage = 0x01000,
-        ExtendedImage = 0x02000,
-        Items = 0x04000,
-        Subset = 0x08000,
-        SubsetItems = 0x10000
-    }
-    public enum ListViewGroupState
-    {
-        Normal = 0,
-        Collapsed = 1,
-        Hidden = 2,
-        NoHeader = 4,
-        Collapsible = 8,
-        Focused = 16,
-        Selected = 32,
-        SubSeted = 64,
-        SubSetLinkFocused = 128,
     }
 }
