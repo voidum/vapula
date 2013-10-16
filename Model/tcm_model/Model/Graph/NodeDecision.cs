@@ -8,6 +8,5 @@ namespace TCM.Model
     public class NodeDecision : Node
     {
         private string _Code;
-
     }
 }

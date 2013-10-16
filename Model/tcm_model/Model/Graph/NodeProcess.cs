@@ -8,6 +8,5 @@ namespace TCM.Model
     public class NodeProcess : Node
     {
         private Function _Function;
-
     }
 }

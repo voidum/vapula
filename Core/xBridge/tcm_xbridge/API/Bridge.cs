@@ -69,40 +69,40 @@ namespace TCM.API
         public static extern void UnmountLibrary(IntPtr lib);
         #endregion
 
-        #region Executor
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmCreateExecutor",
+        #region Invoker
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmCreateInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CreateExecutor(IntPtr lib, int fid);
+        public static extern IntPtr CreateInvoker(IntPtr lib, int fid);
 
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetFunctionId",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetFunctionId(IntPtr lib);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStartExecutor",
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool StartExecutor(IntPtr exec);
+        public static extern bool StartInvoker(IntPtr inv);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStopExecutor",
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStopInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void StopExecutor(IntPtr exec, uint wait);
+        public static extern void StopInvoker(IntPtr inv, uint wait);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmPauseExecutor",
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmPauseInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void PauseExecutor(IntPtr exec, uint wait);
+        public static extern void PauseInvoker(IntPtr inv, uint wait);
         
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmResumeExecutor",
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmResumeInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ResumeExecutor(IntPtr exec);
+        public static extern void ResumeInvoker(IntPtr inv);
         
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmRestartExecutor",
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmRestartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RestartExecutor(IntPtr exec, uint wait);
+        public static extern void RestartInvoker(IntPtr inv, uint wait);
         #endregion
 
         #region Token
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetContextToken",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetContextToken(IntPtr exec);
+        public static extern IntPtr GetContextToken(IntPtr inv);
 
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmStampContext",
             CallingConvention = CallingConvention.Cdecl)]
@@ -112,7 +112,7 @@ namespace TCM.API
         #region Context
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetContext",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetContext(IntPtr exec);
+        public static extern IntPtr GetContext(IntPtr inv);
 
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
@@ -154,7 +154,7 @@ namespace TCM.API
         #region Envelope
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetEnvelope",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetEnvelope(IntPtr exec);
+        public static extern IntPtr GetEnvelope(IntPtr inv);
 
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmParseEnvelopeW",
             CharSet = CharSet.Unicode,

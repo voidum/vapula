@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "tcm_task.h"
 #include "tcm_library.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 
 namespace tcm
 {
@@ -72,8 +72,8 @@ namespace tcm
 		return _FuncId;
 	}
 
-	Executor* Task::GetExecutor()
+	Invoker* Task::GetInvoker()
 	{
-		return _Executor;
+		return _Invoker;
 	}
 }

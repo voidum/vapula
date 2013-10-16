@@ -1,16 +1,16 @@
 #pragma once
 
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 
 using namespace tcm;
 
 typedef int (*Delegate)(int, Envelope*, Context*);
 
-class ExecutorCRT : public Executor
+class InvokerCRT : public Invoker
 {
 public:
-	ExecutorCRT();
-	~ExecutorCRT();
+	InvokerCRT();
+	~InvokerCRT();
 private:
 	Delegate _Entry;
 protected:

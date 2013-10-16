@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "tcm_drv_clr.h"
-#include "tcm_exec_clr.h"
+#include "tcm_inv_clr.h"
 #include "tcm_lib_clr.h"
 #include "process.h"
 
-ExecutorCLR::ExecutorCLR()
+InvokerCLR::InvokerCLR()
 {
 	_Handle = NULL;
 }
 
-ExecutorCLR::~ExecutorCLR()
+InvokerCLR::~InvokerCLR()
 {
 	Clear(_Handle);
 }
 
-PCWSTR ExecutorCLR::GetHandle()
+PCWSTR InvokerCLR::GetHandle()
 {
 	if(_Handle == NULL) 
 	{
@@ -24,20 +24,20 @@ PCWSTR ExecutorCLR::GetHandle()
 	return _Handle;
 }
 
-bool ExecutorCLR::Initialize(Library* lib, int fid)
+bool InvokerCLR::Initialize(Library* lib, int fid)
 {
 	if(strcmp(lib->GetRuntimeId(), RUNTIME_ID) != 0) return false;
-	Executor::Initialize(lib, fid);
+	Invoker::Initialize(lib, fid);
 	DriverCLR* drv = DriverCLR::GetInstance();
 	wstring str = GetHandle();
 	str += L"|";
 	LibraryCLR* lib_clr = dynamic_cast<LibraryCLR*>(lib);
 	str += lib_clr->GetHandle();
-	drv->CallBridge(L"InitExec", str.c_str());
+	drv->CallBridge(L"InitInvoker", str.c_str());
 	return true;
 }
 
-UINT ExecutorCLR::_ThreadProc()
+UINT InvokerCLR::_ThreadProc()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
 	int retcode = drv->CallBridge(L"CallEntry", GetHandle());

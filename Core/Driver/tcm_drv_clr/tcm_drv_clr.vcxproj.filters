@@ -27,8 +27,11 @@
     <ClInclude Include="tcm_lib_clr.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tcm_exec_clr.h">
+    <ClInclude Include="tcm_inv_clr.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>资源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,8 +47,13 @@
     <ClCompile Include="tcm_lib_clr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tcm_exec_clr.cpp">
+    <ClCompile Include="tcm_inv_clr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="tcm_drv_clr.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

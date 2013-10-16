@@ -2,7 +2,7 @@
 #include "tcm_bridge_c.h"
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_pipe.h"
 
 void tcmDeleteObject(LPVOID object)
@@ -76,51 +76,51 @@ void tcmUnmountLibrary(LPVOID lib)
 	obj->Unmount();
 }
 
-LPVOID tcmCreateExecutor(LPVOID lib, int fid)
+LPVOID tcmCreateInvoker(LPVOID lib, int fid)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
-	return obj->CreateExecutor(fid);
+	return obj->CreateInvoker(fid);
 }
 
-int tcmGetFunctionId(LPVOID exec)
+int tcmGetFunctionId(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetFunctionId();
 }
 
-BOOL tcmStartExecutor(LPVOID exec)
+BOOL tcmStartInvoker(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->Start() ? TRUE : FALSE;
 }
 
-void tcmStopExecutor(LPVOID exec, UINT wait)
+void tcmStopInvoker(LPVOID inv, UINT wait)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Stop(wait);
 }
 
-void tcmPauseExecutor(LPVOID exec, UINT wait)
+void tcmPauseInvoker(LPVOID inv, UINT wait)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Pause(wait);
 }
 
-void tcmResumeExecutor(LPVOID exec)
+void tcmResumeInvoker(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Resume();
 }
 
-void tcmRestartExecutor(LPVOID exec, UINT wait)
+void tcmRestartInvoker(LPVOID inv, UINT wait)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Restart(wait);
 }
 
-LPVOID tcmGetContextToken(LPVOID exec)
+LPVOID tcmGetContextToken(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetContextToken();
 }
 
@@ -130,9 +130,9 @@ LPVOID tcmStampContext(LPVOID ctx)
 	return tcm::Token::Stamp(obj);
 }
 
-LPVOID tcmGetContext(LPVOID exec)
+LPVOID tcmGetContext(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetContext();
 }
 
@@ -198,9 +198,9 @@ void tcmReplyCtrlCode(LPVOID ctx)
 	obj->ReplyCtrlCode();
 }
 
-LPVOID tcmGetEnvelope(LPVOID exec)
+LPVOID tcmGetEnvelope(LPVOID inv)
 {
-	tcm::Executor* obj = (tcm::Executor*)exec;
+	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetEnvelope();
 }
 

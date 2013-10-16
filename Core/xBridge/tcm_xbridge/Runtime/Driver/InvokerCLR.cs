@@ -4,30 +4,30 @@ using System.Reflection;
 
 namespace TCM.Runtime
 {
-    public class ExecutorCLR : Executor
+    public class InvokerCLR : Invoker
     {
-        private static List<ExecutorCLR> _Executors
-            = new List<ExecutorCLR>();
+        private static List<InvokerCLR> _Invokers
+            = new List<InvokerCLR>();
 
-        public static ExecutorCLR GetExecutor(IntPtr handle)
+        public static InvokerCLR GetInvoker(IntPtr handle)
         {
-            foreach (ExecutorCLR exec in _Executors)
-                if (exec._Handle == handle) return exec;
+            foreach (InvokerCLR inv in _Invokers)
+                if (inv._Handle == handle) return inv;
             return null;
         }
 
         private LibraryCLR _Library = null;
 
-        public ExecutorCLR(IntPtr handle, LibraryCLR lib)
+        public InvokerCLR(IntPtr handle, LibraryCLR lib)
             : base(handle)
         {
             _Library = lib;
-            _Executors.Add(this);
+            _Invokers.Add(this);
         }
 
         public override void Dispose()
         {
-            _Executors.Remove(this);
+            _Invokers.Remove(this);
             base.Dispose();
         }
 

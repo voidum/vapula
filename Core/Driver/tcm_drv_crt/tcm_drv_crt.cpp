@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "tcm_drv_crt.h"
 #include "tcm_lib_crt.h"
-#include "tcm_exec_crt.h"
+#include "tcm_inv_crt.h"
 
 using namespace tcm;
 
@@ -20,10 +20,10 @@ Library* DriverCRT::CreateLibrary()
 	return lib;
 }
 
-Executor* DriverCRT::CreateExecutor()
+Invoker* DriverCRT::CreateInvoker()
 {
-	ExecutorCRT* exec = new ExecutorCRT();
-	return exec;
+	InvokerCRT* inv = new InvokerCRT();
+	return inv;
 }
 
 Driver* GetDriverInstance()

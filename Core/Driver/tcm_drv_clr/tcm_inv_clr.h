@@ -1,15 +1,15 @@
 #pragma once
 
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include <metahost.h>
 
 using namespace tcm;
 
-class ExecutorCLR : public Executor
+class InvokerCLR : public Invoker
 {
 public:
-	ExecutorCLR();
-	~ExecutorCLR();
+	InvokerCLR();
+	~InvokerCLR();
 private:
 	PCWSTR _Handle;
 public:

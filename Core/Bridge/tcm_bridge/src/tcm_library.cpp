@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_xml.h"
 
 namespace tcm
@@ -66,14 +66,14 @@ namespace tcm
 		return env;
 	}
 
-	Executor* Library::CreateExecutor(int fid)
+	Invoker* Library::CreateInvoker(int fid)
 	{
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		Driver* driver = drv_hub->GetDriver(GetRuntimeId());
 		if(driver == NULL) return NULL;
-		Executor* exec = driver->CreateExecutor();
-		exec->Initialize(this, fid);
-		return exec;
+		Invoker* inv = driver->CreateInvoker();
+		inv->Initialize(this, fid);
+		return inv;
 	}
 
 	bool Library::Mount()

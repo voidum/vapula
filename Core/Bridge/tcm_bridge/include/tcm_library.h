@@ -5,7 +5,7 @@
 namespace tcm
 {
 	class Envelope;
-	class Executor;
+	class Invoker;
 	class Driver;
 
 	//功能库基类
@@ -33,8 +33,8 @@ namespace tcm
 		//创建指定功能的参数信封
 		Envelope* CreateEnvelope(int fid);
 
-		//获取指定功能的执行器
-		Executor* CreateExecutor(int fid);
+		//获取指定功能的调用器
+		Invoker* CreateInvoker(int fid);
 	public:
 		//获取环境标识
 		virtual PCSTR GetRuntimeId() = 0;

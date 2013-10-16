@@ -3,7 +3,7 @@
 #include "worker.h"
 
 #include "tcm_library.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_xml.h"
 #include "tcm_config.h"
 
@@ -50,9 +50,9 @@ Task* TaskEx::Parse(PCWSTR path)
 	delete path;
 	delete cid;
 	task->_FuncId = xml::ValueInt(xe_target->first_node("fid"));
-	task->_Executor = task->_Lib->CreateExecutor(task->_FuncId);
+	task->_Invoker = task->_Lib->CreateInvoker(task->_FuncId);
 
-	Envelope* env = task->_Executor->GetEnvelope();
+	Envelope* env = task->_Invoker->GetEnvelope();
 	xml_node<>* xe_param = (xml_node<>*)xml::Path(xe_target, 2, "params", "param");
 	while (xe_param)
 	{
@@ -92,7 +92,7 @@ bool TaskEx::RunAs(Worker* worker)
 	Flag* flag = config->GetFlag();
 	if(!flag->Valid(TCM_CONFIG_SILENT))
 	{
-		wstring str = L"TCM host has executed task:\n";
+		wstring str = L"TCM host has done with task:\n";
 		str += _Lib->GetLibraryId();
 		str += L"=>";
 		str += ValueToStrW(_FuncId);

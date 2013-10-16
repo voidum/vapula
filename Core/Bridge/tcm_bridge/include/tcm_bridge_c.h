@@ -22,21 +22,21 @@ extern "C"
 	TCM_BRIDGE_API BOOL tcmMountLibrary(LPVOID lib);
 	TCM_BRIDGE_API void tcmUnmountLibrary(LPVOID lib);
 
-	//Executor
-	TCM_BRIDGE_API LPVOID tcmCreateExecutor(LPVOID lib, int fid);
-	TCM_BRIDGE_API int tcmGetFunctionId(LPVOID exec);
-	TCM_BRIDGE_API BOOL tcmStartExecutor(LPVOID exec);
-	TCM_BRIDGE_API void tcmStopExecutor(LPVOID exec, UINT wait);
-	TCM_BRIDGE_API void tcmPauseExecutor(LPVOID exec, UINT wait);
-	TCM_BRIDGE_API void tcmResumeExecutor(LPVOID exec);
-	TCM_BRIDGE_API void tcmRestartExecutor(LPVOID exec, UINT wait);
+	//Invoker
+	TCM_BRIDGE_API LPVOID tcmCreateInvoker(LPVOID lib, int fid);
+	TCM_BRIDGE_API int tcmGetFunctionId(LPVOID inv);
+	TCM_BRIDGE_API BOOL tcmStartInvoker(LPVOID inv);
+	TCM_BRIDGE_API void tcmStopInvoker(LPVOID inv, UINT wait);
+	TCM_BRIDGE_API void tcmPauseInvoker(LPVOID inv, UINT wait);
+	TCM_BRIDGE_API void tcmResumeInvoker(LPVOID inv);
+	TCM_BRIDGE_API void tcmRestartInvoker(LPVOID inv, UINT wait);
 	
 	//Token
-	TCM_BRIDGE_API LPVOID tcmGetContextToken(LPVOID exec);
+	TCM_BRIDGE_API LPVOID tcmGetContextToken(LPVOID inv);
 	TCM_BRIDGE_API LPVOID tcmStampContext(LPVOID ctx);
 
 	//Context
-	TCM_BRIDGE_API LPVOID tcmGetContext(LPVOID exec);
+	TCM_BRIDGE_API LPVOID tcmGetContext(LPVOID inv);
 	TCM_BRIDGE_API LPVOID tcmCreateContext();
 	TCM_BRIDGE_API int tcmGetCtrlCode(LPVOID ctx);
 	TCM_BRIDGE_API void tcmSetCtrlCode(LPVOID ctx, int ctrl_code, LPVOID token);
@@ -49,7 +49,7 @@ extern "C"
 	TCM_BRIDGE_API void tcmReplyCtrlCode(LPVOID ctx);
 
 	//Envelope
-	TCM_BRIDGE_API LPVOID tcmGetEnvelope(LPVOID exec);
+	TCM_BRIDGE_API LPVOID tcmGetEnvelope(LPVOID inv);
 	TCM_BRIDGE_API LPVOID tcmCreateEnvelope(LPVOID lib, int fid);
 	TCM_BRIDGE_API LPVOID tcmParseEnvelopeW(LPCWSTR xml);
 	TCM_BRIDGE_API LPVOID tcmParseEnvelopeA(LPCSTR xml);

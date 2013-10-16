@@ -50,6 +50,7 @@
     <Compile Include="Model\Library\Function.cs" />
     <Compile Include="Model\Library\Library.cs" />
     <Compile Include="Model\Library\Parameter.cs" />
+    <Compile Include="Model\Library\ParamProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_library.h"
 #include "tcm_driver.h"
 
 namespace tcm
 {
-	Executor::Executor()
+	Invoker::Invoker()
 	{
 		_FuncId = -1;
 		_Envelope = NULL;
@@ -15,7 +15,7 @@ namespace tcm
 		_IsSuspend = false;
 	}
 
-	Executor::~Executor()
+	Invoker::~Invoker()
 	{
 		if(_Thread != NULL) CloseHandle(_Thread);
 		Clear(_Envelope);
@@ -23,34 +23,34 @@ namespace tcm
 		Clear(_ContextToken);
 	}
 
-	bool Executor::Initialize(Library* lib, int fid)
+	bool Invoker::Initialize(Library* lib, int fid)
 	{
 		_Envelope = lib->CreateEnvelope(fid);
 		_FuncId = fid;
 		return true;
 	}
 
-	int Executor::GetFunctionId() { return _FuncId; }
+	int Invoker::GetFunctionId() { return _FuncId; }
 
-	Envelope* Executor::GetEnvelope() { return _Envelope; }
+	Envelope* Invoker::GetEnvelope() { return _Envelope; }
 
-	Context* Executor::GetContext() { return _Context; }
+	Context* Invoker::GetContext() { return _Context; }
 
-	Token* Executor::GetContextToken() { return _ContextToken; }
+	Token* Invoker::GetContextToken() { return _ContextToken; }
 
-	UINT WINAPI Executor::_ThreadProc()
+	UINT WINAPI Invoker::_ThreadProc()
 	{
 		return TCM_RETURN_NULLTASK;
 	}
 
-	bool Executor::Start()
+	bool Invoker::Start()
 	{
 		union 
 		{
 			UINT (WINAPI *thread)(PVOID);
-			UINT (WINAPI Executor::*member)();
+			UINT (WINAPI Invoker::*member)();
 		} func_addr;
-		func_addr.member = &Executor::_ThreadProc;
+		func_addr.member = &Invoker::_ThreadProc;
 
 		Clear(_Context);
 		Clear(_ContextToken);
@@ -63,7 +63,7 @@ namespace tcm
 		return true;
 	}
 
-	void Executor::Stop(UINT wait)
+	void Invoker::Stop(UINT wait)
 	{
 		if(wait == 0)
 		{
@@ -92,7 +92,7 @@ namespace tcm
 		_Thread = NULL;
 	}
 
-	void Executor::Pause(UINT wait)
+	void Invoker::Pause(UINT wait)
 	{
 		bool paused = false;
 		if(wait != 0)
@@ -119,7 +119,7 @@ namespace tcm
 		_Context->SetState(_ContextToken, TCM_STATE_PAUSE);
 	}
 
-	void Executor::Resume()
+	void Invoker::Resume()
 	{
 		if(_IsSuspend)
 		{
@@ -133,7 +133,7 @@ namespace tcm
 		}
 	}
 
-	void Executor::Restart(UINT wait)
+	void Invoker::Restart(UINT wait)
 	{
 		//TODO: support ctrl code restart
 	}

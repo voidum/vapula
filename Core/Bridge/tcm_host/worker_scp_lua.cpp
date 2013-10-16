@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worker_scp_lua.h"
 
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_xml.h"
 #include "tcm_config.h"
 
@@ -38,7 +38,7 @@ bool Worker_SCP_LUA::RunStageA()
 	Flag* flag = config->GetFlag();
 
 	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
-	Executor* exec = task->GetExecutor();
+	Invoker* inv = task->GetInvoker();
 
 	xml_node<>* xe_ctrl = (xml_node<>*)xml::Parse(task->GetCtrlConfig());
 	PCSTR path = xml::ValueA(xe_ctrl->first_node("path"));
@@ -68,7 +68,7 @@ bool Worker_SCP_LUA::RunStageA()
 	lua_newtable(_L);
 	lua_setglobal(_L, "tcm_debug");
 
-	Envelope* env = exec->GetEnvelope();
+	Envelope* env = inv->GetEnvelope();
 	Dictionary* tags = task->GetTags();
 	for(int i=0;i<tags->GetCount();i++)
 	{
@@ -103,11 +103,11 @@ bool Worker_SCP_LUA::RunStageB()
 	Flag* flag = config->GetFlag();
 
 	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
-	Executor* exec = task->GetExecutor();
+	Invoker* inv = task->GetInvoker();
 
 	int freq_monitor = flag->Valid(TCM_CONFIG_RTMON) ? 5 : 50;
-	exec->Start();
-	Context* ctx = exec->GetContext();
+	inv->Start();
+	Context* ctx = inv->GetContext();
 	while(ctx->GetState() != TCM_STATE_IDLE)
 	{
 		lua_getglobal(_L, "TcmRunning");
@@ -118,12 +118,12 @@ bool Worker_SCP_LUA::RunStageB()
 		switch(ctrl)
 		{
 		case TCM_CTRL_CANCEL:
-			exec->Stop(30000);
+			inv->Stop(30000);
 			break;
 		case TCM_CTRL_PAUSE:
-			exec->Pause(30000);
+			inv->Pause(30000);
 		case TCM_CTRL_RESUME:
-			exec->Resume();
+			inv->Resume();
 			break;
 		}
 		Sleep(freq_monitor);
@@ -137,14 +137,14 @@ bool Worker_SCP_LUA::RunStageC()
 	Flag* flag = config->GetFlag();
 
 	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
-	Executor* exec = task->GetExecutor();
-	Context* ctx = exec->GetContext();
+	Invoker* inv = task->GetInvoker();
+	Context* ctx = inv->GetContext();
 
 	xml_node<>* xe_ctrl = (xml_node<>*)xml::Parse(task->GetCtrlConfig());
 	PCSTR path = xml::ValueA(xe_ctrl->first_node("path"));
 
 	xml_node<>* paramexp = (xml_node<>*)xml::Path(xe_ctrl, 2, "export", "param");
-	Envelope* env = exec->GetEnvelope();
+	Envelope* env = inv->GetEnvelope();
 	while(paramexp)
 	{
 		PCSTR key = xml::ValueA(paramexp->first_attribute("key"));

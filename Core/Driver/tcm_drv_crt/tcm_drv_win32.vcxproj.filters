@@ -30,7 +30,7 @@
     <ClInclude Include="tcm_drv_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tcm_exec_crt.h">
+    <ClInclude Include="tcm_inv_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClCompile Include="tcm_drv_crt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tcm_exec_crt.cpp">
+    <ClCompile Include="tcm_inv_crt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,7 +14,6 @@ namespace TCM.Model
         protected string _Catalog;
         protected string _Name;
         protected string _Description;
-        protected object _Value;
         protected Function _Function = null;
         #endregion
 
@@ -132,15 +131,6 @@ namespace TCM.Model
                 if (string.IsNullOrWhiteSpace(value)) _Description = null;
                 else _Description = value;
             }
-        }
-
-        /// <summary>
-        /// 获取或设置参数的值
-        /// </summary>
-        public object Value
-        {
-            get { return _Value; }
-            set { _Value = value; }
         }
 
         /// <summary>

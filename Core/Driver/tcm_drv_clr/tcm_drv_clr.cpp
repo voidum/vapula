@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "tcm_drv_clr.h"
 #include "tcm_lib_clr.h"
-#include "tcm_exec_clr.h"
+#include "tcm_inv_clr.h"
 
 using namespace tcm;
 using std::wstring;
@@ -50,10 +50,10 @@ Library* DriverCLR::CreateLibrary()
 	return lib;
 }
 
-Executor* DriverCLR::CreateExecutor()
+Invoker* DriverCLR::CreateInvoker()
 {
-	ExecutorCLR* exec = new ExecutorCLR();
-	return exec;
+	InvokerCLR* inv = new InvokerCLR();
+	return inv;
 }
 
 DriverCLR* DriverCLR::GetInstance()

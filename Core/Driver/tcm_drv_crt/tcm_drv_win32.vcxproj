@@ -92,7 +92,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tcm_lib_crt.h" />
     <ClInclude Include="tcm_drv_crt.h" />
-    <ClInclude Include="tcm_exec_crt.h" />
+    <ClInclude Include="tcm_inv_crt.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -109,7 +109,7 @@
     </ClCompile>
     <ClCompile Include="tcm_lib_crt.cpp" />
     <ClCompile Include="tcm_drv_crt.cpp" />
-    <ClCompile Include="tcm_exec_crt.cpp" />
+    <ClCompile Include="tcm_inv_crt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="tcm_drv_crt.rc" />

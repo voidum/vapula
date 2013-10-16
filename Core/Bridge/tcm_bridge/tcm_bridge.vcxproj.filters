@@ -84,9 +84,6 @@
     <ClInclude Include="include\tcm_dev_drv.h">
       <Filter>头文件\sdk</Filter>
     </ClInclude>
-    <ClInclude Include="include\tcm_dev_task.h">
-      <Filter>头文件\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="include\tcm_pipe.h">
       <Filter>头文件\utility</Filter>
     </ClInclude>
@@ -102,11 +99,11 @@
     <ClInclude Include="include\tcm_library.h">
       <Filter>头文件\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\tcm_executor.h">
-      <Filter>头文件\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\tcm_dev_lib.h">
       <Filter>头文件\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tcm_invoker.h">
+      <Filter>头文件\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +155,7 @@
     <ClCompile Include="src\tcm_library.cpp">
       <Filter>源文件\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_executor.cpp">
+    <ClCompile Include="src\tcm_invoker.cpp">
       <Filter>源文件\core</Filter>
     </ClCompile>
   </ItemGroup>

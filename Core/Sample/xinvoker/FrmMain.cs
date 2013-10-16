@@ -25,17 +25,17 @@ namespace sample_xinvoker
 
         void Test1(Library lib)
         {
-            Executor exec = lib.CreateExecutor(4);
-            if (exec == null) return;
-            if (!exec.Start()) return;
-            Context ctx = exec.Context;
+            Invoker inv = lib.CreateInvoker(4);
+            if (inv == null) return;
+            if (!inv.Start()) return;
+            Context ctx = inv.Context;
             while (ctx.State != State.Idle)
             {
                 float prog = ctx.Progress;
                 if (prog > 10)
                 {
                     UpdateLog("进度超过10%，暂停");
-                    exec.Pause(50);
+                    inv.Pause(50);
                     break;
                 }
                 Thread.Sleep(50);
@@ -47,22 +47,22 @@ namespace sample_xinvoker
                 step++;
                 Thread.Sleep(50);
             }
-            exec.Resume();
+            inv.Resume();
             UpdateLog("已恢复，进度：" + ctx.Progress.ToString() + "%");
             while (ctx.State != State.Idle) Thread.Sleep(50);
             UpdateLog("测试1完成");
             UpdateLog("-------------");
-            exec.Dispose();
+            inv.Dispose();
         }
 
         void Test2(Library lib)
         {
-            UpdateLog("获取用于功能0的执行器对象");
-            Executor exec = lib.CreateExecutor(0);
-            if(exec == null) return;
+            UpdateLog("获取用于功能0的调用器对象");
+            Invoker inv = lib.CreateInvoker(0);
+            if (inv == null) return;
 
             UpdateLog("获取信封对象");
-            Envelope env = exec.Envelope;
+            Envelope env = inv.Envelope;
             if (env == null) return;
 
             UpdateLog("设置参数");
@@ -70,9 +70,9 @@ namespace sample_xinvoker
             env.Write(1, "23");
 
             UpdateLog("执行功能");
-            if (!exec.Start()) return;
+            if (!inv.Start()) return;
 
-            Context ctx = exec.Context;
+            Context ctx = inv.Context;
             while (ctx.State != State.Idle) Thread.Sleep(50);
 
             UpdateLog("验证输出：" + env.Read(2));
@@ -82,14 +82,14 @@ namespace sample_xinvoker
             {
                 env.Write(0, "12");
                 env.Write(1, "23");
-                exec.Start();
-                ctx = exec.Context;
+                inv.Start();
+                ctx = inv.Context;
                 //sw = ctx.GetStopwatch();
                 while (ctx.State != State.Idle) Thread.Sleep(0);
                 //td_time += sw.GetElapsedTime();
                 int.Parse(env.Read(2));
             }
-            exec.Dispose();
+            inv.Dispose();
         }
 
         private void BtRun1_Click(object sender, EventArgs e)

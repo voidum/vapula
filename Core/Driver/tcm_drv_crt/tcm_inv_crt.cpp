@@ -1,28 +1,28 @@
 #include "stdafx.h"
-#include "tcm_exec_crt.h"
+#include "tcm_inv_crt.h"
 #include "tcm_lib_crt.h"
 #include "process.h"
 
-ExecutorCRT::ExecutorCRT()
+InvokerCRT::InvokerCRT()
 {
 	_Entry = NULL;
 }
 
-ExecutorCRT::~ExecutorCRT()
+InvokerCRT::~InvokerCRT()
 {
 }
 
-bool ExecutorCRT::Initialize(Library* lib, int fid)
+bool InvokerCRT::Initialize(Library* lib, int fid)
 {
 	if(strcmp(lib->GetRuntimeId(), RUNTIME_ID) != 0)
 		return false;
-	Executor::Initialize(lib, fid);
+	Invoker::Initialize(lib, fid);
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
 	_Entry = (Delegate)lib_crt->GetEntry();
 	return true;
 }
 
-UINT ExecutorCRT::_ThreadProc()
+UINT InvokerCRT::_ThreadProc()
 {
 	int retcode = _Entry(_FuncId, _Envelope, _Context);
 	_Context->SetReturnCode(_ContextToken, retcode);

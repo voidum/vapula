@@ -4,9 +4,9 @@ using TCM.API;
 namespace TCM.Runtime
 {
     /// <summary>
-    /// 执行器基类
+    /// 调用器基类
     /// </summary>
-    public class Executor : IDisposable
+    public class Invoker : IDisposable
     {
         #region 字段
         protected IntPtr _Handle;
@@ -15,7 +15,7 @@ namespace TCM.Runtime
         #endregion
 
         #region 构造
-        public Executor(IntPtr handle)
+        public Invoker(IntPtr handle)
         {
             _Handle = handle;
         }
@@ -31,7 +31,7 @@ namespace TCM.Runtime
         }
 
         /// <summary>
-        /// 获取或设置执行器的上下文
+        /// 获取或设置调用器的上下文
         /// </summary>
         public Context Context
         {
@@ -69,7 +69,7 @@ namespace TCM.Runtime
         /// </summary>
         public virtual bool Start()
         {
-            return Bridge.StartExecutor(_Handle);
+            return Bridge.StartInvoker(_Handle);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace TCM.Runtime
         /// </summary>
         public virtual void Stop(uint wait)
         {
-            Bridge.StopExecutor(_Handle, wait);
+            Bridge.StopInvoker(_Handle, wait);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace TCM.Runtime
         /// </summary>
         public virtual void Pause(uint wait)
         {
-            Bridge.PauseExecutor(_Handle, wait);
+            Bridge.PauseInvoker(_Handle, wait);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace TCM.Runtime
         /// </summary>
         public virtual void Resume() 
         {
-            Bridge.ResumeExecutor(_Handle);
+            Bridge.ResumeInvoker(_Handle);
         }
 
         /// <summary>
@@ -101,11 +101,11 @@ namespace TCM.Runtime
         /// </summary>
         public virtual void Restart(uint wait) 
         {
-            Bridge.RestartExecutor(_Handle, wait);
+            Bridge.RestartInvoker(_Handle, wait);
         }
 
         /// <summary>
-        /// 销毁执行器
+        /// 销毁调用器
         /// </summary>
         public virtual void Dispose()
         {

@@ -1,6 +1,6 @@
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_config.h"
 #include <iostream>
 
@@ -23,21 +23,21 @@ void Assert(bool condition)
 
 void Test1(Library* lib)
 {
-	cout<<"[get executor] ... ";
-	Executor* exec = lib->CreateExecutor(4);
-	Assert(exec != NULL);
+	cout<<"[get Invoker] ... ";
+	Invoker* inv = lib->CreateInvoker(4);
+	Assert(inv != NULL);
 
-	cout<<"[execute function 5] ... ";
-	Assert(exec->Start());
+	cout<<"[Invoke function 5] ... ";
+	Assert(inv->Start());
 
-	Context* ctx = exec->GetContext();
+	Context* ctx = inv->GetContext();
 	while(ctx->GetState() != TCM_STATE_IDLE)
 	{
 		float prog = ctx->GetProgress();
 		if(prog > 10)
 		{
 			cout<<"[pause] progress:"<<prog<<endl;
-			exec->Pause(50);
+			inv->Pause(50);
 			break;
 		}
 		Sleep(50);
@@ -49,7 +49,7 @@ void Test1(Library* lib)
 		step++;
 		Sleep(50);
 	}
-	exec->Resume();
+	inv->Resume();
 	float prog = ctx->GetProgress();
 	cout<<"[resume] progress:"<<prog<<endl;
 	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
@@ -58,28 +58,27 @@ void Test1(Library* lib)
 
 void Test2(Library* lib)
 {
-	cout<<"[get executor] ... ";
-	Executor* exec = lib->CreateExecutor(0);
-	Assert(exec != NULL);
+	cout<<"[get Invoker] ... ";
+	Invoker* inv = lib->CreateInvoker(0);
+	Assert(inv != NULL);
 
 	cout<<"[get envelope] ... ";
-	Envelope* env = exec->GetEnvelope();
+	Envelope* env = inv->GetEnvelope();
 	Assert(env != NULL);
 
 	cout<<"[set params]"<<endl;
 	env->Write(0, 12);
 	env->Write(1, 23);
 
-	cout<<"[execute function 0] ... ";
-	Assert(exec->Start());
+	cout<<"[Invoke function 0] ... ";
+	Assert(inv->Start());
 
-	Context* ctx = exec->GetContext();
+	Context* ctx = inv->GetContext();
 	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
 	
 	int result = env->Read<int>(2);
 	cout<<"<valid> - out:"<<result<<endl;
 
-	double td_time = 0;
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
@@ -87,16 +86,13 @@ void Test2(Library* lib)
 	{
 		env->Write(0, 12);
 		env->Write(1, 23);
-		exec->Start();
-		Context* ctx = exec->GetContext();
-		Stopwatch* sw = ctx->GetStopwatch();
+		inv->Start();
+		Context* ctx = inv->GetContext();
 		while(ctx->GetState() != TCM_STATE_IDLE) Sleep(0);
-		td_time += sw->GetElapsedTime();
 		int result = env->Read<int>(2);
 	}
 	QueryPerformanceCounter(&t2);
 	cout<<"PerfC time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
-	cout<<"SysTd time:"<<td_time<<" (ms)"<<endl;
 }
 
 int main()

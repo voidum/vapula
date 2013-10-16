@@ -15,8 +15,8 @@ public:
 	Library*
 		CreateLibrary();
 
-	Executor*
-		CreateExecutor();
+	Invoker*
+		CreateInvoker();
 };
 
 extern "C" __declspec(dllexport) Driver* GetDriverInstance();

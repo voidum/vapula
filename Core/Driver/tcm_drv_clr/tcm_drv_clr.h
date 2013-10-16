@@ -29,8 +29,8 @@ public:
 	Library*
 		CreateLibrary();
 
-	Executor*
-		CreateExecutor();
+	Invoker*
+		CreateInvoker();
 public:
 	static DriverCLR* GetInstance();
 

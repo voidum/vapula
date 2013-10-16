@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worker_pipe.h"
 
-#include "tcm_executor.h"
+#include "tcm_Invoker.h"
 #include "tcm_xml.h"
 #include "tcm_config.h"
 
@@ -42,15 +42,15 @@ bool Worker_PIPE::RunStageB()
 	Flag* flag = config->GetFlag();
 
 	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
-	Executor* exec = task->GetExecutor();
+	Invoker* inv = task->GetInvoker();
 
 	LPVOID pipe_w = new BYTE[9];
 	*((char*)pipe_w) = 'B';
 	LPVOID pipe_r = NULL;
 
 	int freq_monitor = flag->Valid(TCM_CONFIG_RTMON) ? 5 : 50;
-	exec->Start();
-	Context* ctx = exec->GetContext();
+	inv->Start();
+	Context* ctx = inv->GetContext();
 	while(ctx->GetState() != TCM_STATE_IDLE)
 	{
 		*((int*)((ULONG)pipe_w+1)) = ctx->GetState();
@@ -61,12 +61,12 @@ bool Worker_PIPE::RunStageB()
 		switch(ctrl)
 		{
 		case TCM_CTRL_CANCEL:
-			exec->Stop(30000);
+			inv->Stop(30000);
 			break;
 		case TCM_CTRL_PAUSE:
-			exec->Pause();
+			inv->Pause();
 		case TCM_CTRL_RESUME:
-			exec->Resume();
+			inv->Resume();
 			break;
 		}
 		Sleep(freq_monitor);
@@ -88,8 +88,8 @@ bool Worker_PIPE::RunStageB()
 bool Worker_PIPE::RunStageC()
 {
 	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
-	Executor* exec = task->GetExecutor();
-	Envelope* env = exec->GetEnvelope();
+	Invoker* inv = task->GetInvoker();
+	Envelope* env = inv->GetEnvelope();
 
 	string resp = "C<response><params>";
 	for(int i=0;i<env->GetParamTotal();i++) 

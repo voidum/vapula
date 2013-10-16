@@ -5,7 +5,7 @@
 namespace tcm
 {
 	class Library;
-	class Executor;
+	class Invoker;
 
 	//驱动基类
 	class TCM_BRIDGE_API Driver
@@ -22,9 +22,9 @@ namespace tcm
 		virtual Library*
 			CreateLibrary() = 0;
 
-		//创建执行器
-		virtual Executor*
-			CreateExecutor() = 0;
+		//创建调用器
+		virtual Invoker*
+			CreateInvoker() = 0;
 	};
 
 	//驱动板

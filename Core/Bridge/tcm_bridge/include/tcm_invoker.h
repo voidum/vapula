@@ -8,13 +8,13 @@ namespace tcm
 	class Token;
 	class Library;
 
-	//功能执行器
-	class TCM_BRIDGE_API Executor
+	//功能调用器
+	class TCM_BRIDGE_API Invoker
 	{
 	protected:
-		Executor();
+		Invoker();
 	public:
-		virtual ~Executor();
+		virtual ~Invoker();
 	protected:
 		int _FuncId;
 		Envelope* _Envelope;
@@ -52,7 +52,7 @@ namespace tcm
 		//重启
 		void Restart(UINT wait = 0);
 	public:
-		//初始化执行器
+		//初始化调用器
 		virtual bool Initialize(Library* lib, int fid); 
 	};
 }

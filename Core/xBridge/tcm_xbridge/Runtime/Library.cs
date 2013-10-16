@@ -57,16 +57,16 @@ namespace TCM.Runtime
             return lib;
         }
 
-		//获取指定功能的执行器
-        public Executor CreateExecutor(int fid)
+		//获取指定功能的调用器
+        public Invoker CreateInvoker(int fid)
         {
-            IntPtr ptr = Bridge.CreateExecutor(_Handle, fid);
-            Executor exec = null;
+            IntPtr ptr = Bridge.CreateInvoker(_Handle, fid);
+            Invoker inv = null;
             if (RuntimeId == Base.RuntimeId)
-                exec = ExecutorCLR.GetExecutor(ptr);
+                inv = InvokerCLR.GetInvoker(ptr);
             else
-                exec = new Executor(ptr);
-            return exec;
+                inv = new Invoker(ptr);
+            return inv;
         }
 		
 		//装载库

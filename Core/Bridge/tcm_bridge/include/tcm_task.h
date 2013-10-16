@@ -14,7 +14,7 @@ namespace tcm
 	};
 
 	class Library;
-	class Executor;
+	class Invoker;
 	class Worker;
 
 	//任务基类
@@ -30,7 +30,7 @@ namespace tcm
 	protected:
 		Library* _Lib;
 		int _FuncId;
-		Executor* _Executor;
+		Invoker* _Invoker;
 	protected	:
 		float* _StageTime;
 	public:
@@ -46,8 +46,8 @@ namespace tcm
 		//获取任务的指定功能
 		int GetFunctionId();
 
-		//获取执行器
-		Executor* GetExecutor();
+		//获取调用器
+		Invoker* GetInvoker();
 	public:
 		//指定工作者运行任务
 		virtual bool RunAs(Worker* worker) = 0;

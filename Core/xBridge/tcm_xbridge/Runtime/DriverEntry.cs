@@ -32,15 +32,15 @@ namespace TCM.Runtime
         }
 
         /// <summary>
-        /// Executor Handle, Library Handle
+        /// Invoker Handle, Library Handle
         /// </summary>
-        public static int InitExec(string arg)
+        public static int InitInvoker(string arg)
         {
             string[] args = arg.Split(new char[] { '|' });
             IntPtr ptr1 = new IntPtr(int.Parse(args[0]));
             IntPtr ptr2 = new IntPtr(int.Parse(args[1]));
             LibraryCLR lib_clr = LibraryCLR.GetLibrary(ptr2);
-            ExecutorCLR exec = new ExecutorCLR(ptr1, lib_clr);
+            InvokerCLR inv = new InvokerCLR(ptr1, lib_clr);
             return 0;
         }
 
@@ -50,9 +50,9 @@ namespace TCM.Runtime
         public static int CallEntry(string arg)
         {
             IntPtr ptr = new IntPtr(int.Parse(arg));
-            ExecutorCLR exec = ExecutorCLR.GetExecutor(ptr);
-            if (exec == null) return (int)ReturnCode.NullEntry;
-            int retcode = exec.CallEntry();
+            InvokerCLR inv = InvokerCLR.GetInvoker(ptr);
+            if (inv == null) return (int)ReturnCode.NullEntry;
+            int retcode = inv.CallEntry();
             return retcode;
         }
     }
