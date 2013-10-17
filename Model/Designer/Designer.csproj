@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TCM.Model.Designer</RootNamespace>
-    <AssemblyName>ModelDesigner</AssemblyName>
+    <AssemblyName>Designer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="LibraryManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmDocument.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmProperty.resx">
       <DependentUpon>FrmProperty.cs</DependentUpon>
@@ -91,6 +99,8 @@
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Config\designer.config" />
+    <None Include="Config\library.list" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,6 +112,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\xBridge\tcm_xbridge\tcm_xbridge.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>tcm_xbridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\xBridge\tcm_xhelper\tcm_xhelper.csproj">
+      <Project>{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}</Project>
+      <Name>tcm_xhelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DesignerUI\DesignerUI.csproj">
       <Project>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</Project>
       <Name>DesignerUI</Name>
@@ -110,6 +128,36 @@
       <Project>{EC85B801-A356-481A-8D5E-EFE603F8689A}</Project>
       <Name>tcm_model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\branch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\branch_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\datatable_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\datatable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copies.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copies_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_minus_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_plus_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

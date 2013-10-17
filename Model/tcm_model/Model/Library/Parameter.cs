@@ -14,6 +14,7 @@ namespace TCM.Model
         protected string _Catalog;
         protected string _Name;
         protected string _Description;
+        protected object _Tag;
         protected Function _Function = null;
         #endregion
 
@@ -25,32 +26,28 @@ namespace TCM.Model
         #endregion
 
         #region 序列化
-        public static Parameter Parse(XElement xe)
+        public static Parameter Parse(XElement xml)
         {
-
             Parameter param = new Parameter();
-            if(xe.Attribute("id") == null) return null;
-            param.Id = int.Parse(xe.Attribute("id").Value);
-            if (xe.Attribute("type") == null) return null;
-            param.Type = (DataType)int.Parse(xe.Attribute("type").Value);
-            if(xe.Attribute("in") == null) return null;
-            param.IsIn = (xe.Attribute("in").Value == "true");
-            param.Name = xe.Element("name").Value;
-            param.Catalog = xe.Element("catalog").Value;
-            param.Description = xe.Element("description").Value;
+            param.Id = int.Parse(xml.Attribute("id").Value);
+            param.Type = (DataType)int.Parse(xml.Attribute("type").Value);
+            param.IsIn = (xml.Attribute("in").Value == "true");
+            param.Name = xml.Element("name").Value;
+            param.Catalog = xml.Element("catalog").Value;
+            param.Description = xml.Element("description").Value;
             return param;
         }
 
         public XElement ToXML()
         {
-            XElement xe = new XElement("param",
-                new XAttribute("id", _Id),
-                new XAttribute("type", (int)_Type),
-                new XAttribute("in", _IsIn ? "true" : "false"),
-                new XElement("description", new XCData(Description)),
-                new XElement("name", new XCData(Name)),
-                new XElement("catalog", new XCData(Catalog)));
-            return xe;
+            XElement xml = new XElement("param",
+                new XAttribute("id", Id),
+                new XAttribute("type", (int)Type),
+                new XAttribute("in", IsIn ? "true" : "false"),
+                new XElement("description", Description),
+                new XElement("name", Name),
+                new XElement("catalog", Catalog));
+            return xml;
         }
         #endregion
 
@@ -140,6 +137,15 @@ namespace TCM.Model
         {
             get { return _Function; }
             set { _Function = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置附加数据
+        /// </summary>
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
         }
         #endregion
     }

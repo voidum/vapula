@@ -28,26 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.toolbar = new System.Windows.Forms.ToolStrip();
+            this.components = new System.ComponentModel.Container();
             this.LsvTools = new TCM.Model.Designer.GroupListView();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.menubar = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuLibMng = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.menubar.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolbar
-            // 
-            this.toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolbar.Location = new System.Drawing.Point(0, 0);
-            this.toolbar.Name = "toolbar";
-            this.toolbar.Size = new System.Drawing.Size(254, 25);
-            this.toolbar.TabIndex = 0;
             // 
             // LsvTools
             // 
+            this.LsvTools.ContextMenuStrip = this.menubar;
             this.LsvTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LsvTools.Location = new System.Drawing.Point(0, 25);
+            this.LsvTools.Location = new System.Drawing.Point(0, 0);
             this.LsvTools.Name = "LsvTools";
-            this.LsvTools.Size = new System.Drawing.Size(254, 387);
+            this.LsvTools.Size = new System.Drawing.Size(254, 412);
             this.LsvTools.TabIndex = 1;
             this.LsvTools.UseCompatibleStateImageBehavior = false;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(23, 23);
+            // 
+            // menubar
+            // 
+            this.menubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuExpandGroup,
+            this.MnuCollapseGroup,
+            this.MnuSplit1,
+            this.MnuLibMng});
+            this.menubar.Name = "menubar";
+            this.menubar.Size = new System.Drawing.Size(146, 76);
+            // 
+            // MnuCollapseGroup
+            // 
+            this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
+            this.MnuCollapseGroup.Name = "MnuCollapseGroup";
+            this.MnuCollapseGroup.Size = new System.Drawing.Size(152, 22);
+            this.MnuCollapseGroup.Text = "折叠所有组";
+            this.MnuCollapseGroup.Click += new System.EventHandler(this.MnuCollapseGroup_Click);
+            // 
+            // MnuLibMng
+            // 
+            this.MnuLibMng.Name = "MnuLibMng";
+            this.MnuLibMng.Size = new System.Drawing.Size(152, 22);
+            this.MnuLibMng.Text = "组件管理器...";
+            // 
+            // MnuSplit1
+            // 
+            this.MnuSplit1.Name = "MnuSplit1";
+            this.MnuSplit1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // MnuExpandGroup
+            // 
+            this.MnuExpandGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_plus_s;
+            this.MnuExpandGroup.Name = "MnuExpandGroup";
+            this.MnuExpandGroup.Size = new System.Drawing.Size(152, 22);
+            this.MnuExpandGroup.Text = "展开所有组";
+            this.MnuExpandGroup.Click += new System.EventHandler(this.MnuExpandGroup_Click);
             // 
             // FrmToolbox
             // 
@@ -55,7 +97,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(254, 412);
             this.Controls.Add(this.LsvTools);
-            this.Controls.Add(this.toolbar);
             this.DockAreas = ((xDockPanel.DockAreas)(((((xDockPanel.DockAreas.Float | xDockPanel.DockAreas.Left) 
             | xDockPanel.DockAreas.Right) 
             | xDockPanel.DockAreas.Top) 
@@ -64,14 +105,19 @@
             this.Name = "FrmToolbox";
             this.Text = "组件箱";
             this.Load += new System.EventHandler(this.FrmToolbox_Load);
+            this.menubar.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolbar;
         private GroupListView LsvTools;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ContextMenuStrip menubar;
+        private System.Windows.Forms.ToolStripMenuItem MnuCollapseGroup;
+        private System.Windows.Forms.ToolStripSeparator MnuSplit1;
+        private System.Windows.Forms.ToolStripMenuItem MnuLibMng;
+        private System.Windows.Forms.ToolStripMenuItem MnuExpandGroup;
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tcm_dev_com.h"
+#include "tcm_dev_lib.h"
 
 using namespace tcm;
 

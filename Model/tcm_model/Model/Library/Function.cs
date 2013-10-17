@@ -13,6 +13,7 @@ namespace TCM.Model
         private string _Name;
         private string _Description;
         private Library _Library;
+        private object _Tag;
         private List<Parameter> _Parameters = new List<Parameter>();
         #endregion
 
@@ -39,18 +40,18 @@ namespace TCM.Model
         /// <summary>
         /// 由XML解析功能描述
         /// </summary>
-        public static Function Parse(XElement xe)
+        public static Function Parse(XElement xml)
         {
             Function func = new Function();
-            func.Id = int.Parse(xe.Attribute("id").Value);
-            func.Description = xe.Element("description").Value;
-            func.Name = xe.Element("name").Value;
-            foreach (XElement e in xe.Element("params").Elements("param"))
+            func.Id = int.Parse(xml.Attribute("id").Value);
+            func.Description = xml.Element("description").Value;
+            func.Name = xml.Element("name").Value;
+            var xml_params = xml.Element("params").Elements("param");
+            foreach (var xml_param in xml_params)
             {
-                Parameter param = Parameter.Parse(e);
+                Parameter param = Parameter.Parse(xml_param);
                 param.Function = func;
                 func._Parameters.Add(param);
-                
             }
             return func;
         }
@@ -60,17 +61,17 @@ namespace TCM.Model
         /// </summary>
         public XElement ToXML()
         {
-            XElement xe = new XElement("function",
-                new XElement("description", new XCData(Description)),
-                new XElement("name", new XCData(Name)),
+            XElement xml = new XElement("function",
+                new XElement("description", Description),
+                new XElement("name", Name),
                 new XElement("params"),
-                new XAttribute("id", _Id));
+                new XAttribute("id", Id));
             foreach (Parameter param in _Parameters)
             {
-                XElement xeparam = param.ToXML();
-                xe.Element("params").Add(xeparam);
+                XElement xml_param = param.ToXML();
+                xml.Element("params").Add(xml_param);
             }
-            return xe;
+            return xml;
         }
         #endregion
 
@@ -132,6 +133,15 @@ namespace TCM.Model
         {
             get { return _Library; }
             set { _Library = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置附加数据
+        /// </summary>
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
         }
 
         /// <summary>

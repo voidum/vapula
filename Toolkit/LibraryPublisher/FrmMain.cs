@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using TCM.Helper;
 using TCM.Model;
+using System.IO;
 
 namespace TCM.Toolkit
 {
@@ -81,8 +82,8 @@ namespace TCM.Toolkit
         private void MnuLib_New_Click(object sender, EventArgs e)
         {
             if (!FormLayout_DlgOpenFile("组件主体|*.*", "选择组件的主体文件", "")) return;
-            string id = IOHelper.GetFileNameNoExt(dlgfile.SafeFileName);
-            string dir = IOHelper.GetFullDir(dlgfile.FileName, true);
+            string id = Path.GetFileNameWithoutExtension(dlgfile.SafeFileName);
+            string dir = Path.GetDirectoryName(dlgfile.FileName);
             if (Regex.IsMatch(id, "[^A-Za-z0-9._]"))
             {
                 MessageBox.Show("目标名称中包含不符合规范的字符。\n请依据字符集正则约束[a-zA-Z0-9._]自行重命名。", "注意");
@@ -246,11 +247,13 @@ namespace TCM.Toolkit
                     dlgcom.ShowDialog();
                     break;
                 case 1:
-                    FrmDetailFunc dlgfunc = new FrmDetailFunc(lib.Functions[tn.Index]);
+                    FrmDetailFunc dlgfunc = new FrmDetailFunc();
+                    dlgfunc.Function = lib.Functions[tn.Index];
                     dlgfunc.ShowDialog();
                     break;
                 case 2:
-                    FrmDetailParam dlgparam = new FrmDetailParam(lib.Functions[tn.Parent.Index].Parameters[tn.Index]);
+                    FrmDetailParam dlgparam = new FrmDetailParam();
+                    dlgparam.Parameter = lib.Functions[tn.Parent.Index].Parameters[tn.Index];
                     dlgparam.ShowDialog();
                     break;
             }

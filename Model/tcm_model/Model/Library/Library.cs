@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using TCM.Helper;
+using System.IO;
 
 namespace TCM.Model
 {
@@ -18,6 +19,7 @@ namespace TCM.Model
         private string _Publisher;
         private string _Description;
         private string _Version;
+        private object _Tag;
         private List<Function> _Functions = new List<Function>();
         #endregion
 
@@ -45,7 +47,8 @@ namespace TCM.Model
         {
             XmlReaderSettings xrs = new XmlReaderSettings();
             xrs.ValidationType = ValidationType.Schema;
-            xrs.Schemas.Add(null, IOHelper.AppDir + "library.xsd");
+            xrs.Schemas.Add(null, 
+                Path.Combine(IOHelper.AppDir, "library.xsd"));
             XmlReader xr = null;
             XDocument xml = null;
             try
@@ -74,18 +77,19 @@ namespace TCM.Model
         /// <summary>
         /// 由XML解析组件对象
         /// </summary>
-        public static Library Parse(XElement xe)
+        public static Library Parse(XElement xml)
         {
             Library lib = new Library();
-            lib.Id = xe.Element("id").Value;
-            lib.Runtime = xe.Element("runtime").Value;
-            lib.Version = xe.Element("version").Value;
-            lib.Name = xe.Element("name").Value;
-            lib.Publisher = xe.Element("publisher").Value;
-            lib.Description = xe.Element("description").Value;
-            foreach (XElement xefunc in xe.Element("functions").Elements("function"))
+            lib.Id = xml.Element("id").Value;
+            lib.Runtime = xml.Element("runtime").Value;
+            lib.Version = xml.Element("version").Value;
+            lib.Name = xml.Element("name").Value;
+            lib.Publisher = xml.Element("publisher").Value;
+            lib.Description = xml.Element("description").Value;
+            var xml_funcs = xml.Element("functions").Elements("function");
+            foreach (XElement xml_func in xml_funcs)
             {
-                Function func = Function.Parse(xefunc);
+                Function func = Function.Parse(xml_func);
                 func.Library = lib;
                 lib._Functions.Add(func);
             }
@@ -97,20 +101,20 @@ namespace TCM.Model
         /// </summary>
         public XElement ToXML()
         {
-            XElement xe = new XElement("library",
+            XElement xml = new XElement("library",
                 new XElement("runtime", Runtime),
                 new XElement("id", Id),
-                new XElement("name", new XCData(Name)),
-                new XElement("description", new XCData(Description)),
-                new XElement("version", new XCData(Version)),
-                new XElement("publisher", new XCData(Publisher)),
+                new XElement("name", Name),
+                new XElement("description", Description),
+                new XElement("version", Version),
+                new XElement("publisher", Publisher),
                 new XElement("functions"));
             foreach (Function func in _Functions)
             {
-                XElement xefunc = func.ToXML();
-                xe.Element("functions").Add(xefunc);
+                XElement xml_func = func.ToXML();
+                xml.Element("functions").Add(xml_func);
             }
-            return xe;
+            return xml;
         }
         #endregion
 
@@ -236,6 +240,15 @@ namespace TCM.Model
                     _Version = null;
                 else _Version = value;
             }
+        }
+
+        /// <summary>
+        /// 获取或设置附加数据
+        /// </summary>
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
         }
 
         /// <summary>

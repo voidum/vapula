@@ -10,15 +10,18 @@ namespace TCM.Toolkit
         public Function Function
         {
             get { return _Function; }
+            set
+            {
+                _Function = value;
+                TbxId.Text = value.Id.ToString();
+                TbxName.Text = value.Name;
+                TbxDescription.Text = value.Description;
+            }
         }
 
-        public FrmDetailFunc(Function func)
+        public FrmDetailFunc()
         {
             InitializeComponent();
-            _Function = func;
-            TbxId.Text = func.Id.ToString();
-            TbxName.Text = func.Name;
-            TbxDescription.Text = func.Description;
         }
 
         private void BtCancel_Click(object sender, EventArgs e)

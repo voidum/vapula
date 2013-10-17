@@ -1,5 +1,8 @@
 ﻿using System;
 using TCM.Model.Designer;
+using TCM.Helper;
+using System.IO;
+using System.Windows.Forms;
 
 namespace TCM.Model.Designer
 {
@@ -13,6 +16,50 @@ namespace TCM.Model.Designer
                 if (_Instance == null)
                     _Instance = new AppData();
                 return _Instance; 
+            }
+        }
+
+        public string PathLibrary
+        {
+            get
+            {
+                string path = Path.Combine(
+                    Application.StartupPath,
+                    Config["PathLibrary"]);
+                return path;
+            }
+        }
+
+        public string PathResource
+        {
+            get
+            {
+                string path = Path.Combine(
+                    Application.StartupPath,
+                    Config["PathResource"]);
+                return path;
+            }
+        }
+
+        private AppConfig _Config = null;
+        public AppConfig Config
+        {
+            get 
+            {
+                if (_Config == null)
+                    _Config = new AppConfig();
+                return _Config;
+            }
+        }
+
+        private LibraryManager _LibManager = null;
+        public LibraryManager LibManager
+        {
+            get 
+            {
+                if (_LibManager == null)
+                    _LibManager = new LibraryManager();
+                return _LibManager;
             }
         }
 

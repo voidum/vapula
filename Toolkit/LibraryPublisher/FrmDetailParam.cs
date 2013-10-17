@@ -21,17 +21,21 @@ namespace TCM.Toolkit
         public Parameter Parameter
         {
             get { return _Parameter; }
+            set
+            {
+                _Parameter = value;
+                TbxId.Text = value.Id.ToString();
+                TbxName.Text = value.Name;
+                TbxCatalog.Text = value.Catalog;
+                TbxDescription.Text = value.Description;
+                ChbxIn.Checked = value.IsIn;
+                CobxType.SelectedIndex = GetIndexByType(_Parameter.Type);
+            }
         }
 
-        public FrmDetailParam(Parameter param)
+        public FrmDetailParam()
         {
             InitializeComponent();
-            _Parameter = param;
-            TbxId.Text = param.Id.ToString();
-            TbxName.Text = param.Name;
-            TbxDescription.Text = param.Description;
-            ChbxIn.Checked = param.IsIn;
-            CobxType.SelectedIndex = GetIndexByType(_Parameter.Type);
         }
 
         private void BtCancel_Click(object sender, EventArgs e)
@@ -42,6 +46,7 @@ namespace TCM.Toolkit
         private void BtOK_Click(object sender, EventArgs e)
         {
             _Parameter.Name = TbxName.Text;
+            _Parameter.Catalog = TbxCatalog.Text;
             _Parameter.Description = TbxDescription.Text;
             _Parameter.IsIn = ChbxIn.Checked;
             _Parameter.Type = (DataType)_TypeValues[CobxType.SelectedIndex];
