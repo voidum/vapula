@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using xDockPanel;
@@ -85,20 +86,29 @@ namespace TCM.Model.Designer
                     string lvi_text =
                         (func.Name == "" ? "（" + func.Id + "）" : func.Name);
                     var tags = (Dictionary<string, object>)func.Tag;
-                    string icon_key = lib.Id + ":" + func.Id.ToString();
-                    ListViewItem lvi = null;
+                    string icon_key = "!basic_process";
                     if (tags.ContainsKey("LargeIcon"))
                     {
                         _LargeIcons.Images.Add(icon_key, (Image)tags["LargeIcon"]);
                         _SmallIcons.Images.Add(icon_key, (Image)tags["SmallIcon"]);
+                        icon_key = lib.Id + ":" + func.Id.ToString();
                     }
-                    else
-                    {
-                        lvi = new ListViewItem(lvi_text, "!basic_process", lvg);
-                    }
+                    ListViewItem lvi = new ListViewItem(lvi_text, icon_key, lvg);
+                    lvi.Tag = func;
+
                     LsvTools.Items.Add(lvi);
                 }
             }
+        }
+
+        private string GetBasicToolId(ListViewItem lvi)
+        {
+            string key = lvi.ImageKey;
+            if (key.Contains("!basic_") &&
+                !key.Contains("!basic_process"))
+                return key.Substring("!basic_".Length);
+            else
+                return null;
         }
 
         public FrmToolbox()
@@ -110,7 +120,7 @@ namespace TCM.Model.Designer
             LsvTools.SmallImageList = _SmallIcons;
         }
 
-        private void FrmToolbox_Load(object sender, System.EventArgs e)
+        private void FrmToolbox_Load(object sender, EventArgs e)
         {
             FormLayout_LoadResource();
             LsvTools.View = View.LargeIcon;
@@ -119,14 +129,39 @@ namespace TCM.Model.Designer
             FormLayout_SwitchCollapse();
         }
 
-        private void MnuCollapseGroup_Click(object sender, System.EventArgs e)
+        private void MnuCollapseGroup_Click(object sender, EventArgs e)
         {
             FormLayout_SwitchCollapse(true);
         }
 
-        private void MnuExpandGroup_Click(object sender, System.EventArgs e)
+        private void MnuExpandGroup_Click(object sender, EventArgs e)
         {
             FormLayout_SwitchCollapse(false);
+        }
+
+        private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            ListViewItem lvi = e.Item as ListViewItem;
+            string key = GetBasicToolId(lvi);
+            if (key == null)
+            {
+                NodeProcess node_process = new NodeProcess();
+                node_process.Function = lvi.Tag as Function;
+                LsvTools.DoDragDrop(node_process, DragDropEffects.Copy);
+                return;
+            }
+            else if(key == "decision")
+            {
+                NodeDecision node_decision = new NodeDecision();
+                LsvTools.DoDragDrop(node_decision, DragDropEffects.Copy);
+                return;
+            }
+            else if(key == "variable")
+            {
+            }
+            else if(key == "batch")
+            {
+            }
         }
     }
 }

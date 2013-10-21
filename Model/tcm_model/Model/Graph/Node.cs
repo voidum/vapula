@@ -13,10 +13,8 @@ namespace TCM.Model
     /// <summary>
     /// 模型图节点，对应有向图的顶点
     /// </summary>
-    public class Node
+    public abstract class Node
     {
-        protected NodeType _Type 
-            = NodeType.Unknown;
         protected Stage _LastStage 
             = null;
         protected List<Link> _InLinks 
@@ -24,10 +22,7 @@ namespace TCM.Model
         protected List<Link> _OutLinks 
             = new List<Link>();
 
-        public NodeType Type
-        {
-            get { return _Type; }
-        }
+        public abstract NodeType Type { get; }
 
         public Stage LastStage
         {

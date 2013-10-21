@@ -1,8 +1,6 @@
-﻿using System;
-using TCM.Model.Designer;
-using TCM.Helper;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
+using TCM.Helper;
 
 namespace TCM.Model.Designer
 {

@@ -154,6 +154,8 @@
             // paneldock
             // 
             this.paneldock.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paneldock.DockLeftPortion = 0.2D;
+            this.paneldock.DockRightPortion = 0.24D;
             this.paneldock.Location = new System.Drawing.Point(0, 25);
             this.paneldock.Name = "paneldock";
             this.paneldock.Size = new System.Drawing.Size(584, 315);

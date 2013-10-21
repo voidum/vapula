@@ -45,6 +45,8 @@ namespace TCM.Model.Designer
         private bool _IsMultiSelect = false;
 
         private ContextMenu _Menu;
+
+        private Graph _Graph = new Graph();
         #endregion
 
         #region 属性
@@ -106,6 +108,15 @@ namespace TCM.Model.Designer
         public Brush BrushBack
         {
             get { return _Cache.GetBrush("1"); }
+        }
+
+        /// <summary>
+        /// 获取图数据
+        /// </summary>
+        [Browsable(false)]
+        public Graph Graph
+        {
+            get { return _Graph; }
         }
         #endregion
 

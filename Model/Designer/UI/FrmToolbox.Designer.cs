@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.LsvTools = new TCM.Model.Designer.GroupListView();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.menubar = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuLibMng = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuLibMng = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.menubar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,11 +48,7 @@
             this.LsvTools.Size = new System.Drawing.Size(254, 412);
             this.LsvTools.TabIndex = 1;
             this.LsvTools.UseCompatibleStateImageBehavior = false;
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(23, 23);
+            this.LsvTools.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.LsvTools_ItemDrag);
             // 
             // menubar
             // 
@@ -64,32 +60,37 @@
             this.menubar.Name = "menubar";
             this.menubar.Size = new System.Drawing.Size(146, 76);
             // 
-            // MnuCollapseGroup
-            // 
-            this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
-            this.MnuCollapseGroup.Name = "MnuCollapseGroup";
-            this.MnuCollapseGroup.Size = new System.Drawing.Size(152, 22);
-            this.MnuCollapseGroup.Text = "折叠所有组";
-            this.MnuCollapseGroup.Click += new System.EventHandler(this.MnuCollapseGroup_Click);
-            // 
-            // MnuLibMng
-            // 
-            this.MnuLibMng.Name = "MnuLibMng";
-            this.MnuLibMng.Size = new System.Drawing.Size(152, 22);
-            this.MnuLibMng.Text = "组件管理器...";
-            // 
-            // MnuSplit1
-            // 
-            this.MnuSplit1.Name = "MnuSplit1";
-            this.MnuSplit1.Size = new System.Drawing.Size(149, 6);
-            // 
             // MnuExpandGroup
             // 
             this.MnuExpandGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_plus_s;
             this.MnuExpandGroup.Name = "MnuExpandGroup";
-            this.MnuExpandGroup.Size = new System.Drawing.Size(152, 22);
+            this.MnuExpandGroup.Size = new System.Drawing.Size(145, 22);
             this.MnuExpandGroup.Text = "展开所有组";
             this.MnuExpandGroup.Click += new System.EventHandler(this.MnuExpandGroup_Click);
+            // 
+            // MnuCollapseGroup
+            // 
+            this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
+            this.MnuCollapseGroup.Name = "MnuCollapseGroup";
+            this.MnuCollapseGroup.Size = new System.Drawing.Size(145, 22);
+            this.MnuCollapseGroup.Text = "折叠所有组";
+            this.MnuCollapseGroup.Click += new System.EventHandler(this.MnuCollapseGroup_Click);
+            // 
+            // MnuSplit1
+            // 
+            this.MnuSplit1.Name = "MnuSplit1";
+            this.MnuSplit1.Size = new System.Drawing.Size(142, 6);
+            // 
+            // MnuLibMng
+            // 
+            this.MnuLibMng.Name = "MnuLibMng";
+            this.MnuLibMng.Size = new System.Drawing.Size(145, 22);
+            this.MnuLibMng.Text = "组件管理器...";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(23, 23);
             // 
             // FrmToolbox
             // 
