@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Collections.Generic;
 
 namespace TCM.Model.Designer
 {
@@ -19,8 +18,7 @@ namespace TCM.Model.Designer
                 entity.IsSelected = true;
                 _SelectedEntities.Add(entity);
             }
-            if (SelectedItemsChanged != null)
-                SelectedItemsChanged();
+            OnSelectedChanged();
         }
 
         /// <summary>
@@ -40,19 +38,21 @@ namespace TCM.Model.Designer
         {
             foreach (var ent in entities)
             {
-                if (typeof(Shape).IsInstanceOfType(ent))
+                if (ent is Shape)
                 {
                     Shape shp = ent as Shape;
                     _Shapes.Remove(shp);
-                    shp.Dispose();
                     Invalidate();
+                    SyncTarget.Sync("remove", shp);
+                    shp.Dispose();
                 }
-                else if (typeof(Connection).IsInstanceOfType(ent))
+                else if (ent is Connection)
                 {
                     Connection con = ent as Connection;
                     _Connections.Remove(con);
-                    con.Dispose();
                     Invalidate();
+                    SyncTarget.Sync("remove", con);
+                    con.Dispose();
                 }
             }
         }
@@ -68,6 +68,7 @@ namespace TCM.Model.Designer
             foreach (Shape shp in _Shapes)
                 shp.Dispose();
             _Shapes.Clear();
+            SyncTarget.Sync("remove-all", null);
             Invalidate();
         }
 
@@ -83,29 +84,32 @@ namespace TCM.Model.Designer
             _SelectedEntities.Add(con.To);
             _IsDraging = true;
             Invalidate();
+            SyncTarget.Sync("add-link", con);
             return con;
         }
 
         /// <summary>
         /// 添加执行形状
         /// </summary>
-        public void AddShapeProcess(Point p)
+        public Shape AddShapeProcess(Point p)
         {
             ShapeProcess shp = new ShapeProcess(p);
             shp.Canvas = this;
             _Shapes.Add(shp);
             Invalidate();
+            return shp;
         }
 
         /// <summary>
         /// 添加决策形状
         /// </summary>
-        public void AddShapeDecision(Point p)
+        public Shape AddShapeDecision(Point p)
         {
             ShapeDecision shp = new ShapeDecision(p);
             shp.Canvas = this;
             _Shapes.Add(shp);
             Invalidate();
+            return shp;
         }
 
         #region 集合

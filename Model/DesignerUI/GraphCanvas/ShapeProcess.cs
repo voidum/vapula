@@ -4,6 +4,9 @@ using TCM.Helper;
 
 namespace TCM.Model.Designer
 {
+    /// <summary>
+    /// 形状：处理
+    /// </summary>
     class ShapeProcess : Shape
     {
         #region 字段

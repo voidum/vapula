@@ -7,13 +7,15 @@ namespace TCM.Model
     {
         Unknown = -1,
         Process = 0,
-        Decision = 1
+        Decision = 1,
+        Variable = 2,
+        Batch = 3
     }
 
     /// <summary>
     /// 模型图节点，对应有向图的顶点
     /// </summary>
-    public abstract class Node
+    public abstract class Node : ISyncable
     {
         protected Stage _LastStage 
             = null;
@@ -21,6 +23,7 @@ namespace TCM.Model
             = new List<Link>();
         protected List<Link> _OutLinks 
             = new List<Link>();
+        protected ISyncable _SyncTarget;
 
         public abstract NodeType Type { get; }
 
@@ -42,6 +45,12 @@ namespace TCM.Model
         public virtual List<ParamProxy> Parameters
         {
             get { return new List<ParamProxy>(); }
+        }
+
+        public ISyncable SyncTarget
+        {
+            get { return _SyncTarget; }
+            set { _SyncTarget = value; }
         }
 
         /// <summary>
@@ -72,6 +81,10 @@ namespace TCM.Model
         public bool Execute()
         {
             throw new NotImplementedException();
+        }
+
+        public void Sync(string cmd, object attach)
+        {
         }
     }
 }

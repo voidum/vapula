@@ -30,41 +30,42 @@
         {
             this.components = new System.ComponentModel.Container();
             this.LsvTools = new TCM.Model.Designer.GroupListView();
-            this.menubar = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxmenubar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuLibMng = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.menubar.SuspendLayout();
+            this.ctxmenubar.SuspendLayout();
             this.SuspendLayout();
             // 
             // LsvTools
             // 
-            this.LsvTools.ContextMenuStrip = this.menubar;
+            this.LsvTools.ContextMenuStrip = this.ctxmenubar;
             this.LsvTools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LsvTools.Location = new System.Drawing.Point(0, 0);
+            this.LsvTools.MultiSelect = false;
             this.LsvTools.Name = "LsvTools";
             this.LsvTools.Size = new System.Drawing.Size(254, 412);
             this.LsvTools.TabIndex = 1;
             this.LsvTools.UseCompatibleStateImageBehavior = false;
             this.LsvTools.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.LsvTools_ItemDrag);
             // 
-            // menubar
+            // ctxmenubar
             // 
-            this.menubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxmenubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MnuExpandGroup,
             this.MnuCollapseGroup,
             this.MnuSplit1,
             this.MnuLibMng});
-            this.menubar.Name = "menubar";
-            this.menubar.Size = new System.Drawing.Size(146, 76);
+            this.ctxmenubar.Name = "menubar";
+            this.ctxmenubar.Size = new System.Drawing.Size(153, 98);
             // 
             // MnuExpandGroup
             // 
             this.MnuExpandGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_plus_s;
             this.MnuExpandGroup.Name = "MnuExpandGroup";
-            this.MnuExpandGroup.Size = new System.Drawing.Size(145, 22);
+            this.MnuExpandGroup.Size = new System.Drawing.Size(152, 22);
             this.MnuExpandGroup.Text = "展开所有组";
             this.MnuExpandGroup.Click += new System.EventHandler(this.MnuExpandGroup_Click);
             // 
@@ -72,19 +73,19 @@
             // 
             this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
             this.MnuCollapseGroup.Name = "MnuCollapseGroup";
-            this.MnuCollapseGroup.Size = new System.Drawing.Size(145, 22);
+            this.MnuCollapseGroup.Size = new System.Drawing.Size(152, 22);
             this.MnuCollapseGroup.Text = "折叠所有组";
             this.MnuCollapseGroup.Click += new System.EventHandler(this.MnuCollapseGroup_Click);
             // 
             // MnuSplit1
             // 
             this.MnuSplit1.Name = "MnuSplit1";
-            this.MnuSplit1.Size = new System.Drawing.Size(142, 6);
+            this.MnuSplit1.Size = new System.Drawing.Size(149, 6);
             // 
             // MnuLibMng
             // 
             this.MnuLibMng.Name = "MnuLibMng";
-            this.MnuLibMng.Size = new System.Drawing.Size(145, 22);
+            this.MnuLibMng.Size = new System.Drawing.Size(152, 22);
             this.MnuLibMng.Text = "组件管理器...";
             // 
             // toolStripLabel1
@@ -106,7 +107,7 @@
             this.Name = "FrmToolbox";
             this.Text = "组件箱";
             this.Load += new System.EventHandler(this.FrmToolbox_Load);
-            this.menubar.ResumeLayout(false);
+            this.ctxmenubar.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -115,7 +116,7 @@
 
         private GroupListView LsvTools;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ContextMenuStrip menubar;
+        private System.Windows.Forms.ContextMenuStrip ctxmenubar;
         private System.Windows.Forms.ToolStripMenuItem MnuCollapseGroup;
         private System.Windows.Forms.ToolStripSeparator MnuSplit1;
         private System.Windows.Forms.ToolStripMenuItem MnuLibMng;

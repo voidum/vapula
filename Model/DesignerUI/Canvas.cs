@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System;
 
 namespace TCM.Model.Designer
 {
@@ -10,7 +9,7 @@ namespace TCM.Model.Designer
     /// 画布基类
     /// </summary>
     [ToolboxItem(false)]
-    public class Canvas : Panel
+    public class Canvas : Panel, ISyncable
     {
         #region 字段
         /// <summary>
@@ -37,6 +36,24 @@ namespace TCM.Model.Designer
         /// GDI+对象缓存
         /// </summary>
         protected GDIPlusCache _Cache = new GDIPlusCache();
+
+        /// <summary>
+        /// ISyncable要求的同步目标
+        /// </summary>
+        protected ISyncable _SyncTarget = null;
+        #endregion
+
+        #region 事件
+        /// <summary>
+        /// 选择对象变更
+        /// </summary>
+        public event Action SelectedChanged;
+
+        protected virtual void OnSelectedChanged()
+        {
+            if(SelectedChanged != null)
+                BeginInvoke(SelectedChanged);
+        }
         #endregion
 
         #region 属性
@@ -63,6 +80,15 @@ namespace TCM.Model.Designer
                 int padding = _Padding * 2;
                 Size = new Size(_WorkSize.Width + padding, _WorkSize.Height + padding);
             }
+        }
+
+        /// <summary>
+        /// 同步目标
+        /// </summary>
+        public ISyncable SyncTarget
+        {
+            get { return _SyncTarget; }
+            set { _SyncTarget = value; }
         }
         #endregion
 
@@ -105,6 +131,13 @@ namespace TCM.Model.Designer
         public virtual int GetNewId(Entity entity)
         {
             return -1;
+        }
+
+        /// <summary>
+        /// 根据协定将提供的数据同步到画布
+        /// </summary>
+        public virtual void Sync(string cmd, object attach) 
+        {
         }
 
         /// <summary>

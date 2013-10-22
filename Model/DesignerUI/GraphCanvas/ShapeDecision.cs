@@ -4,6 +4,9 @@ using TCM.Helper;
 
 namespace TCM.Model.Designer
 {
+    /// <summary>
+    /// 形状：决策
+    /// </summary>
     class ShapeDecision : Shape
     {
         #region 构造

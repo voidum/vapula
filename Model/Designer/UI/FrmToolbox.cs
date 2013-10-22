@@ -60,9 +60,16 @@ namespace TCM.Model.Designer
             LsvTools.SetGroupState(lvg,
                 ListViewGroupState.Normal |
                 ListViewGroupState.Collapsible);
+
             ListViewItem lvi1 = new ListViewItem("决策", "!basic_decision", lvg);
+            lvi1.Tag = "decision";
+            
             ListViewItem lvi2 = new ListViewItem("变量表", "!basic_variable", lvg);
+            lvi2.Tag = "variable";
+            
             ListViewItem lvi3 = new ListViewItem("批处理", "!basic_batch", lvg);
+            lvi3.Tag = "batch";
+            
             LsvTools.Items.Add(lvi1);
             LsvTools.Items.Add(lvi2);
             LsvTools.Items.Add(lvi3);
@@ -89,9 +96,9 @@ namespace TCM.Model.Designer
                     string icon_key = "!basic_process";
                     if (tags.ContainsKey("LargeIcon"))
                     {
+                        icon_key = lib.Id + ":" + func.Id.ToString();
                         _LargeIcons.Images.Add(icon_key, (Image)tags["LargeIcon"]);
                         _SmallIcons.Images.Add(icon_key, (Image)tags["SmallIcon"]);
-                        icon_key = lib.Id + ":" + func.Id.ToString();
                     }
                     ListViewItem lvi = new ListViewItem(lvi_text, icon_key, lvg);
                     lvi.Tag = func;
@@ -101,14 +108,9 @@ namespace TCM.Model.Designer
             }
         }
 
-        private string GetBasicToolId(ListViewItem lvi)
+        public bool IsBasicTool(ListViewItem lvi)
         {
-            string key = lvi.ImageKey;
-            if (key.Contains("!basic_") &&
-                !key.Contains("!basic_process"))
-                return key.Substring("!basic_".Length);
-            else
-                return null;
+            return !(lvi.Tag is Function);
         }
 
         public FrmToolbox()
@@ -142,26 +144,8 @@ namespace TCM.Model.Designer
         private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
         {
             ListViewItem lvi = e.Item as ListViewItem;
-            string key = GetBasicToolId(lvi);
-            if (key == null)
-            {
-                NodeProcess node_process = new NodeProcess();
-                node_process.Function = lvi.Tag as Function;
-                LsvTools.DoDragDrop(node_process, DragDropEffects.Copy);
-                return;
-            }
-            else if(key == "decision")
-            {
-                NodeDecision node_decision = new NodeDecision();
-                LsvTools.DoDragDrop(node_decision, DragDropEffects.Copy);
-                return;
-            }
-            else if(key == "variable")
-            {
-            }
-            else if(key == "batch")
-            {
-            }
+            if (lvi != null)
+                LsvTools.DoDragDrop(lvi, DragDropEffects.Copy);
         }
     }
 }

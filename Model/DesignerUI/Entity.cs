@@ -6,7 +6,7 @@ namespace TCM.Model.Designer
     /// <summary>
     /// 图元
     /// </summary>
-    public abstract class Entity : IDisposable
+    public abstract class Entity : IDisposable, ISyncable
     {
         #region 字段
         protected int _Id = -1;
@@ -15,7 +15,7 @@ namespace TCM.Model.Designer
 
         protected bool _IsHovered = false;
         protected bool _IsSelected = false;
-        protected object _Tag = null;
+        protected ISyncable _SyncTarget = null;
 
         protected GDIPlusCache _Cache = new GDIPlusCache();
         protected Canvas _Canvas;
@@ -33,10 +33,10 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 获取或设置图元的附加对象
         /// </summary>
-        public object Tag
+        public ISyncable SyncTarget
         {
-            get { return _Tag; }
-            set { _Tag = value; }
+            get { return _SyncTarget; }
+            set { _SyncTarget = value; }
         }
 
         /// <summary>
@@ -168,6 +168,10 @@ namespace TCM.Model.Designer
         public virtual void Dispose()
         {
             _Cache.Clear();
+        }
+
+        public virtual void Sync(string cmd, object attach)
+        {
         }
         #endregion
     }

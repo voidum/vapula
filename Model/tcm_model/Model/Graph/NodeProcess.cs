@@ -2,6 +2,9 @@
 
 namespace TCM.Model
 {
+    /// <summary>
+    /// 节点：处理
+    /// </summary>
     public class NodeProcess : Node
     {
         private Function _Function 

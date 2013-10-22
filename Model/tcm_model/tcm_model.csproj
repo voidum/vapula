@@ -42,11 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Graph\Graph.cs" />
+    <Compile Include="Model\Graph\ISyncable.cs" />
     <Compile Include="Model\Graph\Link.cs" />
     <Compile Include="Model\Graph\Node.cs" />
     <Compile Include="Model\Graph\NodeDecision.cs" />
     <Compile Include="Model\Graph\NodeProcess.cs" />
     <Compile Include="Model\Graph\Stage.cs" />
+    <Compile Include="Model\Graph\NodeVariable.cs" />
     <Compile Include="Model\Library\Function.cs" />
     <Compile Include="Model\Library\Library.cs" />
     <Compile Include="Model\Library\Parameter.cs" />
@@ -64,6 +66,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Graph\NodeBatch.cs" />
     <None Include="Model\XSD\library.xsd">
       <SubType>Designer</SubType>
     </None>

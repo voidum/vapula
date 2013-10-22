@@ -163,6 +163,8 @@ namespace TCM.Model.Designer
 
         public override void MoveAs(Point v)
         {
+            if (_From.AttachedTo != null || _To.AttachedTo != null)
+                return;
             Rectangle rect1 = new Rectangle(Left - 2, Top - 2, Width + 5, Height + 5);
             _From.MoveAs(v);
             _To.MoveAs(v);

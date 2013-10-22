@@ -8,5 +8,10 @@ namespace TCM.Model.Designer
         {
             InitializeComponent();
         }
+
+        public void SelectObject(object obj)
+        {
+            property.SelectedObject = obj;
+        }
     }
 }

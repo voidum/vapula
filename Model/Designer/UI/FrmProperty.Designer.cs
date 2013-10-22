@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.property = new System.Windows.Forms.PropertyGrid();
             this.SuspendLayout();
             // 
-            // propertyGrid1
+            // property
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(254, 412);
-            this.propertyGrid1.TabIndex = 0;
+            this.property.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.property.Location = new System.Drawing.Point(0, 0);
+            this.property.Name = "property";
+            this.property.Size = new System.Drawing.Size(254, 412);
+            this.property.TabIndex = 0;
             // 
             // FrmProperty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(254, 412);
-            this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.property);
             this.DockAreas = ((xDockPanel.DockAreas)(((((xDockPanel.DockAreas.Float | xDockPanel.DockAreas.Left) 
             | xDockPanel.DockAreas.Right) 
             | xDockPanel.DockAreas.Top) 
@@ -58,6 +58,6 @@
 
         #endregion
 
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.PropertyGrid property;
     }
 }

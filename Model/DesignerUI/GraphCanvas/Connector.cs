@@ -113,8 +113,9 @@ namespace TCM.Model.Designer
             if (target.Dragable) return; //要求目标不可移动
             target._Attached.Add(this);
             _AttachedTo = target;
+            if(_Container.SyncTarget != null)
+                _Container.SyncTarget.Sync("attach", target.Container);
             MoveTo(new Point(target.Location.X, target.Location.Y)); //吸附
-            _Canvas.Invalidate();
         }
 
         /// <summary>
@@ -126,6 +127,7 @@ namespace TCM.Model.Designer
             {
                 _AttachedTo._Attached.Remove(this);
                 _AttachedTo = null;
+                _Container.SyncTarget.Sync("detach", _AttachedTo.Container);
             }
         }
         #endregion

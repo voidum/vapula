@@ -13,13 +13,6 @@ namespace TCM.Model.Designer
     [ToolboxItem(true)]
     public partial class CanvasGraph : Canvas
     {
-        #region 事件定义
-        /// <summary>
-        /// 通知容器当前画布的选中对象已经变更
-        /// </summary>
-        public event Action SelectedItemsChanged;
-        #endregion
-
         #region 字段
         private bool _IfShowGrid = true;
         private bool _IfShowStatus = true;
@@ -50,13 +43,9 @@ namespace TCM.Model.Designer
         #endregion
 
         #region 属性
-        /// <summary>
-        /// 外框线
-        /// </summary>
-        [Browsable(false)]
-        public Rectangle Outline
+        public List<Entity> SelectedEntities
         {
-            get { return new Rectangle(0, 0, Width - 1, Height - 1); }
+            get { return _SelectedEntities; }
         }
 
         /// <summary>
@@ -75,6 +64,15 @@ namespace TCM.Model.Designer
         {
             get { return _IfShowStatus; }
             set { _IfShowStatus = value; Invalidate(); }
+        }
+
+        /// <summary>
+        /// 外框线
+        /// </summary>
+        [Browsable(false)]
+        public Rectangle Outline
+        {
+            get { return new Rectangle(0, 0, Width - 1, Height - 1); }
         }
 
         /// <summary>
@@ -108,15 +106,6 @@ namespace TCM.Model.Designer
         public Brush BrushBack
         {
             get { return _Cache.GetBrush("1"); }
-        }
-
-        /// <summary>
-        /// 获取图数据
-        /// </summary>
-        [Browsable(false)]
-        public Graph Graph
-        {
-            get { return _Graph; }
         }
         #endregion
 

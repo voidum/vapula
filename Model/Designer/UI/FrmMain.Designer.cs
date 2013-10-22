@@ -246,7 +246,6 @@
         private System.Windows.Forms.ToolStripMenuItem MnuFile_Exit;
         private System.Windows.Forms.ToolStripMenuItem MnuFile_SaveAs;
         private System.Windows.Forms.ToolStripMenuItem MnuFile_Export;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
