@@ -42,19 +42,18 @@ namespace TCM.Model.Designer
                 {
                     Shape shp = ent as Shape;
                     _Shapes.Remove(shp);
-                    Invalidate();
-                    SyncTarget.Sync("remove", shp);
+                    SyncTarget.Sync("remove-node", shp);
                     shp.Dispose();
                 }
                 else if (ent is Connection)
                 {
                     Connection con = ent as Connection;
                     _Connections.Remove(con);
-                    Invalidate();
-                    SyncTarget.Sync("remove", con);
+                    SyncTarget.Sync("remove-link", con);
                     con.Dispose();
                 }
             }
+            Invalidate();
         }
 
         /// <summary>
@@ -83,8 +82,8 @@ namespace TCM.Model.Designer
             ClearSelection();
             _SelectedEntities.Add(con.To);
             _IsDraging = true;
-            Invalidate();
             SyncTarget.Sync("add-link", con);
+            Invalidate();
             return con;
         }
 

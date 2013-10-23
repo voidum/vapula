@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace TCM.Model
 {
@@ -13,7 +14,12 @@ namespace TCM.Model
         public Function Function
         {
             get { return _Function; }
-            set { _Function = value; }
+            set 
+            {
+                foreach (var param in value.Parameters)
+                    _Params.Add(param.GetParamProxy());
+                _Function = value; 
+            }
         }
 
         public override NodeType Type

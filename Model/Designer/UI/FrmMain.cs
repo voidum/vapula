@@ -6,6 +6,8 @@ namespace TCM.Model.Designer
 {
     public partial class FrmMain : Form
     {
+        private FrmDocument doc;
+
         private AppData App
         {
             get { return AppData.Instance; }
@@ -19,8 +21,9 @@ namespace TCM.Model.Designer
         private void FrmMain_Load(object sender, EventArgs e)
         {
             App.FormToolbox.Show(paneldock, DockState.Left);
-            App.FormProperty.Show(paneldock, DockState.Right);
-            FrmDocument doc = new FrmDocument();
+            App.FormDebug.Show(paneldock, DockState.Right);
+            App.FormLog.Show(paneldock, DockState.AutoHideBottom);
+            doc = new FrmDocument();
             doc.Show(paneldock, DockState.Document);
         }
 
@@ -40,6 +43,11 @@ namespace TCM.Model.Designer
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void MnuModel_Start_Click(object sender, EventArgs e)
+        {
+            doc.Graph.Start();
         }
     }
 }

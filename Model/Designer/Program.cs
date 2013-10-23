@@ -31,6 +31,7 @@ namespace TCM.Model.Designer
                 MessageBox.Show("加载组件库清单失败。");
                 return;
             }
+            TCM.Base.Logger = app.FormLog;
             app.FormMain.Show();
             
             Application.Run();

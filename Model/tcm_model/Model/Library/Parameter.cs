@@ -148,5 +148,17 @@ namespace TCM.Model
             set { _Tag = value; }
         }
         #endregion
+
+        #region 方法
+        /// <summary>
+        /// 获取参数
+        /// </summary>
+        public ParamProxy GetParamProxy()
+        {
+            ParamProxy proxy = new ParamProxy();
+            proxy.Parameter = this;
+            return proxy;
+        }
+        #endregion
     }
 }

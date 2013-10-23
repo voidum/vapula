@@ -61,8 +61,10 @@ namespace TCM.Model.Designer
         public FrmDocument()
         {
             InitializeComponent();
+            ContextMenuStrip = ctxmenubar;
             _Canvas = new CanvasGraph(400, 300);
             _Canvas.AllowDrop = true;
+            _Canvas.ContextMenuStrip = ctxcanvasmenu;
             _Canvas.DragEnter += new DragEventHandler(Canvas_DragEnter);
             _Canvas.DragDrop += new DragEventHandler(Canvas_DragDrop);
             _Canvas.SelectedChanged += new Action(Canvas_SelectedItemsChanged);
@@ -113,30 +115,31 @@ namespace TCM.Model.Designer
             if (_Canvas.SelectedEntities.Count == 1)
             {
                 Entity entity = _Canvas.SelectedEntities[0];
-                AppData.Instance.FormProperty.SelectObject(
+                AppData.Instance.FormDebug.SelectObject(
                     entity == null ? entity : entity.SyncTarget);
             }
             else
-                AppData.Instance.FormProperty.SelectObject(null);
+                AppData.Instance.FormDebug.SelectObject(null);
         }
 
         private void MnuDebugCanvas_Click(object sender, EventArgs e)
         {
-            AppData.Instance.FormProperty.SelectObject(_Canvas);
+            AppData.Instance.FormDebug.SelectObject(_Canvas);
         }
 
         private void MnuDebugGraph_Click(object sender, EventArgs e)
         {
-            AppData.Instance.FormProperty.SelectObject(_Graph);
+            AppData.Instance.FormDebug.SelectObject(_Graph);
         }
 
-        private void FrmDocument_MouseClick(object sender, MouseEventArgs e)
+        private void MnuDeleteSelected_Click(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                Point p = PointToScreen(e.Location);
-                ctxmenubar.Show(p);
-            }
+            _Canvas.RemoveEntities(_Canvas.SelectedEntities.ToArray());
+        }
+
+        private void MnuDeleteAll_Click(object sender, EventArgs e)
+        {
+            _Canvas.RemoveAllEntities();
         }
     }
 }

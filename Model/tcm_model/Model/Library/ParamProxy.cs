@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System;
+﻿using System;
+using System.ComponentModel;
 
 namespace TCM.Model
 {
@@ -24,58 +24,7 @@ namespace TCM.Model
 
         public bool HasValue 
         {
-            get { return _Value == null; }
-        }
-    }
-
-    public class ParamDescriptor : PropertyDescriptor
-    {
-        private ParamProxy _ParamProxy 
-            = null;
-  
-        public ParamDescriptor(ParamProxy param, Attribute[] attrs)  
-            : base(param.Parameter.Name, attrs)  
-        {  
-            _ParamProxy = param;  
-        }
-
-        public override bool CanResetValue(object component)
-        {
-            return true;
-        }
-
-        public override Type ComponentType
-        {
-            get { return _ParamProxy.GetType(); }
-        }
-
-        public override object GetValue(object component)
-        {
-            return _ParamProxy.Value;
-        }
-
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public override Type PropertyType
-        {
-            get { return Base.GetNullableCLRType(_ParamProxy.Parameter.Type); }
-        }
-
-        public override void ResetValue(object component)
-        {
-        }
-
-        public override void SetValue(object component, object value)
-        {
-            _ParamProxy.Value = value;
-        }
-
-        public override bool ShouldSerializeValue(object component)
-        {
-            return false;
+            get { return _Value != null; }
         }
     }
 }

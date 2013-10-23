@@ -85,6 +85,7 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 同步目标
         /// </summary>
+        [Browsable(false)]
         public ISyncable SyncTarget
         {
             get { return _SyncTarget; }

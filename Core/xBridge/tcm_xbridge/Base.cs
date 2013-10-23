@@ -125,12 +125,18 @@ namespace TCM
         {
             get
             {
-                if (_Logger != null)
-                    return _Logger;
                 lock (_LockLogger)
                 {
-                    _Logger = new ConsoleLogger();
+                    if (_Logger == null)
+                        _Logger = new ConsoleLogger();
                     return _Logger;
+                }
+            }
+            set
+            {
+                lock (_LockLogger)
+                {
+                    _Logger = value;
                 }
             }
         }

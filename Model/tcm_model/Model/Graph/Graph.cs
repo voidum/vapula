@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using TCM.Helper;
 
 namespace TCM.Model
 {
@@ -34,10 +35,12 @@ namespace TCM.Model
                 Stage stage = new Stage();
                 foreach (Node node in _Nodes)
                 {
-                    if (node.Executable)
+                    if (node.IsReady)
                         stage.Add(node);
                 }
-                return stage;
+                if (stage.Nodes.Count > 0)
+                    return stage;
+                return null;
             }
         }
 
@@ -58,6 +61,10 @@ namespace TCM.Model
             Stage stage = FirstStage;
             while (stage != null)
             {
+                Base.Logger.WriteLog(LogType.Event,
+                    string.Format("阶段{0}包含{1}个节点。",
+                        _Stages.Count,
+                        stage.Nodes.Count));
                 stage.Run();
                 _Stages.Add(stage);
                 stage = stage.NextStage;
@@ -78,15 +85,35 @@ namespace TCM.Model
 
         public void Sync(string cmd, object attach)
         {
+            ISyncable target = attach as ISyncable;
             if (cmd == "add-link")
             {
                 Link link = new Link();
                 _Links.Add(link);
-                ISyncable target = attach as ISyncable;
                 target.SyncTarget = link;
                 link.SyncTarget = target;
             }
-            Console.WriteLine(cmd);
+            else if (cmd == "remove-link")
+            {
+                Link link = target.SyncTarget as Link;
+                link.Dispose();
+                _Links.Remove(link);
+            }
+            else if (cmd == "remove-node")
+            {
+                Node node = target.SyncTarget as Node;
+                node.Dispose();
+                _Nodes.Remove(node);
+            }
+            else if (cmd == "remove-all")
+            {
+                foreach (Node node in _Nodes)
+                    node.Dispose();
+                _Nodes.Clear();
+                foreach (Link link in _Links)
+                    link.Dispose();
+                _Links.Clear();
+            }
         }
     }
 }

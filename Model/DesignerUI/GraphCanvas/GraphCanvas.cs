@@ -37,12 +37,41 @@ namespace TCM.Model.Designer
 
         private bool _IsMultiSelect = false;
 
-        private ContextMenu _Menu;
-
         private Graph _Graph = new Graph();
         #endregion
 
+        #region 隐藏父属性
+        [Browsable(false)]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get { return base.BackgroundImageLayout; }
+            set { base.BackgroundImageLayout = value; }
+        }
+
+        [Browsable(false)]
+        public override Image BackgroundImage
+        {
+            get { return base.BackgroundImage; }
+            set { base.BackgroundImage = value; }
+        }
+
+        [Browsable(false)]
+        public override RightToLeft RightToLeft
+        {
+            get { return base.RightToLeft; }
+            set { base.RightToLeft = value; }
+        }
+
+        [Browsable(false)]
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+        #endregion
+
         #region 属性
+        [Browsable(false)]
         public List<Entity> SelectedEntities
         {
             get { return _SelectedEntities; }
@@ -121,7 +150,6 @@ namespace TCM.Model.Designer
             Location = new Point(0, 0);
             WorkSize = new Size(width, height);
 
-            BuildMenu();
             Invalidate();
         }
 
@@ -132,37 +160,6 @@ namespace TCM.Model.Designer
             _Cache.CachePen("1", new Pen(Color.Gray, 1.5f));
             _Cache.CachePen("2", new Pen(Color.FromArgb(220, 220, 220), 1.5f));
             base.ConfigCache();
-        }
-
-        /// <summary>
-        /// 创建快捷菜单
-        /// </summary>
-        private void BuildMenu()
-        {
-            _Menu = new ContextMenu();
-            MenuItem mnuAddCon = new MenuItem("添加关联", 
-                new EventHandler(
-                    (o, e) => { AddConnection(_RefPoint); }));
-            MenuItem mnuAddTask = new MenuItem("添加执行",
-                new EventHandler(
-                    (o, e) => { AddShapeProcess(_RefPoint); }));
-            MenuItem mnuAddJudge = new MenuItem("添加决策",
-                new EventHandler(
-                    (o, e) => { AddShapeDecision(_RefPoint); }));
-            _Menu.MenuItems.Add(mnuAddCon);
-            _Menu.MenuItems.Add(mnuAddTask);
-            _Menu.MenuItems.Add(mnuAddJudge);
-            MenuItem mnuDash1 = new MenuItem("-");
-            _Menu.MenuItems.Add(mnuDash1);
-            MenuItem mnuDelete = new MenuItem("删除选中对象",
-                new EventHandler(
-                    (o, e) => { RemoveEntities(_SelectedEntities.ToArray()); }));
-            _Menu.MenuItems.Add(mnuDelete);
-            MenuItem mnuDeleteAllEntities = new MenuItem("全部删除",
-                new EventHandler(
-                    (o, e) => { RemoveAllEntities(); }));
-            _Menu.MenuItems.Add(mnuDeleteAllEntities);
-            ContextMenu = _Menu;
         }
         #endregion
 
@@ -273,11 +270,6 @@ namespace TCM.Model.Designer
         protected override void OnMouseDown(MouseEventArgs e)
         {
             _RefPoint = e.Location;
-            if (e.Button == MouseButtons.Right)
-            {
-                _Menu.Show(this, e.Location);
-                return;
-            }
             Point p = e.Location;
             if (p.X < WorkRect.Left ||
                 p.Y < WorkRect.Top ||

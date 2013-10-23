@@ -32,7 +32,11 @@
             this.ctxmenubar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MnuDebugCanvas = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuDebugGraph = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxcanvasmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MnuDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuDeleteAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenubar.SuspendLayout();
+            this.ctxcanvasmenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // ctxmenubar
@@ -46,16 +50,38 @@
             // MnuDebugCanvas
             // 
             this.MnuDebugCanvas.Name = "MnuDebugCanvas";
-            this.MnuDebugCanvas.Size = new System.Drawing.Size(152, 22);
+            this.MnuDebugCanvas.Size = new System.Drawing.Size(140, 22);
             this.MnuDebugCanvas.Text = "调试画布(&C)";
             this.MnuDebugCanvas.Click += new System.EventHandler(this.MnuDebugCanvas_Click);
             // 
             // MnuDebugGraph
             // 
             this.MnuDebugGraph.Name = "MnuDebugGraph";
-            this.MnuDebugGraph.Size = new System.Drawing.Size(152, 22);
+            this.MnuDebugGraph.Size = new System.Drawing.Size(140, 22);
             this.MnuDebugGraph.Text = "调试图(&G)";
             this.MnuDebugGraph.Click += new System.EventHandler(this.MnuDebugGraph_Click);
+            // 
+            // ctxcanvasmenu
+            // 
+            this.ctxcanvasmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuDeleteSelected,
+            this.MnuDeleteAll});
+            this.ctxcanvasmenu.Name = "ctxcanvasmenu";
+            this.ctxcanvasmenu.Size = new System.Drawing.Size(164, 70);
+            // 
+            // MnuDeleteSelected
+            // 
+            this.MnuDeleteSelected.Name = "MnuDeleteSelected";
+            this.MnuDeleteSelected.Size = new System.Drawing.Size(163, 22);
+            this.MnuDeleteSelected.Text = "删除选定图元(&E)";
+            this.MnuDeleteSelected.Click += new System.EventHandler(this.MnuDeleteSelected_Click);
+            // 
+            // MnuDeleteAll
+            // 
+            this.MnuDeleteAll.Name = "MnuDeleteAll";
+            this.MnuDeleteAll.Size = new System.Drawing.Size(163, 22);
+            this.MnuDeleteAll.Text = "删除所有(&A)";
+            this.MnuDeleteAll.Click += new System.EventHandler(this.MnuDeleteAll_Click);
             // 
             // FrmDocument
             // 
@@ -67,8 +93,8 @@
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmDocument";
             this.SizeChanged += new System.EventHandler(this.FrmDocument_SizeChanged);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FrmDocument_MouseClick);
             this.ctxmenubar.ResumeLayout(false);
+            this.ctxcanvasmenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -78,6 +104,9 @@
         private System.Windows.Forms.ContextMenuStrip ctxmenubar;
         private System.Windows.Forms.ToolStripMenuItem MnuDebugCanvas;
         private System.Windows.Forms.ToolStripMenuItem MnuDebugGraph;
+        private System.Windows.Forms.ContextMenuStrip ctxcanvasmenu;
+        private System.Windows.Forms.ToolStripMenuItem MnuDeleteSelected;
+        private System.Windows.Forms.ToolStripMenuItem MnuDeleteAll;
 
     }
 }

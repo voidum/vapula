@@ -15,16 +15,23 @@ namespace TCM.Model
     /// <summary>
     /// 模型图节点，对应有向图的顶点
     /// </summary>
-    public abstract class Node : ISyncable
+    public abstract class Node : IDisposable, ISyncable
     {
-        protected Stage _LastStage 
-            = null;
+        #region 字段
         protected List<Link> _InLinks 
             = new List<Link>();
         protected List<Link> _OutLinks 
             = new List<Link>();
-        protected ISyncable _SyncTarget;
+        protected List<ParamProxy> _Params
+            = new List<ParamProxy>();
 
+        protected Stage _LastStage
+            = null;
+
+        protected ISyncable _SyncTarget;
+        #endregion;
+
+        #region 属性
         public abstract NodeType Type { get; }
 
         public Stage LastStage
@@ -42,9 +49,9 @@ namespace TCM.Model
             get { return _OutLinks; }
         }
 
-        public virtual List<ParamProxy> Parameters
+        public List<ParamProxy> Parameters
         {
-            get { return new List<ParamProxy>(); }
+            get { return _Params; }
         }
 
         public ISyncable SyncTarget
@@ -54,27 +61,37 @@ namespace TCM.Model
         }
 
         /// <summary>
-        /// 获取节点是否可执行
+        /// 获取节点是否就绪
         /// </summary>
-        public virtual bool Executable
+        public virtual bool IsReady
         {
             get
             {
-                for (int i=0;i<Parameters.Count;i++)
+                for (int i=0;i<_Params.Count;i++)
                 {
-                    var param = Parameters[i];
+                    var param = _Params[i];
                     if (param.HasValue) continue;
+                    Link link_capture = null;
                     foreach (var link in _InLinks)
                     {
-                        if (link.HasMapTo(i))
-                            if (link.From.LastStage == null)
-                                return false;
+                        if (!link.HasMap(i, false))
+                            continue;
+                        if(link.From != null 
+                            && link.From.LastStage != null)
+                        {
+                            link_capture = link;
+                            break;
+                        }
                     }
+                    if (link_capture == null)
+                        return false;
                 }
                 return true;
             }
         }
+        #endregion
 
+        #region 方法
         /// <summary>
         /// 执行节点
         /// </summary>
@@ -86,5 +103,17 @@ namespace TCM.Model
         public void Sync(string cmd, object attach)
         {
         }
+
+        public virtual void Dispose()
+        {
+            foreach (Link link in _InLinks)
+                link.QuickSetter_To = null;
+            _InLinks.Clear();
+            foreach (Link link in _OutLinks)
+                link.QuickSetter_From = null;
+            _OutLinks.Clear();
+            _SyncTarget = null;
+        }
+        #endregion
     }
 }

@@ -14,7 +14,7 @@ namespace TCM.Model
         private string _Description;
         private Library _Library;
         private object _Tag;
-        private List<Parameter> _Parameters = new List<Parameter>();
+        private List<Parameter> _Params = new List<Parameter>();
         #endregion
 
         #region 构造
@@ -29,7 +29,7 @@ namespace TCM.Model
         {
             get
             {
-                foreach (Parameter param in _Parameters)
+                foreach (Parameter param in _Params)
                     if (param.Id == id) return param;
                 return null;
             }
@@ -51,7 +51,7 @@ namespace TCM.Model
             {
                 Parameter param = Parameter.Parse(xml_param);
                 param.Function = func;
-                func._Parameters.Add(param);
+                func._Params.Add(param);
             }
             return func;
         }
@@ -66,7 +66,7 @@ namespace TCM.Model
                 new XElement("name", Name),
                 new XElement("params"),
                 new XAttribute("id", Id));
-            foreach (Parameter param in _Parameters)
+            foreach (Parameter param in _Params)
             {
                 XElement xml_param = param.ToXML();
                 xml.Element("params").Add(xml_param);
@@ -78,7 +78,7 @@ namespace TCM.Model
         #region 集合
         public void Clear()
         {
-            _Parameters.Clear();
+            _Params.Clear();
         }
         #endregion
 
@@ -104,7 +104,8 @@ namespace TCM.Model
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) _Name = null;
+                if (string.IsNullOrWhiteSpace(value))
+                    _Name = null;
                 else _Name = value;
             }
         }
@@ -121,7 +122,8 @@ namespace TCM.Model
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) _Description = null;
+                if (string.IsNullOrWhiteSpace(value))
+                    _Description = null;
                 else _Description = value;
             }
         }
@@ -149,7 +151,7 @@ namespace TCM.Model
         /// </summary>
         public List<Parameter> Parameters
         {
-            get { return _Parameters; }
+            get { return _Params; }
         }
         #endregion
     }

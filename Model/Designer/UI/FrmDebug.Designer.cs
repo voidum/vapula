@@ -1,6 +1,6 @@
 ﻿namespace TCM.Model.Designer
 {
-    partial class FrmProperty
+    partial class FrmDebug
     {
         /// <summary>
         /// Required designer variable.
@@ -39,7 +39,7 @@
             this.property.Size = new System.Drawing.Size(254, 412);
             this.property.TabIndex = 0;
             // 
-            // FrmProperty
+            // FrmDebug
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -50,8 +50,8 @@
             | xDockPanel.DockAreas.Top) 
             | xDockPanel.DockAreas.Bottom)));
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Name = "FrmProperty";
-            this.Text = "属性";
+            this.Name = "FrmDebug";
+            this.Text = "属性调试器";
             this.ResumeLayout(false);
 
         }

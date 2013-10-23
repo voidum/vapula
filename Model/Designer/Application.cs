@@ -83,14 +83,25 @@ namespace TCM.Model.Designer
             }
         }
 
-        private FrmProperty _FormProperty = null;
-        public FrmProperty FormProperty
+        private FrmDebug _FormDebug = null;
+        public FrmDebug FormDebug
         {
             get
             {
-                if (_FormProperty == null)
-                    _FormProperty = new FrmProperty();
-                return _FormProperty;
+                if (_FormDebug == null)
+                    _FormDebug = new FrmDebug();
+                return _FormDebug;
+            }
+        }
+
+        private FrmLog _FormLog = null;
+        public FrmLog FormLog
+        {
+            get
+            {
+                if (_FormLog == null)
+                    _FormLog = new FrmLog();
+                return _FormLog;
             }
         }
     }

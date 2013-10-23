@@ -2,9 +2,9 @@
 
 namespace TCM.Model.Designer
 {
-    public partial class FrmProperty : DockContent
+    public partial class FrmDebug : DockContent
     {
-        public FrmProperty()
+        public FrmDebug()
         {
             InitializeComponent();
         }
