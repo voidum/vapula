@@ -22,8 +22,8 @@ namespace TCM.Model
             = new List<Link>();
         protected List<Link> _OutLinks 
             = new List<Link>();
-        protected List<ParamProxy> _Params
-            = new List<ParamProxy>();
+        protected List<ParamStub> _ParamStubs
+            = new List<ParamStub>();
 
         protected Stage _LastStage
             = null;
@@ -49,9 +49,9 @@ namespace TCM.Model
             get { return _OutLinks; }
         }
 
-        public List<ParamProxy> Parameters
+        public List<ParamStub> ParamStubs
         {
-            get { return _Params; }
+            get { return _ParamStubs; }
         }
 
         public ISyncable SyncTarget
@@ -65,29 +65,7 @@ namespace TCM.Model
         /// </summary>
         public virtual bool IsReady
         {
-            get
-            {
-                for (int i=0;i<_Params.Count;i++)
-                {
-                    var param = _Params[i];
-                    if (param.HasValue) continue;
-                    Link link_capture = null;
-                    foreach (var link in _InLinks)
-                    {
-                        if (!link.HasMap(i, false))
-                            continue;
-                        if(link.From != null 
-                            && link.From.LastStage != null)
-                        {
-                            link_capture = link;
-                            break;
-                        }
-                    }
-                    if (link_capture == null)
-                        return false;
-                }
-                return true;
-            }
+            get { return false; }
         }
         #endregion
 

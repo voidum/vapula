@@ -153,6 +153,21 @@ namespace TCM.Model
         {
             get { return _Params; }
         }
+
+        /// <summary>
+        /// 获取功能参数的分类表
+        /// </summary>
+        public List<string> Catalogs
+        {
+            get 
+            {
+                List<string> strs = new List<string>();
+                foreach (var param in _Params)
+                    if (!strs.Contains(param.Catalog))
+                        strs.Add(param.Catalog);
+                return strs;
+            }
+        }
         #endregion
     }
 }

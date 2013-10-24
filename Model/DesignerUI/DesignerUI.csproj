@@ -59,7 +59,6 @@
     <Compile Include="GraphCanvas\GraphCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GraphCanvas\IHideGraphCanvas.cs" />
     <Compile Include="GraphCanvas\Shape.cs" />
     <Compile Include="GraphCanvas\ShapeDecision.cs" />
     <Compile Include="GraphCanvas\ShapeProcess.cs" />

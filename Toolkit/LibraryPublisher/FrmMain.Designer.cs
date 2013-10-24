@@ -44,12 +44,12 @@
             this.MnuHelp_About = new System.Windows.Forms.ToolStripMenuItem();
             this.statusbar = new System.Windows.Forms.StatusStrip();
             this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.treeview = new System.Windows.Forms.TreeView();
             this.BtAdd = new System.Windows.Forms.ToolStripDropDownButton();
             this.BtAddFunc = new System.Windows.Forms.ToolStripMenuItem();
             this.BtAddParam = new System.Windows.Forms.ToolStripMenuItem();
             this.BtRemove = new System.Windows.Forms.ToolStripButton();
             this.BtProperty = new System.Windows.Forms.ToolStripButton();
+            this.treeview = new System.Windows.Forms.TreeView();
             this.menubar.SuspendLayout();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
@@ -172,14 +172,6 @@
             this.toolbar.Size = new System.Drawing.Size(304, 25);
             this.toolbar.TabIndex = 12;
             // 
-            // treeview
-            // 
-            this.treeview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeview.Location = new System.Drawing.Point(0, 50);
-            this.treeview.Name = "treeview";
-            this.treeview.Size = new System.Drawing.Size(304, 340);
-            this.treeview.TabIndex = 13;
-            // 
             // BtAdd
             // 
             this.BtAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -195,7 +187,7 @@
             // 
             this.BtAddFunc.Image = global::TCM.Toolkit.Properties.Resources.function_s;
             this.BtAddFunc.Name = "BtAddFunc";
-            this.BtAddFunc.Size = new System.Drawing.Size(152, 22);
+            this.BtAddFunc.Size = new System.Drawing.Size(100, 22);
             this.BtAddFunc.Text = "功能";
             this.BtAddFunc.Click += new System.EventHandler(this.BtAddFunc_Click);
             // 
@@ -203,7 +195,7 @@
             // 
             this.BtAddParam.Image = global::TCM.Toolkit.Properties.Resources.attach_s;
             this.BtAddParam.Name = "BtAddParam";
-            this.BtAddParam.Size = new System.Drawing.Size(152, 22);
+            this.BtAddParam.Size = new System.Drawing.Size(100, 22);
             this.BtAddParam.Text = "参数";
             this.BtAddParam.Click += new System.EventHandler(this.BtAddParam_Click);
             // 
@@ -224,6 +216,15 @@
             this.BtProperty.Size = new System.Drawing.Size(61, 22);
             this.BtProperty.Text = "属性...";
             this.BtProperty.Click += new System.EventHandler(this.BtProperty_Click);
+            // 
+            // treeview
+            // 
+            this.treeview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeview.ItemHeight = 24;
+            this.treeview.Location = new System.Drawing.Point(0, 50);
+            this.treeview.Name = "treeview";
+            this.treeview.Size = new System.Drawing.Size(304, 340);
+            this.treeview.TabIndex = 13;
             // 
             // FrmMain
             // 

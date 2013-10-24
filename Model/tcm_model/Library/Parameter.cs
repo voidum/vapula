@@ -5,7 +5,7 @@ namespace TCM.Model
     /// <summary>
     /// TCM模型的参数描述
     /// </summary>
-    public partial class Parameter
+    public class Parameter
     {
         #region 字段
         protected int _Id;
@@ -14,7 +14,6 @@ namespace TCM.Model
         protected string _Catalog;
         protected string _Name;
         protected string _Description;
-        protected object _Tag;
         protected Function _Function = null;
         #endregion
 
@@ -40,7 +39,7 @@ namespace TCM.Model
 
         public XElement ToXML()
         {
-            XElement xml = new XElement("param",
+            XElement xml = new XElement("parameter",
                 new XAttribute("id", Id),
                 new XAttribute("type", (int)Type),
                 new XAttribute("in", IsIn ? "true" : "false"),
@@ -138,26 +137,17 @@ namespace TCM.Model
             get { return _Function; }
             set { _Function = value; }
         }
-
-        /// <summary>
-        /// 获取或设置附加数据
-        /// </summary>
-        public object Tag
-        {
-            get { return _Tag; }
-            set { _Tag = value; }
-        }
         #endregion
 
         #region 方法
         /// <summary>
-        /// 获取参数
+        /// 创建参数存根
         /// </summary>
-        public ParamProxy GetParamProxy()
+        public ParamStub CreateParaStub()
         {
-            ParamProxy proxy = new ParamProxy();
-            proxy.Parameter = this;
-            return proxy;
+            ParamStub stub = new ParamStub();
+            stub.Prototype = this;
+            return stub;
         }
         #endregion
     }

@@ -28,5 +28,10 @@ namespace TCM.Model.Designer
         {
             LsvLog.Items.Clear();
         }
+
+        private void BtClear_Click(object sender, EventArgs e)
+        {
+            ClearLog();
+        }
     }
 }

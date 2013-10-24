@@ -41,33 +41,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Graph\Graph.cs" />
-    <Compile Include="Model\Graph\ISyncable.cs" />
-    <Compile Include="Model\Graph\Link.cs" />
-    <Compile Include="Model\Graph\Node.cs" />
-    <Compile Include="Model\Graph\NodeDecision.cs" />
-    <Compile Include="Model\Graph\NodeProcess.cs" />
-    <Compile Include="Model\Graph\Stage.cs" />
-    <Compile Include="Model\Graph\NodeVariable.cs" />
-    <Compile Include="Model\Library\Function.cs" />
-    <Compile Include="Model\Library\Library.cs" />
-    <Compile Include="Model\Library\Parameter.cs" />
-    <Compile Include="Model\Library\ParamProxy.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="Graph\Graph.cs" />
+    <Compile Include="Graph\ISyncable.cs" />
+    <Compile Include="Graph\Link.cs" />
+    <Compile Include="Graph\Node.cs" />
+    <Compile Include="Graph\NodeDecision.cs" />
+    <Compile Include="Graph\NodeProcess.cs" />
+    <Compile Include="Graph\Stage.cs" />
+    <Compile Include="Graph\NodeVariable.cs" />
+    <Compile Include="Library\Function.cs" />
+    <Compile Include="Library\Library.cs" />
+    <Compile Include="Library\Parameter.cs" />
+    <Compile Include="Library\ParamStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\xBridge\tcm_xbridge\tcm_xbridge.csproj">
-      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
-      <Name>tcm_xbridge</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\xBridge\tcm_xhelper\tcm_xhelper.csproj">
       <Project>{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}</Project>
       <Name>tcm_xhelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Graph\NodeBatch.cs" />
-    <None Include="Model\XSD\library.xsd">
+    <Compile Include="Graph\NodeBatch.cs" />
+    <None Include="XSD\library.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

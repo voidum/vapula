@@ -111,6 +111,14 @@ namespace TCM.Model.Designer
         }
         #endregion
 
+        #region 事件响应
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            Focus();
+            base.OnMouseDown(e);
+        }
+        #endregion
+
         #region 方法
         /// <summary>
         /// 配置缓存

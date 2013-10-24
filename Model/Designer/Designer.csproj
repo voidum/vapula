@@ -82,11 +82,29 @@
     <Compile Include="UI\FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FrmProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmProperty.Designer.cs">
+      <DependentUpon>FrmProperty.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FrmToolbox.Designer.cs">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Property\UctNull.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Property\UctNull.Designer.cs">
+      <DependentUpon>UctNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Property\UctParameter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Property\UctParameter.Designer.cs">
+      <DependentUpon>UctParameter.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="UI\FrmDocument.resx">
       <DependentUpon>FrmDocument.cs</DependentUpon>
@@ -105,8 +123,17 @@
     <EmbeddedResource Include="UI\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmProperty.resx">
+      <DependentUpon>FrmProperty.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Property\UctNull.resx">
+      <DependentUpon>UctNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Property\UctParameter.resx">
+      <DependentUpon>UctParameter.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\designer.config" />
     <None Include="Config\library.list" />

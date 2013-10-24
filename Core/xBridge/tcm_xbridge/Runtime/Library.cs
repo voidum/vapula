@@ -57,7 +57,9 @@ namespace TCM.Runtime
             return lib;
         }
 
-		//获取指定功能的调用器
+		/// <summary>
+        /// 获取指定功能的调用器
+		/// </summary>
         public Invoker CreateInvoker(int fid)
         {
             IntPtr ptr = Bridge.CreateInvoker(_Handle, fid);
@@ -69,21 +71,29 @@ namespace TCM.Runtime
             return inv;
         }
 		
-		//装载库
+		/// <summary>
+		/// 装载库
+		/// </summary>
         public virtual bool Mount()
         {
             return Bridge.MountLibrary(_Handle);
         }
 
-		//卸载库
+		/// <summary>
+        /// 卸载库
+		/// </summary>
         public virtual void Unmount()
         {
             Bridge.UnmountLibrary(_Handle);
         }
 
+        /// <summary>
+        /// 销毁库
+        /// </summary>
         public virtual void Dispose()
         {
-            throw new NotImplementedException();
+            Unmount();
+            Bridge.DeleteObject(_Handle);
         }
     }
 }

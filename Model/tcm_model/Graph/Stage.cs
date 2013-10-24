@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace TCM.Model
 {
@@ -34,11 +31,6 @@ namespace TCM.Model
                 return false;
             _Nodes.Remove(node);
             return true;
-        }
-
-        public bool Run()
-        {
-            return false;
         }
     }
 }

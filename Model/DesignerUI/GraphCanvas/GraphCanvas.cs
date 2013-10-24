@@ -269,6 +269,7 @@ namespace TCM.Model.Designer
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            base.OnMouseDown(e);
             _RefPoint = e.Location;
             Point p = e.Location;
             if (p.X < WorkRect.Left ||

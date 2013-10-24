@@ -104,5 +104,16 @@ namespace TCM.Model.Designer
                 return _FormLog;
             }
         }
+
+        private FrmProperty _FormProperty = null;
+        public FrmProperty FormProperty
+        {
+            get 
+            {
+                if (_FormProperty == null)
+                    _FormProperty = new FrmProperty();
+                return _FormProperty; 
+            }
+        }
     }
 }

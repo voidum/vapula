@@ -115,11 +115,17 @@ namespace TCM.Model.Designer
             if (_Canvas.SelectedEntities.Count == 1)
             {
                 Entity entity = _Canvas.SelectedEntities[0];
-                AppData.Instance.FormDebug.SelectObject(
-                    entity == null ? entity : entity.SyncTarget);
+                if (entity != null) 
+                {
+                    AppData.Instance.FormDebug.SelectObject(entity.SyncTarget);
+                    AppData.Instance.FormProperty.SelectObject(entity.SyncTarget);
+                }
             }
             else
+            {
                 AppData.Instance.FormDebug.SelectObject(null);
+                AppData.Instance.FormProperty.SelectObject(null);
+            }
         }
 
         private void MnuDebugCanvas_Click(object sender, EventArgs e)
