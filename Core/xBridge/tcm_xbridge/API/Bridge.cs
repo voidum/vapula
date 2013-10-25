@@ -17,6 +17,10 @@ namespace TCM.API
         }
 
         #region Base
+        [DllImport("tcm_bridge.dll", EntryPoint = "tcmTestBridge",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void TestBridge();
+
         [DllImport("tcm_bridge.dll", EntryPoint = "tcmDeleteObject",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeleteObject(IntPtr obj);

@@ -5,6 +5,7 @@
 extern "C"
 {
 	//Base
+	TCM_BRIDGE_API void tcmTestBridge();
 	TCM_BRIDGE_API void tcmDeleteObject(LPVOID object);
 
 	//Driver

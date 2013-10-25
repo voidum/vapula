@@ -27,10 +27,11 @@ namespace tcm
 	Library* Library::Load(PCWSTR path)
 	{
 		PCSTR data = NULL;
-		xml_document<>* xdoc = (xml_document<>*)xml::Load(path, data);
+		xml_document<>* xdoc 
+			= (xml_document<>*)xml::Load(path, data);
 		if(xdoc == NULL) return NULL;
 
-		xml_node<>* xeroot = xdoc->first_node("root");
+		xml_node<>* xeroot = xdoc->first_node("library");
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		PCSTR drv_id = xml::ValueA(xeroot->first_node("runtime"));
 		Driver* driver = drv_hub->GetDriver(drv_id);

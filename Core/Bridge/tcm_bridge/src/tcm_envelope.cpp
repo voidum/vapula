@@ -92,7 +92,8 @@ namespace tcm
 	{
 		PCSTR data = NULL;
 		xml_document<>* xdoc = (xml_document<>*)xml::Load(path, data);
-		xml_node<>* xe = (xml_node<>*)xml::Path(xdoc, 3, "root", "functions", "function");
+		xml_node<>* xe = (xml_node<>*)xml::Path(
+			xdoc, 3, "library", "functions", "function");
 		while (xe)
 		{
 			int tmpv = xml::ValueInt(xe->first_attribute("id"));
@@ -196,7 +197,7 @@ namespace tcm
 		int type = _Types[id];
 		if(type == TCM_DATA_CSTRW)
 		{
-			Write(id,value);
+			Write(id, value);
 			return;
 		}
 		PCSTR str = WcToMb(value);

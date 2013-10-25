@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using xDockPanel;
 using TCM.Helper;
 using TCM.Runtime;
+using xDockPanel;
 
 namespace TCM.Model.Designer
 {
@@ -30,6 +30,14 @@ namespace TCM.Model.Designer
             doc.Show(paneldock, DockState.Document);
         }
 
+        private void MnuModel_Start_Click(object sender, EventArgs e)
+        {
+            App.FormLog.WriteLog(LogType.Event, "开始执行模型");
+            ModelProxy proxy = new ModelProxy(doc.Graph);
+            proxy.Logger = App.FormLog;
+            proxy.Start();
+        }
+
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.ApplicationExitCall)
@@ -46,14 +54,6 @@ namespace TCM.Model.Designer
                     e.Cancel = true;
                 }
             }
-        }
-
-        private void MnuModel_Start_Click(object sender, EventArgs e)
-        {
-            App.FormLog.WriteLog(LogType.Event, "开始执行模型");
-            ModelProxy proxy = new ModelProxy(doc.Graph);
-            proxy.Logger = App.FormLog;
-            proxy.Start();
         }
     }
 }

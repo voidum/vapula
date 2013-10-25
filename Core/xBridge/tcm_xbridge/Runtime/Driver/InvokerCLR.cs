@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Forms;
+using TCM.Helper;
 
 namespace TCM.Runtime
 {
@@ -35,11 +37,24 @@ namespace TCM.Runtime
         {
             Assembly assembly = _Library.Assembly;
             Type type = assembly.GetType(_Library.Id + ".Program");
-            object instance = Activator.CreateInstance(type);
-            MethodInfo method = type.GetMethod("Run");
-            ReturnCode rc = (ReturnCode)method.Invoke(instance,
-                new object[] { FunctionId, Envelope, Context });
-            return (int)rc;
+            if (type == null) 
+                return (int)ReturnCode.Error;
+            try
+            {
+                object instance = Activator.CreateInstance(type);
+                MethodInfo method = type.GetMethod("Run");
+                ReturnCode rc = (ReturnCode)method.Invoke(instance,
+                    new object[] { FunctionId, Envelope, Context });
+                return (int)rc;
+            }
+            catch (Exception ex)
+            {
+                Base.Logger.WriteLog(LogType.Error, 
+                    ex.Message, 
+                    ex.Source, 
+                    ex.StackTrace);
+                return (int)ReturnCode.Error;
+            }
         }
     }
 }

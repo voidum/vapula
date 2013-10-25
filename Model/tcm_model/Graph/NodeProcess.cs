@@ -40,8 +40,7 @@ namespace TCM.Model
                     {
                         if (!link.HasMap(stub.Prototype.Id, false))
                             continue;
-                        if (link.From != null
-                            && link.From.LastStage != null)
+                        if (link.From != null)
                         {
                             link_capture = link;
                             break;

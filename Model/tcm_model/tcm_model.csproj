@@ -48,7 +48,6 @@
     <Compile Include="Graph\Node.cs" />
     <Compile Include="Graph\NodeDecision.cs" />
     <Compile Include="Graph\NodeProcess.cs" />
-    <Compile Include="Graph\Stage.cs" />
     <Compile Include="Graph\NodeVariable.cs" />
     <Compile Include="Library\Function.cs" />
     <Compile Include="Library\Library.cs" />

@@ -45,20 +45,20 @@
             this.MnuDebugCanvas,
             this.MnuDebugGraph});
             this.ctxmenubar.Name = "ctxmenubar";
-            this.ctxmenubar.Size = new System.Drawing.Size(141, 48);
+            this.ctxmenubar.Size = new System.Drawing.Size(125, 48);
             // 
             // MnuDebugCanvas
             // 
             this.MnuDebugCanvas.Name = "MnuDebugCanvas";
-            this.MnuDebugCanvas.Size = new System.Drawing.Size(140, 22);
-            this.MnuDebugCanvas.Text = "调试画布(&C)";
+            this.MnuDebugCanvas.Size = new System.Drawing.Size(152, 22);
+            this.MnuDebugCanvas.Text = "调试画布";
             this.MnuDebugCanvas.Click += new System.EventHandler(this.MnuDebugCanvas_Click);
             // 
             // MnuDebugGraph
             // 
             this.MnuDebugGraph.Name = "MnuDebugGraph";
-            this.MnuDebugGraph.Size = new System.Drawing.Size(140, 22);
-            this.MnuDebugGraph.Text = "调试图(&G)";
+            this.MnuDebugGraph.Size = new System.Drawing.Size(152, 22);
+            this.MnuDebugGraph.Text = "调试图";
             this.MnuDebugGraph.Click += new System.EventHandler(this.MnuDebugGraph_Click);
             // 
             // ctxcanvasmenu
@@ -67,20 +67,20 @@
             this.MnuDeleteSelected,
             this.MnuDeleteAll});
             this.ctxcanvasmenu.Name = "ctxcanvasmenu";
-            this.ctxcanvasmenu.Size = new System.Drawing.Size(164, 70);
+            this.ctxcanvasmenu.Size = new System.Drawing.Size(153, 70);
             // 
             // MnuDeleteSelected
             // 
             this.MnuDeleteSelected.Name = "MnuDeleteSelected";
-            this.MnuDeleteSelected.Size = new System.Drawing.Size(163, 22);
-            this.MnuDeleteSelected.Text = "删除选定图元(&E)";
+            this.MnuDeleteSelected.Size = new System.Drawing.Size(152, 22);
+            this.MnuDeleteSelected.Text = "删除选定图元";
             this.MnuDeleteSelected.Click += new System.EventHandler(this.MnuDeleteSelected_Click);
             // 
             // MnuDeleteAll
             // 
             this.MnuDeleteAll.Name = "MnuDeleteAll";
-            this.MnuDeleteAll.Size = new System.Drawing.Size(163, 22);
-            this.MnuDeleteAll.Text = "删除所有(&A)";
+            this.MnuDeleteAll.Size = new System.Drawing.Size(152, 22);
+            this.MnuDeleteAll.Text = "删除所有";
             this.MnuDeleteAll.Click += new System.EventHandler(this.MnuDeleteAll_Click);
             // 
             // FrmDocument

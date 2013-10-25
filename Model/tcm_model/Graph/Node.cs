@@ -18,6 +18,7 @@ namespace TCM.Model
     public abstract class Node : IDisposable, ISyncable
     {
         #region 字段
+        protected int _Id = -1;
         protected List<Link> _InLinks 
             = new List<Link>();
         protected List<Link> _OutLinks 
@@ -25,19 +26,17 @@ namespace TCM.Model
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
 
-        protected Stage _LastStage
-            = null;
-
         protected ISyncable _SyncTarget;
         #endregion;
 
         #region 属性
-        public abstract NodeType Type { get; }
-
-        public Stage LastStage
+        public int Id
         {
-            get { return _LastStage; }
+            get { return _Id; }
+            set { _Id = value; }
         }
+
+        public abstract NodeType Type { get; }
 
         public List<Link> InLinks
         {

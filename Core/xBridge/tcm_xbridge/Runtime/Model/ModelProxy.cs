@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TCM.API;
 using TCM.Helper;
 using TCM.Model;
 
@@ -7,6 +8,9 @@ namespace TCM.Runtime
     public class ModelProxy
     {
         private ILogger _Logger = null;
+        private Graph _Model;
+        private List<Stage> _Stages = new List<Stage>();
+
         /// <summary>
         /// 获取或设置图模型的公共日志器
         /// </summary>
@@ -24,7 +28,6 @@ namespace TCM.Runtime
             }
         }
 
-        private Graph _Model;
         public Graph Model
         {
             get { return _Model; }
@@ -49,6 +52,27 @@ namespace TCM.Runtime
             }
         }
 
+        public List<Stage> Stages
+        {
+            get { return _Stages; }
+        }
+
+        public Stage FirstStage
+        {
+            get
+            {
+                Stage stage = new Stage();
+                foreach (Node node in _Model.Nodes)
+                {
+                    if (node.IsReady)
+                        stage.Add(node);
+                }
+                if (stage.Nodes.Count > 0)
+                    return stage;
+                return null;
+            }
+        }
+
         public ModelProxy(Graph model)
         {
             _Model = model;
@@ -56,25 +80,44 @@ namespace TCM.Runtime
 
         public bool Start()
         {
+            //测试TCM Bridge可用
+            try { Bridge.TestBridge(); }
+            catch
+            {
+                Logger.WriteLog(LogType.Critical, "框架损坏，不能加载 TCM Bridge");
+                return false;
+            }
+
+            //加载模型涉及的驱动
             DriverHub driver_hub = DriverHub.Instance;
             foreach (string rt in RuntimeIds)
-                driver_hub.Link(rt);
+            {
+                if (!driver_hub.Link(rt))
+                {
+                    Logger.WriteLog(LogType.Error, "不能加载必须的驱动 " + rt);
+                    return false;
+                }
+            }
 
-            Stage stage = _Model.FirstStage;
+            if (!_Model.IsValid)
+            {
+                Logger.WriteLog(LogType.Error, "模型没有通过有效性验证");
+                return false;
+            }
+
+            Stage stage = FirstStage;
             while (stage != null)
             {
+                stage.Logger = Logger;
+                stage.Start();
+                stage.Wait();
                 Logger.WriteLog(LogType.Event,
-                    string.Format("阶段{0}包含{1}个节点",
-                        _Model.Stages.Count + 1,
-                        stage.Nodes.Count));
-                foreach (Node node in stage.Nodes)
-                {
-                }
-                _Model.Stages.Add(stage);
+                    string.Format("阶段{0}执行完成", stage.Id));
                 stage = stage.NextStage;
-                _Model.CurrentStage = stage;
+                Stages.Add(stage);
             }
-            return false;
+            Logger.WriteLog(LogType.Event, "模型执行完成");
+            return true;
         }
 
         public bool Pause()

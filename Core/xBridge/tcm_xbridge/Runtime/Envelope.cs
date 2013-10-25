@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using TCM.API;
 
 namespace TCM.Runtime
@@ -23,9 +22,10 @@ namespace TCM.Runtime
         /// <summary>
         /// 构造信封对象
         /// </summary>
-        /// <param name="env">信封核心对象</param>
         public Envelope(IntPtr handle)
         {
+            if (handle == IntPtr.Zero)
+                throw new Exception("信封对象的句柄没有意义");
             _Handle = handle;
         }
 
@@ -54,8 +54,11 @@ namespace TCM.Runtime
         /// <param name="id">参数标识</param>
         public string Read(int id)
         {
+            IntPtr ptr = Bridge.ReadEnvelope(_Handle, id);
+            if (ptr == IntPtr.Zero)
+                throw new Exception("不存在指定标识的参数");
             string result =
-                Marshal.PtrToStringUni(Bridge.ReadEnvelope(_Handle, id));
+                Marshal.PtrToStringUni(ptr);
             return result;
         }
 

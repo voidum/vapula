@@ -19,6 +19,7 @@ namespace TCM.Model
         private string _Publisher;
         private string _Description;
         private string _Version;
+        private string _Path;
         private object _Tag;
         private List<Function> _Functions = new List<Function>();
         #endregion
@@ -48,7 +49,7 @@ namespace TCM.Model
             XmlReaderSettings xrs = new XmlReaderSettings();
             xrs.ValidationType = ValidationType.Schema;
             xrs.Schemas.Add(null, 
-                Path.Combine(IOHelper.AppDir, "library.xsd"));
+                System.IO.Path.Combine(IOHelper.AppDir, "library.xsd"));
             XmlReader xr = null;
             XDocument xml = null;
             try
@@ -69,6 +70,7 @@ namespace TCM.Model
             {
                 XElement xeroot = xml.Element("library");
                 Library library = Parse(xeroot);
+                library.Path = path;
                 return library;
             }
             return null;
@@ -240,6 +242,15 @@ namespace TCM.Model
                     _Version = null;
                 else _Version = value;
             }
+        }
+
+        /// <summary>
+        /// 获取或设置库的路径
+        /// </summary>
+        public string Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
         }
 
         /// <summary>

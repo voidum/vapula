@@ -13,10 +13,6 @@ namespace TCM.Model
             = new List<Node>();
         private List<Link> _Links 
             = new List<Link>();
-        private List<Stage> _Stages
-            = new List<Stage>();
-        private Stage _CurrentStage = null;
-        private ISyncable _SyncTarget = null;
 
         public List<Node> Nodes
         {
@@ -28,40 +24,19 @@ namespace TCM.Model
             get { return _Links; }
         }
 
-        public List<Stage> Stages
+        public bool IsValid
         {
-            get { return _Stages; }
+            get { return true; }
         }
 
-        public Stage FirstStage
-        {
-            get
-            {
-                Stage stage = new Stage();
-                foreach (Node node in _Nodes)
-                {
-                    if (node.IsReady)
-                        stage.Add(node);
-                }
-                if (stage.Nodes.Count > 0)
-                    return stage;
-                return null;
-            }
-        }
-
-        public Stage CurrentStage
-        {
-            get { return _CurrentStage; }
-            set { _CurrentStage = value; }
-        }
+        #region ISyncable
+        private ISyncable _SyncTarget = null;
 
         public ISyncable SyncTarget
         {
             get { return _SyncTarget; }
             set { _SyncTarget = value; }
         }
-
-
 
         public void Sync(string cmd, object attach)
         {
@@ -95,5 +70,6 @@ namespace TCM.Model
                 _Links.Clear();
             }
         }
+        #endregion
     }
 }

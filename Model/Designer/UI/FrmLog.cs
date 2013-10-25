@@ -12,6 +12,14 @@ namespace TCM.Model.Designer
             InitializeComponent();
         }
 
+        private void FormLayout_AddItem(ListViewItem lvi)
+        {
+            if (InvokeRequired)
+                Invoke(new Action<ListViewItem>(FormLayout_AddItem));
+            else
+                LsvLog.Items.Add(lvi);
+        }
+
         public void WriteLog(LogType type, params object[] values)
         {
             ListViewItem lvi = new ListViewItem(
@@ -21,7 +29,7 @@ namespace TCM.Model.Designer
                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     (string)values[0]
                 });
-            LsvLog.Items.Add(lvi);
+            FormLayout_AddItem(lvi);
         }
 
         public void ClearLog()
@@ -32,6 +40,11 @@ namespace TCM.Model.Designer
         private void BtClear_Click(object sender, EventArgs e)
         {
             ClearLog();
+        }
+
+        private void FrmLog_Resize(object sender, EventArgs e)
+        {
+            ColhContent.Width = LsvLog.Width - ColhLevel.Width - ColhTime.Width;
         }
     }
 }

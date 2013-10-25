@@ -2,8 +2,12 @@
 #include "tcm_bridge_c.h"
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_Invoker.h"
+#include "tcm_invoker.h"
 #include "tcm_pipe.h"
+
+void tcmTestBridge()
+{
+}
 
 void tcmDeleteObject(LPVOID object)
 {

@@ -1,8 +1,7 @@
 ﻿using System.Threading;
-using TCM;
 using TCM.Runtime;
 
-namespace sample_xcom
+namespace sample_xlib
 {
     public class Program
     {
