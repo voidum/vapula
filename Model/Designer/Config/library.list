@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
+  <library id="sample_lib" state="0" />
   <library id="sample_xlib" state="0" />
 </root>

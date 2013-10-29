@@ -24,7 +24,7 @@ void Assert(bool condition)
 void Test1(Library* lib)
 {
 	cout<<"[get Invoker] ... ";
-	Invoker* inv = lib->CreateInvoker(4);
+	Invoker* inv = lib->CreateInvoker(5);
 	Assert(inv != NULL);
 
 	cout<<"[Invoke function 5] ... ";
@@ -59,7 +59,7 @@ void Test1(Library* lib)
 void Test2(Library* lib)
 {
 	cout<<"[get Invoker] ... ";
-	Invoker* inv = lib->CreateInvoker(0);
+	Invoker* inv = lib->CreateInvoker(1);
 	Assert(inv != NULL);
 
 	cout<<"[get envelope] ... ";
@@ -67,8 +67,8 @@ void Test2(Library* lib)
 	Assert(env != NULL);
 
 	cout<<"[set params]"<<endl;
-	env->Write(0, 12);
-	env->Write(1, 23);
+	env->Write(1, 12);
+	env->Write(2, 23);
 
 	cout<<"[Invoke function 0] ... ";
 	Assert(inv->Start());
@@ -76,7 +76,7 @@ void Test2(Library* lib)
 	Context* ctx = inv->GetContext();
 	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
 	
-	int result = env->Read<int>(2);
+	int result = env->Read<int>(3);
 	cout<<"<valid> - out:"<<result<<endl;
 
 	LARGE_INTEGER freq, t1, t2;
@@ -84,12 +84,12 @@ void Test2(Library* lib)
 	QueryPerformanceCounter(&t1);
 	for (int i=0;i<2000;i++)
 	{
-		env->Write(0, 12);
-		env->Write(1, 23);
+		env->Write(1, 12);
+		env->Write(2, 23);
 		inv->Start();
 		Context* ctx = inv->GetContext();
 		while(ctx->GetState() != TCM_STATE_IDLE) Sleep(0);
-		int result = env->Read<int>(2);
+		int result = env->Read<int>(3);
 	}
 	QueryPerformanceCounter(&t2);
 	cout<<"PerfC time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;

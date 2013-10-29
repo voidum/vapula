@@ -64,6 +64,9 @@ namespace tcm
 	public:
 		//运行任务
 		int Run(Task* task);
+
+		//获取任务
+		Task* GetTask();
 	protected:
 		//运行任务阶段A
 		virtual bool RunStageA() = 0;

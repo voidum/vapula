@@ -45,9 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\stdafx.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
     <ClInclude Include="include\targetver.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
@@ -105,12 +102,12 @@
     <ClInclude Include="include\tcm_invoker.h">
       <Filter>头文件\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
     <ClCompile Include="src\tcm_xml.cpp">
@@ -157,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="src\tcm_invoker.cpp">
       <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>源文件\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

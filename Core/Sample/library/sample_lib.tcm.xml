@@ -2,93 +2,56 @@
 <library>
   <runtime>crt</runtime>
   <id>sample_lib</id>
-  <name><![CDATA[TCM示例组件]]></name>
+  <name>TCM C++示例组件</name>
+  <description></description>
   <version>1.0</version>
-  <description><![CDATA[包含演示TCM各种功能的TCM标准组件]]></description>
-  <publisher><![CDATA[TCM]]></publisher>
+  <publisher></publisher>
   <functions>
-    <function id="0">
-	  <name><![CDATA[Math]]></name>
-      <description><![CDATA[基本数学演示]]></description>
-      <params>
-        <param id="0" type="3" in="true">
-          <name><![CDATA[加数1]]></name>
-          <catalog><![CDATA[]]></catalog>
-          <description><![CDATA[]]></description>
-        </param>
-        <param id="1" type="3" in="true">
-          <name><![CDATA[加数2]]></name>
-          <catalog><![CDATA[]]></catalog>
-          <description><![CDATA[]]></description>
-        </param>
-        <param id="2" type="3" in="false">
-          <name><![CDATA[和]]></name>
-          <catalog><![CDATA[]]></catalog>
-          <description><![CDATA[]]></description>
-        </param>
-      </params>
-    </function>
     <function id="1">
-      <description><![CDATA[字符串输出演示]]></description>
-      <name><![CDATA[Out]]></name>
+      <description></description>
+      <name>运算示例</name>
       <params>
-        <param id="0" type="21" in="false">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[输出1]]></name>
-          <catalog><![CDATA[]]></catalog>
+        <param id="1" type="3" in="true">
+          <description>参与运算的第一个加数</description>
+          <name>加数1</name>
+          <catalog>输入</catalog>
         </param>
-        <param id="1" type="22" in="false">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[输出2]]></name>
-          <catalog><![CDATA[]]></catalog>
+        <param id="2" type="3" in="true">
+          <description>参与运算的第一个加数</description>
+          <name>加数2</name>
+          <catalog>输入</catalog>
+        </param>
+        <param id="3" type="3" in="false">
+          <description>两个加数的和</description>
+          <name>和</name>
+          <catalog>输出</catalog>
         </param>
       </params>
     </function>
     <function id="2">
-      <description><![CDATA[]]></description>
-      <name><![CDATA[TestArray]]></name>
+      <description>输出一个字符串</description>
+      <name>输出示例</name>
       <params>
-        <param id="0" type="3" in="true">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[数组长度]]></name>
-          <catalog><![CDATA[]]></catalog>
-        </param>
-        <param id="1" type="0" in="true">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[数组]]></name>
-          <catalog><![CDATA[]]></catalog>
-        </param>
-        <param id="2" type="3" in="false">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[和值]]></name>
-          <catalog><![CDATA[]]></catalog>
+        <param id="1" type="22" in="false">
+          <description>输出的字符串</description>
+          <name>输出</name>
+          <catalog>输出</catalog>
         </param>
       </params>
     </function>
     <function id="3">
-      <description><![CDATA[]]></description>
-      <name><![CDATA[TestObject]]></name>
-      <params>
-        <param id="0" type="0" in="true">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[输入对象]]></name>
-          <catalog><![CDATA[]]></catalog>
-        </param>
-        <param id="1" type="20" in="true">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[是否调用Inc]]></name>
-          <catalog><![CDATA[]]></catalog>
-        </param>
-        <param id="2" type="0" in="false">
-          <description><![CDATA[]]></description>
-          <name><![CDATA[输出对象]]></name>
-          <catalog><![CDATA[]]></catalog>
-        </param>
-      </params>
+      <description>暂未实现</description>
+      <name>数组操作</name>
+      <params />
     </function>
     <function id="4">
-      <description><![CDATA[演示上下文的通信]]></description>
-      <name><![CDATA[TestContext]]></name>
+      <description>暂未实现</description>
+      <name>对象操作</name>
+      <params />
+    </function>
+    <function id="5">
+      <description>示例上下文控制</description>
+      <name>上下文示例</name>
       <params />
     </function>
   </functions>

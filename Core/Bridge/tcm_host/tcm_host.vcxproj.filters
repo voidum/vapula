@@ -45,7 +45,7 @@
     <ClInclude Include="worker_scp_lua.h">
       <Filter>头文件\task</Filter>
     </ClInclude>
-    <ClInclude Include="..\tcm_bridge\include\tcm_task.h">
+    <ClInclude Include="tcm_task.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClCompile Include="worker_scp_lua.cpp">
       <Filter>源文件\task</Filter>
     </ClCompile>
-    <ClCompile Include="..\tcm_bridge\src\tcm_task.cpp">
+    <ClCompile Include="tcm_task.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,7 +78,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="templ_task.xml">
+    <None Include="sample_task.xml">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

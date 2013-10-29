@@ -7,44 +7,49 @@
   <version>1.0</version>
   <publisher></publisher>
   <functions>
-    <function id="0">
+    <function id="1">
       <description></description>
       <name>运算示例</name>
       <params>
-        <param id="0" type="3" in="true">
+        <param id="1" type="3" in="true">
           <description>参与运算的第一个加数</description>
           <name>加数1</name>
           <catalog>输入</catalog>
         </param>
-        <param id="1" type="3" in="true">
+        <param id="2" type="3" in="true">
           <description>参与运算的第一个加数</description>
           <name>加数2</name>
           <catalog>输入</catalog>
         </param>
+        <param id="3" type="3" in="false">
+          <description>两个加数的和</description>
+          <name>和</name>
+          <catalog>输出</catalog>
+        </param>
       </params>
     </function>
-    <function id="1">
+    <function id="2">
       <description>输出一个字符串</description>
       <name>输出示例</name>
       <params>
-        <param id="0" type="22" in="false">
+        <param id="1" type="22" in="false">
           <description>输出的字符串</description>
           <name>输出</name>
           <catalog>输出</catalog>
         </param>
       </params>
     </function>
-    <function id="2">
+    <function id="3">
       <description>暂未实现</description>
       <name>数组操作</name>
       <params />
     </function>
-    <function id="3">
+    <function id="4">
       <description>暂未实现</description>
       <name>对象操作</name>
       <params />
     </function>
-    <function id="4">
+    <function id="5">
       <description>示例上下文控制</description>
       <name>上下文示例</name>
       <params />

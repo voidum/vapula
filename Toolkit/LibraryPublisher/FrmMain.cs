@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using TCM.Helper;
 using TCM.Model;
-using System.IO;
 
 namespace TCM.Toolkit
 {
@@ -14,7 +13,7 @@ namespace TCM.Toolkit
     {
         private void UpdateID<T>(List<T> source, Action<T, int> setter)
         {
-            int i = 0;
+            int i = 1;
             foreach (T e in source) 
             {
                 setter(e, i);
@@ -93,9 +92,11 @@ namespace TCM.Toolkit
             Library lib = new Library();
             lib.Id = id;
             Function func = new Function();
+            func.Id = 1;
             lib.Functions.Add(func);
+           
             AppData.Instance.Library = lib;
-            AppData.Instance.PathConfig = dir + id + ".tcm.xml";
+            AppData.Instance.PathConfig = Path.Combine(dir, id + ".tcm.xml");
 
             MnuLib_Publish.Enabled = true;
             FormLayout_LoadLibrary();
@@ -114,6 +115,7 @@ namespace TCM.Toolkit
             }
             else
             {
+                treeview.Nodes.Clear();
                 MessageBox.Show("指定的组件描述文件未通过验证。");
             }
         }
@@ -132,7 +134,7 @@ namespace TCM.Toolkit
                 MessageBox.Show("发布时发生错误。\n" + ex.Message, "注意");
                 return;
             }
-            MessageBox.Show("组件发布成功。");
+            MessageBox.Show("组件发布成功。\n发布位置：" + AppData.Instance.PathConfig, "组件发布器");
         }
 
         private void BtAddParam_Click(object sender, EventArgs e)
@@ -145,18 +147,18 @@ namespace TCM.Toolkit
             }
             TreeNode tn = treeview.SelectedNode;
             if (tn == null) return;
-            Parameter model_param = null;
+            Parameter model_param = new Parameter();
+            model_param.Type = DataType.Int32;
+            model_param.IsIn = true;
             switch (tn.Level)
             {
                 case 1:
-                    model_param = new Parameter();
                     lib.Functions[tn.Index].Parameters.Add(model_param);
                     UpdateID(
                         lib.Functions[tn.Index].Parameters,
                         (d, v) => { d.Id = v; });
                     break;
                 case 2:
-                    model_param = new Parameter();
                     lib.Functions[tn.Parent.Index].Parameters.Insert(tn.Index, model_param);
                     UpdateID(
                         lib.Functions[tn.Parent.Index].Parameters,
@@ -267,7 +269,6 @@ namespace TCM.Toolkit
 
         private void MnuHelp_About_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

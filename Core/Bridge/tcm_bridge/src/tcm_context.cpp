@@ -92,7 +92,12 @@ namespace tcm
 		_Lock->Enter();
 		switch(_CtrlCode)
 		{
-		case TCM_CTRL_NULL: break;
+		case TCM_CTRL_NULL:
+			if(_State == TCM_STATE_BUSY)
+				_State = TCM_STATE_UI;
+			else if(_State == TCM_STATE_UI)
+				_State = TCM_STATE_BUSY;
+			break;
 		case TCM_CTRL_CANCEL: break;
 		case TCM_CTRL_PAUSE:
 			_State = TCM_STATE_PAUSE;

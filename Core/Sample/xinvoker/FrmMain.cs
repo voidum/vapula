@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using TCM;
 using TCM.Runtime;
 
 namespace sample_xinvoker
@@ -25,7 +24,7 @@ namespace sample_xinvoker
 
         void Test1(Library lib)
         {
-            Invoker inv = lib.CreateInvoker(4);
+            Invoker inv = lib.CreateInvoker(5);
             if (inv == null) return;
             if (!inv.Start()) return;
             Context ctx = inv.Context;
@@ -58,7 +57,7 @@ namespace sample_xinvoker
         void Test2(Library lib)
         {
             UpdateLog("获取用于功能0的调用器对象");
-            Invoker inv = lib.CreateInvoker(0);
+            Invoker inv = lib.CreateInvoker(1);
             if (inv == null) return;
 
             UpdateLog("获取信封对象");
@@ -66,8 +65,8 @@ namespace sample_xinvoker
             if (env == null) return;
 
             UpdateLog("设置参数");
-            env.Write(0, "12");
-            env.Write(1, "23");
+            env.Write(1, "12");
+            env.Write(2, "23");
 
             UpdateLog("执行功能");
             if (!inv.Start()) return;
@@ -75,26 +74,26 @@ namespace sample_xinvoker
             Context ctx = inv.Context;
             while (ctx.State != State.Idle) Thread.Sleep(50);
 
-            UpdateLog("验证输出：" + env.Read(2));
+            UpdateLog("验证输出：" + env.Read(3));
 
             //double td_time = 0;
             for (int i = 0; i < 2000; i++)
             {
-                env.Write(0, "12");
-                env.Write(1, "23");
+                env.Write(1, "12");
+                env.Write(2, "23");
                 inv.Start();
                 ctx = inv.Context;
                 //sw = ctx.GetStopwatch();
                 while (ctx.State != State.Idle) Thread.Sleep(0);
                 //td_time += sw.GetElapsedTime();
-                int.Parse(env.Read(2));
+                int.Parse(env.Read(3));
             }
             inv.Dispose();
         }
 
         private void BtRun1_Click(object sender, EventArgs e)
         {
-            Library lib = Library.Load("E:\\Projects\\TCM\\tcm_bridge\\OutDir\\debug-vc10\\sample_xcom.tcm.xml");
+            Library lib = Library.Load("E:\\Projects\\TCM\\tcm_bridge\\OutDir\\debug-vc10\\sample_xlib.tcm.xml");
             if (lib == null) return;
             lib.Mount();
             Test1(lib);

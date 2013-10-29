@@ -40,7 +40,8 @@ namespace tcm
 	{
 		TCM_STATE_IDLE = 0,
 		TCM_STATE_BUSY = 1,
-		TCM_STATE_PAUSE = 2
+		TCM_STATE_PAUSE = 2,
+		TCM_STATE_UI = 3
 	};
 
 	//TCM支持的控制码

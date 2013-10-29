@@ -38,9 +38,10 @@
             this.TbxName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.ChbxIn = new System.Windows.Forms.CheckBox();
+            this.ChbxOut = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CobxType = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // TbxId
@@ -55,7 +56,7 @@
             // BtCancel
             // 
             this.BtCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtCancel.Location = new System.Drawing.Point(172, 224);
+            this.BtCancel.Location = new System.Drawing.Point(172, 244);
             this.BtCancel.Name = "BtCancel";
             this.BtCancel.Size = new System.Drawing.Size(80, 26);
             this.BtCancel.TabIndex = 1;
@@ -65,7 +66,7 @@
             // 
             // BtOK
             // 
-            this.BtOK.Location = new System.Drawing.Point(86, 224);
+            this.BtOK.Location = new System.Drawing.Point(86, 244);
             this.BtOK.Name = "BtOK";
             this.BtOK.Size = new System.Drawing.Size(80, 26);
             this.BtOK.TabIndex = 0;
@@ -75,7 +76,7 @@
             // 
             // TbxDescription
             // 
-            this.TbxDescription.Location = new System.Drawing.Point(58, 120);
+            this.TbxDescription.Location = new System.Drawing.Point(58, 140);
             this.TbxDescription.MaxLength = 2000;
             this.TbxDescription.Multiline = true;
             this.TbxDescription.Name = "TbxDescription";
@@ -85,7 +86,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 123);
+            this.label5.Location = new System.Drawing.Point(12, 143);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 12;
@@ -93,7 +94,7 @@
             // 
             // TbxCatalog
             // 
-            this.TbxCatalog.Location = new System.Drawing.Point(58, 93);
+            this.TbxCatalog.Location = new System.Drawing.Point(58, 113);
             this.TbxCatalog.MaxLength = 500;
             this.TbxCatalog.Name = "TbxCatalog";
             this.TbxCatalog.Size = new System.Drawing.Size(194, 21);
@@ -102,7 +103,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 96);
+            this.label3.Location = new System.Drawing.Point(12, 116);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 11;
@@ -110,7 +111,7 @@
             // 
             // TbxName
             // 
-            this.TbxName.Location = new System.Drawing.Point(58, 66);
+            this.TbxName.Location = new System.Drawing.Point(58, 87);
             this.TbxName.MaxLength = 500;
             this.TbxName.Name = "TbxName";
             this.TbxName.Size = new System.Drawing.Size(194, 21);
@@ -119,7 +120,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 69);
+            this.label2.Location = new System.Drawing.Point(12, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 10;
@@ -134,20 +135,20 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "标识：";
             // 
-            // ChbxIn
+            // ChbxOut
             // 
-            this.ChbxIn.AutoSize = true;
-            this.ChbxIn.Location = new System.Drawing.Point(58, 42);
-            this.ChbxIn.Name = "ChbxIn";
-            this.ChbxIn.Size = new System.Drawing.Size(72, 16);
-            this.ChbxIn.TabIndex = 2;
-            this.ChbxIn.Text = "输入参数";
-            this.ChbxIn.UseVisualStyleBackColor = true;
+            this.ChbxOut.AutoSize = true;
+            this.ChbxOut.Location = new System.Drawing.Point(58, 38);
+            this.ChbxOut.Name = "ChbxOut";
+            this.ChbxOut.Size = new System.Drawing.Size(126, 16);
+            this.ChbxOut.TabIndex = 2;
+            this.ChbxOut.Text = "输出 (默认为输入)";
+            this.ChbxOut.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 43);
+            this.label4.Location = new System.Drawing.Point(12, 39);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 9;
@@ -156,7 +157,9 @@
             // CobxType
             // 
             this.CobxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CobxType.Font = new System.Drawing.Font("宋体", 10F);
             this.CobxType.FormattingEnabled = true;
+            this.CobxType.ItemHeight = 13;
             this.CobxType.Items.AddRange(new object[] {
             "指针",
             "8位整数",
@@ -172,10 +175,19 @@
             "布尔变量",
             "多字节字符串",
             "宽字节字符串"});
-            this.CobxType.Location = new System.Drawing.Point(131, 39);
+            this.CobxType.Location = new System.Drawing.Point(58, 60);
             this.CobxType.Name = "CobxType";
-            this.CobxType.Size = new System.Drawing.Size(121, 20);
+            this.CobxType.Size = new System.Drawing.Size(194, 21);
             this.CobxType.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 64);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 12);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "类型：";
             // 
             // FrmDetailParam
             // 
@@ -183,11 +195,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtCancel;
-            this.ClientSize = new System.Drawing.Size(264, 262);
+            this.ClientSize = new System.Drawing.Size(264, 282);
             this.ControlBox = false;
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.CobxType);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.ChbxIn);
+            this.Controls.Add(this.ChbxOut);
             this.Controls.Add(this.TbxId);
             this.Controls.Add(this.BtCancel);
             this.Controls.Add(this.BtOK);
@@ -218,8 +231,9 @@
         private System.Windows.Forms.TextBox TbxName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox ChbxIn;
+        private System.Windows.Forms.CheckBox ChbxOut;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox CobxType;
+        private System.Windows.Forms.Label label6;
     }
 }

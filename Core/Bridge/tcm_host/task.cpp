@@ -2,6 +2,7 @@
 #include "task.h"
 #include "worker.h"
 
+#include "tcm_driver.h"
 #include "tcm_library.h"
 #include "tcm_Invoker.h"
 #include "tcm_xml.h"
@@ -32,23 +33,56 @@ Dictionary* TaskEx::GetTags() { return _Tags; }
 
 Task* TaskEx::Parse(PCWSTR path)
 {
+	Config* config = Config::GetInstance();
+	Flag* flag = config->GetFlag();
+	bool silent = flag->Valid(TCM_CONFIG_SILENT);
+
 	PCSTR data = NULL;
 	xml_node<>* xdoc = (xml_node<>*)xml::Load(path, data);
-	if(xdoc == NULL) return NULL;
+	if(xdoc == NULL)
+	{
+		if(!silent)
+			ShowMsgbox("Fail to load TCM task file.", "TCM Host");
+		return NULL;
+	}
 
 	TaskEx* task = new TaskEx();
-	xml_node<>* xe_root = xdoc->first_node("root");
+	xml_node<>* xe_root = xdoc->first_node("task");
 	xml_node<>* xe_target = xe_root->first_node("target");
 	xml_node<>* xe_ext = xe_root->first_node("extension");
 
+	DriverHub* driver_hub = DriverHub::GetInstance();
+	PCSTR driver_id = xml::ValueA(xe_target->first_node("runtime"));
+	if(!driver_hub->Link(driver_id))
+	{
+		if(!silent)
+			ShowMsgbox("Fail to link driver.", "TCM Host");
+		return NULL;
+	}
+	delete driver_id;
+
 	PCWSTR dir = xml::ValueW(xe_target->first_node("dir"));
-	PCWSTR cid = xml::ValueW(xe_target->first_node("cid"));
+	PCWSTR lib = xml::ValueW(xe_target->first_node("lib"));
 	wstring str_path = dir;
-	str_path += cid;
+	str_path += lib;
 	str_path += L".tcm.xml";
 	task->_Lib = Library::Load(str_path.c_str());
-	delete path;
-	delete cid;
+	delete lib;
+
+	if(task->_Lib == NULL)
+	{
+		if(!silent)
+			ShowMsgbox("Fail to load library.", "TCM Host");
+		return NULL;
+	}
+
+	if(!task->_Lib->Mount())
+	{
+		if(!silent)
+			ShowMsgbox("Fail to mount library", "TCM Host");
+		return NULL;
+	}
+	
 	task->_FuncId = xml::ValueInt(xe_target->first_node("fid"));
 	task->_Invoker = task->_Lib->CreateInvoker(task->_FuncId);
 
@@ -62,6 +96,7 @@ Task* TaskEx::Parse(PCWSTR path)
 		delete pv;
 		xe_param = xe_param->next_sibling();
 	}
+	//TODO: out validation param
 
 	xml_node<>* xe_tag = (xml_node<>*)xml::Path(xe_ext, 2, "tags", "tag");
 	while(xe_tag)
@@ -83,26 +118,50 @@ Task* TaskEx::Parse(PCWSTR path)
 
 bool TaskEx::RunAs(Worker* worker)
 {
+	Config* config = Config::GetInstance();
+	Flag* flag = config->GetFlag();
+	bool silent = flag->Valid(TCM_CONFIG_SILENT);
+
 	LARGE_INTEGER freq,t1,t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
-	int retcode = worker->Run(this);
+	int ret_worker = worker->Run(this);
 	QueryPerformanceCounter(&t2);
-	Config* config = Config::GetInstance();
-	Flag* flag = config->GetFlag();
-	if(!flag->Valid(TCM_CONFIG_SILENT))
+
+	bool ret = false;
+	if(ret_worker == TCM_TASK_RETURN_NORMAL)
 	{
-		wstring str = L"TCM host has done with task:\n";
-		str += _Lib->GetLibraryId();
-		str += L"=>";
-		str += ValueToStrW(_FuncId);
-		str += L"\nReturn code:";
-		str += ValueToStrW(retcode);
-		str += L"\nElapsed time:";
-		str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
-		str += L"(s)";
-		ShowMsgbox(str.c_str(),L"TCM Host");
+		int ret_task = worker->GetTask()->GetInvoker()->GetContext()->GetReturnCode();
+		if(!silent)
+		{
+			wstring str = L"TCM host has done with task:\n";
+			str += _Lib->GetLibraryId();
+			str += L"=>";
+			str += ValueToStrW(_FuncId);
+			str += L"\nReturn code:";
+			str += ValueToStrW(ret_task);
+			str += L"\nElapsed time:";
+			str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
+			str += L"(s)";
+			ShowMsgbox(str.c_str(),L"TCM Host");
+		}
+		ret = true;
 	}
-	if(retcode != TCM_RETURN_NORMAL) return false;
-	else return true;
+	else if(ret_worker > TCM_TASK_RETURN_NORMAL)
+	{
+		if(!silent)
+		{
+			wstring str = L"TCM host has NOT done with task:\n";
+			str += _Lib->GetLibraryId();
+			str += L"=>";
+			str += ValueToStrW(_FuncId);
+			str += L"\nLast stage:";
+			str += ValueToStrW('A' + ret_worker - 1);
+			str += L"\nElapsed time:";
+			str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
+			str += L"(s)";
+			ShowMsgbox(str.c_str(),L"TCM Host");
+		}
+	}
+	return ret;
 }

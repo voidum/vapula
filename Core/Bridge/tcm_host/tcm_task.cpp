@@ -9,6 +9,11 @@ namespace tcm
 
 	Worker::~Worker() { }
 
+	Task* Worker::GetTask()
+	{
+		return _Task;
+	}
+
 	int Worker::Run(Task* task)
 	{
 		_Task = task;

@@ -10,11 +10,11 @@ namespace sample_xlib
             Sample sample = new Sample(envelope, context);
             switch (function)
             {
-                case 0: return sample.Function_Math();
-                case 1: return sample.Function_Out();
-                case 2: return sample.Function_Array();
-                case 3: return sample.Function_Object();
-                case 4: return sample.Function_Context();
+                case 1: return sample.Function_Math();
+                case 2: return sample.Function_Out();
+                case 3: return sample.Function_Array();
+                case 4: return sample.Function_Object();
+                case 5: return sample.Function_Context();
                 default: return ReturnCode.NullEntry;
             }
         }
@@ -33,16 +33,16 @@ namespace sample_xlib
 
         public ReturnCode Function_Math()
         {
-            int a = int.Parse(_Envelope.Read(0));
-            int b = int.Parse(_Envelope.Read(1));
+            int a = int.Parse(_Envelope.Read(1));
+            int b = int.Parse(_Envelope.Read(2));
             int c = a + b;
-            _Envelope.Write(2, c.ToString());
+            _Envelope.Write(3, c.ToString());
             return ReturnCode.Normal;
         }
 
         public ReturnCode Function_Out()
         {
-            _Envelope.Write(0, "中文English日本語テスト");
+            _Envelope.Write(1, "中文English日本語テスト");
             return ReturnCode.Normal;
         }
 

@@ -35,6 +35,12 @@ namespace tcm
 		int*	_Types;
 		bool* _InStates;
 		int* _Offsets;
+	private:
+		inline bool AssertId(int id, Envelope* env = NULL)
+		{
+			if(id < 1) return false;
+			return env == NULL ? id <= _Total : id <= env->_Total;
+		}
 	public:
 		//获取参数数量
 		int GetParamTotal();
@@ -47,8 +53,8 @@ namespace tcm
 		template<typename T>
 		T Read(int id)
 		{
-			if(id >= _Total) throw runtime_error(_tcm_env_err_1);
-			T* param = (T*)((UINT)_Memory + _Offsets[id]);
+			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
 			return param[0];
 		}
 
@@ -64,8 +70,8 @@ namespace tcm
 		template<typename T>
 		void Write(int id, T value)
 		{
-			if(id >= _Total) throw runtime_error(_tcm_env_err_1);
-			T* param = (T*)((UINT)_Memory + _Offsets[id]);
+			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
 			param[0] = value;
 		}
 
@@ -73,15 +79,15 @@ namespace tcm
 		template<>
 		void Write<bool>(int id, bool value)
 		{
-			Write<char>(id,value ? TRUE : FALSE);
+			Write<char>(id, value ? TRUE : FALSE);
 		}
 
 		//写入对象
 		//size>0时浅拷贝对象数据
 		void Write(int id, LPVOID value, int size = 0)
 		{
-			if(id >= _Total) throw runtime_error(_tcm_env_err_1);
-			LPVOID* param = (LPVOID*)((UINT)_Memory + _Offsets[id]);
+			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			LPVOID* param = (LPVOID*)((UINT)_Memory + _Offsets[id - 1]);
 			if(size > 0)
 			{
 				//浅拷贝
@@ -108,7 +114,7 @@ namespace tcm
 		}
 
 		//读出数值并自动转型到字符串
-		PCSTR  CastReadA(int id);
+		PCSTR CastReadA(int id);
 		PCWSTR CastReadW(int id);
 
 		//由字符串自动转型到数值并写入

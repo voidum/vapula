@@ -1,7 +1,5 @@
 #pragma once
 
-#include "tcm_log.h"
-#include "tcm_time.h"
 #include "tcm_token.h"
 
 namespace tcm

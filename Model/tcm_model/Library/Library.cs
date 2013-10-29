@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using TCM.Helper;
-using System.IO;
 
 namespace TCM.Model
 {
@@ -245,21 +244,21 @@ namespace TCM.Model
         }
 
         /// <summary>
+        /// 获取或设置库的附加数据
+        /// </summary>
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
+        }
+
+        /// <summary>
         /// 获取或设置库的路径
         /// </summary>
         public string Path
         {
             get { return _Path; }
             set { _Path = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置附加数据
-        /// </summary>
-        public object Tag
-        {
-            get { return _Tag; }
-            set { _Tag = value; }
         }
 
         /// <summary>

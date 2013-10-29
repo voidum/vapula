@@ -39,7 +39,7 @@ namespace TCM.Model
 
         public XElement ToXML()
         {
-            XElement xml = new XElement("parameter",
+            XElement xml = new XElement("param",
                 new XAttribute("id", Id),
                 new XAttribute("type", (int)Type),
                 new XAttribute("in", IsIn ? "true" : "false"),

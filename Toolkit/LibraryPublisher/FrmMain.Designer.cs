@@ -220,7 +220,7 @@
             // treeview
             // 
             this.treeview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeview.ItemHeight = 24;
+            this.treeview.ItemHeight = 22;
             this.treeview.Location = new System.Drawing.Point(0, 50);
             this.treeview.Name = "treeview";
             this.treeview.Size = new System.Drawing.Size(304, 340);

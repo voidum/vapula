@@ -35,8 +35,10 @@ namespace TCM.Toolkit
                 TbxVersion.Text = value.Version;
                 TbxPublisher.Text = value.Publisher;
                 TbxDescription.Text = value.Description;
-                if (RuntimeId > 0)
+                if (RuntimeId >= 0)
                     CobxRuntime.SelectedIndex = RuntimeId;
+                else
+                    CobxRuntime.SelectedIndex = 0;
             }
         }
 

@@ -23,7 +23,8 @@ bool Worker_NULL::RunStageB()
 	inv->Start();
 	int freq_monitor = flag->Valid(TCM_CONFIG_RTMON) ? 5 : 50;
 	Context* ctx = inv->GetContext();
-	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(freq_monitor);
+	while(ctx->GetState() != TCM_STATE_IDLE)
+		Sleep(freq_monitor);
 	return true;
 }
 

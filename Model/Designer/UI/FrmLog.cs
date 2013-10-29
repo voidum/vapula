@@ -44,7 +44,10 @@ namespace TCM.Model.Designer
 
         private void FrmLog_Resize(object sender, EventArgs e)
         {
-            ColhContent.Width = LsvLog.Width - ColhLevel.Width - ColhTime.Width;
+            ColhContent.Width 
+                = LsvLog.Width 
+                - ColhLevel.Width 
+                - ColhTime.Width - 20;
         }
     }
 }

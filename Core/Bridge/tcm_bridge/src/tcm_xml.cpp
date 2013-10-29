@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "tcm_xml.h"
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
-#include "rapidxml/rapidxml_print.hpp"
 
 namespace tcm
 {

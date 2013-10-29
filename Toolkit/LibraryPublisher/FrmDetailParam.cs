@@ -28,7 +28,7 @@ namespace TCM.Toolkit
                 TbxName.Text = value.Name;
                 TbxCatalog.Text = value.Catalog;
                 TbxDescription.Text = value.Description;
-                ChbxIn.Checked = value.IsIn;
+                ChbxOut.Checked = !value.IsIn;
                 CobxType.SelectedIndex = GetIndexByType(_Parameter.Type);
             }
         }
@@ -48,7 +48,7 @@ namespace TCM.Toolkit
             _Parameter.Name = TbxName.Text;
             _Parameter.Catalog = TbxCatalog.Text;
             _Parameter.Description = TbxDescription.Text;
-            _Parameter.IsIn = ChbxIn.Checked;
+            _Parameter.IsIn = !ChbxOut.Checked;
             _Parameter.Type = (DataType)_TypeValues[CobxType.SelectedIndex];
             DialogResult = DialogResult.OK;
         }
