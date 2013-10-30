@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using System.Drawing;
+using System.IO;
+using System.Xml.Linq;
 
 namespace TCM.Model.Designer
 {

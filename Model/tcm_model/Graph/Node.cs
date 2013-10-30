@@ -25,8 +25,9 @@ namespace TCM.Model
             = new List<Link>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
-
+        protected int _LastStage = 0;
         protected ISyncable _SyncTarget;
+        protected object _Tag;
         #endregion;
 
         #region 属性
@@ -37,6 +38,8 @@ namespace TCM.Model
         }
 
         public abstract NodeType Type { get; }
+
+        public abstract bool Priority { get; set; }
 
         public List<Link> InLinks
         {
@@ -51,6 +54,12 @@ namespace TCM.Model
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
+        }
+
+        public object Tag
+        {
+            get { return _Tag; }
+            set { _Tag = value; }
         }
 
         public ISyncable SyncTarget
@@ -77,8 +86,9 @@ namespace TCM.Model
             throw new NotImplementedException();
         }
 
-        public void Sync(string cmd, object attach)
+        public virtual object Sync(string cmd, object attach)
         {
+            return null;
         }
 
         public virtual void Dispose()

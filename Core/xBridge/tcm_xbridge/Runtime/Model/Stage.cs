@@ -14,7 +14,6 @@ namespace TCM.Runtime
         private ModelProxy _Model = null;
         private int _Id = -1;
         private List<Node> _Nodes = new List<Node>();
-        private List<Invoker> _Invokers = new List<Invoker>();
 
         public ModelProxy Model
         {
@@ -35,23 +34,30 @@ namespace TCM.Runtime
 
         public Stage NextStage
         {
-            get { return null; }
+            get 
+            {
+                Stage stage = new Stage();
+                foreach (Node node in Nodes)
+                {
+                    foreach (Link link in node.OutLinks)
+                        stage.Add(link.To);
+                }
+                if (stage.Nodes.Count > 0)
+                    return stage;
+                return null;
+            }
         }
 
-        public bool Add(Node node)
-        {
-            if (_Nodes.Contains(node))
-                return false;
-            _Nodes.Add(node);
-            return true;
-        }
-
-        public bool Remove(Node node)
+        public void Add(Node node)
         {
             if (!_Nodes.Contains(node))
-                return false;
-            _Nodes.Remove(node);
-            return true;
+                _Nodes.Add(node);
+        }
+
+        public void Remove(Node node)
+        {
+            if (_Nodes.Contains(node))
+                _Nodes.Remove(node);
         }
 
         /// <summary>
@@ -90,9 +96,9 @@ namespace TCM.Runtime
                     Library lib = Library.Load(func.Library.Path);
                     lib.Mount();
                     Invoker invoker = lib.CreateInvoker(func.Id);
-                    _Invokers.Add(invoker);
+                    node.Tag = invoker;
                     bool ret = invoker.Start();
-                    Logger.WriteLog(LogType.Error,
+                    Logger.WriteLog(LogType.Event,
                         string.Format("节点{0}的功能{1}启动{2}",
                             node.Id, func.Name,
                             ret ? "成功" : "失败"));
@@ -102,12 +108,13 @@ namespace TCM.Runtime
 
         public void Wait()
         {
-            foreach (var e in _Invokers)
+            foreach (var node in _Nodes)
             {
-                while (e.Context.State != State.Idle)
+                Invoker invoker = node.Tag as Invoker;
+                while (invoker.Context.State != State.Idle)
                     Thread.Sleep(50);
-                Logger.WriteLog(LogType.Debug, 
-                    e.Envelope.Read(0));
+                Logger.WriteLog(LogType.Debug,
+                    invoker.Envelope.Read(1));
             }
         }
     }

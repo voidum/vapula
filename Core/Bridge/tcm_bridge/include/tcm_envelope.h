@@ -4,8 +4,7 @@
 
 namespace tcm
 {
-	using std::runtime_error;
-
+	using std::invalid_argument;
 	const PCSTR _tcm_env_err_1 = "try to access null param";
 	const PCSTR _tcm_env_err_2 = "try to write null value";
 	const PCSTR _tcm_env_err_3 = "try to deliver between different types";
@@ -53,7 +52,8 @@ namespace tcm
 		template<typename T>
 		T Read(int id)
 		{
-			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			if(!AssertId(id))
+				throw invalid_argument(_tcm_env_err_1);
 			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
 			return param[0];
 		}
@@ -70,7 +70,7 @@ namespace tcm
 		template<typename T>
 		void Write(int id, T value)
 		{
-			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
 			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
 			param[0] = value;
 		}
@@ -86,7 +86,7 @@ namespace tcm
 		//size>0时浅拷贝对象数据
 		void Write(int id, LPVOID value, int size = 0)
 		{
-			if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+			if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
 			LPVOID* param = (LPVOID*)((UINT)_Memory + _Offsets[id - 1]);
 			if(size > 0)
 			{

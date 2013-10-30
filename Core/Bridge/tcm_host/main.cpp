@@ -19,7 +19,11 @@ void ShowHelp();
 
 Flag* _Flag = NULL;
 
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+int APIENTRY wWinMain(
+	HINSTANCE hInstance, 
+	HINSTANCE hPrevInstance, 
+	LPWSTR lpCmdLine, 
+	int nCmdShow)
 {
 	int argc = 0;
 	LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(),&argc);
@@ -31,13 +35,13 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	}
 
 	Config* config = Config::GetInstance();
-	_Flag = config->GetFlag();
+	bool silent = config->IsSilent();
 
 	if(argc > 2) CheckOption(argc, argv);
 
 	if(!CanOpenRead(argv[1]))
 	{
-		if(!_Flag->Valid(TCM_CONFIG_SILENT))
+		if(!silent)
 			ShowMsgbox(L"Fail to open task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
@@ -45,7 +49,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	TaskEx* task = dynamic_cast<TaskEx*>(TaskEx::Parse(argv[1]));
 	if(task == NULL)
 	{
-		if(!_Flag->Valid(TCM_CONFIG_SILENT))
+		if(!silent)
 			ShowMsgbox(L"Fail to parse task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
@@ -54,9 +58,12 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	int mode = task->GetCtrlMode();
 	switch(mode)
 	{
-		case TCM_HOST_CJ_NULL: worker = new Worker_NULL(); break;
-		case TCM_HOST_CJ_PIPE: worker = new Worker_PIPE(); break;
-		case TCM_HOST_CJ_SCP_LUA: worker = new Worker_SCP_LUA(); break;
+		case TCM_HOST_CJ_NULL:
+			worker = new Worker_NULL(); break;
+		case TCM_HOST_CJ_PIPE:
+			worker = new Worker_PIPE(); break;
+		case TCM_HOST_CJ_SCP_LUA:
+			worker = new Worker_SCP_LUA(); break;
 	}
 	bool ret = task->RunAs(worker);
 	
@@ -71,12 +78,12 @@ void CheckOption(int argc, LPWSTR* argv)
 {
 	for (int i=2; i<argc; i++)
 	{
-		if (wcscmp(argv[i],L"silent") == 0)
+		if (wcscmp(argv[i], L"silent") == 0)
 		{
 			_Flag->Enable(TCM_CONFIG_SILENT);
 			continue;
 		}
-		if (wcscmp(argv[i],L"rtmon") == 0)
+		if (wcscmp(argv[i], L"rtmon") == 0)
 		{
 			_Flag->Enable(TCM_CONFIG_RTMON);
 			continue;

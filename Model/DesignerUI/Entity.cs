@@ -170,8 +170,9 @@ namespace TCM.Model.Designer
             _Cache.Clear();
         }
 
-        public virtual void Sync(string cmd, object attach)
+        public virtual object Sync(string cmd, object attach)
         {
+            return null;
         }
         #endregion
     }

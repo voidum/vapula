@@ -64,7 +64,7 @@ namespace TCM.Runtime
                 Stage stage = new Stage();
                 foreach (Node node in _Model.Nodes)
                 {
-                    if (node.IsReady)
+                    if (node.Priority || node.InLinks.Count == 0)
                         stage.Add(node);
                 }
                 if (stage.Nodes.Count > 0)
@@ -76,6 +76,18 @@ namespace TCM.Runtime
         public ModelProxy(Graph model)
         {
             _Model = model;
+        }
+
+        public int GetNewStageId()
+        {
+            List<int> ids = new List<int>();
+            foreach (Stage stage in _Stages)
+                ids.Add(stage.Id);
+            ids.Sort();
+            for (int i = 1; i <= ids.Count; i++)
+                if (i != ids[i - 1])
+                    return i;
+            return ids.Count + 1;
         }
 
         public bool Start()
@@ -99,22 +111,25 @@ namespace TCM.Runtime
                 }
             }
 
+            //校验模型
             if (!_Model.IsValid)
             {
                 Logger.WriteLog(LogType.Error, "模型没有通过有效性验证");
                 return false;
             }
 
+            //分阶段执行模型
             Stage stage = FirstStage;
             while (stage != null)
             {
+                stage.Id = GetNewStageId();
                 stage.Logger = Logger;
                 stage.Start();
                 stage.Wait();
                 Logger.WriteLog(LogType.Event,
                     string.Format("阶段{0}执行完成", stage.Id));
-                stage = stage.NextStage;
                 Stages.Add(stage);
+                stage = stage.NextStage;
             }
             Logger.WriteLog(LogType.Event, "模型执行完成");
             return true;

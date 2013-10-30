@@ -45,11 +45,9 @@ int Function_Math(Envelope* envelope, Context* context)
 //第二个任务
 int Function_Out(Envelope* envelope,Context* context)
 {
-	PCSTR str1 = "Hello World!";
-	PCWSTR str2 = L"中文Engligh日本語テスト";
+	PCWSTR str = L"中文Engligh日本語テスト";
 	context->SetProgress(100);
-	envelope->Write(1, str1);
-	envelope->Write(2, str2);
+	envelope->Write(1, str);
 	return TCM_RETURN_NORMAL;
 }
 

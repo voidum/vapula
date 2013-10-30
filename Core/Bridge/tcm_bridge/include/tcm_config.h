@@ -24,5 +24,8 @@ namespace tcm
 		Flag* _Flag;
 	public:
 		Flag* GetFlag();
+	public:
+		bool IsSilent();
+		bool IsRealTimeMonitor();
 	};
 }

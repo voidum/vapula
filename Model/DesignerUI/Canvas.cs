@@ -145,8 +145,9 @@ namespace TCM.Model.Designer
         /// <summary>
         /// 根据协定将提供的数据同步到画布
         /// </summary>
-        public virtual void Sync(string cmd, object attach) 
+        public virtual object Sync(string cmd, object attach) 
         {
+            return null;
         }
 
         /// <summary>

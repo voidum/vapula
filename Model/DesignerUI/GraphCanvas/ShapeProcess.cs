@@ -10,15 +10,7 @@ namespace TCM.Model.Designer
     class ShapeProcess : Shape
     {
         #region 字段
-        protected Image _Icon = null;
-        #endregion
-
-        #region 属性
-        protected Image Icon 
-        {
-            get { return _Icon; }
-            set { _Icon = value; }
-        }
+        private Image _Icon = null;
         #endregion
 
         #region 构造
@@ -26,7 +18,6 @@ namespace TCM.Model.Designer
             : base(p)
         {
             _Size = new Size(60, 40);
-            //_Texts.Add(_Texts[1].Length > 11 ? _Texts[1].Substring(0, 8) + "..." : _Texts[1]);
 
             //up right bottom left
             _Connectors.Add(new Connector(new Point(X, Top), this));
@@ -61,19 +52,27 @@ namespace TCM.Model.Designer
             return false;
         }
 
+        private void DrawText(Graphics g)
+        {
+            string id = (string)SyncTarget.Sync("get-id", null);
+            g.DrawString(id, _Cache.GetFont("0"), Brushes.Black, Left + 5, Top + 4);
+
+            string text = (string)SyncTarget.Sync("get-text", null);
+            //text = text.Length > 4 ? text.Substring(0, 2) + "..." : text;
+
+            float text_width = g.MeasureString(text, _Cache.GetFont("0")).Width;
+            g.DrawString(text, _Cache.GetFont("0"), Brushes.Black, X - text_width / 2, Bottom - 18);
+        }
+
         public override void OnPaint(Graphics g)
         {
             g.FillRectangle(_Cache.GetBrush("0"), Bounds);
-            if(Icon != null)
-                g.DrawImage(Icon, new Rectangle(X + 21, Y + 4, 48, 48));
+            _Icon = SyncTarget.Sync("get-icon", null) as Image;
+            if (_Icon != null)
+                g.DrawImage(_Icon, new Rectangle(X + 21, Y + 4, 48, 48));
+            DrawText(g);
             if (IsHovered)
             {
-                //Rectangle trect = new Rectangle(X, Y + Height - 36, Width, 36);
-                //g.FillRectangle(_Cache.GetBrush("1"), trect);
-                //float tw_fi = g.MeasureString(_Texts[0], _Cache.GetFont("0")).Width;
-                //float tw_fn = g.MeasureString(_Texts[2], _Cache.GetFont("0")).Width;
-                //g.DrawString(_Texts[0], _Cache.GetFont("0"), Brushes.Black, X + 45 - tw_fi / 2, trect.Y + 2);
-                //g.DrawString(_Texts[2], _Cache.GetFont("0"), Brushes.Black, X + 45 - tw_fn / 2, trect.Y + 17);
                 g.DrawRectangle(_Cache.GetPen("1"), Bounds);
                 foreach (Connector cop in _Connectors) 
                     cop.OnPaint(g);

@@ -10,12 +10,17 @@ namespace TCM.Model
     /// </summary>
     public class NodeVariable : Node
     {
+        private string _Code;
+
         public override NodeType Type
         {
             get { return NodeType.Variable; }
         }
 
-        private string _Code;
-
+        public override bool Priority
+        {
+            get { return false; }
+            set { }
+        }
     }
 }

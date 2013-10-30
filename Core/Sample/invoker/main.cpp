@@ -1,6 +1,6 @@
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_Invoker.h"
+#include "tcm_invoker.h"
 #include "tcm_config.h"
 #include <iostream>
 
@@ -95,23 +95,34 @@ void Test2(Library* lib)
 	cout<<"PerfC time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
 }
 
+void Test3(Library* lib)
+{
+	Invoker* inv = lib->CreateInvoker(2);
+	inv->Start();
+	Context* ctx = inv->GetContext();
+	Envelope* env = inv->GetEnvelope();
+	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
+	std::wcout<<L"param 1:"<<env->Read<PCWSTR>(1)<<L"\n";
+}
+
 int main()
 {
 	DriverHub* drv_hub = DriverHub::GetInstance();
 	cout<<"[register driver crt] ... ";
 	Assert(drv_hub->Link("crt"));
-	cout<<"[register driver clr] ... ";
-	Assert(drv_hub->Link("clr"));
+	//cout<<"[register driver clr] ... ";
+	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load(L"E:\\Projects\\TCM\\tcm_bridge\\OutDir\\debug-vc10\\sample_xcom.tcm.xml");
+	Library* lib = Library::Load(L"E:\\Projects\\vapula\\Core\\OutDir\\debug-vc10\\sample_lib.tcm.xml");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";
 	Assert(lib->Mount());
 
-	Test1(lib);
+	//Test1(lib);
 	Test2(lib);
+	Test3(lib);
 
 	cout<<"[unmount component]"<<endl;
 	lib->Unmount();

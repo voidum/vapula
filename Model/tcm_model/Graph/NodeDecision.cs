@@ -10,9 +10,17 @@ namespace TCM.Model
     /// </summary>
     public class NodeDecision : Node
     {
+        private bool _Priority = false;
+
         public override NodeType Type
         {
             get { return NodeType.Decision; }
+        }
+
+        public override bool Priority
+        {
+            get { return _Priority; }
+            set { _Priority = value; }
         }
 
         private string _Code;

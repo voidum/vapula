@@ -113,181 +113,177 @@ namespace tcm
 
 	bool Envelope::GetInState(int id)
 	{
-		if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
+		if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
 		return _InStates[id - 1];
 	}
 
 	PCSTR Envelope::CastReadA(int id)
 	{
-		if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
-		int iid = id - 1;
-		int type = _Types[iid];
+		if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
+		int type = _Types[id - 1];
 		switch(type)
 		{
-		case TCM_DATA_POINTER:	return ValueToStrA((ULONG)Read<LPVOID>(iid));
-		case TCM_DATA_INT8:	return ValueToStrA(Read<char>(iid));
-		case TCM_DATA_UINT8:	return ValueToStrA(Read<BYTE>(iid));
-		case TCM_DATA_INT16:	return ValueToStrA(Read<short>(iid));
-		case TCM_DATA_UINT16:	return ValueToStrA(Read<USHORT>(iid));
-		case TCM_DATA_INT32:	return ValueToStrA(Read<int>(iid));
-		case TCM_DATA_UINT32:	return ValueToStrA(Read<UINT>(iid));
-		case TCM_DATA_INT64:	return ValueToStrA(Read<LONGLONG>(iid));
-		case TCM_DATA_UINT64:	return ValueToStrA(Read<ULONGLONG>(iid));
-		case TCM_DATA_REAL32:	return ValueToStrA(Read<float>(iid));
-		case TCM_DATA_REAL64:	return ValueToStrA(Read<double>(iid));
-		case TCM_DATA_BOOL:	return Read<bool>(iid) ? "true" : "false";
-		case TCM_DATA_CSTRA:	return CopyStrA(Read<PCSTR>(iid));
-		case TCM_DATA_CSTRW:	return WcToMb(Read<PCWSTR>(iid));
+		case TCM_DATA_POINTER:	return ValueToStrA((ULONG)Read<LPVOID>(id));
+		case TCM_DATA_INT8:	return ValueToStrA(Read<char>(id));
+		case TCM_DATA_UINT8:	return ValueToStrA(Read<BYTE>(id));
+		case TCM_DATA_INT16:	return ValueToStrA(Read<short>(id));
+		case TCM_DATA_UINT16:	return ValueToStrA(Read<USHORT>(id));
+		case TCM_DATA_INT32:	return ValueToStrA(Read<int>(id));
+		case TCM_DATA_UINT32:	return ValueToStrA(Read<UINT>(id));
+		case TCM_DATA_INT64:	return ValueToStrA(Read<LONGLONG>(id));
+		case TCM_DATA_UINT64:	return ValueToStrA(Read<ULONGLONG>(id));
+		case TCM_DATA_REAL32:	return ValueToStrA(Read<float>(id));
+		case TCM_DATA_REAL64:	return ValueToStrA(Read<double>(id));
+		case TCM_DATA_BOOL:	return Read<bool>(id) ? "true" : "false";
+		case TCM_DATA_CSTRA:	return CopyStrA(Read<PCSTR>(id));
+		case TCM_DATA_CSTRW:	return WcToMb(Read<PCWSTR>(id));
 		default:				return NULL;
 		}
 	}
 
 	PCWSTR Envelope::CastReadW(int id)
 	{
-		if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
-		int iid = id - 1;
-		int type = _Types[iid];
+		if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
+		int type = _Types[id - 1];
 		switch(type)
 		{
-		case TCM_DATA_POINTER:	return ValueToStrW((ULONG)Read<LPVOID>(iid));
-		case TCM_DATA_INT8:	return ValueToStrW(Read<char>(iid));
-		case TCM_DATA_UINT8:	return ValueToStrW(Read<BYTE>(iid));
-		case TCM_DATA_INT16:	return ValueToStrW(Read<short>(iid));
-		case TCM_DATA_UINT16:	return ValueToStrW(Read<USHORT>(iid));
-		case TCM_DATA_INT32:	return ValueToStrW(Read<int>(iid));
-		case TCM_DATA_UINT32:	return ValueToStrW(Read<UINT>(iid));
-		case TCM_DATA_INT64:	return ValueToStrW(Read<LONGLONG>(iid));
-		case TCM_DATA_UINT64:	return ValueToStrW(Read<ULONGLONG>(iid));
-		case TCM_DATA_REAL32:	return ValueToStrW(Read<float>(iid));
-		case TCM_DATA_REAL64:	return ValueToStrW(Read<double>(iid));
-		case TCM_DATA_BOOL:	return Read<bool>(iid) ? L"true" : L"false";
-		case TCM_DATA_CSTRA:	return MbToWc(Read<PCSTR>(iid));
-		case TCM_DATA_CSTRW:	return CopyStrW(Read<PCWSTR>(iid));
+		case TCM_DATA_POINTER:	return ValueToStrW((ULONG)Read<LPVOID>(id));
+		case TCM_DATA_INT8:	return ValueToStrW(Read<char>(id));
+		case TCM_DATA_UINT8:	return ValueToStrW(Read<BYTE>(id));
+		case TCM_DATA_INT16:	return ValueToStrW(Read<short>(id));
+		case TCM_DATA_UINT16:	return ValueToStrW(Read<USHORT>(id));
+		case TCM_DATA_INT32:	return ValueToStrW(Read<int>(id));
+		case TCM_DATA_UINT32:	return ValueToStrW(Read<UINT>(id));
+		case TCM_DATA_INT64:	return ValueToStrW(Read<LONGLONG>(id));
+		case TCM_DATA_UINT64:	return ValueToStrW(Read<ULONGLONG>(id));
+		case TCM_DATA_REAL32:	return ValueToStrW(Read<float>(id));
+		case TCM_DATA_REAL64:	return ValueToStrW(Read<double>(id));
+		case TCM_DATA_BOOL:	return Read<bool>(id) ? L"true" : L"false";
+		case TCM_DATA_CSTRA:	return MbToWc(Read<PCSTR>(id));
+		case TCM_DATA_CSTRW:	return CopyStrW(Read<PCWSTR>(id));
 		default:				return NULL;
 		}
 	}
 
 	void Envelope::CastWriteA(int id, PCSTR value)
 	{
-		if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
-		if(value == NULL) throw runtime_error(_tcm_env_err_2);
-		int iid = id - 1;
-		int type = _Types[iid];
+		if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
+		if(value == NULL) throw invalid_argument(_tcm_env_err_2);
+		int type = _Types[id - 1];
 		switch(type)
 		{
-		case TCM_DATA_POINTER:	Write(iid, (LPVOID)abs(atoi(value)),0); return;
-		case TCM_DATA_INT8:	Write(iid, (char)atoi(value)); return;
-		case TCM_DATA_UINT8:	Write(iid, (BYTE)abs(atoi(value))); return;
-		case TCM_DATA_INT16:	Write(iid, (short)atoi(value)); return;
-		case TCM_DATA_UINT16:	Write(iid, (USHORT)abs(atoi(value))); return;
-		case TCM_DATA_INT32:	Write(iid, atoi(value)); return;
-		case TCM_DATA_UINT32:	Write(iid, (unsigned)abs(atoi(value))); return;
-		case TCM_DATA_INT64:	Write(iid, _atoi64(value)); return;
-		case TCM_DATA_UINT64:	Write(iid, (unsigned)abs(_atoi64(value))); return;
-		case TCM_DATA_REAL32:	Write(iid, atof(value)); return;
-		case TCM_DATA_REAL64:	Write(iid, atof(value)); return;
-		case TCM_DATA_BOOL:	Write(iid, (strcmp(value,"true") == 0) ? TRUE : FALSE); return;
-		case TCM_DATA_CSTRA:	Write(iid, value); return;
-		case TCM_DATA_CSTRW:	Write(iid, MbToWc(value)); return;
+		case TCM_DATA_POINTER:	Write(id, (LPVOID)abs(atoi(value)),0); return;
+		case TCM_DATA_INT8:	Write(id, (char)atoi(value)); return;
+		case TCM_DATA_UINT8:	Write(id, (BYTE)abs(atoi(value))); return;
+		case TCM_DATA_INT16:	Write(id, (short)atoi(value)); return;
+		case TCM_DATA_UINT16:	Write(id, (USHORT)abs(atoi(value))); return;
+		case TCM_DATA_INT32:	Write(id, atoi(value)); return;
+		case TCM_DATA_UINT32:	Write(id, (unsigned)abs(atoi(value))); return;
+		case TCM_DATA_INT64:	Write(id, _atoi64(value)); return;
+		case TCM_DATA_UINT64:	Write(id, (unsigned)abs(_atoi64(value))); return;
+		case TCM_DATA_REAL32:	Write(id, atof(value)); return;
+		case TCM_DATA_REAL64:	Write(id, atof(value)); return;
+		case TCM_DATA_BOOL:	Write(id, (strcmp(value,"true") == 0) ? TRUE : FALSE); return;
+		case TCM_DATA_CSTRA:	Write(id, value); return;
+		case TCM_DATA_CSTRW:	Write(id, MbToWc(value)); return;
 		default:				return;
 		}
 	}
 
-	void Envelope::CastWriteW(int id,PCWSTR value)
+	void Envelope::CastWriteW(int id, PCWSTR value)
 	{
-		if(!AssertId(id)) throw runtime_error(_tcm_env_err_1);
-		if(value == NULL) throw runtime_error(_tcm_env_err_2);
-		int iid = id - 1;
-		int type = _Types[iid];
+		if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
+		if(value == NULL) throw invalid_argument(_tcm_env_err_2);
+		int type = _Types[id - 1];
 		if(type == TCM_DATA_CSTRW)
 		{
-			Write(iid, value);
+			Write(id, value);
 			return;
 		}
 		PCSTR str = WcToMb(value);
-		CastWriteA(iid,str);
+		CastWriteA(id, str);
 	}
 
 	void Envelope::Deliver(Envelope* who, int from, int to)
 	{
-		if(!AssertId(from) || !AssertId(to, who)) throw runtime_error(_tcm_env_err_1);
-		int ifrom = from - 1;
-		int ito = to - 1;
-		int type = _Types[ifrom];
-		if(type != who->_Types[ito]) throw runtime_error(_tcm_env_err_3);
+		if(!AssertId(from) || !AssertId(to, who))
+			throw invalid_argument(_tcm_env_err_1);
+		int type = _Types[from - 1];
+		if(type != who->_Types[to - 1])
+			throw invalid_argument(_tcm_env_err_3);
 
 		LPVOID ptr = NULL;
 		switch(type)
 		{
 		case TCM_DATA_POINTER:
 			ptr = new LPVOID[1];
-			*((LPVOID*)ptr) = Read<LPVOID>(ifrom);
-			who->Write(ito, ptr);
+			*((LPVOID*)ptr) = Read<LPVOID>(from);
+			who->Write(to, ptr);
 			break;
 		case TCM_DATA_INT8:
 			ptr = new char[1];
-			*((char*)ptr) = Read<char>(ifrom);
-			who->Write(ito, *((char*)ptr));
+			*((char*)ptr) = Read<char>(from);
+			who->Write(to, *((char*)ptr));
 			break;
 		case TCM_DATA_UINT8:
 			ptr = new BYTE[1];
-			*((BYTE*)ptr) = Read<BYTE>(ifrom);
-			who->Write(ito, *((BYTE*)ptr));
+			*((BYTE*)ptr) = Read<BYTE>(from);
+			who->Write(to, *((BYTE*)ptr));
 			break;
 		case TCM_DATA_INT16:
 			ptr = new short[1];
-			*((short*)ptr) = Read<short>(ifrom);
-			who->Write(ito, *((short*)ptr));
+			*((short*)ptr) = Read<short>(from);
+			who->Write(to, *((short*)ptr));
 			break;
 		case TCM_DATA_UINT16:
 			ptr = new USHORT[1];
-			*((USHORT*)ptr) = Read<USHORT>(ifrom);
-			who->Write(ito, *((USHORT*)ptr));
+			*((USHORT*)ptr) = Read<USHORT>(from);
+			who->Write(to, *((USHORT*)ptr));
 			break;
 		case TCM_DATA_INT32:
 			ptr = new int[1];
-			*((int*)ptr) = Read<int>(ifrom);
-			who->Write(ito, *((int*)ptr));
+			*((int*)ptr) = Read<int>(from);
+			who->Write(to, *((int*)ptr));
 			break;
 		case TCM_DATA_UINT32:
 			ptr = new UINT[1];
-			*((UINT*)ptr) = Read<UINT>(ifrom);
-			who->Write(ito, *((UINT*)ptr));
+			*((UINT*)ptr) = Read<UINT>(from);
+			who->Write(to, *((UINT*)ptr));
 			break;
 		case TCM_DATA_INT64:
 			ptr = new LONGLONG[1];
-			*((LONGLONG*)ptr) = Read<LONGLONG>(ifrom);
-			who->Write(ito, *((LONGLONG*)ptr));
+			*((LONGLONG*)ptr) = Read<LONGLONG>(from);
+			who->Write(to, *((LONGLONG*)ptr));
 			break;
 		case TCM_DATA_UINT64:
 			ptr = new ULONGLONG[1];
-			*((ULONGLONG*)ptr) = Read<ULONGLONG>(ifrom);
-			who->Write(ito, *((ULONGLONG*)ptr));
+			*((ULONGLONG*)ptr) = Read<ULONGLONG>(from);
+			who->Write(to, *((ULONGLONG*)ptr));
 			break;
 		case TCM_DATA_REAL32:
 			ptr = new float[1];
-			*((float*)ptr) = Read<float>(ifrom);
-			who->Write(ito, *((float*)ptr));
+			*((float*)ptr) = Read<float>(from);
+			who->Write(to, *((float*)ptr));
 			break;
 		case TCM_DATA_REAL64:
 			ptr = new double[1];
-			*((double*)ptr) = Read<double>(ifrom);
-			who->Write(ito, *((double*)ptr));
+			*((double*)ptr) = Read<double>(from);
+			who->Write(to, *((double*)ptr));
 			break;
 		case TCM_DATA_BOOL:
 			ptr = new char[1];
-			*((char*)ptr) = Read<char>(ifrom);
-			who->Write(ito, *((char*)ptr));
+			*((char*)ptr) = Read<char>(from);
+			who->Write(to, *((char*)ptr));
 			break;
 		case TCM_DATA_CSTRA:
 			ptr = new PCSTR[1];
-			*((PCSTR*)ptr) = Read<PCSTR>(ifrom);
-			who->Write(ito, *((PCSTR*)ptr));
+			*((PCSTR*)ptr) = Read<PCSTR>(from);
+			who->Write(to, *((PCSTR*)ptr));
 			break;
 		case TCM_DATA_CSTRW:
 			ptr = new PCWSTR[1];
-			*((PCWSTR*)ptr) = Read<PCWSTR>(ifrom);
-			who->Write(ito, *((PCWSTR*)ptr));
+			*((PCWSTR*)ptr) = Read<PCWSTR>(from);
+			who->Write(to, *((PCWSTR*)ptr));
 			break;
 		default:
 			return;
@@ -297,20 +293,19 @@ namespace tcm
 
 	void Envelope::CastDeliver(Envelope* who, int from, int to)
 	{
-		if(!AssertId(from) || !AssertId(to, who)) throw runtime_error(_tcm_env_err_1);
-		int ifrom = from - 1;
-		int ito = to - 1;
-		int type = _Types[ifrom];
+		if(!AssertId(from) || !AssertId(to, who))
+			throw invalid_argument(_tcm_env_err_1);
+		int type = _Types[from - 1];
 		if(type == TCM_DATA_POINTER)
 		{
 			LPVOID* ptr = new LPVOID[1];
-			ptr[0] = Read<LPVOID>(ifrom);
-			return who->Write(ito, ptr[0]);
+			ptr[0] = Read<LPVOID>(from);
+			return who->Write(to, ptr[0]);
 		}
 		else
 		{
-			PCWSTR value = CastReadW(ifrom);
-			return who->CastWriteW(ito, value);
+			PCWSTR value = CastReadW(from);
+			return who->CastWriteW(to, value);
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace tcm
 	bool DriverHub::Link(PCSTR id)
 	{
 		int index = GetIndex(id);
-		if(index >= 0) return false;
+		if(index >= 0) return true;
 		PCWSTR id_w = MbToWc(id);
 		std::wstring strw = id_w;
 		strw += L".tcm.driver";
@@ -66,7 +66,7 @@ namespace tcm
 	bool DriverHub::Kick(PCSTR id)
 	{
 		int index = GetIndex(id);
-		if(index < 0) return false;
+		if(index < 0) return true;
 		Driver* driver = _Drivers[index];
 		Clear(driver);
 		_Drivers.erase(_Drivers.begin() + index);

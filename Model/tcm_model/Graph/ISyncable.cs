@@ -4,6 +4,6 @@
     {
         ISyncable SyncTarget { get; set; }
 
-        void Sync(string cmd, object attach);
+        object Sync(string cmd, object attach);
     }
 }

@@ -10,7 +10,6 @@ namespace TCM.Model
     {
         private Node _From;
         private Node _To;
-        private bool _IsDelay = false;
         private Dictionary<int, int> _Mapping
             = new Dictionary<int, int>();
         private ISyncable _SyncTarget;
@@ -51,12 +50,6 @@ namespace TCM.Model
             set { _To = value; }
         }
 
-        public bool IsDelay
-        {
-            get { return _IsDelay; }
-            set { _IsDelay = value; }
-        }
-
         public ISyncable SyncTarget
         {
             get { return _SyncTarget; }
@@ -71,7 +64,7 @@ namespace TCM.Model
                 return _Mapping.ContainsValue(id);
         }
 
-        public void Sync(string cmd, object attach)
+        public object Sync(string cmd, object attach)
         {
             ISyncable target = attach as ISyncable;
             if (cmd == "detach-from")
@@ -88,6 +81,7 @@ namespace TCM.Model
                 Node node = target.SyncTarget as Node;
                 To = node;
             }
+            return null;
         }
 
         public virtual void Dispose()

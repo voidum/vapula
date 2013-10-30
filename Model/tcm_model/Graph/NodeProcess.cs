@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace TCM.Model
 {
@@ -10,6 +11,7 @@ namespace TCM.Model
     {
         private Function _Function 
             = null;
+        private bool _Priority = false;
 
         public Function Function
         {
@@ -27,30 +29,39 @@ namespace TCM.Model
             get { return NodeType.Process; }
         }
 
+        public override bool Priority
+        {
+            get { return _Priority; }
+            set { _Priority = value; }
+        }
+
         public override bool IsReady
         {
             get
             {
-                foreach (var stub in _ParamStubs)
-                {
-                    if (!stub.Prototype.IsIn) continue;
-                    if (stub.HasValue) continue;
-                    Link link_capture = null;
-                    foreach (var link in _InLinks)
-                    {
-                        if (!link.HasMap(stub.Prototype.Id, false))
-                            continue;
-                        if (link.From != null)
-                        {
-                            link_capture = link;
-                            break;
-                        }
-                    }
-                    if (link_capture == null)
-                        return false;
-                }
+                //ONLY check parameter
                 return true;
             }
+        }
+
+        public override object Sync(string cmd, object attach)
+        {
+            if (cmd == "get-icon") 
+            {
+                Dictionary<string, object> tags
+                    = _Function.Tag as Dictionary<string, object>;
+                if(tags.ContainsKey("SmallIcon"))
+                    return tags["SmallIcon"];
+            }
+            else if(cmd == "get-text")
+            {
+                return _Function.Name;
+            }
+            else if(cmd == "get-id")
+            {
+                return Id.ToString();
+            }
+            return base.Sync(cmd, attach);
         }
     }
 }

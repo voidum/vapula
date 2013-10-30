@@ -29,6 +29,18 @@ namespace TCM.Model
             get { return true; }
         }
 
+        public int GetNewNodeId()
+        {
+            List<int> ids = new List<int>();
+            foreach (Node node in _Nodes)
+                ids.Add(node.Id);
+            ids.Sort();
+            for (int i = 1; i <= ids.Count; i++)
+                if (i != ids[i - 1])
+                    return i;
+            return ids.Count + 1;
+        }
+
         #region ISyncable
         private ISyncable _SyncTarget = null;
 
@@ -38,7 +50,7 @@ namespace TCM.Model
             set { _SyncTarget = value; }
         }
 
-        public void Sync(string cmd, object attach)
+        public object Sync(string cmd, object attach)
         {
             ISyncable target = attach as ISyncable;
             if (cmd == "add-link")
@@ -69,6 +81,7 @@ namespace TCM.Model
                     link.Dispose();
                 _Links.Clear();
             }
+            return null;
         }
         #endregion
     }

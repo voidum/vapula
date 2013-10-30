@@ -26,4 +26,14 @@ namespace tcm
 	{
 		return _Flag;
 	}
+
+	bool Config::IsSilent()
+	{
+		return _Flag->Valid(TCM_CONFIG_SILENT);
+	}
+
+	bool Config::IsRealTimeMonitor()
+	{
+		return _Flag->Valid(TCM_CONFIG_RTMON);
+	}
 }

@@ -34,8 +34,7 @@ Dictionary* TaskEx::GetTags() { return _Tags; }
 Task* TaskEx::Parse(PCWSTR path)
 {
 	Config* config = Config::GetInstance();
-	Flag* flag = config->GetFlag();
-	bool silent = flag->Valid(TCM_CONFIG_SILENT);
+	bool silent = config->IsSilent();
 
 	PCSTR data = NULL;
 	xml_node<>* xdoc = (xml_node<>*)xml::Load(path, data);
@@ -96,7 +95,7 @@ Task* TaskEx::Parse(PCWSTR path)
 		delete pv;
 		xe_param = xe_param->next_sibling();
 	}
-	//TODO: out validation param
+	//TODO: output params for validation?
 
 	xml_node<>* xe_tag = (xml_node<>*)xml::Path(xe_ext, 2, "tags", "tag");
 	while(xe_tag)
@@ -119,8 +118,7 @@ Task* TaskEx::Parse(PCWSTR path)
 bool TaskEx::RunAs(Worker* worker)
 {
 	Config* config = Config::GetInstance();
-	Flag* flag = config->GetFlag();
-	bool silent = flag->Valid(TCM_CONFIG_SILENT);
+	bool silent = config->IsSilent();
 
 	LARGE_INTEGER freq,t1,t2;
 	QueryPerformanceFrequency(&freq);
@@ -155,12 +153,12 @@ bool TaskEx::RunAs(Worker* worker)
 			str += _Lib->GetLibraryId();
 			str += L"=>";
 			str += ValueToStrW(_FuncId);
-			str += L"\nLast stage:";
+			str += L"\nLast stage: ";
 			str += ValueToStrW('A' + ret_worker - 1);
 			str += L"\nElapsed time:";
 			str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
 			str += L"(s)";
-			ShowMsgbox(str.c_str(),L"TCM Host");
+			ShowMsgbox(str.c_str(), L"TCM Host");
 		}
 	}
 	return ret;
