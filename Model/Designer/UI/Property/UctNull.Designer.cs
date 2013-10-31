@@ -38,7 +38,7 @@
             this.Lbl1.Name = "Lbl1";
             this.Lbl1.Size = new System.Drawing.Size(350, 200);
             this.Lbl1.TabIndex = 0;
-            this.Lbl1.Text = "您选择的对象没有可以操作的属性。";
+            this.Lbl1.Text = "您没有选择对象，\r\n\r\n或选择的对象没有可以操作的属性。";
             this.Lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UctNull

@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLog));
             this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.BtClear = new System.Windows.Forms.ToolStripButton();
-            this.BtSave = new System.Windows.Forms.ToolStripButton();
             this.LsvLog = new System.Windows.Forms.ListView();
             this.ColhLevel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhContent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.BtClear = new System.Windows.Forms.ToolStripButton();
+            this.BtSave = new System.Windows.Forms.ToolStripButton();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,25 +51,6 @@
             this.toolbar.Size = new System.Drawing.Size(24, 262);
             this.toolbar.TabIndex = 1;
             // 
-            // BtClear
-            // 
-            this.BtClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtClear.Image = ((System.Drawing.Image)(resources.GetObject("BtClear.Image")));
-            this.BtClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtClear.Name = "BtClear";
-            this.BtClear.Size = new System.Drawing.Size(21, 20);
-            this.BtClear.Text = "清理";
-            this.BtClear.Click += new System.EventHandler(this.BtClear_Click);
-            // 
-            // BtSave
-            // 
-            this.BtSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtSave.Image = ((System.Drawing.Image)(resources.GetObject("BtSave.Image")));
-            this.BtSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtSave.Name = "BtSave";
-            this.BtSave.Size = new System.Drawing.Size(21, 20);
-            this.BtSave.Text = "保存";
-            // 
             // LsvLog
             // 
             this.LsvLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -79,6 +59,7 @@
             this.ColhContent});
             this.LsvLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LsvLog.FullRowSelect = true;
+            this.LsvLog.GridLines = true;
             this.LsvLog.Location = new System.Drawing.Point(24, 0);
             this.LsvLog.Name = "LsvLog";
             this.LsvLog.Size = new System.Drawing.Size(320, 262);
@@ -99,6 +80,25 @@
             // 
             this.ColhContent.Text = "内容";
             this.ColhContent.Width = 180;
+            // 
+            // BtClear
+            // 
+            this.BtClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtClear.Image = global::TCM.Model.Designer.Properties.Resources.broom_s;
+            this.BtClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtClear.Name = "BtClear";
+            this.BtClear.Size = new System.Drawing.Size(29, 20);
+            this.BtClear.Text = "清理";
+            this.BtClear.Click += new System.EventHandler(this.BtClear_Click);
+            // 
+            // BtSave
+            // 
+            this.BtSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtSave.Image = global::TCM.Model.Designer.Properties.Resources.disk_s;
+            this.BtSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtSave.Name = "BtSave";
+            this.BtSave.Size = new System.Drawing.Size(29, 20);
+            this.BtSave.Text = "保存";
             // 
             // FrmLog
             // 

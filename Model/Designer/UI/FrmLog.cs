@@ -15,7 +15,7 @@ namespace TCM.Model.Designer
         private void FormLayout_AddItem(ListViewItem lvi)
         {
             if (InvokeRequired)
-                Invoke(new Action<ListViewItem>(FormLayout_AddItem));
+                Invoke(new Action<ListViewItem>(FormLayout_AddItem), lvi);
             else
                 LsvLog.Items.Add(lvi);
         }

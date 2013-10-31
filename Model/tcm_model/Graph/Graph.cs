@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TCM.Helper;
 
 namespace TCM.Model
 {
@@ -8,37 +7,73 @@ namespace TCM.Model
     /// </summary>
     public class Graph : ISyncable
     {
-
         private List<Node> _Nodes 
             = new List<Node>();
+        private List<Stage> _Stages 
+            = new List<Stage>();
         private List<Link> _Links 
             = new List<Link>();
 
+        /// <summary>
+        /// 获取图的节点集合
+        /// </summary>
         public List<Node> Nodes
         {
             get { return _Nodes; }
         }
 
+        /// <summary>
+        /// 获取图的关联集合
+        /// </summary>
         public List<Link> Links
         {
             get { return _Links; }
         }
 
-        public bool IsValid
+        /// <summary>
+        /// 获取图的阶段集合
+        /// </summary>
+        public List<Stage> Stages
         {
-            get { return true; }
+            get { return _Stages; }
         }
 
-        public int GetNewNodeId()
+        /// <summary>
+        /// 获取新的节点标识
+        /// </summary>
+        public int NewNodeId
         {
-            List<int> ids = new List<int>();
-            foreach (Node node in _Nodes)
-                ids.Add(node.Id);
-            ids.Sort();
-            for (int i = 1; i <= ids.Count; i++)
-                if (i != ids[i - 1])
-                    return i;
-            return ids.Count + 1;
+            get
+            {
+                List<int> ids = new List<int>();
+                foreach (Node node in _Nodes)
+                    ids.Add(node.Id);
+                ids.Sort();
+                for (int i = 1; i <= ids.Count; i++)
+                    if (i != ids[i - 1])
+                        return i;
+                return ids.Count + 1;
+            }
+        }
+
+        /// <summary>
+        /// 获取起始阶段
+        /// </summary>
+        public Stage FirstStage
+        {
+            get
+            {
+                Stage stage = new Stage();
+                foreach (Node node in Nodes)
+                {
+                    if (node.SPP || node.InLinks.Count == 0)
+                        stage.Add(node);
+                }
+                if (stage.Nodes.Count == 0)
+                    return null;
+                stage.Id = 1;
+                return stage;
+            }
         }
 
         #region ISyncable

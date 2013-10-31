@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using TCM.Helper;
 using TCM.Runtime;
@@ -13,6 +14,15 @@ namespace TCM.Model.Designer
         private AppData App
         {
             get { return AppData.Instance; }
+        }
+
+        private void FormAction_StartModel()
+        {
+            App.FormLog.WriteLog(LogType.Event, "开始执行模型");
+            GraphProxy proxy = new GraphProxy(doc.Graph);
+            proxy.Logger = App.FormLog;
+            proxy.Start();
+            proxy.Wait();
         }
 
         public FrmMain()
@@ -32,10 +42,8 @@ namespace TCM.Model.Designer
 
         private void MnuModel_Start_Click(object sender, EventArgs e)
         {
-            App.FormLog.WriteLog(LogType.Event, "开始执行模型");
-            ModelProxy proxy = new ModelProxy(doc.Graph);
-            proxy.Logger = App.FormLog;
-            proxy.Start();
+            Thread thread = new Thread(FormAction_StartModel);
+            thread.Start();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -54,6 +62,11 @@ namespace TCM.Model.Designer
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void MnuFile_Exit_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

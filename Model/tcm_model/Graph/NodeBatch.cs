@@ -13,12 +13,5 @@ namespace TCM.Model
         }
 
         private string _Code;
-
-
-        public override bool Priority
-        {
-            get { return false; }
-            set { }
-        }
     }
 }

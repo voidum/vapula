@@ -54,8 +54,8 @@
     <Compile Include="Runtime\Invoker.cs" />
     <Compile Include="Runtime\Library.cs" />
     <Compile Include="Runtime\DriverHub.cs" />
-    <Compile Include="Runtime\Model\ModelProxy.cs" />
-    <Compile Include="Runtime\Model\Stage.cs" />
+    <Compile Include="Runtime\Model\GraphProxy.cs" />
+    <Compile Include="Runtime\Model\StageProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Model\tcm_model\tcm_model.csproj">

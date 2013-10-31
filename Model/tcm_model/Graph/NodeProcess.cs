@@ -29,12 +29,6 @@ namespace TCM.Model
             get { return NodeType.Process; }
         }
 
-        public override bool Priority
-        {
-            get { return _Priority; }
-            set { _Priority = value; }
-        }
-
         public override bool IsReady
         {
             get

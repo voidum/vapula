@@ -74,6 +74,20 @@ namespace TCM.Model.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap broom {
+            get {
+                object obj = ResourceManager.GetObject("broom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap broom_s {
+            get {
+                object obj = ResourceManager.GetObject("broom_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap copies {
             get {
                 object obj = ResourceManager.GetObject("copies", resourceCulture);
@@ -98,6 +112,20 @@ namespace TCM.Model.Designer.Properties {
         internal static System.Drawing.Bitmap datatable_s {
             get {
                 object obj = ResourceManager.GetObject("datatable_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap disk {
+            get {
+                object obj = ResourceManager.GetObject("disk", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap disk_s {
+            get {
+                object obj = ResourceManager.GetObject("disk_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

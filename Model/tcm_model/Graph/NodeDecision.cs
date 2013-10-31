@@ -17,13 +17,6 @@ namespace TCM.Model
             get { return NodeType.Decision; }
         }
 
-        public override bool Priority
-        {
-            get { return _Priority; }
-            set { _Priority = value; }
-        }
-
         private string _Code;
-
     }
 }

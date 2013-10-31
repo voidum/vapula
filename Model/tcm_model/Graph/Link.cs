@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TCM.Model
 {
@@ -10,8 +9,6 @@ namespace TCM.Model
     {
         private Node _From;
         private Node _To;
-        private Dictionary<int, int> _Mapping
-            = new Dictionary<int, int>();
         private ISyncable _SyncTarget;
 
         public Node From
@@ -54,14 +51,6 @@ namespace TCM.Model
         {
             get { return _SyncTarget; }
             set { _SyncTarget = value; }
-        }
-
-        public bool HasMap(int id, bool from)
-        {
-            if (from)
-                return _Mapping.ContainsKey(id);
-            else
-                return _Mapping.ContainsValue(id);
         }
 
         public object Sync(string cmd, object attach)

@@ -92,7 +92,7 @@ namespace TCM.Model.Designer
             if (lvi == null) return;
             Node node = FormData_GetNodeByLvi(lvi);
             if(node == null) return;
-            node.Id = Graph.GetNewNodeId();
+            node.Id = Graph.NewNodeId;
             Graph.Nodes.Add(node);
 
             Point p1 = new Point(e.X, e.Y);
