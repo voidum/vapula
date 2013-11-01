@@ -5,11 +5,16 @@ using System.Text;
 
 namespace TCM.Model
 {
-    public class NodeBatch : Node
+    /// <summary>
+    /// 节点：决策
+    /// </summary>
+    public class NodeDecision : Node
     {
+        private bool _Priority = false;
+
         public override NodeType Type
         {
-            get { return NodeType.Batch; }
+            get { return NodeType.Decision; }
         }
 
         private string _Code;

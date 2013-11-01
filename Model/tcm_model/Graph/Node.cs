@@ -49,16 +49,25 @@ namespace TCM.Model
         /// </summary>
         public abstract NodeType Type { get; }
 
+        /// <summary>
+        /// 获取节点的输入关联集合
+        /// </summary>
         public List<Link> InLinks
         {
             get { return _InLinks; }
         }
 
+        /// <summary>
+        /// 获取节点的输出关联集合
+        /// </summary>
         public List<Link> OutLinks
         {
             get { return _OutLinks; }
         }
 
+        /// <summary>
+        /// 获取节点的参数存根集合
+        /// </summary>
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
@@ -111,7 +120,7 @@ namespace TCM.Model
 
         /// <summary>
         /// <para>获取节点是否就绪</para>
-        /// <para>应当仅检验参数完备</para>
+        /// <para>仅用于检验节点参数完备</para>
         /// </summary>
         public virtual bool IsReady
         {

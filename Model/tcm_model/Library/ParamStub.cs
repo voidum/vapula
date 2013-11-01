@@ -18,28 +18,13 @@ namespace TCM.Model
 
         public string Value
         {
-            get
-            {
-                if (_Value == null) return "";
-                return _Value;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) _Value = null;
-                else _Value = value;
-            }
+            get { return _Value; }
+            set { _Value = value; }
         }
 
         public bool HasValue 
         {
-            get 
-            {
-                if (_Prototype.Type == DataType.StringA ||
-                    _Prototype.Type == DataType.StringW)
-                    return true;
-                else
-                    return _Value != null; 
-            }
+            get { return _Value != null; }
         }
 
         public bool IsValid

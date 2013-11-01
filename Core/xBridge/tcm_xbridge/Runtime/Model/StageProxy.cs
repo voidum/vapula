@@ -88,6 +88,7 @@ namespace TCM.Runtime
                 string.Format("节点{0}的功能{1}启动{2}",
                     node.Id, func.Name,
                     ret ? "成功" : "失败"));
+            node.LSI = _Model.Id;
         }
     }
 }

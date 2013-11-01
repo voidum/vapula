@@ -46,9 +46,9 @@
     <Compile Include="Graph\ISyncable.cs" />
     <Compile Include="Graph\Link.cs" />
     <Compile Include="Graph\Node.cs" />
-    <Compile Include="Graph\NodeDecision.cs" />
-    <Compile Include="Graph\NodeProcess.cs" />
-    <Compile Include="Graph\NodeVariable.cs" />
+    <Compile Include="Graph\Node\NodeDecision.cs" />
+    <Compile Include="Graph\Node\NodeProcess.cs" />
+    <Compile Include="Graph\Node\NodeVariable.cs" />
     <Compile Include="Graph\Stage.cs" />
     <Compile Include="Library\Function.cs" />
     <Compile Include="Library\Library.cs" />
@@ -63,7 +63,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph\NodeBatch.cs" />
+    <Compile Include="Graph\Node\NodeBatch.cs" />
     <None Include="XSD\library.xsd">
       <SubType>Designer</SubType>
     </None>

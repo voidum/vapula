@@ -27,15 +27,15 @@ namespace TCM.Model.Designer
                 return;
             _SelectedObject = obj;
             Controls.Clear();
-            if (obj == null)
-            {
-                Controls.Add(_CtrlNull);
-            }
-            else if (obj is NodeProcess)
+            if (obj is NodeProcess)
             {
                 Controls.Add(_CtrlProcess);
                 NodeProcess node = obj as NodeProcess;
                 _CtrlProcess.Model = node;
+            }
+            else 
+            {
+                Controls.Add(_CtrlNull);
             }
         }
     }

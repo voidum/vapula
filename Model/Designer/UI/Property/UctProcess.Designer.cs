@@ -88,9 +88,9 @@
             this.ChbxSPP.AutoSize = true;
             this.ChbxSPP.Location = new System.Drawing.Point(12, 32);
             this.ChbxSPP.Name = "ChbxSPP";
-            this.ChbxSPP.Size = new System.Drawing.Size(168, 16);
+            this.ChbxSPP.Size = new System.Drawing.Size(156, 16);
             this.ChbxSPP.TabIndex = 1;
-            this.ChbxSPP.Text = "为当前节点启用起点优先权";
+            this.ChbxSPP.Text = "启用此节点的起动优先权";
             this.ChbxSPP.UseVisualStyleBackColor = true;
             this.ChbxSPP.CheckedChanged += new System.EventHandler(this.ChbxSPP_CheckedChanged);
             // 

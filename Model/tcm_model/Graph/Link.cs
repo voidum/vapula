@@ -9,7 +9,6 @@ namespace TCM.Model
     {
         private Node _From;
         private Node _To;
-        private ISyncable _SyncTarget;
 
         public Node From
         {
@@ -47,6 +46,30 @@ namespace TCM.Model
             set { _To = value; }
         }
 
+        /// <summary>
+        /// <para>获取关联是否就绪</para>
+        /// <para>仅用于检验关联完备</para>
+        /// </summary>
+        public bool IsReady 
+        {
+            get 
+            {
+                if (From == null || To == null)
+                    return false;
+                return true;
+            }
+        }
+
+        public virtual void Dispose()
+        {
+            From = null;
+            To = null;
+            SyncTarget = null;
+        }
+
+        #region ISyncable
+        private ISyncable _SyncTarget;
+        
         public ISyncable SyncTarget
         {
             get { return _SyncTarget; }
@@ -72,12 +95,6 @@ namespace TCM.Model
             }
             return null;
         }
-
-        public virtual void Dispose()
-        {
-            From = null;
-            To = null;
-            SyncTarget = null;
-        }
+        #endregion
     }
 }

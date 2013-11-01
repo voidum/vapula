@@ -39,8 +39,22 @@ namespace TCM.Model
                 Stage stage = new Stage();
                 foreach (Node node in Nodes)
                 {
-                    foreach (Link link in node.OutLinks)
-                        stage.Add(link.To);
+                    foreach (Link l1 in node.OutLinks)
+                    {
+                        Node target = l1.To;
+                        if (target.SDN != null)
+                        {
+                            int max_si = 1;
+                            foreach (Link l2 in target.InLinks)
+                            {
+                                if (l2.From.LSI > max_si)
+                                    max_si = l2.From.LSI;
+                            }
+                            if (target.SDN.LSI < max_si)
+                                continue;
+                        }
+                        stage.Add(target);
+                    }
                 }
                 if (stage.Nodes.Count == 0)
                     return null;
