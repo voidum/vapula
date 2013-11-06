@@ -20,8 +20,7 @@ namespace TCM
 	    Real32 = 10,
 	    Real64 = 11,
 	    Bool = 20,
-	    StringA = 21,
-	    StringW = 22
+	    String = 21
     };
 
     public class Base
@@ -49,8 +48,7 @@ namespace TCM
                 case DataType.UInt64: return typeof(ulong);
                 case DataType.Real32: return typeof(float);
                 case DataType.Real64: return typeof(double);
-                case DataType.StringA:
-                case DataType.StringW:
+                case DataType.String:
                     return typeof(string);
                 default: return typeof(IntPtr);
             }
@@ -74,8 +72,7 @@ namespace TCM
                 case DataType.UInt64: return typeof(Nullable<ulong>);
                 case DataType.Real32: return typeof(Nullable<float>);
                 case DataType.Real64: return typeof(Nullable<double>);
-                case DataType.StringA:
-                case DataType.StringW:
+                case DataType.String:
                     return typeof(string);
                 default: return typeof(Nullable<IntPtr>);
             }

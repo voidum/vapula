@@ -219,5 +219,15 @@ namespace TCM.Model.Designer
             base.Dispose();
         }
         #endregion
+
+        #region 方法
+        /// <summary>
+        /// 获取另一端结点
+        /// </summary>
+        public Connector GetAnotherEnd(Connector cur)
+        {
+            return cur == _From ? _To : _From;
+        }
+        #endregion
     }
 }

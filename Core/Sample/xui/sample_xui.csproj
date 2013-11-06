@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EC85B801-A356-481A-8D5E-EFE603F8689A}</ProjectGuid>
+    <ProjectGuid>{9343F4FD-C057-4487-8C63-583C8DD0D909}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TCM</RootNamespace>
-    <AssemblyName>tcm_model</AssemblyName>
+    <RootNamespace>sample_xui</RootNamespace>
+    <AssemblyName>sample_xui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,34 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base.cs" />
-    <Compile Include="Graph\Graph.cs" />
-    <Compile Include="Graph\ISyncable.cs" />
-    <Compile Include="Graph\Link.cs" />
-    <Compile Include="Graph\Node.cs" />
-    <Compile Include="Graph\Node\NodeDecision.cs" />
-    <Compile Include="Graph\Node\NodeProcess.cs" />
-    <Compile Include="Graph\Node\NodeVariable.cs" />
-    <Compile Include="Graph\Stage.cs" />
-    <Compile Include="Library\Function.cs" />
-    <Compile Include="Library\Library.cs" />
-    <Compile Include="Library\Parameter.cs" />
-    <Compile Include="Library\ParamStub.cs" />
+    <Compile Include="FrmA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmA.Designer.cs">
+      <DependentUpon>FrmA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tag.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\xBridge\tcm_xhelper\tcm_xhelper.csproj">
-      <Project>{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}</Project>
-      <Name>tcm_xhelper</Name>
+    <ProjectReference Include="..\..\xBridge\tcm_xbridge\tcm_xbridge.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>tcm_xbridge</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="XSD\library.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

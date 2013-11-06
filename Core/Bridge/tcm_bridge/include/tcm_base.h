@@ -31,8 +31,7 @@ namespace tcm
 		TCM_DATA_REAL32 = 10,
 		TCM_DATA_REAL64 = 11,
 		TCM_DATA_BOOL = 20,
-		TCM_DATA_CSTRA = 21,
-		TCM_DATA_CSTRW = 22
+		TCM_DATA_STRING = 21
 	};
 
 	//TCM支持的运行状态
@@ -104,22 +103,12 @@ namespace tcm
 
 	//转换数值到多字节字符串
 	template<typename T>
-	TCM_BRIDGE_API PCSTR ValueToStrA(T value)
+	TCM_BRIDGE_API PCSTR ValueToStr(T value)
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
 		oss<<value;
 		return CopyStrA(oss.str().c_str());
-	}
-
-	//转换数值到宽字节字符串
-	template<typename T>
-	TCM_BRIDGE_API PCWSTR ValueToStrW(T value)
-	{
-		std::ostringstream oss;
-		oss.imbue(std::locale("C"));
-		oss<<value;
-		return MbToWc(oss.str().c_str());
 	}
 
 	//转换Vector容器到定长数组
@@ -141,15 +130,16 @@ namespace tcm
 	TCM_BRIDGE_API PCSTR GetTimeStrA();
 	TCM_BRIDGE_API PCWSTR GetTimeStrW();
 
-	//显示简易的信息框
-	TCM_BRIDGE_API void ShowMsgbox(PCWSTR value = NULL, PCWSTR caption = NULL);
-	TCM_BRIDGE_API void ShowMsgbox(PCSTR value = NULL, PCSTR caption = NULL);
-
+	//显示简易的信息框，值内容
 	template<typename T>
-	TCM_BRIDGE_API void ShowMsgbox(T value, PCWSTR caption = NULL)
+	TCM_BRIDGE_API void ShowMsgValue(T value, PCWSTR caption = L"")
 	{
-		ShowMsgbox(ValueToStrW(value), caption);
+		MessageBoxW(NULL, MbToWc(ValueToStr(value)), caption, 0);
 	}
+
+	//显示简易的信息框，字符串内容
+	TCM_BRIDGE_API void ShowMsgStr(PCSTR value, PCSTR caption = "");
+	TCM_BRIDGE_API void ShowMsgStr(PCWSTR value, PCWSTR caption = L"");
 
 	//获取运行时所在目录
 	TCM_BRIDGE_API PCWSTR GetRuntimeDir();

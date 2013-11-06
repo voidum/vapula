@@ -8,15 +8,17 @@ namespace TCM.Model.Designer
         private object _SelectedObject = null;
 
         private UctNull _CtrlNull = null;
-        private UctProcess _CtrlProcess = null; 
+        private UctNode _CtrlNode = null;
 
         public FrmProperty()
         {
             InitializeComponent();
             _CtrlNull = new UctNull();
-            _CtrlProcess = new UctProcess();
             _CtrlNull.Dock = DockStyle.Fill;
-            _CtrlProcess.Dock = DockStyle.Fill;
+
+            _CtrlNode = new UctNode();
+            _CtrlNode.Dock = DockStyle.Fill;
+
             SelectObject(null);
         }
 
@@ -27,11 +29,11 @@ namespace TCM.Model.Designer
                 return;
             _SelectedObject = obj;
             Controls.Clear();
-            if (obj is NodeProcess)
+            if (obj is Node)
             {
-                Controls.Add(_CtrlProcess);
-                NodeProcess node = obj as NodeProcess;
-                _CtrlProcess.Model = node;
+                Controls.Add(_CtrlNode);
+                Node node = obj as Node;
+                _CtrlNode.Model = node;
             }
             else 
             {

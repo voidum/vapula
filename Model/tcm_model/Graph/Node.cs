@@ -19,20 +19,19 @@ namespace TCM.Model
     {
         #region 字段
         protected int _Id = -1;
-        protected List<Link> _InLinks 
-            = new List<Link>();
-        protected List<Link> _OutLinks 
-            = new List<Link>();
+        protected List<Node> _InNodes 
+            = new List<Node>();
+        protected List<Node> _OutNodes 
+            = new List<Node>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
 
-        protected int _LSI = 0;
         protected bool _SPP = false;
         protected Node _SDN = null;
-        
-        protected object _Tag;
-        protected ISyncable _SyncTarget;
-        #endregion;
+        protected int _LSI = 0;
+
+        protected Tag _Tag = new Tag();
+        #endregion
 
         #region 属性
         /// <summary>
@@ -49,20 +48,14 @@ namespace TCM.Model
         /// </summary>
         public abstract NodeType Type { get; }
 
-        /// <summary>
-        /// 获取节点的输入关联集合
-        /// </summary>
-        public List<Link> InLinks
+        public List<Node> InNodes
         {
-            get { return _InLinks; }
+            get { return _InNodes; }
         }
 
-        /// <summary>
-        /// 获取节点的输出关联集合
-        /// </summary>
-        public List<Link> OutLinks
+        public List<Node> OutNodes 
         {
-            get { return _OutLinks; }
+            get { return _OutNodes; }
         }
 
         /// <summary>
@@ -71,15 +64,6 @@ namespace TCM.Model
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
-        }
-
-        /// <summary>
-        /// 获取或设置最新阶段标识
-        /// </summary>
-        public int LSI
-        {
-            get { return _LSI; }
-            set { _LSI = value; }
         }
 
         /// <summary>
@@ -101,13 +85,40 @@ namespace TCM.Model
         }
 
         /// <summary>
+        /// 获取或设置最新阶段的标识
+        /// </summary>
+        public int LSI
+        {
+            get { return _LSI; }
+            set { _LSI = value; }
+        }
+
+        /// <summary>
         /// 获取或设置节点的附加数据
         /// </summary>
-        public object Tag
+        public Tag Tag
         {
             get { return _Tag; }
             set { _Tag = value; }
         }
+        #endregion
+
+        #region 方法
+        public virtual void Dispose()
+        {
+            foreach (Node node in _InNodes)
+                node.OutNodes.Remove(this);
+            _InNodes.Clear();
+            foreach (Node node in _OutNodes)
+                node.InNodes.Remove(this);
+            _OutNodes.Clear();
+            _Tag.Dispose();
+            _SyncTarget = null;
+        }
+        #endregion
+
+        #region ISyncable
+        protected ISyncable _SyncTarget;
 
         /// <summary>
         /// 获取或设置同步目标
@@ -118,31 +129,9 @@ namespace TCM.Model
             set { _SyncTarget = value; }
         }
 
-        /// <summary>
-        /// <para>获取节点是否就绪</para>
-        /// <para>仅用于检验节点参数完备</para>
-        /// </summary>
-        public virtual bool IsReady
-        {
-            get { return false; }
-        }
-        #endregion
-
-        #region 方法
         public virtual object Sync(string cmd, object attach)
         {
             return null;
-        }
-
-        public virtual void Dispose()
-        {
-            foreach (Link link in _InLinks)
-                link.QuickSetter_To = null;
-            _InLinks.Clear();
-            foreach (Link link in _OutLinks)
-                link.QuickSetter_From = null;
-            _OutLinks.Clear();
-            _SyncTarget = null;
         }
         #endregion
     }

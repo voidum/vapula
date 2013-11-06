@@ -7,7 +7,8 @@
     {
         Idle = 0,
         Busy = 1,
-        Pause = 2
+        Pause = 2,
+        UI = 3
     }
 
     //控制码

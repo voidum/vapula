@@ -42,7 +42,7 @@ int APIENTRY wWinMain(
 	if(!CanOpenRead(argv[1]))
 	{
 		if(!silent)
-			ShowMsgbox(L"Fail to open task file.",L"TCM Host");
+			ShowMsgStr(L"Fail to open task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
 
@@ -50,7 +50,7 @@ int APIENTRY wWinMain(
 	if(task == NULL)
 	{
 		if(!silent)
-			ShowMsgbox(L"Fail to parse task file.",L"TCM Host");
+			ShowMsgStr(L"Fail to parse task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
 	
@@ -98,5 +98,5 @@ void ShowHelp()
 	str += L"option:\n";
 	str += L" \"silent\" - to run without any prompt\n";
 	str += L" \"rtmon\" - to monitor in high CPU usage\n";
-	ShowMsgbox(str.c_str(),L"TCM Host");
+	ShowMsgStr(str.c_str(),L"TCM Host");
 }

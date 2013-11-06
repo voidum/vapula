@@ -17,7 +17,9 @@ PCWSTR LibraryCLR::GetHandle()
 	if(_Handle == NULL) 
 	{
 		ULONG v = (ULONG)this;
-		_Handle = ValueToStrW(v);
+		PCSTR ptr_str = ValueToStr(v);
+		_Handle = MbToWc(ptr_str);
+		delete ptr_str;
 	}
 	return _Handle;
 }

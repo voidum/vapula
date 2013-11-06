@@ -75,21 +75,19 @@ namespace TCM.Model.Designer
                 lib.Tag = state;
                 foreach (Function func in lib.Functions)
                 {
+                    Dictionary<string, object> tags
+                        = new Dictionary<string, object>();
+                    func.Tag = tags;
+                        
                     string path_pre = Path.Combine(
                         AppData.Instance.PathResource,
                         id + "." + func.Id.ToString());
-                    Dictionary<string, object> tags 
-                        = new Dictionary<string, object>();
                     string path1 = path_pre + ".tcm.png";
                     string path2 = path_pre + "_s.tcm.png";
-                    if (File.Exists(path1) && File.Exists(path2)) 
-                    {
-                        Image icon1 = Image.FromFile(path1);
-                        Image icon2 = Image.FromFile(path2);
-                        tags.Add("LargeIcon", icon1);
-                        tags.Add("SmallIcon", icon2);
-                    }
-                    func.Tag = tags;
+                    Image icon1 = File.Exists(path1) ? Image.FromFile(path1) : null;
+                    Image icon2 = File.Exists(path2) ? Image.FromFile(path2) : null;
+                    tags.Add("LargeIcon", icon1);
+                    tags.Add("SmallIcon", icon2);
                 }
             }
             return true;

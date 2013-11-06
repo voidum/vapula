@@ -24,7 +24,7 @@ namespace tcm
 			catch (runtime_error e)
 			{
 				Clear(patha);
-				ShowMsgbox(e.what(), L"TCM Bridge Error");
+				ShowMsgStr(e.what(), "TCM Bridge Error");
 				return NULL;
 			}
 			if(data == NULL) return NULL;

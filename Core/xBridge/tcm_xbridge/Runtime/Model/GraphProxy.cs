@@ -59,15 +59,6 @@ namespace TCM.Runtime
                 Logger.WriteLog(LogType.Error, "模型没有节点");
                 return false;
             }
-            foreach (Node node in _Model.Nodes)
-            {
-                if (!node.IsReady)
-                {
-                    Logger.WriteLog(LogType.Error,
-                        string.Format("节点{0}的参数不完备，模型验证终止", node.Id));
-                    return false;
-                }
-            }
             foreach (Link link in _Model.Links)
             {
                 if (!link.IsReady)

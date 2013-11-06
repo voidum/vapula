@@ -8,6 +8,7 @@ namespace tcm
 	const PCSTR _tcm_env_err_1 = "try to access null param";
 	const PCSTR _tcm_env_err_2 = "try to write null value";
 	const PCSTR _tcm_env_err_3 = "try to deliver between different types";
+	const PCSTR _tcm_env_err_4 = "try to read string as multi-bytes";
 
 	//参数信封
 	class TCM_BRIDGE_API Envelope
@@ -40,6 +41,10 @@ namespace tcm
 			if(id < 1) return false;
 			return env == NULL ? id <= _Total : id <= env->_Total;
 		}
+	private:
+		//写入对象
+		//size>0时浅拷贝对象数据
+		void _Write(int id, LPVOID value, int size = 0);
 	public:
 		//获取参数数量
 		int GetParamTotal();
@@ -66,6 +71,13 @@ namespace tcm
 			return (ret == TRUE);
 		}
 
+		//不允许以多字节字符串形式读取参数
+		template<>
+		PCSTR Read<PCSTR>(int id)
+		{
+			throw invalid_argument(_tcm_env_err_4);
+		}
+
 		//写入参数
 		template<typename T>
 		void Write(int id, T value)
@@ -82,35 +94,21 @@ namespace tcm
 			Write<char>(id, value ? TRUE : FALSE);
 		}
 
-		//写入对象
-		//size>0时浅拷贝对象数据
-		void Write(int id, LPVOID value, int size = 0)
+		//写入字符串，自动复制
+		//多字节字符串首先转换成宽字节字符串
+		template<>
+		void Write<PCSTR>(int id, PCSTR value)
 		{
-			if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
-			LPVOID* param = (LPVOID*)((UINT)_Memory + _Offsets[id - 1]);
-			if(size > 0)
-			{
-				//浅拷贝
-				param[0] = (LPVOID)(new BYTE[size]);
-				memcpy(param[0], value, size);
-			}
-			else
-			{
-				//引用复制
-				param[0] = value;
-			}
+			PCWSTR strw = MbToWc(value);
+			_Write(id, (LPVOID)strw, wcslen(strw) * 2 + 2);
+			delete strw;
 		}
 
 		//写入字符串，自动复制
-		void Write(int id, PCSTR value)
+		template<>
+		void Write<PCWSTR>(int id, PCWSTR value)
 		{
-			Write(id, (LPVOID)value, strlen(value) + 1);
-		}
-
-		//写入宽字符串，自动复制
-		void Write(int id, PCWSTR value)
-		{
-			Write(id, (LPVOID)value, wcslen(value) * 2 + 2);
+			_Write(id, (LPVOID)value, wcslen(value) * 2 + 2);
 		}
 
 		//读出数值并自动转型到字符串

@@ -17,10 +17,15 @@ namespace TCM.Model.Designer
 
         private Node FormData_GetNodeByLvi(ListViewItem lvi) 
         {
-            if (AppData.Instance.FormToolbox.IsBasicTool(lvi))
+            if (AppData.Instance.FormToolbox.IsAdvancedTool(lvi))
             {
                 string type = lvi.Tag as string;
-                if (type == "decision")
+                if (type == "code")
+                {
+                    NodeVariable node_variable = new NodeVariable();
+                    return node_variable;
+                }
+                else if (type == "decision")
                 {
                     NodeDecision node_decision = new NodeDecision();
                     return node_decision;
@@ -29,11 +34,6 @@ namespace TCM.Model.Designer
                 {
                     NodeVariable node_variable = new NodeVariable();
                     return node_variable;
-                }
-                else if (type == "batch")
-                {
-                    NodeBatch node_batch = new NodeBatch();
-                    return node_batch;
                 }
                 else return null;
             }
@@ -61,10 +61,10 @@ namespace TCM.Model.Designer
         public FrmDocument()
         {
             InitializeComponent();
-            ContextMenuStrip = ctxmenubar;
+            ContextMenuStrip = ctxmenu_doc;
             _Canvas = new CanvasGraph(400, 300);
             _Canvas.AllowDrop = true;
-            _Canvas.ContextMenuStrip = ctxcanvasmenu;
+            _Canvas.ContextMenuStrip = ctxmenu_canvas;
             _Canvas.DragEnter += new DragEventHandler(Canvas_DragEnter);
             _Canvas.DragDrop += new DragEventHandler(Canvas_DragDrop);
             _Canvas.SelectedChanged += new Action(Canvas_SelectedItemsChanged);

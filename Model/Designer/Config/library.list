@@ -2,4 +2,5 @@
 <root>
   <library id="sample_lib" state="0" />
   <library id="sample_xlib" state="0" />
+  <library id="sample_xui" state="0" />
 </root>

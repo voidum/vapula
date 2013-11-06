@@ -106,13 +106,38 @@ namespace TCM.Model.Designer
 
         #region 方法
         /// <summary>
+        /// 判断自身到目标的关联是自关联
+        /// </summary>
+        private bool IsSelfConnect(Connector target)
+        {
+            var con = _Container as Connection;
+            var cot = con.GetAnotherEnd(this);
+            if (cot.AttachedTo == null) return false;
+            if (target.Container != cot.AttachedTo.Container)
+                return false;
+            return true;
+        }
+
+        /// <summary>
         /// 将当前（主动）结点关联到指定（被动）结点
         /// </summary>
         public void AttachConnector(Connector target)
         {
-            if (target.Dragable) return; //要求目标不可移动
+            //要求目标不可移动
+            if (target.Dragable)
+                return;
+
+            //要求不是自关联
+            if (IsSelfConnect(target))
+                return;
+
+            //要求不重复关联
+            //if (!IsRepeatConnect(target))
+            //    return;
+
             target._Attached.Add(this);
             _AttachedTo = target;
+
             if (_Container.SyncTarget != null)
             {
                 string sync_cmd = "attach-" +

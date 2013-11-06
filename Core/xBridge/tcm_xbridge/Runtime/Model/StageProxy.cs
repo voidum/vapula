@@ -58,7 +58,7 @@ namespace TCM.Runtime
         {
             foreach (var node in Model.Nodes)
             {
-                Invoker invoker = node.Tag as Invoker;
+                Invoker invoker = (Invoker)node.Tag["Invoker"];
                 while (invoker.Context.State != State.Idle)
                     Thread.Sleep(50);
                 foreach (var stub in node.ParamStubs)
@@ -82,7 +82,7 @@ namespace TCM.Runtime
             Library lib = Library.Load(func.Library.Path);
             lib.Mount();
             Invoker invoker = lib.CreateInvoker(func.Id);
-            node.Tag = invoker;
+            node.Tag["Invoker"] = invoker;
             bool ret = invoker.Start();
             Logger.WriteLog(LogType.Event,
                 string.Format("节点{0}的功能{1}启动{2}",

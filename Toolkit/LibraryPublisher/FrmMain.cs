@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using TCM.Model;
+using System.Reflection;
 
 namespace TCM.Toolkit
 {
@@ -264,11 +265,21 @@ namespace TCM.Toolkit
 
         private void MnuHelp_Guide_Click(object sender, EventArgs e)
         {
-            Process.Start(Application.StartupPath + "\\manual.pdf");
+            try
+            {
+                Process.Start(Application.StartupPath + "\\manual.pdf");
+            }
+            catch
+            {
+                MessageBox.Show("打开用户手册失败。");
+            }
         }
 
         private void MnuHelp_About_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(
+                "当前版本：" + Application.ProductVersion,
+                "关于组件发布器");
         }
     }
 }

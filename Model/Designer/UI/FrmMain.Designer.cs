@@ -95,58 +95,58 @@
             // MnuFile_New
             // 
             this.MnuFile_New.Name = "MnuFile_New";
-            this.MnuFile_New.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_New.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_New.Text = "新建(&N)";
             // 
             // MnuFile_Open
             // 
             this.MnuFile_Open.Name = "MnuFile_Open";
-            this.MnuFile_Open.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Open.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_Open.Text = "打开(&O)";
             // 
             // MnuSplit1
             // 
             this.MnuSplit1.Name = "MnuSplit1";
-            this.MnuSplit1.Size = new System.Drawing.Size(149, 6);
+            this.MnuSplit1.Size = new System.Drawing.Size(134, 6);
             // 
             // MnuFile_Close
             // 
             this.MnuFile_Close.Name = "MnuFile_Close";
-            this.MnuFile_Close.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Close.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_Close.Text = "关闭(&C)";
             // 
             // MnuSplit2
             // 
             this.MnuSplit2.Name = "MnuSplit2";
-            this.MnuSplit2.Size = new System.Drawing.Size(149, 6);
+            this.MnuSplit2.Size = new System.Drawing.Size(134, 6);
             // 
             // MnuFile_Save
             // 
             this.MnuFile_Save.Name = "MnuFile_Save";
-            this.MnuFile_Save.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Save.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_Save.Text = "保存(&S)";
             // 
             // MnuFile_SaveAs
             // 
             this.MnuFile_SaveAs.Name = "MnuFile_SaveAs";
-            this.MnuFile_SaveAs.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_SaveAs.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_SaveAs.Text = "另存为(&A)...";
             // 
             // MnuFile_Export
             // 
             this.MnuFile_Export.Name = "MnuFile_Export";
-            this.MnuFile_Export.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Export.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_Export.Text = "导出(&E)...";
             // 
             // MnuSplit3
             // 
             this.MnuSplit3.Name = "MnuSplit3";
-            this.MnuSplit3.Size = new System.Drawing.Size(149, 6);
+            this.MnuSplit3.Size = new System.Drawing.Size(134, 6);
             // 
             // MnuFile_Exit
             // 
             this.MnuFile_Exit.Name = "MnuFile_Exit";
-            this.MnuFile_Exit.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Exit.Size = new System.Drawing.Size(137, 22);
             this.MnuFile_Exit.Text = "退出(&X)";
             this.MnuFile_Exit.Click += new System.EventHandler(this.MnuFile_Exit_Click);
             // 
@@ -193,7 +193,7 @@
             this.paneldock.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paneldock.DockBackColor = System.Drawing.SystemColors.Control;
             this.paneldock.DockLeftPortion = 0.2D;
-            this.paneldock.DockRightPortion = 0.22D;
+            this.paneldock.DockRightPortion = 0.21D;
             this.paneldock.Location = new System.Drawing.Point(0, 25);
             this.paneldock.Name = "paneldock";
             this.paneldock.Size = new System.Drawing.Size(584, 315);

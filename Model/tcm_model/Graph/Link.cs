@@ -16,34 +16,44 @@ namespace TCM.Model
             set
             {
                 if (value == _From) return;
-                if (_From != null)
-                    _From.OutLinks.Remove(this);
-                if (value != null)
-                    value.OutLinks.Add(this);
+                if (_To != null)
+                {
+                    if (_From != null)
+                    {
+                        _From.OutNodes.Remove(_To);
+                        _To.InNodes.Remove(_From);
+                    }
+                    if (value != null)
+                    {
+                        value.OutNodes.Add(_To);
+                        _To.InNodes.Add(value);
+                    }
+                }
                 _From = value;
             }
         }
-        internal Node QuickSetter_From
-        {
-            set { _From = value; }
-        }
-
+    
         public Node To 
         {
             get { return _To; }
             set
             {
                 if (value == _To) return;
-                if (_To != null)
-                    _To.InLinks.Remove(this);
-                if (value != null)
-                    value.InLinks.Add(this);
+                if (_From != null)
+                {
+                    if (_To != null)
+                    {
+                        _To.InNodes.Remove(_From);
+                        _From.OutNodes.Remove(_To);
+                    }
+                    if (value != null)
+                    {
+                        value.InNodes.Add(_From);
+                        _From.OutNodes.Add(value);
+                    }
+                }
                 _To = value;
             }
-        }
-        internal Node QuickSetter_To
-        {
-            set { _To = value; }
         }
 
         /// <summary>

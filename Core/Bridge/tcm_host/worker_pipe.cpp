@@ -97,7 +97,7 @@ bool Worker_PIPE::RunStageC()
 		if(!env->GetInState(i))
 		{
 			resp += "<param id=\"";
-			resp += ValueToStrA(i);
+			resp += ValueToStr(i);
 			resp += "\">";
 			resp += env->CastReadA(i);
 			resp += "</param>";

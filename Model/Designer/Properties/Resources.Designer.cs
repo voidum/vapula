@@ -144,6 +144,20 @@ namespace TCM.Model.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap script {
+            get {
+                object obj = ResourceManager.GetObject("script", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap script_s {
+            get {
+                object obj = ResourceManager.GetObject("script_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap toggle_minus_s {
             get {
                 object obj = ResourceManager.GetObject("toggle_minus_s", resourceCulture);

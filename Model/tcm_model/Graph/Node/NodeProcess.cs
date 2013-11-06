@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TCM.Model
 {
@@ -11,7 +9,6 @@ namespace TCM.Model
     {
         private Function _Function 
             = null;
-        private bool _Priority = false;
 
         public Function Function
         {
@@ -29,15 +26,6 @@ namespace TCM.Model
             get { return NodeType.Process; }
         }
 
-        public override bool IsReady
-        {
-            get
-            {
-                //ONLY check parameter
-                return true;
-            }
-        }
-
         public override object Sync(string cmd, object attach)
         {
             if (cmd == "get-icon") 
@@ -53,8 +41,8 @@ namespace TCM.Model
             }
             else if(cmd == "get-id")
             {
-                return Id.ToString();
-            }
+                return "节点" + Id.ToString();
+            }  
             return base.Sync(cmd, attach);
         }
     }

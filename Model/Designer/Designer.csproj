@@ -100,11 +100,11 @@
     <Compile Include="UI\Property\UctNull.Designer.cs">
       <DependentUpon>UctNull.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Property\UctProcess.cs">
+    <Compile Include="UI\Property\UctNode.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Property\UctProcess.Designer.cs">
-      <DependentUpon>UctProcess.cs</DependentUpon>
+    <Compile Include="UI\Property\UctNode.Designer.cs">
+      <DependentUpon>UctNode.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="UI\FrmDocument.resx">
       <DependentUpon>FrmDocument.cs</DependentUpon>
@@ -132,8 +132,8 @@
     <EmbeddedResource Include="UI\Property\UctNull.resx">
       <DependentUpon>UctNull.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Property\UctProcess.resx">
-      <DependentUpon>UctProcess.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Property\UctNode.resx">
+      <DependentUpon>UctNode.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\designer.config" />
     <None Include="Config\library.list" />
@@ -206,6 +206,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\disk_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\script_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\script.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -48,7 +48,7 @@ bool Worker_SCP_LUA::RunStageA()
 	{
 		if(!flag->Valid(TCM_CONFIG_SILENT))
 		{
-			ShowMsgbox(L"Fail to load script file.", L"TCM Host");
+			ShowMsgStr(L"Fail to load script file.", L"TCM Host");
 			return false;
 		}
 	}
@@ -56,7 +56,7 @@ bool Worker_SCP_LUA::RunStageA()
 	{
 		if(!flag->Valid(TCM_CONFIG_SILENT))
 		{
-			ShowMsgbox(L"Fail to compile script file.", L"TCM Host");
+			ShowMsgStr(L"Fail to compile script file.", L"TCM Host");
 			return false;
 		}
 	}

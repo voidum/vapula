@@ -42,33 +42,33 @@ namespace TCM.Model.Designer
         private void FormLayout_LoadResource()
         {
             //大图标
-            _LargeIcons.Images.Add("!basic_process", Properties.Resources.function);
-            _LargeIcons.Images.Add("!basic_decision",Properties.Resources.branch);
-            _LargeIcons.Images.Add("!basic_variable",Properties.Resources.datatable);
-            _LargeIcons.Images.Add("!basic_batch", Properties.Resources.copies);
+            _LargeIcons.Images.Add("!process", Properties.Resources.function);
+            _LargeIcons.Images.Add("!code", Properties.Resources.script);
+            _LargeIcons.Images.Add("!decision", Properties.Resources.branch);
+            _LargeIcons.Images.Add("!variable",Properties.Resources.datatable);
             //小图标
-            _SmallIcons.Images.Add("!basic_process", Properties.Resources.function_s);
-            _SmallIcons.Images.Add("!basic_decision", Properties.Resources.branch_s);
-            _SmallIcons.Images.Add("!basic_variable", Properties.Resources.datatable_s);
-            _SmallIcons.Images.Add("!basic_batch", Properties.Resources.copies_s);
+            _SmallIcons.Images.Add("!process", Properties.Resources.function_s);
+            _SmallIcons.Images.Add("!code", Properties.Resources.script_s);
+            _SmallIcons.Images.Add("!decision", Properties.Resources.branch_s);
+            _SmallIcons.Images.Add("!variable", Properties.Resources.datatable_s);
         }
 
-        private void FormLayout_AddBasicTools()
+        private void FormLayout_AddAdvancedTools()
         {
-            ListViewGroup lvg = new ListViewGroup("!basic", "基本工具");
+            ListViewGroup lvg = new ListViewGroup("!expert", "专家工具");
             LsvTools.Groups.Add(lvg);
             LsvTools.SetGroupState(lvg,
                 ListViewGroupState.Normal |
                 ListViewGroupState.Collapsible);
 
-            ListViewItem lvi1 = new ListViewItem("决策", "!basic_decision", lvg);
+            ListViewItem lvi1 = new ListViewItem("决策", "!decision", lvg);
             lvi1.Tag = "decision";
-            
-            ListViewItem lvi2 = new ListViewItem("变量表", "!basic_variable", lvg);
-            lvi2.Tag = "variable";
-            
-            ListViewItem lvi3 = new ListViewItem("批处理", "!basic_batch", lvg);
-            lvi3.Tag = "batch";
+
+            ListViewItem lvi2 = new ListViewItem("代码", "!code", lvg);
+            lvi2.Tag = "code";
+
+            ListViewItem lvi3 = new ListViewItem("变量", "!variable", lvg);
+            lvi3.Tag = "variable";
             
             LsvTools.Items.Add(lvi1);
             LsvTools.Items.Add(lvi2);
@@ -93,8 +93,8 @@ namespace TCM.Model.Designer
                     string lvi_text =
                         (func.Name == "" ? "（" + func.Id + "）" : func.Name);
                     var tags = (Dictionary<string, object>)func.Tag;
-                    string icon_key = "!basic_process";
-                    if (tags.ContainsKey("LargeIcon"))
+                    string icon_key = "!process";
+                    if (tags["LargeIcon"] != null || tags["SmallIcon"] != null)
                     {
                         icon_key = lib.Id + ":" + func.Id.ToString();
                         _LargeIcons.Images.Add(icon_key, (Image)tags["LargeIcon"]);
@@ -108,7 +108,7 @@ namespace TCM.Model.Designer
             }
         }
 
-        public bool IsBasicTool(ListViewItem lvi)
+        public bool IsAdvancedTool(ListViewItem lvi)
         {
             return !(lvi.Tag is Function);
         }
@@ -126,7 +126,7 @@ namespace TCM.Model.Designer
         {
             FormLayout_LoadResource();
             LsvTools.View = View.LargeIcon;
-            FormLayout_AddBasicTools();
+            FormLayout_AddAdvancedTools();
             FormLayout_LoadAllLibraries();
             FormLayout_SwitchCollapse();
         }

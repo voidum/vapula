@@ -13,8 +13,7 @@ namespace tcm
 		switch(type)
 		{
 		case TCM_DATA_POINTER:
-		case TCM_DATA_CSTRA:
-		case TCM_DATA_CSTRW:
+		case TCM_DATA_STRING:
 			return sizeof(LPVOID);
 		case TCM_DATA_BOOL:
 		case TCM_DATA_INT8:
@@ -92,7 +91,7 @@ namespace tcm
 		string str_dst = "";
 		for(;;)
 		{
-			int p1 = str_src.find(from);
+			ULONG p1 = str_src.find(from);
 			if(p1 != string::npos) 
 			{
 				str_dst += str_src.substr(0, p1);
@@ -116,7 +115,7 @@ namespace tcm
 		wstring str_dst = L"";
 		for(;;)
 		{
-			int p1 = str_src.find(from);
+			ULONG p1 = str_src.find(from);
 			if(p1 != wstring::npos) 
 			{
 				str_dst += str_src.substr(0, p1);
@@ -164,22 +163,22 @@ namespace tcm
 		string str;
 
 		GetLocalTime(&time);
-		tmp = ValueToStrA(time.wYear);
+		tmp = ValueToStr(time.wYear);
 		str += tmp; delete tmp;
 		if(time.wMonth < 10) str += "0";
-		tmp = ValueToStrA(time.wMonth);
+		tmp = ValueToStr(time.wMonth);
 		str += tmp; delete tmp;
 		if(time.wDay < 10) str += "0";
-		tmp = ValueToStrA(time.wDay);
+		tmp = ValueToStr(time.wDay);
 		str += tmp; delete tmp;
 		if(time.wHour < 10) str += "0";
-		tmp = ValueToStrA(time.wHour);
+		tmp = ValueToStr(time.wHour);
 		str += tmp; delete tmp;
 		if(time.wMinute < 10) str += "0";
-		tmp = ValueToStrA(time.wMinute);
+		tmp = ValueToStr(time.wMinute);
 		str += tmp; delete tmp;
 		if(time.wSecond < 10) str += "0";
-		tmp = ValueToStrA(time.wSecond);
+		tmp = ValueToStr(time.wSecond);
 		str += tmp; delete tmp;
 		tmp = CopyStrA(str.c_str());
 		return tmp;
@@ -193,14 +192,14 @@ namespace tcm
 		return ret;
 	}
 
-	void ShowMsgbox(PCWSTR value, PCWSTR caption)
+	void ShowMsgStr(PCSTR value, PCSTR caption)
 	{
-		MessageBoxW(NULL, value == NULL ? L"" : value, caption == NULL ? L"" : caption, 0);
+		MessageBoxA(NULL, value, caption, 0);
 	}
 
-	void ShowMsgbox(PCSTR value, PCSTR caption)
+	void ShowMsgStr(PCWSTR value, PCWSTR caption)
 	{
-		MessageBoxA(NULL, value == NULL ? "" : value, caption == NULL ? "" : caption, 0);
+		MessageBoxW(NULL, value, caption, 0);
 	}
 
 	PCWSTR GetRuntimeDir()
@@ -239,7 +238,7 @@ namespace tcm
 		if(wcslen(path) < 1) return CopyStrW(L"\\");
 		PCWSTR str_fix = ReplaceStrW(path, L"/", L"\\");
 		wstring str = str_fix;
-		int p = str.rfind(L'\\');
+		ULONG p = str.rfind(L'\\');
 		if(p == wstring::npos)
 		{
 			if(isfile) str = L"\\";

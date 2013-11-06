@@ -4,7 +4,7 @@
 
 #include "tcm_driver.h"
 #include "tcm_library.h"
-#include "tcm_Invoker.h"
+#include "tcm_invoker.h"
 #include "tcm_xml.h"
 #include "tcm_config.h"
 
@@ -41,7 +41,7 @@ Task* TaskEx::Parse(PCWSTR path)
 	if(xdoc == NULL)
 	{
 		if(!silent)
-			ShowMsgbox("Fail to load TCM task file.", "TCM Host");
+			ShowMsgStr("Fail to load TCM task file.", "TCM Host");
 		return NULL;
 	}
 
@@ -55,7 +55,7 @@ Task* TaskEx::Parse(PCWSTR path)
 	if(!driver_hub->Link(driver_id))
 	{
 		if(!silent)
-			ShowMsgbox("Fail to link driver.", "TCM Host");
+			ShowMsgStr("Fail to link driver.", "TCM Host");
 		return NULL;
 	}
 	delete driver_id;
@@ -71,14 +71,14 @@ Task* TaskEx::Parse(PCWSTR path)
 	if(task->_Lib == NULL)
 	{
 		if(!silent)
-			ShowMsgbox("Fail to load library.", "TCM Host");
+			ShowMsgStr("Fail to load library.", "TCM Host");
 		return NULL;
 	}
 
 	if(!task->_Lib->Mount())
 	{
 		if(!silent)
-			ShowMsgbox("Fail to mount library", "TCM Host");
+			ShowMsgStr("Fail to mount library", "TCM Host");
 		return NULL;
 	}
 	
@@ -135,13 +135,13 @@ bool TaskEx::RunAs(Worker* worker)
 			wstring str = L"TCM host has done with task:\n";
 			str += _Lib->GetLibraryId();
 			str += L"=>";
-			str += ValueToStrW(_FuncId);
+			str += MbToWc(ValueToStr(_FuncId));
 			str += L"\nReturn code:";
-			str += ValueToStrW(ret_task);
+			str += MbToWc(ValueToStr(ret_task));
 			str += L"\nElapsed time:";
-			str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
+			str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
 			str += L"(s)";
-			ShowMsgbox(str.c_str(),L"TCM Host");
+			ShowMsgStr(str.c_str(), L"TCM Host");
 		}
 		ret = true;
 	}
@@ -152,13 +152,13 @@ bool TaskEx::RunAs(Worker* worker)
 			wstring str = L"TCM host has NOT done with task:\n";
 			str += _Lib->GetLibraryId();
 			str += L"=>";
-			str += ValueToStrW(_FuncId);
+			str += MbToWc(ValueToStr(_FuncId));
 			str += L"\nLast stage: ";
-			str += ValueToStrW('A' + ret_worker - 1);
+			str += MbToWc(ValueToStr('A' + ret_worker - 1));
 			str += L"\nElapsed time:";
-			str += ValueToStrW((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart);
+			str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
 			str += L"(s)";
-			ShowMsgbox(str.c_str(), L"TCM Host");
+			ShowMsgStr(str.c_str(), L"TCM Host");
 		}
 	}
 	return ret;
