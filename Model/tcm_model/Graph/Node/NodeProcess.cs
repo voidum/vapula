@@ -34,13 +34,7 @@ namespace TCM.Model
                     return _Function.Tag["SmallIcon"];
             }
             else if(cmd == "get-text")
-            {
                 return _Function.Name;
-            }
-            else if(cmd == "get-id")
-            {
-                return "节点" + Id.ToString();
-            }  
             return base.Sync(cmd, attach);
         }
     }

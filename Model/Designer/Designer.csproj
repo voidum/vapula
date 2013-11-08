@@ -82,6 +82,12 @@
     <Compile Include="UI\FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FrmStage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmStage.Designer.cs">
+      <DependentUpon>FrmStage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmToolbox.AdvTool.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmStage.resx">
+      <DependentUpon>FrmStage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>

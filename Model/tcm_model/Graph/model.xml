@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<model>
+  <nodes>
+    <node id="" type="">
+      <params>
+        <param id="0" from="1,1">
+          value here
+        </param>
+      </params>
+      <config></config>
+    </node>
+  </nodes>
+  <links>
+    <link from="0" to="1" />
+  </links>
+</model>

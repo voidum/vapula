@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using TCM.Helper;
 
 namespace TCM.Model.Designer
 {
@@ -12,7 +14,6 @@ namespace TCM.Model.Designer
         #region 字段
         protected Size _Size;
         protected List<Connector> _Connectors = new List<Connector>();
-        protected List<string> _Texts = new List<string>();
         #endregion
 
         #region 属性
@@ -177,6 +178,20 @@ namespace TCM.Model.Designer
         {
             _Location = p;
         }
+
+        public override void ConfigCache()
+        {
+            base.ConfigCache();
+            _Cache.CachePen("0", new Pen(Color.Black, 1.5f));
+            _Cache.CachePen("1", new Pen(Color.Blue, 1.6f));
+            _Cache.CachePen("2", new Pen(Color.Red, 1.6f));
+            _Cache.CacheBrush("mask",
+                new SolidBrush(Color.FromArgb(175, Color.White)));
+            _Cache.CacheFont("id",
+                new Font("微软雅黑", 7.5f));
+            _Cache.CacheFont("text",
+                new Font("微软雅黑", 8f));
+        }
         #endregion
 
         #region 方法
@@ -189,12 +204,20 @@ namespace TCM.Model.Designer
             _Size.Height = size.Height;
             Invalidate();
         }
+
+        /// <summary>
+        /// 绘制文字
+        /// </summary>
+        protected virtual void DrawText(Graphics g)
+        {
+            throw new Exception("不要调用Shape的绘制文字。");
+        }
         #endregion
 
         #region 重写
         public override bool IsHit(Point p)
         {
-            throw new Exception("不要调用ShapeBase的命中测试。");
+            throw new Exception("不要调用Shape的命中测试。");
         }
 
         public override void MoveAs(Point v)

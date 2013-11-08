@@ -63,10 +63,16 @@ namespace TCM.Runtime
             {
                 if (!link.IsReady)
                 {
-                    Logger.WriteLog(LogType.Error,
-                        "存在不完备的关联，模型验证终止");
-                    return false;
+                    Logger.WriteLog(LogType.Warning,
+                        string.Format("存在不完备的关联 [{0}] -> [{1}]",
+                            link.From == null ? "空" : link.From.Id.ToString(),
+                            link.To == null ? "空" : link.To.Id.ToString()));
                 }
+            }
+            foreach (Node node in _Model.Nodes)
+            {
+                if (!_StageProxy.Valid(node))
+                    return false;
             }
             return true; 
         }
@@ -129,10 +135,6 @@ namespace TCM.Runtime
             }
             Logger.WriteLog(LogType.Event, "模型执行完成");
             return true;
-        }
-
-        public void Wait()
-        {
         }
 
         public bool Pause()

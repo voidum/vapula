@@ -6,6 +6,7 @@ namespace TCM.Model.Designer
 {
     public class AppData
     {
+        #region 单例
         private static AppData _Instance = null;
         public static AppData Instance
         {
@@ -14,6 +15,37 @@ namespace TCM.Model.Designer
                 if (_Instance == null)
                     _Instance = new AppData();
                 return _Instance; 
+            }
+        }
+        #endregion
+
+        #region 字段
+        private AppConfig _Config = null;
+        private LibraryManager _LibManager = null;
+        private FrmMain _FormMain = null;
+        private FrmToolbox _FormToolbox = null;
+        private FrmDebug _FormDebug = null;
+        private FrmLog _FormLog = null;
+        #endregion
+
+        #region 属性
+        public AppConfig Config
+        {
+            get
+            {
+                if (_Config == null)
+                    _Config = new AppConfig();
+                return _Config;
+            }
+        }
+
+        public LibraryManager LibManager
+        {
+            get
+            {
+                if (_LibManager == null)
+                    _LibManager = new LibraryManager();
+                return _LibManager;
             }
         }
 
@@ -39,29 +71,6 @@ namespace TCM.Model.Designer
             }
         }
 
-        private AppConfig _Config = null;
-        public AppConfig Config
-        {
-            get 
-            {
-                if (_Config == null)
-                    _Config = new AppConfig();
-                return _Config;
-            }
-        }
-
-        private LibraryManager _LibManager = null;
-        public LibraryManager LibManager
-        {
-            get 
-            {
-                if (_LibManager == null)
-                    _LibManager = new LibraryManager();
-                return _LibManager;
-            }
-        }
-
-        private FrmMain _FormMain = null;
         public FrmMain FormMain
         {
             get
@@ -72,7 +81,6 @@ namespace TCM.Model.Designer
             }
         }
 
-        private FrmToolbox _FormToolbox = null;
         public FrmToolbox FormToolbox
         {
             get
@@ -83,7 +91,6 @@ namespace TCM.Model.Designer
             }
         }
 
-        private FrmDebug _FormDebug = null;
         public FrmDebug FormDebug
         {
             get
@@ -94,7 +101,6 @@ namespace TCM.Model.Designer
             }
         }
 
-        private FrmLog _FormLog = null;
         public FrmLog FormLog
         {
             get
@@ -104,5 +110,6 @@ namespace TCM.Model.Designer
                 return _FormLog;
             }
         }
+        #endregion
     }
 }

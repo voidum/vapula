@@ -7,18 +7,26 @@ namespace TCM.Runtime
     /// <summary>
     /// 模型阶段的执行代理
     /// </summary>
-    public class StageProxy
+    internal class StageProxy
     {
-        private ILogger _Logger = null;
+        #region 字段
         private GraphProxy _Parent = null;
         private Stage _Model = null;
+        #endregion
 
+        #region 属性
+        /// <summary>
+        /// 容器代理
+        /// </summary>
         public GraphProxy Parent
         {
             get { return _Parent; }
             set { _Parent = value; }
         }
 
+        /// <summary>
+        /// 代理的目标模型
+        /// </summary>
         public Stage Model
         {
             get { return _Model; }
@@ -30,18 +38,15 @@ namespace TCM.Runtime
         /// </summary>
         public ILogger Logger
         {
-            get
-            {
-                if (_Parent == null)
-                    _Logger = Base.Logger;
-                return _Parent.Logger;
-            }
+            get { return _Parent == null ? Base.Logger : _Parent.Logger; }
         }
+        #endregion
 
         public StageProxy()
         {
         }
 
+        #region 方法
         public void Start()
         {
             Logger.WriteLog(LogType.Event,
@@ -51,7 +56,7 @@ namespace TCM.Runtime
             {
                 if (node.Type == NodeType.Process)
                     StartNode_Process(node as NodeProcess);
-                if (node.Type == NodeType.Start)
+                else if (node.Type == NodeType.Start)
                     StartNode_Start(node as NodeStart);
             }
         }
@@ -65,6 +70,34 @@ namespace TCM.Runtime
             }
         }
 
+        public bool Valid(Node node)
+        {
+            if (node.Type == NodeType.Process)
+                return ValidNode_Process(node as NodeProcess);
+            if (node.Type == NodeType.Start)
+                return ValidNode_Start(node as NodeStart);
+            return false;
+        }
+        #endregion
+
+        #region 实现
+        private bool ValidNode_Process(NodeProcess node)
+        {
+            return true;
+        }
+
+        private bool ValidNode_Start(NodeStart node)
+        {
+            if (node.InNodes.Count > 0)
+            {
+                Logger.WriteLog(LogType.Error,
+                    string.Format("起点节点{0}具有输入",
+                        node.Id));
+                return false;
+            }
+            return true;
+        }
+
         private void StartNode_Process(NodeProcess node)
         {
             Function func = node.Function;
@@ -74,7 +107,7 @@ namespace TCM.Runtime
             node.Tag["Invoker"] = invoker;
             bool ret = invoker.Start();
             Logger.WriteLog(LogType.Event,
-                string.Format("节点{0}的功能{1}启动{2}",
+                string.Format("节点{0}的功能{1}启动",
                     node.Id, func.Name,
                     ret ? "成功" : "失败"));
         }
@@ -104,5 +137,6 @@ namespace TCM.Runtime
                 }
             }
         }
+        #endregion
     }
 }

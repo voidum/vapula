@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -20,15 +19,11 @@ namespace TCM.xHost
             if (cmds.Length >= 2)
             {
                 CheckOption(cmds);
-                /*
-      			Task* task = Task::Parse(argv[1]);
-	    		if(!task) return -1;
-		    	task->Mount();
-			    task->Run(_FlagApp);
-                 */
             }
             else
         	{
+                FrmBrowser form = new FrmBrowser();
+                form.ShowDialog();
                 ShowHelp();
         	}
             return 0;
@@ -42,7 +37,7 @@ namespace TCM.xHost
         static void ShowHelp()
         {
             string str = "command lines:\n";
-            str += " tcm_host [task file] [option]\n";
+            str += " tcm_xhost [task file] [option]\n";
             str += "option:\n";
             str += " \"rtmon\" - to monitor in high CPU usage\n";
             MessageBox.Show(str, "TCM xHost");

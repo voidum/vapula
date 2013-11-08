@@ -1,6 +1,6 @@
-﻿namespace TCM
+﻿namespace TCM.Model.Designer.UI
 {
-    partial class xHostForm
+    partial class FrmStage
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // xHostForm
+            // FrmStage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "xHostForm";
-            this.Shown += new System.EventHandler(this.xHostForm_Shown);
+            this.Name = "FrmStage";
+            this.Text = "阶段分析";
             this.ResumeLayout(false);
 
         }

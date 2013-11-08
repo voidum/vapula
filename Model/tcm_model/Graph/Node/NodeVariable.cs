@@ -3,7 +3,7 @@
 namespace TCM.Model
 {
     /// <summary>
-    /// 节点：变量表
+    /// 节点：变量
     /// </summary>
     public class NodeVariable : Node
     {

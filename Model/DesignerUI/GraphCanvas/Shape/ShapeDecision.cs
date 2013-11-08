@@ -25,22 +25,23 @@ namespace TCM.Model.Designer
         public override void ConfigCache()
         {
             base.ConfigCache();
-            _Cache.CachePen("0", new Pen(Color.Black, 1.5f));
-            _Cache.CachePen("1", new Pen(Color.Blue, 1.6f));
-            _Cache.CachePen("2", new Pen(Color.Red, 1.6f));
             Color c = Color.FromArgb(0xCC, 0xFF, 0xEE);
-            _Cache.CacheBrush("0",
+            _Cache.CacheBrush("back",
                 new LinearGradientBrush(
                     new Rectangle(0, 0, 100, 100),
                     c, GDIHelper.GetDeepColor(c), 30f));
-            _Cache.CacheBrush("1",
-                new SolidBrush(Color.FromArgb(175, Color.White)));
-            _Cache.CacheFont("0",
-                new Font("微软雅黑", 9));
         }
         #endregion
 
         #region 方法
+        protected override void DrawText(Graphics g)
+        {
+            string id = (string)SyncTarget.Sync("get-id", null);
+            float id_width = g.MeasureString(id, _Cache.GetFont("id")).Width;
+            g.DrawString(id, _Cache.GetFont("id"), Brushes.Black,
+                X - id_width / 2, Y - 8);
+        }
+
         public override bool IsHit(Point p)
         {
             if (Bounds.Contains(p))
@@ -56,15 +57,13 @@ namespace TCM.Model.Designer
                 _Connectors[2].Location, 
                 _Connectors[3].Location
             };
-            g.FillPolygon(_Cache.GetBrush("0"), polygon);
+            g.FillPolygon(_Cache.GetBrush("back"), polygon);
+            DrawText(g);
             if (IsHovered)
             {
-                g.FillPolygon(_Cache.GetBrush("1"), polygon);
                 g.DrawPolygon(_Cache.GetPen("1"), polygon);
                 foreach (Connector cop in _Connectors)
                     cop.OnPaint(g);
-                //float tw_fi = g.MeasureString(_Texts[0], _Cache.GetFont("0")).Width;
-                //g.DrawString(_Texts[0], _Cache.GetFont("0"), Brushes.Black, X + 50 - tw_fi / 2, Y + 20);
             }
             else if (IsSelected)
             {

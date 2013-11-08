@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{998905
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F9F9DA4B-4327-4486-923E-EC925804120C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost", "..\Core\xBridge\tcm_xhost\tcm_xhost.csproj", "{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,16 @@ Global
 		{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Debug|x86.ActiveCfg = Debug|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Debug|x86.Build.0 = Debug|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Release|Any CPU.ActiveCfg = Release|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Release|x86.ActiveCfg = Release|x86
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +96,6 @@ Global
 		{06DA63FC-240E-46DB-B018-176153857AD0} = {99890523-3856-41A9-8CDB-F029EF40D4D2}
 		{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54} = {F9F9DA4B-4327-4486-923E-EC925804120C}
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192} = {F9F9DA4B-4327-4486-923E-EC925804120C}
+		{2B8BF1BC-8444-4C48-868C-815E54BFC4DB} = {F9F9DA4B-4327-4486-923E-EC925804120C}
 	EndGlobalSection
 EndGlobal

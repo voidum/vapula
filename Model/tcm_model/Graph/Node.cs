@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace TCM.Model
 {
@@ -28,6 +29,21 @@ namespace TCM.Model
             = new List<ParamStub>();
 
         protected Tag _Tag = new Tag();
+        #endregion
+
+        #region 索引器
+        /// <summary>
+        /// 根据指定标识获取参数存根
+        /// </summary>
+        public ParamStub this[int id]
+        {
+            get
+            {
+                foreach (var stub in _ParamStubs)
+                    if (stub.Prototype.Id == id) return stub;
+                return null;
+            }
+        }
         #endregion
 
         #region 属性
@@ -73,6 +89,24 @@ namespace TCM.Model
         }
         #endregion
 
+        #region 序列化
+        /// <summary>
+        /// 由XML解析节点对象
+        /// </summary>
+        public static Node Parse(XElement xml)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 将组件序列化成XML元素
+        /// </summary>
+        public virtual XElement ToXML()
+        {
+            return null;
+        }
+        #endregion
+
         #region 方法
         public virtual void Dispose()
         {
@@ -101,6 +135,11 @@ namespace TCM.Model
 
         public virtual object Sync(string cmd, object attach)
         {
+            if (cmd == "get-id")
+            {
+                string ret = "节点" + Id.ToString();
+                return ret;
+            }
             return null;
         }
         #endregion

@@ -3,13 +3,56 @@ using System.ComponentModel;
 
 namespace TCM.Model
 {
+    /// <summary>
+    /// 参数坐标
+    /// </summary>
+    public class ParamPoint
+    {
+        private int _Node;
+        private int _Parameter;
+
+        public int Node
+        {
+            get { return _Node; }
+            set 
+            {
+                if (_Node < 1) return;
+                _Node = value;
+            }
+        }
+
+        public int Parameter
+        {
+            get { return _Parameter; }
+            set 
+            {
+                if (_Parameter < 1) return;
+                _Parameter = value;
+            }
+        }
+
+        public ParamPoint(int node, int param)
+        {
+            _Node = node;
+            _Parameter = param;
+        }
+    }
+
+    /// <summary>
+    /// 参数存根
+    /// </summary>
     public class ParamStub
     {
+        #region 字段
         private Parameter _Prototype
             = null;
         private string _Value 
             = null;
+        private ParamPoint _From
+            = null;
+        #endregion
 
+        #region 属性
         public Parameter Prototype
         {
             get { return _Prototype; }
@@ -69,5 +112,6 @@ namespace TCM.Model
                 }
             }
         }
+        #endregion
     }
 }

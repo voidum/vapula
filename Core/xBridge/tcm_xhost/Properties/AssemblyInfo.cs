@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("TCM图形界面宿主")]
-[assembly: AssemblyDescription("用于调用TCM组件的图形界面宿主程序")]
+[assembly: AssemblyDescription("用于承载TCM组件图形界面的宿主程序")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("tcm_xhost")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“内部版本号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]

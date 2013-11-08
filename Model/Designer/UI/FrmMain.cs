@@ -22,7 +22,6 @@ namespace TCM.Model.Designer
             GraphProxy proxy = new GraphProxy(doc.Graph);
             proxy.Logger = App.FormLog;
             proxy.Start();
-            proxy.Wait();
         }
 
         public FrmMain()

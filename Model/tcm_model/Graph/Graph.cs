@@ -7,13 +7,31 @@ namespace TCM.Model
     /// </summary>
     public class Graph : ISyncable
     {
+        #region 字段
         private List<Node> _Nodes 
             = new List<Node>();
         private List<Stage> _Stages 
             = new List<Stage>();
         private List<Link> _Links 
             = new List<Link>();
+        #endregion
 
+        #region 索引器
+        /// <summary>
+        /// 根据指定标识获取节点
+        /// </summary>
+        public Node this[int id]
+        {
+            get
+            {
+                foreach (Node node in _Nodes)
+                    if (node.Id == id) return node;
+                return null;
+            }
+        }
+        #endregion
+
+        #region 属性
         /// <summary>
         /// 获取图的节点集合
         /// </summary>
@@ -75,6 +93,20 @@ namespace TCM.Model
                 return stage;
             }
         }
+        #endregion
+
+        #region 集合
+        /// <summary>
+        /// 根据坐标检索参数存根
+        /// </summary>
+        public ParamStub FindParamStub(ParamPoint location)
+        {
+            Node node = this[location.Node];
+            if (node != null)
+                return node[location.Parameter];
+            return null;
+        }
+        #endregion
 
         #region ISyncable
         private ISyncable _SyncTarget = null;
