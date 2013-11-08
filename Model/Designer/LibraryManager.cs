@@ -25,7 +25,7 @@ namespace TCM.Model.Designer
         {
             get
             {
-                foreach (Library lib in _Libraries)
+                foreach (var lib in _Libraries)
                     if (lib.Id == id)
                         return lib;
                 return null;
@@ -48,15 +48,14 @@ namespace TCM.Model.Designer
 
         public void Clear()
         {
-            foreach (Library lib in _Libraries)
+            foreach (var lib in _Libraries)
             {
-                foreach (Function func in lib.Functions)
+                foreach (var func in lib.Functions)
                 {
-                    var tags = (Dictionary<string, object>)func.Tag;
-                    if (tags.ContainsKey("LargeIcon"))
-                        ((Image)tags["LargeIcon"]).Dispose();
-                    if (tags.ContainsKey("SmallIcon"))
-                        ((Image)tags["SmallIcon"]).Dispose();
+                    if (func.Tag["LargeIcon"] != null)
+                        ((Image)func.Tag["LargeIcon"]).Dispose();
+                    if (func.Tag["SmallIcon"] != null)
+                        ((Image)func.Tag["SmallIcon"]).Dispose();
                 }
                 lib.Clear();
             }
@@ -68,27 +67,11 @@ namespace TCM.Model.Designer
             Library lib = Library.Load(
                 Path.Combine(
                 AppData.Instance.PathLibrary,
-                id + ".tcm.xml"));
+                id + "\\" + id + ".tcm.xml"));
             if (lib != null)
             {
                 _Libraries.Add(lib);
-                lib.Tag = state;
-                foreach (Function func in lib.Functions)
-                {
-                    Dictionary<string, object> tags
-                        = new Dictionary<string, object>();
-                    func.Tag = tags;
-                        
-                    string path_pre = Path.Combine(
-                        AppData.Instance.PathResource,
-                        id + "." + func.Id.ToString());
-                    string path1 = path_pre + ".tcm.png";
-                    string path2 = path_pre + "_s.tcm.png";
-                    Image icon1 = File.Exists(path1) ? Image.FromFile(path1) : null;
-                    Image icon2 = File.Exists(path2) ? Image.FromFile(path2) : null;
-                    tags.Add("LargeIcon", icon1);
-                    tags.Add("SmallIcon", icon2);
-                }
+                lib.Tag["State"] = state;
             }
             return true;
         }

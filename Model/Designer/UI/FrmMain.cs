@@ -34,7 +34,6 @@ namespace TCM.Model.Designer
         {
             App.FormToolbox.Show(paneldock, DockState.Left);
             App.FormDebug.Show(paneldock, DockState.AutoHideRight);
-            App.FormProperty.Show(paneldock, DockState.Right);
             App.FormLog.Show(paneldock, DockState.AutoHideBottom);
             doc = new FrmDocument();
             doc.Show(paneldock, DockState.Document);

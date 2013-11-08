@@ -30,10 +30,8 @@ namespace TCM.Model
         {
             if (cmd == "get-icon") 
             {
-                Dictionary<string, object> tags
-                    = _Function.Tag as Dictionary<string, object>;
-                if(tags.ContainsKey("SmallIcon"))
-                    return tags["SmallIcon"];
+                if(_Function.Tag["SmallIcon"] != null)
+                    return _Function.Tag["SmallIcon"];
             }
             else if(cmd == "get-text")
             {

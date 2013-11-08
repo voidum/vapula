@@ -13,7 +13,7 @@ namespace TCM.Model
         private string _Name;
         private string _Description;
         private Library _Library;
-        private object _Tag;
+        private Tag _Tag = new Tag();
         private List<Parameter> _Params = new List<Parameter>();
         #endregion
 
@@ -140,10 +140,9 @@ namespace TCM.Model
         /// <summary>
         /// 获取或设置附加数据
         /// </summary>
-        public object Tag
+        public Tag Tag
         {
             get { return _Tag; }
-            set { _Tag = value; }
         }
 
         /// <summary>

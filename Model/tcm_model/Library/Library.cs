@@ -19,7 +19,7 @@ namespace TCM.Model
         private string _Description;
         private string _Version;
         private string _Path;
-        private object _Tag;
+        private Tag _Tag = new Tag();
         private List<Function> _Functions = new List<Function>();
         #endregion
 
@@ -244,12 +244,11 @@ namespace TCM.Model
         }
 
         /// <summary>
-        /// 获取或设置库的附加数据
+        /// 获取库的附加数据表
         /// </summary>
-        public object Tag
+        public Tag Tag
         {
             get { return _Tag; }
-            set { _Tag = value; }
         }
 
         /// <summary>

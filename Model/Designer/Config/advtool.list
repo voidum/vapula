@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <tool id="start">起点</tool>
+  <tool id="decision">决策</tool>
+  <tool id="code">代码</tool>
+  <tool id="batch">批量</tool>
+  <tool id="variable">变量</tool>
+</root>

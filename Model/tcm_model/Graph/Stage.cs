@@ -40,22 +40,21 @@ namespace TCM.Model
                 foreach (var n in Nodes)
                 {
                     foreach (var n_o in n.OutNodes)
-                    {
-                        if (n_o.SDN != null)
-                        {
-                            int max_stage = 1;
-                            foreach (var n_o_i in n_o.InNodes)
-                            {
-                                int i = n_o_i.LSI;
-                                if (i > max_stage)
-                                    max_stage = i;
-                            }
-                            if (n_o.SDN.LSI < max_stage)
-                                continue;
-                        }
                         stage.Add(n_o);
+                }
+                List<Node> ns = new List<Node>();
+                foreach (var n in stage.Nodes)
+                {
+                    foreach (var n_i in n.InNodes)
+                    {
+                        if (!stage.Nodes.Contains(n_i))
+                            continue;
+                        ns.Add(n);
+                        break;
                     }
                 }
+                foreach (var n in ns)
+                    stage.Nodes.Remove(n);
                 if (stage.Nodes.Count == 0)
                     return null;
                 stage.Id = Id + 1;

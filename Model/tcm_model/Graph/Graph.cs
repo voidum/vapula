@@ -66,7 +66,7 @@ namespace TCM.Model
                 Stage stage = new Stage();
                 foreach (Node node in Nodes)
                 {
-                    if (node.SPP || node.InNodes.Count == 0)
+                    if (node.InNodes.Count == 0)
                         stage.Add(node);
                 }
                 if (stage.Nodes.Count == 0)

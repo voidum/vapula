@@ -33,6 +33,7 @@
             this.ctxmenubar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSwitchView = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuLibMng = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -56,16 +57,17 @@
             this.ctxmenubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MnuExpandGroup,
             this.MnuCollapseGroup,
+            this.MnuSwitchView,
             this.MnuSplit1,
             this.MnuLibMng});
             this.ctxmenubar.Name = "menubar";
-            this.ctxmenubar.Size = new System.Drawing.Size(153, 98);
+            this.ctxmenubar.Size = new System.Drawing.Size(154, 120);
             // 
             // MnuExpandGroup
             // 
             this.MnuExpandGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_plus_s;
             this.MnuExpandGroup.Name = "MnuExpandGroup";
-            this.MnuExpandGroup.Size = new System.Drawing.Size(152, 22);
+            this.MnuExpandGroup.Size = new System.Drawing.Size(153, 22);
             this.MnuExpandGroup.Text = "展开所有组";
             this.MnuExpandGroup.Click += new System.EventHandler(this.MnuExpandGroup_Click);
             // 
@@ -73,19 +75,26 @@
             // 
             this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
             this.MnuCollapseGroup.Name = "MnuCollapseGroup";
-            this.MnuCollapseGroup.Size = new System.Drawing.Size(152, 22);
+            this.MnuCollapseGroup.Size = new System.Drawing.Size(153, 22);
             this.MnuCollapseGroup.Text = "折叠所有组";
             this.MnuCollapseGroup.Click += new System.EventHandler(this.MnuCollapseGroup_Click);
+            // 
+            // MnuSwitchView
+            // 
+            this.MnuSwitchView.Name = "MnuSwitchView";
+            this.MnuSwitchView.Size = new System.Drawing.Size(153, 22);
+            this.MnuSwitchView.Text = "显示大/小图标";
+            this.MnuSwitchView.Click += new System.EventHandler(this.MnuSwitchView_Click);
             // 
             // MnuSplit1
             // 
             this.MnuSplit1.Name = "MnuSplit1";
-            this.MnuSplit1.Size = new System.Drawing.Size(149, 6);
+            this.MnuSplit1.Size = new System.Drawing.Size(150, 6);
             // 
             // MnuLibMng
             // 
             this.MnuLibMng.Name = "MnuLibMng";
-            this.MnuLibMng.Size = new System.Drawing.Size(152, 22);
+            this.MnuLibMng.Size = new System.Drawing.Size(153, 22);
             this.MnuLibMng.Text = "组件管理器...";
             // 
             // toolStripLabel1
@@ -121,5 +130,6 @@
         private System.Windows.Forms.ToolStripSeparator MnuSplit1;
         private System.Windows.Forms.ToolStripMenuItem MnuLibMng;
         private System.Windows.Forms.ToolStripMenuItem MnuExpandGroup;
+        private System.Windows.Forms.ToolStripMenuItem MnuSwitchView;
     }
 }

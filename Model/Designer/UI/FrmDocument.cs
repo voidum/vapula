@@ -7,6 +7,7 @@ namespace TCM.Model.Designer
 {
     public partial class FrmDocument : DockContent
     {
+        private AppData App = AppData.Instance;
         private CanvasGraph _Canvas = null;
         private Graph _Graph = null;
 
@@ -20,7 +21,12 @@ namespace TCM.Model.Designer
             if (AppData.Instance.FormToolbox.IsAdvancedTool(lvi))
             {
                 string type = lvi.Tag as string;
-                if (type == "code")
+                if (type == "start")
+                {
+                    NodeStart node_start = new NodeStart();
+                    return node_start;
+                }
+                else if (type == "code")
                 {
                     NodeVariable node_variable = new NodeVariable();
                     return node_variable;
@@ -103,6 +109,8 @@ namespace TCM.Model.Designer
                 shape = _Canvas.AddShapeProcess(p2);
             else if (node.Type == NodeType.Decision)
                 shape = _Canvas.AddShapeDecision(p2);
+            else if (node.Type == NodeType.Start)
+                shape = _Canvas.AddShapeStart(p2);
             else if (node.Type == NodeType.Variable)
                 MessageBox.Show("未实现变量表");
             else if (node.Type == NodeType.Batch)
@@ -113,30 +121,27 @@ namespace TCM.Model.Designer
 
         private void Canvas_SelectedItemsChanged()
         {
+
             if (_Canvas.SelectedEntities.Count == 1)
             {
                 Entity entity = _Canvas.SelectedEntities[0];
                 if (entity != null) 
-                {
-                    AppData.Instance.FormDebug.SelectObject(entity.SyncTarget);
-                    AppData.Instance.FormProperty.SelectObject(entity.SyncTarget);
-                }
+                    App.FormDebug.SelectObject(entity.SyncTarget);
             }
             else
             {
-                AppData.Instance.FormDebug.SelectObject(null);
-                AppData.Instance.FormProperty.SelectObject(null);
+                App.FormDebug.SelectObject(null);
             }
         }
 
         private void MnuDebugCanvas_Click(object sender, EventArgs e)
         {
-            AppData.Instance.FormDebug.SelectObject(_Canvas);
+            App.FormDebug.SelectObject(_Canvas);
         }
 
         private void MnuDebugGraph_Click(object sender, EventArgs e)
         {
-            AppData.Instance.FormDebug.SelectObject(_Graph);
+            App.FormDebug.SelectObject(_Graph);
         }
 
         private void MnuDeleteSelected_Click(object sender, EventArgs e)

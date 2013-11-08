@@ -60,8 +60,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GraphCanvas\Shape.cs" />
-    <Compile Include="GraphCanvas\ShapeDecision.cs" />
-    <Compile Include="GraphCanvas\ShapeProcess.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeDecision.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeProcess.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

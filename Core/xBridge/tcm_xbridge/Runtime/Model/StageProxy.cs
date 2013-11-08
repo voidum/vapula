@@ -51,6 +51,8 @@ namespace TCM.Runtime
             {
                 if (node.Type == NodeType.Process)
                     StartNode_Process(node as NodeProcess);
+                if (node.Type == NodeType.Start)
+                    StartNode_Start(node as NodeStart);
             }
         }
 
@@ -58,21 +60,8 @@ namespace TCM.Runtime
         {
             foreach (var node in Model.Nodes)
             {
-                Invoker invoker = (Invoker)node.Tag["Invoker"];
-                while (invoker.Context.State != State.Idle)
-                    Thread.Sleep(50);
-                foreach (var stub in node.ParamStubs)
-                {
-                    Parameter param = stub.Prototype;
-                    if (!param.IsIn)
-                    {
-                        Logger.WriteLog(LogType.Debug,
-                            string.Format("节点{0}的参数{1}的值为{2}",
-                                node.Id,
-                                param.Name,
-                                invoker.Envelope.Read(param.Id)));
-                    }
-                }
+                if (node.Type == NodeType.Process)
+                    WaitNode_Process(node as NodeProcess);
             }
         }
 
@@ -88,7 +77,32 @@ namespace TCM.Runtime
                 string.Format("节点{0}的功能{1}启动{2}",
                     node.Id, func.Name,
                     ret ? "成功" : "失败"));
-            node.LSI = _Model.Id;
+        }
+
+        private void StartNode_Start(NodeStart node)
+        {
+            Logger.WriteLog(LogType.Event,
+                string.Format("起点节点{0}启动",
+                    node.Id));
+        }
+
+        private void WaitNode_Process(NodeProcess node)
+        {
+            Invoker invoker = (Invoker)node.Tag["Invoker"];
+            while (invoker.Context.State != State.Idle)
+                Thread.Sleep(50);
+            foreach (var stub in node.ParamStubs)
+            {
+                Parameter param = stub.Prototype;
+                if (!param.IsIn)
+                {
+                    Logger.WriteLog(LogType.Debug,
+                        string.Format("节点{0}的参数{1}的值为{2}",
+                            node.Id,
+                            param.Name,
+                            invoker.Envelope.Read(param.Id)));
+                }
+            }
         }
     }
 }

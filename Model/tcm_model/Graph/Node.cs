@@ -8,8 +8,9 @@ namespace TCM.Model
         Unknown = -1,
         Process = 0,
         Decision = 1,
-        Variable = 2,
-        Batch = 3
+        Start = 2,
+        Variable = 3,
+        Batch = 4
     }
 
     /// <summary>
@@ -25,10 +26,6 @@ namespace TCM.Model
             = new List<Node>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
-
-        protected bool _SPP = false;
-        protected Node _SDN = null;
-        protected int _LSI = 0;
 
         protected Tag _Tag = new Tag();
         #endregion
@@ -64,33 +61,6 @@ namespace TCM.Model
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
-        }
-
-        /// <summary>
-        /// 获取或设置起点优先权
-        /// </summary>
-        public bool SPP
-        {
-            get { return _SPP; }
-            set { _SPP = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置强依赖节点
-        /// </summary>
-        public Node SDN 
-        {
-            get { return _SDN; }
-            set { _SDN = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置最新阶段的标识
-        /// </summary>
-        public int LSI
-        {
-            get { return _LSI; }
-            set { _LSI = value; }
         }
 
         /// <summary>

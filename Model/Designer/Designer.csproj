@@ -82,29 +82,14 @@
     <Compile Include="UI\FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FrmProperty.cs">
+    <Compile Include="UI\FrmToolbox.AdvTool.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\FrmProperty.Designer.cs">
-      <DependentUpon>FrmProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FrmToolbox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FrmToolbox.Designer.cs">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Property\UctNull.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Property\UctNull.Designer.cs">
-      <DependentUpon>UctNull.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Property\UctNode.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Property\UctNode.Designer.cs">
-      <DependentUpon>UctNode.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="UI\FrmDocument.resx">
       <DependentUpon>FrmDocument.cs</DependentUpon>
@@ -123,18 +108,10 @@
     <EmbeddedResource Include="UI\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FrmProperty.resx">
-      <DependentUpon>FrmProperty.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Property\UctNull.resx">
-      <DependentUpon>UctNull.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Property\UctNode.resx">
-      <DependentUpon>UctNode.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="Config\advtool.list" />
     <None Include="Config\designer.config" />
     <None Include="Config\library.list" />
     <None Include="Properties\Settings.settings">
@@ -166,52 +143,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\function.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\function_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\branch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\branch_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\datatable_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\datatable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\copies.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\copies_s.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\toggle_minus_s.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\toggle_plus_s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\broom.png" />
+    <None Include="Resources\function.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_s.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\broom_s.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\disk.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\disk_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\script_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\script.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

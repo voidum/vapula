@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace TCM.Model
 {
     /// <summary>
@@ -10,13 +6,11 @@ namespace TCM.Model
     /// </summary>
     public class NodeDecision : Node
     {
-        private bool _Priority = false;
+        private string _Code;
 
         public override NodeType Type
         {
             get { return NodeType.Decision; }
         }
-
-        private string _Code;
     }
 }

@@ -73,8 +73,9 @@ namespace TCM.Runtime
 
         private void ClearModel() 
         {
-            foreach (Node node in _Model.Nodes)
-                node.LSI = 0;
+            foreach (var stage in _Model.Stages)
+                stage.Nodes.Clear();
+            _Model.Stages.Clear();
         }
 
         public GraphProxy(Graph model)

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Resources;
 using System.Windows.Forms;
 using xDockPanel;
 
@@ -12,9 +13,9 @@ namespace TCM.Model.Designer
         {
             get 
             {
-                string dir = Application.StartupPath 
-                    + "\\" 
-                    + AppData.Instance.Config["AppResDir"];
+                string dir = Path.Combine(
+                    Application.StartupPath,
+                    AppData.Instance.Config["PathResource"]);
                 return dir;
             }
         }
@@ -39,43 +40,17 @@ namespace TCM.Model.Designer
             }
         }
 
-        private void FormLayout_LoadResource()
+        private void FormLayout_LoadCommonRes()
         {
-            //大图标
-            _LargeIcons.Images.Add("!process", Properties.Resources.function);
-            _LargeIcons.Images.Add("!code", Properties.Resources.script);
-            _LargeIcons.Images.Add("!decision", Properties.Resources.branch);
-            _LargeIcons.Images.Add("!variable",Properties.Resources.datatable);
-            //小图标
-            _SmallIcons.Images.Add("!process", Properties.Resources.function_s);
-            _SmallIcons.Images.Add("!code", Properties.Resources.script_s);
-            _SmallIcons.Images.Add("!decision", Properties.Resources.branch_s);
-            _SmallIcons.Images.Add("!variable", Properties.Resources.datatable_s);
+            ResourceManager mng = 
+                Properties.Resources.ResourceManager;
+            _LargeIcons.Images.Add("!process", 
+                (Image)mng.GetObject("function"));
+            _SmallIcons.Images.Add("!process", 
+                (Image)mng.GetObject("function_s"));
         }
 
-        private void FormLayout_AddAdvancedTools()
-        {
-            ListViewGroup lvg = new ListViewGroup("!expert", "专家工具");
-            LsvTools.Groups.Add(lvg);
-            LsvTools.SetGroupState(lvg,
-                ListViewGroupState.Normal |
-                ListViewGroupState.Collapsible);
-
-            ListViewItem lvi1 = new ListViewItem("决策", "!decision", lvg);
-            lvi1.Tag = "decision";
-
-            ListViewItem lvi2 = new ListViewItem("代码", "!code", lvg);
-            lvi2.Tag = "code";
-
-            ListViewItem lvi3 = new ListViewItem("变量", "!variable", lvg);
-            lvi3.Tag = "variable";
-            
-            LsvTools.Items.Add(lvi1);
-            LsvTools.Items.Add(lvi2);
-            LsvTools.Items.Add(lvi3);
-        }
-
-        private void FormLayout_LoadAllLibraries()
+        private void FormLayout_LoadLibraries()
         {
             LibraryManager mng = AppData.Instance.LibManager;
             var libs = mng.Libraries;
@@ -88,17 +63,25 @@ namespace TCM.Model.Designer
                 LsvTools.SetGroupState(lvg,
                     ListViewGroupState.Normal |
                     ListViewGroupState.Collapsible);
-                foreach (Function func in lib.Functions)
+                foreach (var func in lib.Functions)
                 {
+                    string path_pre = Path.Combine(
+                        AppData.Instance.PathResource,
+                        func.Library.Id + "." + func.Id.ToString());
+                    string path1 = path_pre + ".tcm.png";
+                    string path2 = path_pre + "_s.tcm.png";
+                    Image icon1 = File.Exists(path1) ? Image.FromFile(path1) : null;
+                    Image icon2 = File.Exists(path2) ? Image.FromFile(path2) : null;
+                    func.Tag["LargeIcon"] = icon1;
+                    func.Tag["SmallIcon"] = icon2;
                     string lvi_text =
                         (func.Name == "" ? "（" + func.Id + "）" : func.Name);
-                    var tags = (Dictionary<string, object>)func.Tag;
                     string icon_key = "!process";
-                    if (tags["LargeIcon"] != null || tags["SmallIcon"] != null)
+                    if (func.Tag["LargeIcon"] != null || func.Tag["SmallIcon"] != null)
                     {
                         icon_key = lib.Id + ":" + func.Id.ToString();
-                        _LargeIcons.Images.Add(icon_key, (Image)tags["LargeIcon"]);
-                        _SmallIcons.Images.Add(icon_key, (Image)tags["SmallIcon"]);
+                        _LargeIcons.Images.Add(icon_key, (Image)func.Tag["LargeIcon"]);
+                        _SmallIcons.Images.Add(icon_key, (Image)func.Tag["SmallIcon"]);
                     }
                     ListViewItem lvi = new ListViewItem(lvi_text, icon_key, lvg);
                     lvi.Tag = func;
@@ -106,11 +89,6 @@ namespace TCM.Model.Designer
                     LsvTools.Items.Add(lvi);
                 }
             }
-        }
-
-        public bool IsAdvancedTool(ListViewItem lvi)
-        {
-            return !(lvi.Tag is Function);
         }
 
         public FrmToolbox()
@@ -124,11 +102,18 @@ namespace TCM.Model.Designer
 
         private void FrmToolbox_Load(object sender, EventArgs e)
         {
-            FormLayout_LoadResource();
             LsvTools.View = View.LargeIcon;
-            FormLayout_AddAdvancedTools();
-            FormLayout_LoadAllLibraries();
+            FormLayout_LoadCommonRes();
+            FormLayout_LoadAdvancedTools();
+            FormLayout_LoadLibraries();
             FormLayout_SwitchCollapse();
+        }
+
+        private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            ListViewItem lvi = e.Item as ListViewItem;
+            if (lvi != null)
+                LsvTools.DoDragDrop(lvi, DragDropEffects.Copy);
         }
 
         private void MnuCollapseGroup_Click(object sender, EventArgs e)
@@ -141,11 +126,12 @@ namespace TCM.Model.Designer
             FormLayout_SwitchCollapse(false);
         }
 
-        private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
+        private void MnuSwitchView_Click(object sender, EventArgs e)
         {
-            ListViewItem lvi = e.Item as ListViewItem;
-            if (lvi != null)
-                LsvTools.DoDragDrop(lvi, DragDropEffects.Copy);
+            if (LsvTools.View == View.LargeIcon)
+                LsvTools.View = View.SmallIcon;
+            else
+                LsvTools.View = View.LargeIcon;
         }
     }
 }

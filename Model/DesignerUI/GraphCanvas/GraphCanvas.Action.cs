@@ -111,6 +111,17 @@ namespace TCM.Model.Designer
             return shp;
         }
 
+        /// <summary>
+        /// 添加起点形状
+        /// </summary>
+        public Shape AddShapeStart(Point p)
+        {
+            ShapeStart shp = new ShapeStart(p);
+            shp.Canvas = this;
+            _Shapes.Add(shp);
+            Invalidate();
+            return shp;
+        }
         #region 集合
         /// <summary>
         /// 获取指定标识对应的形状

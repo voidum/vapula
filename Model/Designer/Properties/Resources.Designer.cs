@@ -60,65 +60,9 @@ namespace TCM.Model.Designer.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap branch {
-            get {
-                object obj = ResourceManager.GetObject("branch", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap branch_s {
-            get {
-                object obj = ResourceManager.GetObject("branch_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap broom {
-            get {
-                object obj = ResourceManager.GetObject("broom", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap broom_s {
             get {
                 object obj = ResourceManager.GetObject("broom_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap copies {
-            get {
-                object obj = ResourceManager.GetObject("copies", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap copies_s {
-            get {
-                object obj = ResourceManager.GetObject("copies_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap datatable {
-            get {
-                object obj = ResourceManager.GetObject("datatable", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap datatable_s {
-            get {
-                object obj = ResourceManager.GetObject("datatable_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap disk {
-            get {
-                object obj = ResourceManager.GetObject("disk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -140,20 +84,6 @@ namespace TCM.Model.Designer.Properties {
         internal static System.Drawing.Bitmap function_s {
             get {
                 object obj = ResourceManager.GetObject("function_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap script {
-            get {
-                object obj = ResourceManager.GetObject("script", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap script_s {
-            get {
-                object obj = ResourceManager.GetObject("script_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
