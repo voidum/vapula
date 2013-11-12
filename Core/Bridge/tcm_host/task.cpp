@@ -90,7 +90,7 @@ Task* TaskEx::Parse(PCWSTR path)
 	while (xe_param)
 	{
 		int pid = xml::ValueInt(xe_param->first_attribute("id"));
-		PCSTR pv = FixEncoding(xml::ValueA(xe_param));
+		str pv = FixEncoding(xml::ValueA(xe_param));
 		env->CastWriteA(pid, pv);
 		delete pv;
 		xe_param = xe_param->next_sibling();

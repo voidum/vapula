@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "tcm_context.h"
-#include <iostream>
 
 namespace tcm
 {
@@ -22,8 +21,8 @@ namespace tcm
 
 	bool Context::ValidToken(Token* token)
 	{
-		if(token == NULL) return false;
-		USHORT tmp_key = *(_TokenKey->Get<USHORT>());
+		if(token == null) return false;
+		uint16 tmp_key = *(_TokenKey->Get<uint16>());
 		return token->Match(tmp_key);
 	}
 
@@ -32,7 +31,7 @@ namespace tcm
 		return _TokenKey->CanSet();
 	}
 
-	void Context::Seal(USHORT key)
+	void Context::Seal(uint16 key)
 	{
 		_Lock->Enter();
 		_TokenKey->Set(&key);

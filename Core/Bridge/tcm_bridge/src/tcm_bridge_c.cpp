@@ -5,31 +5,33 @@
 #include "tcm_invoker.h"
 #include "tcm_pipe.h"
 
+using namespace tcm;
+
 void tcmTestBridge()
 {
 }
 
-void tcmDeleteObject(LPVOID object)
+void tcmDeleteObject(object obj)
 {
-	delete object;
+	delete obj;
 }
 
 int tcmGetDriverCount()
 {
-	tcm::DriverHub* obj = tcm::DriverHub::GetInstance();
+	DriverHub* obj = DriverHub::GetInstance();
 	return obj->GetCount();
 }
 
-BOOL tcmLinkDriver(LPCSTR id)
+int tcmLinkDriver(str id)
 {
 	tcm::DriverHub* obj = tcm::DriverHub::GetInstance();
-	return obj->Link(id) ? TRUE : FALSE;
+	return obj->Link(id) ? 1 : 0;
 }
 
-BOOL tcmKickDriver(LPCSTR id)
+int tcmKickDriver(str id)
 {
 	tcm::DriverHub* obj = tcm::DriverHub::GetInstance();
-	return obj->Kick(id) ? TRUE : FALSE;
+	return obj->Kick(id) ? 1 : 0;
 }
 
 void tcmKickAllDrivers()
@@ -43,229 +45,229 @@ int tcmGetLibraryCount()
 	return tcm::Library::GetCount();
 }
 
-LPVOID tcmLoadLibraryW(LPCWSTR path)
+object tcmLoadLibraryW(strw path)
 {
 	return tcm::Library::Load(path);
 }
 
-LPVOID tcmLoadLibraryA(LPCSTR path)
+object tcmLoadLibraryA(str path)
 {
-	PCWSTR path_w = tcm::MbToWc(path);
-	LPVOID ret = tcm::Library::Load(path_w);
+	strw path_w = tcm::MbToWc(path);
+	object ret = tcm::Library::Load(path_w);
 	delete path_w;
 	return ret;
 }
 
-LPCSTR tcmGetLibraryRuntime(LPVOID lib)
+str tcmGetLibraryRuntime(object lib)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
 	return obj->GetRuntimeId();
 }
 
-LPCWSTR tcmGetLibraryId(LPVOID lib)
+strw tcmGetLibraryId(object lib)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
 	return obj->GetLibraryId();
 }
 
-BOOL tcmMountLibrary(LPVOID lib)
+int tcmMountLibrary(object lib)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
 	return obj->Mount() ? TRUE : FALSE;
 }
 
-void tcmUnmountLibrary(LPVOID lib)
+void tcmUnmountLibrary(object lib)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
 	obj->Unmount();
 }
 
-LPVOID tcmCreateInvoker(LPVOID lib, int fid)
+object tcmCreateInvoker(object lib, int fid)
 {
 	tcm::Library* obj = (tcm::Library*)lib;
 	return obj->CreateInvoker(fid);
 }
 
-int tcmGetFunctionId(LPVOID inv)
+int tcmGetFunctionId(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetFunctionId();
 }
 
-BOOL tcmStartInvoker(LPVOID inv)
+int tcmStartInvoker(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->Start() ? TRUE : FALSE;
 }
 
-void tcmStopInvoker(LPVOID inv, UINT wait)
+void tcmStopInvoker(object inv, uint32 wait)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Stop(wait);
 }
 
-void tcmPauseInvoker(LPVOID inv, UINT wait)
+void tcmPauseInvoker(object inv, uint32 wait)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Pause(wait);
 }
 
-void tcmResumeInvoker(LPVOID inv)
+void tcmResumeInvoker(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Resume();
 }
 
-void tcmRestartInvoker(LPVOID inv, UINT wait)
+void tcmRestartInvoker(object inv, uint32 wait)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	obj->Restart(wait);
 }
 
-LPVOID tcmGetContextToken(LPVOID inv)
+object tcmGetContextToken(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetContextToken();
 }
 
-LPVOID tcmStampContext(LPVOID ctx)
+object tcmStampContext(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	return tcm::Token::Stamp(obj);
 }
 
-LPVOID tcmGetContext(LPVOID inv)
+object tcmGetContext(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetContext();
 }
 
-LPVOID tcmCreateContext()
+object tcmCreateContext()
 {
 	return new tcm::Context();
 }
 
-int tcmGetCtrlCode(LPVOID ctx)
+int tcmGetCtrlCode(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	return obj->GetCtrlCode();
 }
 
-void tcmSetCtrlCode(LPVOID ctx, int ctrl_code, LPVOID token)
+void tcmSetCtrlCode(object ctx, int ctrl_code, object token)
 {
 	tcm::Context* obj1 = (tcm::Context*)ctx;
 	tcm::Token* obj2 = (tcm::Token*)token;
 	obj1->SetCtrlCode(obj2, ctrl_code);
 }
 
-float tcmGetProgress(LPVOID ctx)
+float tcmGetProgress(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	return obj->GetProgress();
 }
 
-void tcmSetProgress(LPVOID ctx, float prog)
+void tcmSetProgress(object ctx, float prog)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	obj->SetProgress(prog);
 }
 
-int tcmGetState(LPVOID ctx)
+int tcmGetState(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	return obj->GetState();
 }
 
-void tcmSetState(LPVOID ctx, int state, LPVOID token)
+void tcmSetState(object ctx, int state, object token)
 {
 	tcm::Context* obj1 = (tcm::Context*)ctx;
 	tcm::Token* obj2 = (tcm::Token*)token;
 	return obj1->SetState(obj2, state);
 }
 
-int tcmGetReturnCode(LPVOID ctx)
+int tcmGetReturnCode(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	return obj->GetReturnCode();
 }
 
-void tcmSetReturnCode(LPVOID ctx, int return_code, LPVOID token)
+void tcmSetReturnCode(object ctx, int return_code, object token)
 {
 	tcm::Context* obj1 = (tcm::Context*)ctx;
 	tcm::Token* obj2 = (tcm::Token*)token;
 	obj1->SetReturnCode(obj2, return_code);
 }
 
-void tcmReplyCtrlCode(LPVOID ctx)
+void tcmReplyCtrlCode(object ctx)
 {
 	tcm::Context* obj = (tcm::Context*)ctx;
 	obj->ReplyCtrlCode();
 }
 
-LPVOID tcmGetEnvelope(LPVOID inv)
+object tcmGetEnvelope(object inv)
 {
 	tcm::Invoker* obj = (tcm::Invoker*)inv;
 	return obj->GetEnvelope();
 }
 
-LPVOID tcmLoadEnvelopeW(LPCWSTR path, int fid)
+object tcmLoadEnvelopeW(strw path, int fid)
 {
 	return tcm::Envelope::Load(path, fid);
 }
 
-LPVOID tcmLoadEnvelopeA(LPCSTR path, int fid)
+object tcmLoadEnvelopeA(str path, int fid)
 {
-	PCWSTR path_w = tcm::MbToWc(path);
-	LPVOID ret = tcm::Envelope::Load(path_w, fid);
+	strw path_w = tcm::MbToWc(path);
+	object ret = tcm::Envelope::Load(path_w, fid);
 	delete path_w;
 	return ret;
 }
 
-LPVOID tcmParseEnvelopeW(LPCWSTR xml)
+object tcmParseEnvelopeW(strw xml)
 {
-	PCSTR str = tcm::WcToMb(xml);
-	LPVOID ret = tcm::Envelope::Parse(str);
+	str str = tcm::WcToMb(xml);
+	object ret = tcm::Envelope::Parse(str);
 	delete str;
 	return ret;
 }
 
-LPVOID tcmParseEnvelopeA(LPCSTR xml)
+object tcmParseEnvelopeA(str xml)
 {
 	return tcm::Envelope::Parse(xml);
 }
 
-void tcmWriteEnvelopeW(LPVOID env, int id, LPCWSTR value)
+void tcmWriteEnvelopeW(object env, int id, strw value)
 {
 	tcm::Envelope* obj = (tcm::Envelope*)env;
 	obj->CastWriteW(id, value);
 }
 
-void tcmWriteEnvelopeA(LPVOID env, int id, LPCSTR value)
+void tcmWriteEnvelopeA(object env, int id, str value)
 {
 	tcm::Envelope* obj = (tcm::Envelope*)env;
 	obj->CastWriteA(id, value);
 }
 
-LPCWSTR tcmReadEnvelopeW(LPVOID env, int id)
+strw tcmReadEnvelopeW(object env, int id)
 {
 	tcm::Envelope* obj = (tcm::Envelope*)env;
 	return obj->CastReadW(id);
 }
 
-LPCSTR tcmReadEnvelopeA(LPVOID env, int id)
+str tcmReadEnvelopeA(object env, int id)
 {
 	tcm::Envelope* obj = (tcm::Envelope*)env;
 	return obj->CastReadA(id);
 }
 
-void tcmDeliverEnvelope(LPVOID src_env, LPVOID dst_env, int from, int to)
+void tcmDeliverEnvelope(object src_env, object dst_env, int from, int to)
 {
 	tcm::Envelope* src = (tcm::Envelope*)src_env;
 	tcm::Envelope* dst = (tcm::Envelope*)dst_env;
 	src->Deliver(dst, from, to);
 }
 
-void tcmCastDeliverEnvelope(LPVOID src_env, LPVOID dst_env, int from, int to)
+void tcmCastDeliverEnvelope(object src_env, object dst_env, int from, int to)
 {
 	tcm::Envelope* src = (tcm::Envelope*)src_env;
 	tcm::Envelope* dst = (tcm::Envelope*)dst_env;
@@ -274,38 +276,38 @@ void tcmCastDeliverEnvelope(LPVOID src_env, LPVOID dst_env, int from, int to)
 
 //Design the following
 
-LPVOID tcmCreatePipe()
+object tcmCreatePipe()
 {
 	tcm::Pipe* pipe = new tcm::Pipe();
 	return pipe;
 }
 
-LPCWSTR tcmListenPipe(LPVOID pipe)
+strw tcmListenPipe(object pipe)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
-	if(!obj->Listen()) return NULL;
+	if(!obj->Listen()) return null;
 	return obj->GetPipeId();
 }
 
-BOOL tcmGetPipeFlag(LPVOID pipe, int action)
+int tcmGetPipeFlag(object pipe, int action)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
 	return obj->GetFlag(action) ? TRUE : FALSE;
 }
 
-void tcmSetPipeFlag(LPVOID pipe, int action, BOOL value)
+void tcmSetPipeFlag(object pipe, int action, int value)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
 	obj->SetFlag(action, value == TRUE);
 }
 
-void tcmWritePipe(LPVOID pipe, LPVOID value, UINT size)
+void tcmWritePipe(object pipe, object value, uint32 size)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
 	obj->Write(value, size);
 }
 
-void tcmReadPipe(LPVOID pipe, LPVOID data)
+void tcmReadPipe(object pipe, object data)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
 	obj->Read(data);

@@ -66,29 +66,29 @@ namespace tcm
 
 	VarAOO::VarAOO()
 	{
-		_Token = new BYTE[1];
-		_Value = NULL;
+		_Token = new byte[1];
+		_Value = null;
 	}
 
 	VarAOO::~VarAOO()
 	{
-		if(_Token != NULL)
-			delete [] (BYTE*)_Token;
-		if(_Value != NULL)
-			delete [] (BYTE*)(_Value);
+		if(_Token != null)
+			delete [] _Token;
+		if(_Value != null)
+			delete [] _Value;
 	}
 
 	bool VarAOO::CanSet()
 	{
-		return (_Token != NULL);
+		return (_Token != null);
 	}
 
-	void VarAOO::_Set(LPVOID data, UINT len)
+	void VarAOO::_Set(object data, uint32 len)
 	{
-		_Value = new BYTE[len];
+		_Value = new byte[len];
 		memcpy(_Value, data, len);
-		delete [] (BYTE*)_Token;
-		_Token = NULL;
+		delete [] (byte*)_Token;
+		_Token = null;
 	}
 
 	Flag::Flag()
@@ -144,25 +144,30 @@ namespace tcm
 		return i;
 	}
 
-	bool Dictionary::Contain(PCWSTR key)
+	bool Dictionary::Contain(strw key)
 	{
-		if(key == NULL) return false;
+		if(key == null)
+			return false;
 		bool ret = false;
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
 		{
-			if(wcscmp(key, *i) != 0) continue;
+			if(wcscmp(key, *i) != 0)
+				continue;
 			_Lock->Leave();
-			ret = true; break;
+			ret = true;
+			break;
 		}
 		_Lock->Leave();
 		return ret;
 	}
 
-	bool Dictionary::Add(PCWSTR key, PCWSTR value)
+	bool Dictionary::Add(strw key, strw value)
 	{
-		if(key == NULL || value == NULL) return false;
-		if(Contain(key)) return false;
+		if(key == null || value == null)
+			return false;
+		if(Contain(key)) 
+			return false;
 		_Lock->EnterEx();
 		_Keys.push_back(CopyStrW(key));
 		_Values.push_back(CopyStrW(value));
@@ -170,9 +175,10 @@ namespace tcm
 		return true;
 	}
 
-	bool Dictionary::Remove(PCWSTR key)
+	bool Dictionary::Remove(strw key)
 	{
-		if(key == NULL) return false;
+		if(key == null)
+			return true;
 		int i = 0;
 		bool ret = false;
 		_Lock->EnterEx();
@@ -186,26 +192,28 @@ namespace tcm
 			delete *i1; _Keys.erase(i1);
 			iter i2 = _Values.begin() + i;
 			delete *i2; _Values.erase(i2);
-			ret = true; break;
+			ret = true; 
+			break;
 		}
 		_Lock->Leave();
 		return ret;
 	}
 
-	PCWSTR Dictionary::GetKey(UINT id)
+	strw Dictionary::GetKey(uint32 id)
 	{
 		_Lock->EnterEx();
-		PCWSTR ret = NULL;
+		strw ret = null;
 		if(id < _Keys.size())
 			ret = CopyStrW(_Keys[id]);
 		_Lock->Leave();
 		return ret;
 	}
 
-	PCWSTR Dictionary::GetValue(UINT id)
+	strw Dictionary::GetValue(uint32 id)
 	{
+		if(id < 0) return null;
 		_Lock->EnterEx();
-		PCWSTR ret = NULL;
+		strw ret = null;
 		if(id < _Values.size())
 			ret = CopyStrW(_Values[id]);
 		_Lock->Leave();
@@ -224,15 +232,17 @@ namespace tcm
 		_Lock->Leave();
 	}
 
-	PCWSTR Dictionary::Find(PCWSTR key)
+	strw Dictionary::Find(strw key)
 	{
-		if(key == NULL) return NULL;
-		PCWSTR ret = NULL;
+		if(key == null) return null;
+		strw ret = null;
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
 		{
-			if(wcscmp(key, *i) != 0) continue;
-			ret = CopyStrW(*i); break;
+			if(wcscmp(key, *i) != 0)
+				continue;
+			ret = CopyStrW(*i);
+			break;
 		}
 		_Lock->Leave();
 		return ret;

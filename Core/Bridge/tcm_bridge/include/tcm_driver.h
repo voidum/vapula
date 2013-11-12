@@ -15,7 +15,7 @@ namespace tcm
 		virtual ~Driver();
 	public:
 		//获取运行环境标识
-		virtual PCSTR
+		virtual str
 			GetRuntimeId() = 0;
 
 		//创建组件
@@ -41,21 +41,21 @@ namespace tcm
 		static DriverHub* GetInstance();
 	private:
 		vector<Driver*> _Drivers;
-		vector<HMODULE> _Modules;
+		vector<object> _Modules;
 	private:
-		int GetIndex(PCSTR id);
+		int GetIndex(str id);
 	public:
 		//链接驱动
-		bool Link(PCSTR id);
+		bool Link(str id);
 
 		//踢出驱动
-		bool Kick(PCSTR id);
+		bool Kick(str id);
 
 		//踢出所有驱动
 		void KickAll();
 	public:
 		//获取驱动
-		Driver* GetDriver(PCSTR id);
+		Driver* GetDriver(str id);
 
 		//获取已接驳驱动数量
 		int GetCount();

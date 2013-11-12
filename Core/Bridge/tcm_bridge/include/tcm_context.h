@@ -23,7 +23,7 @@ namespace tcm
 		bool ValidToken(Token* token);
 	public:
 		//封签上下文
-		void Seal(USHORT key);
+		void Seal(uint16 key);
 
 		//检测是否可封签
 		bool CanSeal();

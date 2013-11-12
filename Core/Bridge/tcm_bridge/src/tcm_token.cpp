@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "tcm_token.h"
-#include <random>
-#include <ctime>
 
 namespace tcm
 {
-	using std::runtime_error;
 	using namespace std::tr1;
 
 	Stampable::Stampable() { }
@@ -13,30 +10,30 @@ namespace tcm
 
 	Token::Token()
 	{
-		_A = NULL;
+		_A = null;
 	}
 
 	Token::~Token()
 	{
-		if(_A != NULL) delete [] _A;
+		if(_A != null) delete [] _A;
 	}
 	
 	Token* Token::Stamp(Stampable* target)
 	{
-		if(!target->CanSeal()) return NULL;
+		if(!target->CanSeal()) return null;
 		mt19937 rm_core;
-		rm_core.seed((UINT)time(0));
-		uniform_int<BYTE>* rm = new uniform_int<BYTE>(5, 7);
-		USHORT key = (*rm)(rm_core) * (*rm)(rm_core);
+		rm_core.seed((uint32)time(0));
+		uniform_int<uint8>* rm = new uniform_int<uint8>(5, 7);
+		uint16 key = (*rm)(rm_core) * (*rm)(rm_core);
 		delete rm;
-		rm = new uniform_int<BYTE>(0, 255);
-		BYTE len = (*rm)(rm_core);
-		BYTE* data = new BYTE[len+1];
+		rm = new uniform_int<uint8>(0, 255);
+		uint8 len = (*rm)(rm_core);
+		byte* data = new byte[len + 1];
 		data[0] = len;
-		USHORT value = key;
-		for(int i=1; i<len+1; i++)
+		uint16 value = key;
+		for(int i=1; i < len + 1; i++)
 		{
-			data[i] = (BYTE)(*rm)(rm_core);
+			data[i] = (uint8)(*rm)(rm_core);
 			value ^= data[i] > key ? data[i] : key;
 			value <<= 4;
 		}
@@ -48,13 +45,13 @@ namespace tcm
 		return token;
 	}
 
-	bool Token::Match(USHORT key)
+	bool Token::Match(uint16 key)
 	{
-		if(_A == NULL) return false;
-		BYTE* data = (BYTE*)_A;
+		if(_A == null) return false;
+		byte* data = (byte*)_A;
 		int len = data[0];
-		USHORT tmp = key;
-		for(int i=1; i<len+1; i++)
+		uint16 tmp = key;
+		for(int i=1; i < len + 1; i++)
 		{
 			tmp ^= data[i] > key ? data[i] : key;
 			tmp <<= 4;

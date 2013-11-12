@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "tcm_driver.h"
+#include "windows.h"
 
 namespace tcm
 {
@@ -19,7 +20,7 @@ namespace tcm
 		KickAll();
 	}
 
-	int DriverHub::GetIndex(PCSTR id)
+	int DriverHub::GetIndex(str id)
 	{
 		typedef vector<Driver*>::iterator iter;
 		int x = 0;
@@ -32,10 +33,10 @@ namespace tcm
 		return -1;
 	}
 
-	Driver* DriverHub::GetDriver(PCSTR id)
+	Driver* DriverHub::GetDriver(str id)
 	{
 		int index = GetIndex(id);
-		if(index < 0) return NULL;
+		if(index < 0) return null;
 		Driver* driver = _Drivers[index];
 		return driver;
 	}
@@ -45,16 +46,18 @@ namespace tcm
 		return _Drivers.size();
 	}
 
-	bool DriverHub::Link(PCSTR id)
+	bool DriverHub::Link(str id)
 	{
 		int index = GetIndex(id);
 		if(index >= 0) return true;
-		PCWSTR id_w = MbToWc(id);
-		std::wstring strw = id_w;
-		strw += L".tcm.driver";
-		HMODULE module = LoadLibraryW(strw.c_str());
+
+		strw id_w = MbToWc(id);
+		std::wstring path = id_w;
+		path += L".tcm.driver";
+		HMODULE module = LoadLibraryW(path.c_str());
 		delete id_w;
-		if(module == NULL) return false;
+
+		if(module == null) return false;
 		typedef Driver* (*Delegate)();
 		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
 		Driver* driver = d();
@@ -63,7 +66,7 @@ namespace tcm
 		return true;
 	}
 
-	bool DriverHub::Kick(PCSTR id)
+	bool DriverHub::Kick(str id)
 	{
 		int index = GetIndex(id);
 		if(index < 0) return true;
@@ -71,7 +74,7 @@ namespace tcm
 		Clear(driver);
 		_Drivers.erase(_Drivers.begin() + index);
 		
-		HMODULE module = _Modules[index];
+		HMODULE module = (HMODULE)_Modules[index];
 		FreeLibrary(module);
 		_Modules.erase(_Modules.begin() + index);
 		return true;
@@ -80,12 +83,12 @@ namespace tcm
 	void DriverHub::KickAll()
 	{
 		typedef vector<Driver*>::iterator iter1;
-		typedef vector<HMODULE>::iterator iter2;
+		typedef vector<object>::iterator iter2;
 		for(iter1 i=_Drivers.begin(); i!=_Drivers.end(); i++)
 			delete *i;
 		_Drivers.clear();
 		for(iter2 i=_Modules.begin(); i!=_Modules.end(); i++)
-			FreeLibrary(*i);
+			FreeLibrary((HMODULE)*i);
 		_Modules.clear();
 	}
 }

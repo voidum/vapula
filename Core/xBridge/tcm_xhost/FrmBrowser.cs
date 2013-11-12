@@ -12,6 +12,11 @@ namespace TCM.xHost
         public FrmBrowser()
         {
             InitializeComponent();
+            if (browser.Version.Major < 9)
+            {
+                MessageBox.Show("IE version is too low", "TCM xHost");
+                Application.Exit();
+            }
         }
 
         private void FrmBrowser_Load(object sender, EventArgs e)

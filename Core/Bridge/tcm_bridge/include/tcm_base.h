@@ -8,71 +8,19 @@
 #define TCM_BRIDGE_API
 #endif
 
-#include <windows.h>
-#include <sstream>
-#include <vector>
+#include "tcm_const.h"
 
 namespace tcm
 {
-	using std::vector;
-
-	//TCM支持的数据类型
-	enum DataType
-	{
-		TCM_DATA_POINTER = 0,
-		TCM_DATA_INT8 = 1,
-		TCM_DATA_INT16 = 2,
-		TCM_DATA_INT32 = 3,
-		TCM_DATA_INT64 = 4,
-		TCM_DATA_UINT8 = 5,
-		TCM_DATA_UINT16 = 6,
-		TCM_DATA_UINT32 = 7,
-		TCM_DATA_UINT64 = 8,
-		TCM_DATA_REAL32 = 10,
-		TCM_DATA_REAL64 = 11,
-		TCM_DATA_BOOL = 20,
-		TCM_DATA_STRING = 21
-	};
-
-	//TCM支持的运行状态
-	enum State
-	{
-		TCM_STATE_IDLE = 0,
-		TCM_STATE_BUSY = 1,
-		TCM_STATE_PAUSE = 2,
-		TCM_STATE_UI = 3
-	};
-
-	//TCM支持的控制码
-	enum CtrlCode
-	{
-		TCM_CTRL_NULL = 0,
-		TCM_CTRL_PAUSE = 1,
-		TCM_CTRL_RESUME = 2,
-		TCM_CTRL_CANCEL = 3,
-		TCM_CTRL_RESTART = 4
-	};
-
-	//TCM预置的返回值
-	enum ReturnCode
-	{
-		TCM_RETURN_ERROR = 0,
-		TCM_RETURN_NORMAL = 1,
-		TCM_RETURN_CANCELBYMSG = 2,
-		TCM_RETURN_CANCELBYFORCE = 3,
-		TCM_RETURN_NULLENTRY = 4,
-		TCM_RETURN_NULLTASK = 5,
-	};
-
 	//安全清理目标
 	template<typename T>
 	TCM_BRIDGE_API void Clear(T target, bool isarr = false)
 	{
-		if(target != NULL)
+		if(target != null)
 		{
 			if(isarr) delete [] target;
 			else delete target;
-			target = NULL;
+			target = null;
 		}
 	}
 
@@ -81,29 +29,29 @@ namespace tcm
 
 	//转换多字节到宽字节
 	//转换到宽字节默认使用UTF8编码
-	TCM_BRIDGE_API PCWSTR MbToWc(PCSTR src, UINT cp = CP_UTF8);
+	TCM_BRIDGE_API strw MbToWc(str src, uint32 cp = 65001);
 
 	//转换宽字节到多字节
 	//转换到多字节默认使用UTF8编码
-	TCM_BRIDGE_API PCSTR WcToMb(PCWSTR src, UINT cp = CP_UTF8);
-
-	//将给定多字节字符串中所有指定子串替换为目标
-	TCM_BRIDGE_API PCSTR ReplaceStrA(PCSTR src, PCSTR from, PCSTR to);
-
-	//将给定宽字节字符串中所有指定子串替换为目标
-	TCM_BRIDGE_API PCWSTR ReplaceStrW(PCWSTR src, PCWSTR from, PCWSTR to);
+	TCM_BRIDGE_API str WcToMb(strw src, uint32 cp = 65001);
 
 	//修正编码
 	//将多字节经过指定中间编码转换成指定最终编码
-	TCM_BRIDGE_API PCSTR FixEncoding(PCSTR src, UINT cpMid = CP_UTF8, UINT cpAim = CP_OEMCP);
+	TCM_BRIDGE_API str FixEncoding(str src, uint32 cp_by = 65001, uint32 cp_to = 1);
+
+	//将给定多字节字符串中所有指定子串替换为目标
+	TCM_BRIDGE_API str ReplaceStrA(str src, str from, str to);
+
+	//将给定宽字节字符串中所有指定子串替换为目标
+	TCM_BRIDGE_API strw ReplaceStrW(strw src, strw from, strw to);
 
 	//复制字符串，返回副本字符串地址
-	TCM_BRIDGE_API PCSTR  CopyStrA(PCSTR src);
-	TCM_BRIDGE_API PCWSTR CopyStrW(PCWSTR src);
+	TCM_BRIDGE_API str CopyStrA(str src);
+	TCM_BRIDGE_API strw CopyStrW(strw src);
 
 	//转换数值到多字节字符串
 	template<typename T>
-	TCM_BRIDGE_API PCSTR ValueToStr(T value)
+	TCM_BRIDGE_API str ValueToStr(T value)
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
@@ -115,46 +63,46 @@ namespace tcm
 	template<typename T>
 	TCM_BRIDGE_API T* VectorToArray(vector<T>& src)
 	{
-		if(src.size() == 0) return NULL;
+		if(src.size() == 0)
+			return null;
 		T* dst = new T[src.size()];
 		int i=0;
-		for(vector<T>::iterator iter=src.begin();iter!=src.end();iter++) dst[i++] = *iter;
+		for(vector<T>::iterator iter = src.begin(); iter != src.end(); iter++)
+			dst[i++] = *iter;
 		return dst;
 	}
 	
 	//生成一个随机HEX字符串
-	TCM_BRIDGE_API PCSTR GetRandomHexA(int len);
-	TCM_BRIDGE_API PCWSTR GetRandomHexW(int len);
+	TCM_BRIDGE_API str GetRandomHexA(int len);
+	TCM_BRIDGE_API strw GetRandomHexW(int len);
 
 	//生成时间字符串
-	TCM_BRIDGE_API PCSTR GetTimeStrA();
-	TCM_BRIDGE_API PCWSTR GetTimeStrW();
+	TCM_BRIDGE_API str GetTimeStrA();
+	TCM_BRIDGE_API strw GetTimeStrW();
 
 	//显示简易的信息框，值内容
 	template<typename T>
-	TCM_BRIDGE_API void ShowMsgValue(T value, PCWSTR caption = L"")
+	TCM_BRIDGE_API void ShowMsgValue(T value, strw caption = null)
 	{
-		MessageBoxW(NULL, MbToWc(ValueToStr(value)), caption, 0);
+		ShowMsgStr(MbToWc(ValueToStr(value)), caption);
 	}
 
 	//显示简易的信息框，字符串内容
-	TCM_BRIDGE_API void ShowMsgStr(PCSTR value, PCSTR caption = "");
-	TCM_BRIDGE_API void ShowMsgStr(PCWSTR value, PCWSTR caption = L"");
+	TCM_BRIDGE_API void ShowMsgStr(str value, str caption = null);
+	TCM_BRIDGE_API void ShowMsgStr(strw value, strw caption = null);
 
 	//获取运行时所在目录
-	TCM_BRIDGE_API PCWSTR GetRuntimeDir();
+	TCM_BRIDGE_API strw GetRuntimeDir();
 
 	//获取当前应用程序目录
-	//NEED REWRITE
-	TCM_BRIDGE_API PCWSTR GetAppDir();
+	TCM_BRIDGE_API strw GetAppDir();
 
 	//获取当前应用程序名称
-	//NEED REWRITE
-	TCM_BRIDGE_API PCWSTR GetAppName();
+	TCM_BRIDGE_API strw GetAppName();
 
 	//获取路径的规范目录
-	TCM_BRIDGE_API PCWSTR GetDirPath(PCWSTR path, bool isfile = false);
+	TCM_BRIDGE_API strw GetDirPath(strw path, bool isfile = false);
 
 	//测试指定文件是否能以读的方式打开
-	TCM_BRIDGE_API bool CanOpenRead(PCWSTR file);
+	TCM_BRIDGE_API bool CanOpenRead(strw file);
 }

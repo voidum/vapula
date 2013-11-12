@@ -5,42 +5,39 @@ namespace tcm
 {
 	namespace xml
 	{
-		using std::string;
-		using std::runtime_error;
 		using namespace rapidxml;
 
-		LPVOID Load(PCWSTR path, PCSTR& data)
+		object Load(strw path, str& data)
 		{
 			std::locale::global(std::locale(""));
-			PCSTR patha = WcToMb(path, CP_OEMCP);
-			if(patha == NULL) return NULL;
-			data = NULL;
+			str path_a = WcToMb(path, CP_OEMCP);
+			if(path_a == null) return null;
+			data = null;
 			try
 			{
-				file<> xfile(patha);
-				Clear(patha);
+				file<> xfile(path_a);
+				Clear(path_a);
 				data = CopyStrA(xfile.data());
 			}
-			catch (runtime_error e)
+			catch (std::exception e)
 			{
-				Clear(patha);
-				ShowMsgStr(e.what(), "TCM Bridge Error");
-				return NULL;
+				Clear(path_a);
+				return null;
 			}
-			if(data == NULL) return NULL;
+			if(data == null) return null;
 			xml_document<>* xdoc = new xml_document<>();
-			xdoc->parse<0>(const_cast<PSTR>(data));
+			xdoc->parse<0>(const_cast<char*>(data));
 			return xdoc;
 		}
 
-		LPVOID Parse(PCSTR xml)
+		object Parse(str xml)
 		{
 			xml_document<>* xdoc = new xml_document<>();
-			xdoc->parse<0>(const_cast<PSTR>(xml));
+			xdoc->parse<0>(const_cast<char*>(xml));
 			return xdoc;
 		}
 
-		PCSTR Print(LPVOID src)
+		str Print(object src)
 		{
 			xml_node<>* xml = (xml_node<>*)src;
 			string s;
@@ -48,68 +45,69 @@ namespace tcm
 			return CopyStrA(s.c_str());
 		}
 
-		LPVOID Path(LPVOID src, int count, ...)
+		object Path(object src, int count, ...)
 		{
 			va_list arg_ptr;
 			va_start(arg_ptr,count);
 			xml_node<>* xe = (xml_node<>*)src;
 			for (int i = 0; i < count; i++)
 			{
-				if(xe != NULL) xe = xe->first_node(va_arg(arg_ptr,PCSTR));
+				if(xe != null) 
+					xe = xe->first_node(va_arg(arg_ptr, str));
 				else break;
 			}
 			va_end(arg_ptr);
 			return xe;
 		}
 
-		PCSTR ValueA(LPVOID src)
+		str ValueA(object src)
 		{
-			if(src == NULL) return NULL;
+			if(src == null) return null;
 			xml_base<>* xbase = (xml_base<>*)src;
-			PCSTR tmp = xbase->value();
+			str tmp = xbase->value();
 			if(strlen(tmp) > 0) return CopyStrA(tmp);
 			else
 			{
 				xml_node<>* xe = (xml_node<>*)src;
 				xml_node<>* xec = xe->first_node();
-				if(xec != NULL && xec->type() == node_cdata)
+				if(xec != null && xec->type() == node_cdata)
 				{
 					tmp = xec->value();
 					return CopyStrA(tmp);
 				}
 			}
-			return NULL;
+			return null;
 		}
 
-		PCWSTR ValueW(LPVOID src)
+		strw ValueW(object src)
 		{
-			PCSTR tmpa = ValueA(src);
-			if(tmpa == NULL) return NULL;
+			str tmpa = ValueA(src);
+			if(tmpa == null) return null;
 			return MbToWc(tmpa);
 		}
 
-		int ValueInt(LPVOID src)
+		int ValueInt(object src)
 		{
-			if(src == NULL) return 0;
-			PCSTR tmpa = ValueA(src);
+			if(src == null) return 0;
+			str tmpa = ValueA(src);
 			int ret = atoi(tmpa);
 			delete tmpa;
 			return ret;
 		}
 
-		double ValueReal(LPVOID src)
+		double ValueReal(object src)
 		{
-			if(src == NULL) return 0;
-			PCSTR tmpa = ValueA(src);
+			if(src == null) return 0;
+			str tmpa = ValueA(src);
 			double ret = atof(tmpa);
 			delete tmpa;
 			return ret;
 		}
 
-		bool ValueBool(LPVOID src, PCSTR value)
+		bool ValueBool(object src, str value)
 		{
-			if(src == NULL || value == NULL) return 0;
-			PCSTR tmpa = ValueA(src);
+			if(src == null || value == null) return 0;
+			str tmpa = ValueA(src);
 			bool ret = (strcmp(tmpa, value) == 0);
 			delete tmpa;
 			return ret;

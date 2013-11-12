@@ -186,6 +186,7 @@
     <ClInclude Include="include\tcm_bridge_c.h" />
     <ClInclude Include="include\tcm_candy.h" />
     <ClInclude Include="include\tcm_dev_lib.h" />
+    <ClInclude Include="include\tcm_const.h" />
     <ClInclude Include="include\tcm_library.h" />
     <ClInclude Include="include\tcm_config.h" />
     <ClInclude Include="include\tcm_context.h" />

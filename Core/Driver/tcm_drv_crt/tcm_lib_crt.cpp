@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "tcm_lib_crt.h"
 
-LibraryCRT::LibraryCRT() { }
+LibraryCRT::LibraryCRT() 
+{
+	_Module = null;
+	_Entry = null;
+}
 
 LibraryCRT::~LibraryCRT() { }
 

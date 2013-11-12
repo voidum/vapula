@@ -1,6 +1,5 @@
 #pragma once
 
-#include "tcm_driver.h"
 #include <metahost.h>
 
 #pragma comment(lib, "mscoree.lib")
@@ -8,33 +7,33 @@
 	high_property_prefixes("_get","_put","_putref") \
 	rename("ReportEvent", "InteropServices_ReportEvent")
 
-using namespace tcm;
+#include "tcm_driver.h"
 
-class DriverCLR: public Driver
+class DriverCLR: public tcm::Driver
 {
 public:
 	DriverCLR();
 	~DriverCLR();
 private:
-	PCWSTR _BridgePath;
-	PCWSTR _RuntimeVersion;
+	tcm::strw _BridgePath;
+	tcm::strw _RuntimeVersion;
 	ICLRMetaHost* _MetaHost;
 	ICLRRuntimeInfo* _RuntimeInfo;
 	ICLRRuntimeHost* _RuntimeHost;
 private:
-	PCWSTR GetCLRVersion();
+	tcm::strw GetCLRVersion();
 public:
-	PCSTR GetRuntimeId();
+	tcm::str GetRuntimeId();
 
-	Library*
+	tcm::Library*
 		CreateLibrary();
 
-	Invoker*
+	tcm::Invoker*
 		CreateInvoker();
 public:
 	static DriverCLR* GetInstance();
 
-	int CallBridge(PCWSTR name, PCWSTR arg);
+	int CallBridge(tcm::strw name, tcm::strw arg);
 };
 
-extern "C" __declspec(dllexport) Driver* GetDriverInstance();
+extern "C" __declspec(dllexport) tcm::Driver* GetDriverInstance();

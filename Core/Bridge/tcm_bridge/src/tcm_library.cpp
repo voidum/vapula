@@ -14,8 +14,8 @@ namespace tcm
 
 	Library::Library()
 	{
-		_Dir = NULL;
-		_LibId = NULL;
+		_Dir = null;
+		_LibId = null;
 	}
 
 	Library::~Library()
@@ -24,22 +24,22 @@ namespace tcm
 		Clear(_LibId);
 	}
 
-	Library* Library::Load(PCWSTR path)
+	Library* Library::Load(strw path)
 	{
-		PCSTR data = NULL;
+		str data = null;
 		xml_document<>* xdoc 
 			= (xml_document<>*)xml::Load(path, data);
-		if(xdoc == NULL) return NULL;
+		if(xdoc == null) return null;
 
 		xml_node<>* xeroot = xdoc->first_node("library");
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		PCSTR drv_id = xml::ValueA(xeroot->first_node("runtime"));
 		Driver* driver = drv_hub->GetDriver(drv_id);
 		delete drv_id;
-		if(driver == NULL)
+		if(driver == null)
 		{
 			Clear(data);
-			return NULL;
+			return null;
 		}
 		Library* lib = driver->CreateLibrary();
 		lib->_LibId = xml::ValueW(xeroot->first_node("id"));
@@ -53,7 +53,7 @@ namespace tcm
 		return Library::_Count;
 	}
 
-	PCWSTR Library::GetLibraryId()
+	strw Library::GetLibraryId()
 	{
 		return _LibId;
 	}
@@ -71,7 +71,7 @@ namespace tcm
 	{
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		Driver* driver = drv_hub->GetDriver(GetRuntimeId());
-		if(driver == NULL) return NULL;
+		if(driver == null) return null;
 		Invoker* inv = driver->CreateInvoker();
 		inv->Initialize(this, fid);
 		return inv;

@@ -12,7 +12,7 @@ namespace tcm
 		virtual ~Stampable();
 	public:
 		virtual bool CanSeal() = 0;
-		virtual void Seal(USHORT key) = 0;
+		virtual void Seal(uint16 key) = 0;
 	};
 
 	//²Ù×÷ÁîÅÆ
@@ -25,9 +25,9 @@ namespace tcm
 	public:
 		static Token* Stamp(Stampable* target);
 	private:
-		LPVOID _A;
-		USHORT _B;
+		object _A;
+		uint16 _B;
 	public:
-		bool Match(USHORT key);
+		bool Match(uint16 key);
 	};
 }

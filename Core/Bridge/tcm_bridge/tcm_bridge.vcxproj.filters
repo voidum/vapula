@@ -105,6 +105,9 @@
     <ClInclude Include="include\stdafx.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
+    <ClInclude Include="include\tcm_const.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

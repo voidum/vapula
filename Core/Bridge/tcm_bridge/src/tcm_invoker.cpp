@@ -8,16 +8,16 @@ namespace tcm
 	Invoker::Invoker()
 	{
 		_FuncId = -1;
-		_Envelope = NULL;
-		_Context = NULL;
-		_ContextToken = NULL;
-		_Thread = NULL;
+		_Envelope = null;
+		_Context = null;
+		_ContextToken = null;
+		_Thread = null;
 		_IsSuspend = false;
 	}
 
 	Invoker::~Invoker()
 	{
-		if(_Thread != NULL) CloseHandle(_Thread);
+		if(_Thread != null) CloseHandle(_Thread);
 		Clear(_Envelope);
 		Clear(_Context);
 		Clear(_ContextToken);
@@ -38,7 +38,7 @@ namespace tcm
 
 	Token* Invoker::GetContextToken() { return _ContextToken; }
 
-	UINT WINAPI Invoker::_ThreadProc()
+	uint32 WINAPI Invoker::_ThreadProc()
 	{
 		return TCM_RETURN_NULLTASK;
 	}
@@ -47,8 +47,8 @@ namespace tcm
 	{
 		union 
 		{
-			UINT (WINAPI *thread)(PVOID);
-			UINT (WINAPI Invoker::*member)();
+			uint32 (WINAPI *thread)(PVOID);
+			uint32 (WINAPI Invoker::*member)();
 		} func_addr;
 		func_addr.member = &Invoker::_ThreadProc;
 
@@ -57,13 +57,13 @@ namespace tcm
 		_Context = new Context();
 		_ContextToken = Token::Stamp(_Context);
 		_Context->SetState(_ContextToken, TCM_STATE_BUSY);
-		if(_Thread != NULL) CloseHandle(_Thread);
-		_Thread = (HANDLE)_beginthreadex(NULL, 0, func_addr.thread, this, 0, NULL);
+		if(_Thread != null) CloseHandle(_Thread);
+		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
 		//if Assert [_Thread]
 		return true;
 	}
 
-	void Invoker::Stop(UINT wait)
+	void Invoker::Stop(uint32 wait)
 	{
 		if(wait == 0)
 		{
@@ -89,10 +89,10 @@ namespace tcm
 		_Context->SetCtrlCode(_ContextToken, TCM_CTRL_NULL);
 		_Context->SetState(_ContextToken, TCM_STATE_IDLE);
 		CloseHandle(_Thread);
-		_Thread = NULL;
+		_Thread = null;
 	}
 
-	void Invoker::Pause(UINT wait)
+	void Invoker::Pause(uint32 wait)
 	{
 		bool paused = false;
 		if(wait != 0)
@@ -133,7 +133,7 @@ namespace tcm
 		}
 	}
 
-	void Invoker::Restart(UINT wait)
+	void Invoker::Restart(uint32 wait)
 	{
 		//TODO: support ctrl code restart
 	}

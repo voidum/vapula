@@ -38,9 +38,9 @@ namespace tcm
 		void Set(int a, int b, int c);
 	private:
 		long* _Core; //TRUE - Lock , FALSE - Unlock
-		BYTE _A; //Max Decay Times
-		UINT16 _B; //Blank Time (ms)
-		BYTE _C; //Max Blank Times
+		int _A; //Max Decay Times
+		int _B; //Blank Time (ms)
+		int _C; //Max Blank Times
 	};
 
 	//一次性赋值，Assignable Only Once
@@ -50,17 +50,17 @@ namespace tcm
 		VarAOO();
 		~VarAOO();
 	private:
-		LPVOID _Value;
-		LPVOID _Token;
+		object _Value;
+		object _Token;
 	private:
-		void _Set(LPVOID data, UINT len);
+		void _Set(object data, uint32 len);
 	public:
 		bool CanSet();
 
 		template<typename T>
 		void Set(T* value)
 		{
-			if(_Token == NULL) return;
+			if(_Token == null) return;
 			_Set(value, sizeof(T));
 		}
 
@@ -98,33 +98,33 @@ namespace tcm
 		Dictionary();
 		~Dictionary();
 	private:
-		typedef vector<PCWSTR>::iterator iter;
+		typedef vector<strw>::iterator iter;
 		Lock* _Lock;
-		vector<PCWSTR> _Keys;
-		vector<PCWSTR> _Values;
+		vector<strw> _Keys;
+		vector<strw> _Values;
 	public:
 		//获取记录数
 		int GetCount();
 
 		//检查记录是否存在
-		bool Contain(PCWSTR key);
+		bool Contain(strw key);
 
 		//添加记录
-		bool Add(PCWSTR key, PCWSTR value);
+		bool Add(strw key, strw value);
 
 		//移除记录
-		bool Remove(PCWSTR key);
+		bool Remove(strw key);
 
 		//获取指定索引的键
-		PCWSTR GetKey(UINT id);
+		strw GetKey(uint32 id);
 
 		//获取指定索引的值
-		PCWSTR GetValue(UINT id);
+		strw GetValue(uint32 id);
 
 		//清空字典
 		void Clear();
 
 		//根据Key查询记录的Value
-		PCWSTR Find(PCWSTR key);
+		strw Find(strw key);
 	};
 }

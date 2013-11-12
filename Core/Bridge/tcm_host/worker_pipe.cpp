@@ -92,7 +92,7 @@ bool Worker_PIPE::RunStageC()
 	Envelope* env = inv->GetEnvelope();
 
 	string resp = "C<response><params>";
-	for(int i=0;i<env->GetParamTotal();i++) 
+	for(int i=0;i<env->GetTotal();i++) 
 	{
 		if(!env->GetInState(i))
 		{

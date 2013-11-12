@@ -21,9 +21,9 @@ namespace tcm
 		Context* _Context;
 		Token* _ContextToken;
 	protected:
-		HANDLE _Thread;
+		object _Thread;
 		bool _IsSuspend;
-		virtual UINT WINAPI _ThreadProc();
+		virtual uint32 WINAPI _ThreadProc();
 	public:
 		//获取功能标识
 		int GetFunctionId();
@@ -41,16 +41,16 @@ namespace tcm
 		bool Start();
 
 		//停止
-		void Stop(UINT wait = 0);
+		void Stop(uint32 wait = 0);
 
 		//暂停
-		void Pause(UINT wait = 0);
+		void Pause(uint32 wait = 0);
 
 		//恢复
 		void Resume();
 
 		//重启
-		void Restart(UINT wait = 0);
+		void Restart(uint32 wait = 0);
 	public:
 		//初始化调用器
 		virtual bool Initialize(Library* lib, int fid); 

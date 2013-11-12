@@ -4,12 +4,6 @@
 
 namespace tcm
 {
-	using std::invalid_argument;
-	const PCSTR _tcm_env_err_1 = "try to access null param";
-	const PCSTR _tcm_env_err_2 = "try to write null value";
-	const PCSTR _tcm_env_err_3 = "try to deliver between different types";
-	const PCSTR _tcm_env_err_4 = "try to read string as multi-bytes";
-
 	//参数信封
 	class TCM_BRIDGE_API Envelope
 	{
@@ -19,47 +13,53 @@ namespace tcm
 		~Envelope();
 	public:
 		//由XML文件解析出信封对象
-		static Envelope* Load(PCWSTR path, int fid);
+		static Envelope* Load(strw path, int fid);
 		
 		//由XML字符串解析出信封对象
 		//要求输入params节点
-		static Envelope* Parse(PCSTR xml);
+		static Envelope* Parse(str xml);
 	private:
 		//由XML对象解析出信封对象
 		//要求输入params节点
-		static Envelope* Parse(LPVOID xml);
+		static Envelope* Parse(object xml);
 	private:
 		int _Length;
 		int _Total;
-		LPVOID _Memory;
+		object _Memory;
 		int*	_Types;
 		bool* _InStates;
 		int* _Offsets;
 	private:
-		inline bool AssertId(int id, Envelope* env = NULL)
+		inline bool AssertId(int id, Envelope* env = null)
 		{
 			if(id < 1) return false;
-			return env == NULL ? id <= _Total : id <= env->_Total;
+			return env == null ? id <= _Total : id <= env->_Total;
 		}
 	private:
-		//写入对象
-		//size>0时浅拷贝对象数据
-		void _Write(int id, LPVOID value, int size = 0);
+		//求取标识对应参数的内存地址
+		uint64 _AddrOf(int id);
 	public:
 		//获取参数数量
-		int GetParamTotal();
+		int GetTotal();
 
 		//获取参数方向
 		//true - 输入 | false - 输出
 		bool GetInState(int id);
+
+		//获取参数类型
+		int GetType(int id);
 	public:
+		//写入对象
+		//size>0时浅拷贝对象数据
+		void WriteEx(int id, object value, int size = 0);
+
 		//读出参数
 		template<typename T>
 		T Read(int id)
 		{
 			if(!AssertId(id))
-				throw invalid_argument(_tcm_env_err_1);
-			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
+				throw invalid_argument(_tcm_err_1);
+			T* param = (T*)_AddrOf(id);
 			return param[0];
 		}
 
@@ -68,22 +68,23 @@ namespace tcm
 		bool Read<bool>(int id)
 		{
 			char ret = Read<char>(id);
-			return (ret == TRUE);
+			return (ret == 1);
 		}
 
 		//不允许以多字节字符串形式读取参数
 		template<>
-		PCSTR Read<PCSTR>(int id)
+		str Read<str>(int id)
 		{
-			throw invalid_argument(_tcm_env_err_4);
+			throw invalid_argument(_tcm_err_4);
 		}
 
 		//写入参数
 		template<typename T>
 		void Write(int id, T value)
 		{
-			if(!AssertId(id)) throw invalid_argument(_tcm_env_err_1);
-			T* param = (T*)((UINT)_Memory + _Offsets[id - 1]);
+			if(!AssertId(id))
+				throw invalid_argument(_tcm_err_1);
+			T* param = (T*)_AddrOf(id);
 			param[0] = value;
 		}
 
@@ -91,33 +92,33 @@ namespace tcm
 		template<>
 		void Write<bool>(int id, bool value)
 		{
-			Write<char>(id, value ? TRUE : FALSE);
+			Write<char>(id, value ? 1 : 0);
 		}
 
 		//写入字符串，自动复制
 		//多字节字符串首先转换成宽字节字符串
 		template<>
-		void Write<PCSTR>(int id, PCSTR value)
+		void Write<str>(int id, str value)
 		{
-			PCWSTR strw = MbToWc(value);
-			_Write(id, (LPVOID)strw, wcslen(strw) * 2 + 2);
+			strw strw = MbToWc(value);
+			WriteEx(id, (object)strw, wcslen(strw) * 2 + 2);
 			delete strw;
 		}
 
 		//写入字符串，自动复制
 		template<>
-		void Write<PCWSTR>(int id, PCWSTR value)
+		void Write<strw>(int id, strw value)
 		{
-			_Write(id, (LPVOID)value, wcslen(value) * 2 + 2);
+			WriteEx(id, (object)value, wcslen(value) * 2 + 2);
 		}
 
 		//读出数值并自动转型到字符串
-		PCSTR CastReadA(int id);
-		PCWSTR CastReadW(int id);
+		str CastReadA(int id);
+		strw CastReadW(int id);
 
 		//由字符串自动转型到数值并写入
-		void CastWriteA(int id, PCSTR value);
-		void CastWriteW(int id, PCWSTR value);
+		void CastWriteA(int id, str value);
+		void CastWriteW(int id, strw value);
 
 		//投递当前信封到目标
 		//要求类型完全一致

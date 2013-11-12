@@ -3,7 +3,7 @@
 
 namespace tcm
 {
-	Config* Config::_Instance = NULL;
+	Config* Config::_Instance = null;
 
 	Config::Config()
 	{
@@ -17,7 +17,7 @@ namespace tcm
 
 	Config* Config::GetInstance()
 	{
-		if(Config::_Instance == NULL)
+		if(Config::_Instance == null)
 			Config::_Instance = new Config();
 		return Config::_Instance;
 	}

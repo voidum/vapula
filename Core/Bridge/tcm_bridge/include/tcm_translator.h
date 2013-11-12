@@ -4,8 +4,6 @@
 
 namespace tcm
 {
-	using std::runtime_error;
-
 	//查看语言代码参考
 	TCM_BRIDGE_API void SeeAlsoLangCode();
 
@@ -26,7 +24,7 @@ namespace tcm
 	int GetZoneCode(int lc);
 
 	//获取语言代码名称
-	PCWSTR GetLangName(int lc);
+	strw GetLangName(int lc);
 
 	class TCM_BRIDGE_API Translator
 	{
@@ -34,15 +32,15 @@ namespace tcm
 		Translator();
 		~Translator();
 	private:
-		PCWSTR _Dir;
+		strw _Dir;
 		Dictionary* _Dict;
 	public:
 		//设置字典路径
 		//需要形如"X:\\...\\"
-		void SetDictDir(PCWSTR dir);
+		void SetDictDir(strw dir);
 
 		//通过key查找文本
-		PCWSTR GetText(PCWSTR key);
+		strw GetText(strw key);
 
 		//加载语言包
 		void LoadLangPack(int lc = zh_CN);

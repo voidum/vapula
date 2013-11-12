@@ -1,20 +1,17 @@
 #include "stdafx.h"
 #include "tcm_base.h"
-#include <ctime>
-#include <iostream>
+
+#include <windows.h>
 
 namespace tcm
 {
-	using std::string;
-	using std::wstring;
-
 	int GetTypeUnit(int type)
 	{
 		switch(type)
 		{
 		case TCM_DATA_POINTER:
 		case TCM_DATA_STRING:
-			return sizeof(LPVOID);
+			return sizeof(object);
 		case TCM_DATA_BOOL:
 		case TCM_DATA_INT8:
 		case TCM_DATA_UINT8:
@@ -31,59 +28,59 @@ namespace tcm
 		case TCM_DATA_REAL64:
 			return 8;
 		default:
-			return 0;
+			throw invalid_argument(_tcm_err_0);
 		}
 	}
 
-	PCWSTR MbToWc(PCSTR src, UINT cp)
+	strw MbToWc(str src, uint32 cp)
 	{
-		if(src == NULL) return NULL;
-		int len = MultiByteToWideChar(cp, 0, src, -1, NULL, 0);
+		if(src == null) return null;
+		int len = MultiByteToWideChar(cp, 0, src, -1, null, 0);
 		wchar_t* dst = new wchar_t[len];
 		MultiByteToWideChar(cp, 0, src, -1, dst, len);
 		return dst;
 	}
 
-	PCSTR WcToMb(PCWSTR src, UINT cp)
+	str WcToMb(strw src, uint32 cp)
 	{
-		if(src == NULL) return NULL;
-		int len = WideCharToMultiByte(cp, 0, src, -1, NULL, 0, NULL, FALSE);
+		if(src == null) return null;
+		int len = WideCharToMultiByte(cp, 0, src, -1, null, 0, null, FALSE);
 		char* dst = new char[len];
-		WideCharToMultiByte(cp, 0, src, -1, dst, len, NULL, FALSE);
+		WideCharToMultiByte(cp, 0, src, -1, dst, len, null, FALSE);
 		return dst;
 	}
 
-	PCSTR FixEncoding(PCSTR src, UINT cpMid, UINT cpAim)
+	str FixEncoding(str src, uint32 cp_by, uint32 cp_to)
 	{
-		if(src == NULL) return NULL;
+		if(src == null) return null;
 		std::locale::global(std::locale(""));
-		PCWSTR tmpw = MbToWc(src, cpMid);
-		PCSTR tmpa = WcToMb(tmpw, cpAim);
+		strw tmpw = MbToWc(src, cp_by);
+		str tmpa = WcToMb(tmpw, cp_to);
 		delete tmpw;
 		return tmpa;
 	}
 
-	PCSTR CopyStrA(PCSTR src)
+	str CopyStrA(str src)
 	{
-		if(src == NULL) return NULL;
+		if(src == null) return null;
 		size_t len = strlen(src);
 		char* dst = new char[len + 1];
 		memcpy(dst, src, len);
 		dst[len] = '\0';
-		return const_cast<PCSTR>(dst);
+		return const_cast<str>(dst);
 	}
 
-	PCWSTR CopyStrW(PCWSTR src)
+	strw CopyStrW(strw src)
 	{
-		if(src == NULL) return NULL;
+		if(src == null) return null;
 		size_t len = wcslen(src);
 		wchar_t* dst = new wchar_t[len + 1];
 		memcpy(dst, src, len * 2);
 		dst[len] = L'\0';
-		return const_cast<PCWSTR>(dst);
+		return const_cast<strw>(dst);
 	}
 
-	PCSTR ReplaceStrA(PCSTR src, PCSTR from, PCSTR to)
+	str ReplaceStrA(str src, str from, str to)
 	{
 		int len = strlen(from);
 		if(len < 1) return CopyStrA(src);
@@ -91,7 +88,7 @@ namespace tcm
 		string str_dst = "";
 		for(;;)
 		{
-			ULONG p1 = str_src.find(from);
+			uint64 p1 = str_src.find(from);
 			if(p1 != string::npos) 
 			{
 				str_dst += str_src.substr(0, p1);
@@ -107,7 +104,7 @@ namespace tcm
 		return CopyStrA(str_dst.c_str());
 	}
 
-	PCWSTR ReplaceStrW(PCWSTR src, PCWSTR from, PCWSTR to)
+	strw ReplaceStrW(strw src, strw from, strw to)
 	{
 		int len = wcslen(from);
 		if(len < 1) return CopyStrW(src);
@@ -115,7 +112,7 @@ namespace tcm
 		wstring str_dst = L"";
 		for(;;)
 		{
-			ULONG p1 = str_src.find(from);
+			uint64 p1 = str_src.find(from);
 			if(p1 != wstring::npos) 
 			{
 				str_dst += str_src.substr(0, p1);
@@ -131,35 +128,35 @@ namespace tcm
 		return CopyStrW(str_dst.c_str());
 	}
 
-	PCSTR GetRandomHexA(int len)
+	str GetRandomHexA(int len)
 	{
 		string hex = "";
-		srand((UINT)time(0));
+		srand((uint32)time(0));
 		int i,j;
 		for (i=0; i<len; i++)
 		{
 			int c;
-			j=(int)(16.0*rand()/(RAND_MAX+1.0));
-			if(j<10) c=j+48;
-			else c=j+87;
+			j = (int)(16.0 * rand() / (RAND_MAX + 1.0));
+			if(j < 10) c = j + 48;
+			else c = j + 87;
 			hex += ((char)c);
 		}
-		PCSTR ret = CopyStrA(hex.c_str());
+		str ret = CopyStrA(hex.c_str());
 		return ret;
 	}
 
-	PCWSTR GetRandomHexW(int len)
+	strw GetRandomHexW(int len)
 	{
-		PCSTR tmp = GetRandomHexA(len);
-		PCWSTR ret = MbToWc(tmp);
+		str tmp = GetRandomHexA(len);
+		strw ret = MbToWc(tmp);
 		delete tmp;
 		return ret;
 	}
 
-	PCSTR GetTimeStrA()
+	str GetTimeStrA()
 	{
 		SYSTEMTIME time;
-		PCSTR tmp = NULL;
+		str tmp = null;
 		string str;
 
 		GetLocalTime(&time);
@@ -184,67 +181,67 @@ namespace tcm
 		return tmp;
 	}
 
-	PCWSTR GetTimeStrW()
+	strw GetTimeStrW()
 	{
-		PCSTR tmp = GetTimeStrA();
-		PCWSTR ret = MbToWc(tmp);
+		str tmp = GetTimeStrA();
+		strw ret = MbToWc(tmp);
 		delete tmp;
 		return ret;
 	}
 
-	void ShowMsgStr(PCSTR value, PCSTR caption)
+	void ShowMsgStr(str value, str caption)
 	{
-		MessageBoxA(NULL, value, caption, 0);
+		MessageBoxA(null, value, caption == null ? "" : caption, 0);
 	}
 
-	void ShowMsgStr(PCWSTR value, PCWSTR caption)
+	void ShowMsgStr(strw value, strw caption)
 	{
-		MessageBoxW(NULL, value, caption, 0);
+		MessageBoxW(null, value, caption == null ? L"" : caption, 0);
 	}
 
-	PCWSTR GetRuntimeDir()
+	strw GetRuntimeDir()
 	{
 		HMODULE mod = GetModuleHandle(L"tcm_bridge");
 		WCHAR path[MAX_PATH];
 		GetModuleFileName(mod, path, MAX_PATH);
 		wstring str_full = path;
 		wstring str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		PCWSTR ret = CopyStrW(str_ret.c_str());
+		strw ret = CopyStrW(str_ret.c_str());
 		return ret;
 	}
 
-	PCWSTR GetAppName()
+	strw GetAppName()
 	{
-		WCHAR path[MAX_PATH];
-		GetModuleFileName(NULL, path, MAX_PATH);
+		wchar_t path[MAX_PATH];
+		GetModuleFileName(null, path, MAX_PATH);
 		wstring str_full = path;
 		wstring str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
-		PCWSTR ret = CopyStrW(str_ret.c_str());
+		strw ret = CopyStrW(str_ret.c_str());
 		return ret;
 	}
 
-	PCWSTR GetAppDir()
+	strw GetAppDir()
 	{
-		WCHAR path[MAX_PATH];
-		GetModuleFileName(NULL, path, MAX_PATH);
+		wchar_t path[MAX_PATH];
+		GetModuleFileName(null, path, MAX_PATH);
 		wstring str_full = path;
 		wstring str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		PCWSTR ret = CopyStrW(str_ret.c_str());
+		strw ret = CopyStrW(str_ret.c_str());
 		return ret;
 	}
 
-	PCWSTR GetDirPath(PCWSTR path, bool isfile)
+	strw GetDirPath(strw path, bool isfile)
 	{
 		if(wcslen(path) < 1) return CopyStrW(L"\\");
-		PCWSTR str_fix = ReplaceStrW(path, L"/", L"\\");
+		strw str_fix = ReplaceStrW(path, L"/", L"\\");
 		wstring str = str_fix;
-		ULONG p = str.rfind(L'\\');
+		uint64 p = str.rfind(L'\\');
 		if(p == wstring::npos)
 		{
 			if(isfile) str = L"\\";
 			else str += L'\\';
 		}
-		else if((UINT)p != str.size() - 1) 
+		else if(p != str.size() - 1) 
 		{
 			if(isfile) str = str.substr(0, p+1);
 			else str += L'\\';
@@ -255,8 +252,12 @@ namespace tcm
 
 	bool CanOpenRead(PCWSTR file)
 	{
-		HANDLE handle = CreateFile(file,0,FILE_SHARE_READ,NULL,OPEN_EXISTING,NULL,NULL);
-		if(handle == INVALID_HANDLE_VALUE) return false;
+		HANDLE handle = 
+			CreateFile(file, 0, 
+				FILE_SHARE_READ, null, 
+				OPEN_EXISTING, null, null);
+		if(handle == INVALID_HANDLE_VALUE) 
+			return false;
 		CloseHandle(handle);
 		return true;
 	}

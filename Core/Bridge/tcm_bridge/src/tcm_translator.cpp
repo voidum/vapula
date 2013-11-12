@@ -1,11 +1,9 @@
 #include "stdafx.h"
-#include "tcm_xml.h"
 #include "tcm_translator.h"
-#include <iostream>
+#include "tcm_xml.h"
 
 namespace tcm
 {
-	using std::wstring;
 	using std::cout;
 	using std::endl;
 	using namespace rapidxml;
@@ -20,7 +18,7 @@ namespace tcm
 						10250,20490,15370,17418,14346,8202,1072,1089,1053,	2077,1097,1092,1054,1055,1073,1058,
 						1056,2115,1091,1066,1076,1085,1077};
 
-	const PCWSTR _LangNames[] = { L"af", L"sq", L"ar-AE", L"ar-BH", L"ar-DZ", L"ar-EG", L"ar-IQ", L"ar-JO", L"ar-KW",
+	const strw _LangNames[] = { L"af", L"sq", L"ar-AE", L"ar-BH", L"ar-DZ", L"ar-EG", L"ar-IQ", L"ar-JO", L"ar-KW",
 						L"ar-LB", L"ar-LY", L"ar-MA", L"ar-OM", L"ar-QA", L"ar-SA", L"ar-SY", L"ar-TN", L"ar-YE",
 						L"hy", L"az-AZ-l", L"az-AZ-c", L"eu", L"be", L"bg", L"ca", L"zh-CN", L"zh-HK", L"zh-MO",
 						L"zh-SG", L"zh-TW", L"hr", L"cs", L"da", L"nl-NL", L"nl-BE", L"en-AU", L"en-BZ", L"en_CA",
@@ -35,7 +33,6 @@ namespace tcm
 						L"es-SV", L"es-UY", L"es-VE", L"st", L"sw", L"sv-SE", L"sv-FI", L"ta", L"tt", L"th",
 						L"tr", L"ts", L"uk", L"ur", L"uz-UZ-c", L"uz-UZ-l", L"vi", L"xh", L"yi", L"zu"};
 
-
 	void SeeAlsoLangCode()
 	{
 		system("start http://zh.wikipedia.org/wiki/%E5%8C%BA%E5%9F%9F%E8%AE%BE%E7%BD%AE");
@@ -47,57 +44,53 @@ namespace tcm
 		return _ZoneCodes[lc];
 	}
 
-	PCWSTR GetLangName(int lc)
+	strw GetLangName(int lc)
 	{
-		if(lc < 0 || lc > 137) return NULL;
+		if(lc < 0 || lc > 137) return null;
 		return _LangNames[lc];
 	}
 
 	Translator::Translator()
 	{
-		_Dict = NULL;
+		_Dict = null;
 	}
 
 	Translator::~Translator()
 	{
-		if(_Dir != NULL) delete _Dir;
-		if(_Dict != NULL) delete _Dict;
+		if(_Dir != null) delete _Dir;
+		if(_Dict != null) delete _Dict;
 	}
 
-	void Translator::SetDictDir(PCWSTR dir)
+	void Translator::SetDictDir(strw dir)
 	{
 		_Dir = dir;
 	}
 
 	void Translator::LoadLangPack(int lc)
 	{
-		PCWSTR name = GetLangName(lc);
-		if(name == NULL) return;
+		strw name = GetLangName(lc);
+		if(name == null) return;
 		wstring path = _Dir;
 		path += name;
 		path += L".xml";
 		std::locale::global(std::locale(""));
-		rapidxml::file<> xfile(WcToMb(path.c_str()));
-		PCSTR data = CopyStrA(xfile.data());
-		if(data)
+		str data = null;
+		xml_document<>* xdoc = 
+			(xml_document<>*)xml::Load(path.c_str(), data);
+		_Dict->Clear();
+		xml_node<>* xe = (xml_node<>*)xml::Path(&xdoc, 2, "root", "item");
+		while (xe)
 		{
-			_Dict->Clear();
-			xml_document<> xdoc;
-			xdoc.parse<0>(const_cast<PSTR>(data));
-			xml_node<>* xe = (xml_node<>*)xml::Path(&xdoc,2,"root","item");
-			while (xe)
-			{
-				PCWSTR tmp = xml::ValueW(xe->first_attribute("key"));
-				_Dict->Add(tmp, xml::ValueW(xe));
-				xe = xe->next_sibling();
-			}
-			delete data;
+			strw tmp = xml::ValueW(xe->first_attribute("key"));
+			_Dict->Add(tmp, xml::ValueW(xe));
+			xe = xe->next_sibling();
 		}
+		delete data;
 	}
 
-	PCWSTR Translator::GetText(PCWSTR key)
+	strw Translator::GetText(strw key)
 	{
-		PCWSTR tmp = _Dict->Find(key);
+		strw tmp = _Dict->Find(key);
 		return tmp;
 	}
 }
