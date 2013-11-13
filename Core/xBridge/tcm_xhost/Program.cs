@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 
 namespace TCM.xHost
@@ -16,30 +16,48 @@ namespace TCM.xHost
             Application.SetCompatibleTextRenderingDefault(false);
 
             string[] cmds = Environment.GetCommandLineArgs();
-            if (cmds.Length >= 2)
+            if (cmds.Length == 3)
             {
-                CheckOption(cmds);
+                if (!CheckParam(cmds))
+                {
+                    ShowHelp();
+                    //return 0;
+                }
+                FrmBrowser form = new FrmBrowser();
+                form.ShowDialog();
             }
             else
         	{
-                FrmBrowser form = new FrmBrowser();
-                form.ShowDialog();
                 ShowHelp();
         	}
             return 0;
         }
 
-        static void CheckOption(string[] cmds)
+        static bool CheckParam(string[] cmds)
         {
-            AppData.Flags.Add("rtmon", cmds.Contains("rtmon"));
+            AppData app = AppData.Instance;
+            app.PathLib = cmds[1];
+            app.DataId = cmds[2];
+            if (!Directory.Exists(cmds[1]))
+            {
+                MessageBox.Show("没有找到目录：\n" + cmds[1], "TCM xHost");
+                return false;
+            }
+            string tempfile = Path.Combine(
+                Path.GetTempPath(), 
+                cmds[2] + ".tcm.de");
+            if (!File.Exists(tempfile))
+            {
+                MessageBox.Show("没有找到数据交换页：" + cmds[2], "TCM xHost");
+                return false;
+            }
+            return true;
         }
 
         static void ShowHelp()
         {
             string str = "command lines:\n";
-            str += " tcm_xhost [task file] [option]\n";
-            str += "option:\n";
-            str += " \"rtmon\" - to monitor in high CPU usage\n";
+            str += " tcm_xhost [library directory] [data id]\n";
             MessageBox.Show(str, "TCM xHost");
         }
     }

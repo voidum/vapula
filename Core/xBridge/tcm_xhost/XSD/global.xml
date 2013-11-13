@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<host>
+  <size lock="true">
+    <width>600</width>
+    <height>400</height>
+  </size>
+  <start>
+    <at>1</at>
+  </start>
+</host>

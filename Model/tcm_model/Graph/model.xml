@@ -3,8 +3,13 @@
   <nodes>
     <node id="" type="">
       <params>
-        <param id="0" from="1,1">
-          value here
+        <param id="1">
+          <value></value>
+          <sender></sender>
+        </param>
+        <param id="2">
+          <value></value>
+          <sender></sender>
         </param>
       </params>
       <config></config>

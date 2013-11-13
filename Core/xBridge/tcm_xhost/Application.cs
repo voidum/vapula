@@ -2,19 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace TCM
 {
     public class AppData
     {
-        #region 数据
-        private static Dictionary<string,bool> _Flags = new Dictionary<string,bool>();
-        /// <summary>
-        /// 应用程序标志
-        /// </summary>
-        public static Dictionary<string,bool> Flags
+        private static AppData _Instance = null;
+        public static AppData Instance
         {
-            get { return _Flags; }
+            get 
+            {
+                if (_Instance == null)
+                    _Instance = new AppData();
+                return _Instance; 
+            }
+        }
+
+        #region 数据
+        private string _PathLib;
+        public string PathLib 
+        {
+            get { return _PathLib; }
+            set { _PathLib = value; }
+        }
+
+        public string PathUI
+        {
+            get { return Path.Combine(PathLib, "UI"); }
+        }
+
+        public string PathUIIndex
+        {
+            get { return Path.Combine(PathLib, "UI", "index.html"); }
+        }
+
+        private string _DataId;
+        public string DataId
+        {
+            get { return _DataId; }
+            set { _DataId = value; }
         }
         #endregion
     }

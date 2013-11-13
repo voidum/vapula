@@ -71,9 +71,12 @@ namespace TCM.Model.Designer
             _Canvas = new CanvasGraph(400, 300);
             _Canvas.AllowDrop = true;
             _Canvas.ContextMenuStrip = ctxmenu_canvas;
+
             _Canvas.DragEnter += new DragEventHandler(Canvas_DragEnter);
             _Canvas.DragDrop += new DragEventHandler(Canvas_DragDrop);
             _Canvas.SelectedChanged += new Action(Canvas_SelectedItemsChanged);
+            _Canvas.MouseDoubleClick += new MouseEventHandler(Canvas_MouseDoubleClick);
+            
             _Graph = new Graph();
             FormData_BindSync(_Canvas, _Graph);
             Controls.Add(_Canvas);
@@ -119,9 +122,19 @@ namespace TCM.Model.Designer
                 FormData_BindSync(shape, node);
         }
 
+        private void Canvas_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (_Canvas.SelectedEntities.Count == 1)
+            {
+                Entity entity = _Canvas.SelectedEntities[0];
+                if (!(entity is Shape)) return;
+                Node node = entity.SyncTarget as Node;
+                MessageBox.Show(node.Id.ToString());
+            }
+        }
+
         private void Canvas_SelectedItemsChanged()
         {
-
             if (_Canvas.SelectedEntities.Count == 1)
             {
                 Entity entity = _Canvas.SelectedEntities[0];

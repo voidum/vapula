@@ -77,15 +77,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="XSD\xhost.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Model\tcm_model\tcm_model.csproj">
+      <Project>{EC85B801-A356-481A-8D5E-EFE603F8689A}</Project>
+      <Name>tcm_model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tcm_xbridge\tcm_xbridge.csproj">
       <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
       <Name>tcm_xbridge</Name>
     </ProjectReference>
+    <ProjectReference Include="..\tcm_xhelper\tcm_xhelper.csproj">
+      <Project>{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}</Project>
+      <Name>tcm_xhelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="global.xml">
+    <Content Include="XSD\global.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
