@@ -5,7 +5,8 @@ namespace TCM.I18N
 {
     public class Translator
     {
-        private Dictionary<string, string> _Dict = new Dictionary<string, string>();
+        private Dictionary<string, string> 
+            _Dict = new Dictionary<string, string>();
 
         public string this[string key]
         {

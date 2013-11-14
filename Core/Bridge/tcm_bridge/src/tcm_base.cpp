@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "tcm_base.h"
+#include "tcm_config.h"
 
 #include <windows.h>
 
@@ -191,12 +192,20 @@ namespace tcm
 
 	void ShowMsgStr(str value, str caption)
 	{
-		MessageBoxA(null, value, caption == null ? "" : caption, 0);
+		Config* config = Config::GetInstance();
+		if(!config->IsSilent())
+			MessageBoxA(null, 
+				value, 
+				caption == null ? "" : caption, 0);
 	}
 
 	void ShowMsgStr(strw value, strw caption)
 	{
-		MessageBoxW(null, value, caption == null ? L"" : caption, 0);
+		Config* config = Config::GetInstance();
+		if(!config->IsSilent())
+			MessageBoxW(null, 
+				value,
+				caption == null ? L"" : caption, 0);
 	}
 
 	strw GetRuntimeDir()

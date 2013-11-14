@@ -3,6 +3,8 @@
 #include "worker.h"
 #include "tcm_config.h"
 
+#pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")  // NOLINT(whitespace/line_length)
+
 using std::wstring;
 using namespace tcm;
 
@@ -16,8 +18,6 @@ enum HostReturnCode
 
 void CheckOption(int argc, LPWSTR* argv);
 void ShowHelp();
-
-Flag* _Flag = NULL;
 
 int APIENTRY wWinMain(
 	HINSTANCE hInstance, 
@@ -34,23 +34,18 @@ int APIENTRY wWinMain(
 		return TCM_HOST_RETURN_INVALIDCMD;
 	}
 
-	Config* config = Config::GetInstance();
-	bool silent = config->IsSilent();
-
-	if(argc > 2) CheckOption(argc, argv);
+	CheckOption(argc, argv);
 
 	if(!CanOpenRead(argv[1]))
 	{
-		if(!silent)
-			ShowMsgStr(L"Fail to open task file.",L"TCM Host");
+		ShowMsgStr(L"Fail to open task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
 
 	TaskEx* task = dynamic_cast<TaskEx*>(TaskEx::Parse(argv[1]));
 	if(task == NULL)
 	{
-		if(!silent)
-			ShowMsgStr(L"Fail to parse task file.",L"TCM Host");
+		ShowMsgStr(L"Fail to parse task file.",L"TCM Host");
 		return TCM_HOST_RETURN_INVALIDTASK;
 	}
 	
@@ -76,16 +71,18 @@ int APIENTRY wWinMain(
 
 void CheckOption(int argc, LPWSTR* argv)
 {
+	Config* config = Config::GetInstance();
+	Flag* flag = config->GetFlag();
 	for (int i=2; i<argc; i++)
 	{
 		if (wcscmp(argv[i], L"silent") == 0)
 		{
-			_Flag->Enable(TCM_CONFIG_SILENT);
+			flag->Enable(TCM_CONFIG_SILENT);
 			continue;
 		}
 		if (wcscmp(argv[i], L"rtmon") == 0)
 		{
-			_Flag->Enable(TCM_CONFIG_RTMON);
+			flag->Enable(TCM_CONFIG_RTMON);
 			continue;
 		}
 	}

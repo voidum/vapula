@@ -33,15 +33,11 @@ Dictionary* TaskEx::GetTags() { return _Tags; }
 
 Task* TaskEx::Parse(PCWSTR path)
 {
-	Config* config = Config::GetInstance();
-	bool silent = config->IsSilent();
-
 	PCSTR data = NULL;
 	xml_node<>* xdoc = (xml_node<>*)xml::Load(path, data);
 	if(xdoc == NULL)
 	{
-		if(!silent)
-			ShowMsgStr("Fail to load TCM task file.", "TCM Host");
+		ShowMsgStr("Fail to load TCM task file.", "TCM Host");
 		return NULL;
 	}
 
@@ -54,8 +50,7 @@ Task* TaskEx::Parse(PCWSTR path)
 	PCSTR driver_id = xml::ValueA(xe_target->first_node("runtime"));
 	if(!driver_hub->Link(driver_id))
 	{
-		if(!silent)
-			ShowMsgStr("Fail to link driver.", "TCM Host");
+		ShowMsgStr("Fail to link driver.", "TCM Host");
 		return NULL;
 	}
 	delete driver_id;
@@ -70,15 +65,13 @@ Task* TaskEx::Parse(PCWSTR path)
 
 	if(task->_Lib == NULL)
 	{
-		if(!silent)
-			ShowMsgStr("Fail to load library.", "TCM Host");
+		ShowMsgStr("Fail to load library.", "TCM Host");
 		return NULL;
 	}
 
 	if(!task->_Lib->Mount())
 	{
-		if(!silent)
-			ShowMsgStr("Fail to mount library", "TCM Host");
+		ShowMsgStr("Fail to mount library", "TCM Host");
 		return NULL;
 	}
 	
@@ -117,9 +110,6 @@ Task* TaskEx::Parse(PCWSTR path)
 
 bool TaskEx::RunAs(Worker* worker)
 {
-	Config* config = Config::GetInstance();
-	bool silent = config->IsSilent();
-
 	LARGE_INTEGER freq,t1,t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
@@ -130,36 +120,30 @@ bool TaskEx::RunAs(Worker* worker)
 	if(ret_worker == TCM_TASK_RETURN_NORMAL)
 	{
 		int ret_task = worker->GetTask()->GetInvoker()->GetContext()->GetReturnCode();
-		if(!silent)
-		{
-			wstring str = L"TCM host has done with task:\n";
-			str += _Lib->GetLibraryId();
-			str += L"=>";
-			str += MbToWc(ValueToStr(_FuncId));
-			str += L"\nReturn code:";
-			str += MbToWc(ValueToStr(ret_task));
-			str += L"\nElapsed time:";
-			str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
-			str += L"(s)";
-			ShowMsgStr(str.c_str(), L"TCM Host");
-		}
+		wstring str = L"TCM host has done with task:\n";
+		str += _Lib->GetLibraryId();
+		str += L"=>";
+		str += MbToWc(ValueToStr(_FuncId));
+		str += L"\nReturn code:";
+		str += MbToWc(ValueToStr(ret_task));
+		str += L"\nElapsed time:";
+		str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
+		str += L"(s)";
+		ShowMsgStr(str.c_str(), L"TCM Host");
 		ret = true;
 	}
 	else if(ret_worker > TCM_TASK_RETURN_NORMAL)
 	{
-		if(!silent)
-		{
-			wstring str = L"TCM host has NOT done with task:\n";
-			str += _Lib->GetLibraryId();
-			str += L"=>";
-			str += MbToWc(ValueToStr(_FuncId));
-			str += L"\nLast stage: ";
-			str += MbToWc(ValueToStr('A' + ret_worker - 1));
-			str += L"\nElapsed time:";
-			str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
-			str += L"(s)";
-			ShowMsgStr(str.c_str(), L"TCM Host");
-		}
+		wstring str = L"TCM host has NOT done with task:\n";
+		str += _Lib->GetLibraryId();
+		str += L"=>";
+		str += MbToWc(ValueToStr(_FuncId));
+		str += L"\nLast stage: ";
+		str += MbToWc(ValueToStr('A' + ret_worker - 1));
+		str += L"\nElapsed time:";
+		str += MbToWc(ValueToStr((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart));
+		str += L"(s)";
+		ShowMsgStr(str.c_str(), L"TCM Host");
 	}
 	return ret;
 }

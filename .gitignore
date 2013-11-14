@@ -2,6 +2,8 @@
 [Tt]emp/
 [Ii]ntDir/
 [Oo]utDir/
+[Oo]bj/
+[Pp]ublish/
 
 ## SVN
 .svn/
@@ -43,14 +45,6 @@ local.properties
 *.sln.docstates
 
 # Build results
-
-[Dd]ebug/
-[Rr]elease/
-x64/
-build/
-[Bb]in/
-[Oo]bj/
-[Pp]ublish/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
