@@ -1,41 +1,11 @@
 #include "stdafx.h"
+#include "main.h"
 
-#include "include/cef_app.h"
-#include "include/cef_browser.h"
-#include "include/cef_frame.h"
-#include "include/cef_runnable.h"
-
-#include "xhost_app.h"
-#include "xhost_client.h"
-
-#include "tcm_config.h"
-
-#pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-
-using std::wstring;
-using namespace tcm;
-
-enum xHostReturnCode
-{
-	TCM_XHOST_RETURN_NORMAL = 0,
-	TCM_XHOST_RETURN_INVALIDCMD = 1,
-	TCM_XHOST_RETURN_FAILINIT = 2
-};
-
-void CheckParam(LPWSTR* argv);
-void ShowHelp();
-
-HWND hWnd;
-UINT uFindMsg;  // Message identifier for find events.
-HWND hFindDlg = NULL;  // Handle for the find dialog.
-
-CefWindowInfo windowInfo;
-xHostClient client;
+CefRefPtr<CefApp> app(new App());
+CefRefPtr<CefClient> client(new Client());
 CefRefPtr<CefBrowser> browser;
 
-bool InitWindow(HINSTANCE, int);
-void StartMessageLoop();
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+tcm::xhost::Config config;
 
 int APIENTRY wWinMain(
 	HINSTANCE hInstance, HINSTANCE hPrevInstance, 
@@ -47,42 +17,48 @@ int APIENTRY wWinMain(
 	if(argc != 3)
 	{
 		ShowHelp();
-		//return TCM_XHOST_RETURN_INVALIDCMD;
+		return TCM_XHOST_RETURN_INVALIDCMD;
 	}
 
-	CheckParam(argv);
+	if(!CheckParam(argv))
+	{
+		return TCM_XHOST_RETURN_INVALIDCMD;
+	}
 
-	CefRefPtr<CefApp> app(new xHostApp());
-	//CefMainArgs main_args(hInstance);
 	CefSettings settings;
 	settings.multi_threaded_message_loop = false;
-	
-	/*
-	int exit_code = CefExecuteProcess(main_args, &app);
-	if (exit_code >= 0)
-		return exit_code;
-	*/
 	CefInitialize(settings, app);
 
+	CefRefPtr<CefRequest> req = CefRequest::CreateRequest();
 
 	if (!InitWindow(hInstance, nCmdShow))
 		return TCM_XHOST_RETURN_FAILINIT;
-	//StartMessageLoop();
+	CefRunMessageLoop();
 	
-	CefShutdown();
-
+	//CefShutdown();
 	return TCM_XHOST_RETURN_NORMAL;
 }
 
-void CheckParam(LPWSTR* argv)
+bool CheckParam(LPWSTR* argv)
 {
+	int port = atoi(WcToMb(argv[1]));
+	if(port < 0 || port > 65535)
+	{
+		ShowMsgStr("unsupported port", "TCM xHost");
+		return false;
+	}
+	config.Port(port);
+	config.AppId(argv[2]);
+	return true;
 }
 
 void ShowHelp()
 {
-	wstring str = L"command lines:\n";
-	str += L" tcm_xhost [library directory] [data id]\n";
-	ShowMsgStr(str.c_str(),L"TCM xHost");
+	string str = "command lines:\n";
+	str += " tcm_xhost [port] [app-id]\n";
+	str += "  - port : port to specific service provider\n";
+	str += "  - app-id : id of application from provider\n";
+	ShowMsgStr(str.c_str(), "TCM xHost");
 }
 
 bool InitWindow(HINSTANCE hInstance, int nCmdShow)
@@ -96,73 +72,82 @@ bool InitWindow(HINSTANCE hInstance, int nCmdShow)
 	wclsex.cbClsExtra = 0;
 	wclsex.cbWndExtra = 0;
 	wclsex.hInstance = hInstance;
-
 	wclsex.hIcon = NULL;
 	wclsex.hIconSm = NULL; 
 	wclsex.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wclsex.hbrBackground = (HBRUSH)COLOR_BTNFACE;
-
 	wclsex.lpszMenuName = NULL;
-	wclsex.lpszClassName = L"tcm_xhost_window";
+	wclsex.lpszClassName = L"tcm_xhost";
 
 	RegisterClassEx(&wclsex);
 
 	HWND hWnd = CreateWindowEx(
 		NULL,
-		L"tcm_xhost_window", L"navigator",
-		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,
+		L"tcm_xhost", L"navigator",
+		WS_OVERLAPPED | WS_CLIPCHILDREN |
+		WS_CAPTION | WS_BORDER |
+		WS_SYSMENU | WS_MINIMIZEBOX,
+		200, 10, 500, 400,
 		NULL, NULL, hInstance, NULL);
 
 	if (!hWnd)
 		return false;
 
-	ShowWindow(hWnd, SW_SHOWDEFAULT);
-	//ShowWindow(hWnd, nCmdShow);
+	ShowWindow(hWnd, SW_SHOWNORMAL);
 	UpdateWindow(hWnd); 
 	return true;
 }
 
-void StartMessageLoop()
+void WndProc_WM_CREATE(HWND hWnd)
 {
-	BOOL ret;
-	MSG msg;
-	WndProc(hWnd, WM_CREATE, 0, 0);
-	WndProc(hWnd, WM_NCCREATE, 0, 0);
-	while((ret = GetMessage(&msg, NULL, 0, 0)) != 0)
-	{
-		if (ret == -1)
-			break;
-		else
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+	RECT rect;
+	CefWindowInfo wi;
+	GetClientRect(hWnd, &rect);
+	wi.SetAsChild(hWnd, rect);
+	wstring str = L"http://localhost:";
+	str += MbToWc(ValueToStr(config.Port()));
+	str += L"/app/";
+	str += config.AppId();
+	ShowMsgStr(str.c_str());
+	browser = CefBrowser::CreateBrowserSync(
+		wi, client, 
+		CefString(str), 
+		CefBrowserSettings());
+}
+
+void WndProc_WM_SIZE(HWND hWnd)
+{
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	SetWindowPos(
+		browser->GetWindowHandle(), 
+		null, 
+		rect.left, rect.top,
+		rect.right, rect.bottom, 
+		0);
+}
+
+void WndProc_WM_CLOSE(HWND hWnd)
+{
+	CefQuitMessageLoop();
+	PostQuitMessage(0);
 }
 
 LRESULT CALLBACK WndProc(
 	HWND hWnd, UINT uMsg, 
 	WPARAM wParam, LPARAM lParam)
 {
-	RECT rt;
 	switch(uMsg)
 	{
 	case WM_CREATE:
-		GetClientRect(hWnd, &rt);
-		windowInfo.SetAsChild(hWnd, rt);
-		browser = CefBrowser::CreateBrowserSync(windowInfo, &client, CefString("http://www.hoverlees.com"), CefBrowserSettings());
-		//CefRunMessageLoop();
+		WndProc_WM_CREATE(hWnd);
 		break;
 	case WM_SIZE:
-		GetClientRect(hWnd,&rt);
-		SetWindowPos(browser->GetWindowHandle(),0,rt.left,rt.top,rt.right,rt.bottom,0);
+		WndProc_WM_SIZE(hWnd);
 		break;
 	case WM_CLOSE:
-		CefQuitMessageLoop();
-		PostQuitMessage(0);
+		WndProc_WM_CLOSE(hWnd);
 		break;
-	default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

@@ -1,24 +1,30 @@
 #include "stdafx.h"
 #include "xhost_client.h"
 
-xHostClient::xHostClient()
+namespace tcm
 {
-	_RefCount = 1;
-}
+	namespace xhost
+	{
+		Client::Client()
+		{
+			_RefCount = 1;
+		}
 
-int xHostClient::AddRef()
-{
-	_RefCount++;
-	return _RefCount;
-}
+		int Client::AddRef()
+		{
+			_RefCount++;
+			return _RefCount;
+		}
 
-int xHostClient::Release()
-{
-	_RefCount--;
-	return _RefCount;
-}
+		int Client::Release()
+		{
+			_RefCount--;
+			return _RefCount;
+		}
 
-int xHostClient::GetRefCt()
-{
-	return _RefCount;
+		int Client::GetRefCt()
+		{
+			return _RefCount;
+		}
+	}
 }

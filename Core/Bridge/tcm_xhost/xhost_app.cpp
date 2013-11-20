@@ -1,24 +1,30 @@
 #include "stdafx.h"
 #include "xhost_app.h"
 
-xHostApp::xHostApp()
+namespace tcm
 {
-	_RefCount = 1;
-}
+	namespace xhost
+	{
+		App::App()
+		{
+			_RefCount = 1;
+		}
 
-int xHostApp::AddRef()
-{
-	_RefCount++;
-	return _RefCount;
-}
+		int App::AddRef()
+		{
+			_RefCount++;
+			return _RefCount;
+		}
 
-int xHostApp::Release()
-{
-	_RefCount--;
-	return _RefCount;
-}
+		int App::Release()
+		{
+			_RefCount--;
+			return _RefCount;
+		}
 
-int xHostApp::GetRefCt()
-{
-	return _RefCount;
+		int App::GetRefCt()
+		{
+			return _RefCount;
+		}
+	}
 }

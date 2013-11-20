@@ -42,6 +42,7 @@ namespace TCM.Model.Designer
                 {
                     Shape shp = ent as Shape;
                     _Shapes.Remove(shp);
+                    _Complexity -= 2;
                     SyncTarget.Sync("remove-node", shp);
                     shp.Dispose();
                 }
@@ -49,6 +50,7 @@ namespace TCM.Model.Designer
                 {
                     Connection con = ent as Connection;
                     _Connections.Remove(con);
+                    _Complexity -= 4;
                     SyncTarget.Sync("remove-link", con);
                     con.Dispose();
                 }
@@ -67,6 +69,7 @@ namespace TCM.Model.Designer
             foreach (Shape shp in _Shapes)
                 shp.Dispose();
             _Shapes.Clear();
+            _Complexity = 0;
             SyncTarget.Sync("remove-all", null);
             Invalidate();
         }
@@ -82,9 +85,18 @@ namespace TCM.Model.Designer
             ClearSelection();
             _SelectedEntities.Add(con.To);
             _IsDraging = true;
+            _Complexity += 4;
             SyncTarget.Sync("add-link", con);
             Invalidate();
             return con;
+        }
+
+        private void AddShape(Shape shp)
+        {
+            shp.Canvas = this;
+            _Shapes.Add(shp);
+            _Complexity += 2;
+            Invalidate();
         }
 
         /// <summary>
@@ -93,9 +105,7 @@ namespace TCM.Model.Designer
         public Shape AddShapeProcess(Point p)
         {
             ShapeProcess shp = new ShapeProcess(p);
-            shp.Canvas = this;
-            _Shapes.Add(shp);
-            Invalidate();
+            AddShape(shp);
             return shp;
         }
 
@@ -105,9 +115,7 @@ namespace TCM.Model.Designer
         public Shape AddShapeDecision(Point p)
         {
             ShapeDecision shp = new ShapeDecision(p);
-            shp.Canvas = this;
-            _Shapes.Add(shp);
-            Invalidate();
+            AddShape(shp);
             return shp;
         }
 
@@ -117,9 +125,7 @@ namespace TCM.Model.Designer
         public Shape AddShapeStart(Point p)
         {
             ShapeStart shp = new ShapeStart(p);
-            shp.Canvas = this;
-            _Shapes.Add(shp);
-            Invalidate();
+            AddShape(shp);
             return shp;
         }
         #region 集合

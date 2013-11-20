@@ -2,17 +2,23 @@
 
 #include "include/cef_app.h"
 
-class xHostApp : 
-	public CefApp
+namespace tcm
 {
-private:
-	int _RefCount;
-public:
-	xHostApp();
+	namespace xhost
+	{
+		class App : 
+			public CefApp
+		{
+		private:
+			int _RefCount;
+		public:
+			App();
 
-	virtual int AddRef();
+			virtual int AddRef();
 
-	virtual int Release();
+			virtual int Release();
 
-	virtual int GetRefCt();
-};
+			virtual int GetRefCt();
+		};
+	}
+}

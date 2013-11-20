@@ -2,10 +2,12 @@
 <model>
   <nodes>
     <node id="" type="">
+      <props>
+      </props>
       <params>
         <param id="1">
           <value></value>
-          <sender></sender>
+          <sender>{1,2}</sender>
         </param>
         <param id="2">
           <value></value>

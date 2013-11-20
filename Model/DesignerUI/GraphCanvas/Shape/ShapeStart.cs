@@ -38,8 +38,10 @@ namespace TCM.Model.Designer
         {
             string id = (string)SyncTarget.Sync("get-id", null);
             float id_width = g.MeasureString(id, _Cache.GetFont("id")).Width;
-            g.DrawString(id, _Cache.GetFont("id"), Brushes.Black,
-                X - id_width / 2, Y - 8);
+            g.DrawString(id, _Cache.GetFont("id"), Brushes.Black, Left + 2, Top + 2);
+            string text = "起点";
+            float text_width = g.MeasureString(text, _Cache.GetFont("text")).Width;
+            g.DrawString(text, _Cache.GetFont("text"), Brushes.Black, X - text_width / 2, Bottom - 18);
         }
 
         public override bool IsHit(Point p)

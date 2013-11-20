@@ -85,20 +85,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="xhost_app.h" />
     <ClInclude Include="xhost_client.h" />
+    <ClInclude Include="xhost_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="xhost_app.cpp" />
     <ClCompile Include="xhost_client.cpp" />
+    <ClCompile Include="xhost_config.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="tcm_xhost.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="xhost.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

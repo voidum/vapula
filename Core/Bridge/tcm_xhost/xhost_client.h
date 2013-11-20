@@ -2,17 +2,23 @@
 
 #include "include/cef_client.h"
 
-class xHostClient : 
-	public CefClient
+namespace tcm
 {
-private:
-	int _RefCount;
-public:
-	xHostClient();
-	
-	virtual int AddRef();
-	
-	virtual int Release();
+	namespace xhost
+	{
+		class Client : 
+			public CefClient
+		{
+		private:
+			int _RefCount;
+		public:
+			Client();
 
-	virtual int GetRefCt();
-};
+			virtual int AddRef();
+
+			virtual int Release();
+
+			virtual int GetRefCt();
+		};
+	}
+}

@@ -96,6 +96,20 @@ namespace TCM.Model.Designer
         }
 
         /// <summary>
+        /// 复杂度
+        /// </summary>
+        [Browsable(false)]
+        public int Complexity
+        {
+            get 
+            {
+                if (_Complexity > _MaxComplexity)
+                    _Complexity = _MaxComplexity;
+                return _Complexity;
+            }
+        }
+
+        /// <summary>
         /// 外框线
         /// </summary>
         [Browsable(false)]
@@ -174,8 +188,11 @@ namespace TCM.Model.Designer
             g.DrawString("复杂度：", FontStatus, Brushes.Black, new Point(_Padding, 20));
             g.DrawRectangle(PenOutlineCtrl, _Padding + 50, 20, 101, 15);
             g.FillRectangle(BrushBack, _Padding + 51, 21, 100, 14);
-            float cplxv = _Complexity * 100.0f / _MaxComplexity;
-            g.FillRectangle(new SolidBrush(Color.FromArgb((int)(154 + cplxv), 238, (int)(144 - cplxv))), _Padding + 51, 17, cplxv, 14);
+            float cplxv = Complexity * 100.0f / _MaxComplexity;
+            g.FillRectangle(
+                new SolidBrush(
+                    Color.FromArgb((int)(155 + cplxv), (int)(238 - cplxv * 0.25), (int)(200 - cplxv * 2))), 
+                    _Padding + 51, 21, cplxv, 14);
         }
 
         private void DrawBackground(Graphics g)

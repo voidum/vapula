@@ -70,7 +70,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Graph\model.xml" />
+    <Content Include="Graph\model.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

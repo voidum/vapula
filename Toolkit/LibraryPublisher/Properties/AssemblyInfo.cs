@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("用于发布TCM组件的实用工具")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Library Publisher")]
+[assembly: AssemblyProduct("LibraryPublisher")]
 [assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
