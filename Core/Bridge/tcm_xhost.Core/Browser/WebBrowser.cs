@@ -1,113 +1,266 @@
 ﻿using System;
+using System.Windows.Forms;
 using Xilium.CefGlue;
 
 namespace TCM.xHost
 {
-    public sealed class WebBrowser
+    /// <summary>
+    /// 基于CEF的嵌入式浏览器
+    /// </summary>
+    public sealed class WebBrowser : Control
     {
-        private readonly object _owner;
-        private readonly CefBrowserSettings _settings;
-        private string _startUrl;
-        private CefClient _client;
-        private CefBrowser _browser;
-        private IntPtr _windowHandle;
+        private readonly CefBrowserSettings _Settings;
+        private CefClient _Client;
+        private CefBrowser _Browser;
+        private IntPtr _BrowserHandle
+            = IntPtr.Zero;
 
-        private bool _created;
-
-        public WebBrowser(object owner, CefBrowserSettings settings, string startUrl)
+        public WebBrowser()
+            : this(new CefBrowserSettings())
         {
-            _owner = owner;
-            _settings = settings;
-            _startUrl = startUrl;
         }
 
-        public string StartUrl
+        public WebBrowser(CefBrowserSettings settings)
         {
-            get { return _startUrl; }
-            set { _startUrl = value; }
+            SetStyle(
+                ControlStyles.ContainerControl | 
+                ControlStyles.ResizeRedraw |
+                ControlStyles.FixedWidth |
+                ControlStyles.FixedHeight | 
+                ControlStyles.StandardClick |
+                ControlStyles.UserMouse | 
+                ControlStyles.SupportsTransparentBackColor |
+                ControlStyles.StandardDoubleClick |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.CacheText |
+                ControlStyles.EnableNotifyMessage | 
+                ControlStyles.DoubleBuffer | 
+                ControlStyles.OptimizedDoubleBuffer | 
+                ControlStyles.UseTextForAccessibility |
+                ControlStyles.Opaque,
+                false);
+
+            SetStyle(
+                ControlStyles.UserPaint | 
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.Selectable,
+                true);
+
+            _Settings = settings;
+            // _Settings.ImageLoading = CefState.Disabled;
+            // _Settings.AcceleratedCompositing = CefState.Disabled;
         }
 
         public CefBrowser CefBrowser
         {
-            get { return _browser; }
+            get { return _Browser; }
         }
 
         public void Create(CefWindowInfo windowInfo)
         {
-            if (_client == null)
-            {
-                _client = new WebClient(this);
-            }
-
-            CefBrowserHost.CreateBrowser(windowInfo, _client, _settings, StartUrl);
+            if (_Client == null)
+                _Client = new WebClient(this);
+            CefBrowserHost.CreateBrowser(windowInfo, _Client, _Settings, "about:blank");
         }
 
-        public event EventHandler Created;
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            if (DesignMode)
+            {
+                // if (!_handleCreated) Paint += PaintInDesignMode;
+            }
+            else
+            {
+                var wi = CefWindowInfo.Create();
+                wi.SetAsChild(Handle,
+                    new CefRectangle(0, 0, Width, Height));
+                Create(wi);
+            }
+        }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            var form = TopLevelControl as Form;
+            if (form != null &&
+                form.WindowState != FormWindowState.Minimized)
+            {
+                ResizeWindow(Width, Height);
+            }
+        }
+
+        #region WebLifeSpanHandler
+        /// <summary>
+        /// 待研
+        /// </summary>
+        //public event EventHandler Created;
+
+        /// <summary>
+        /// 内部方法，用于触发Created事件
+        /// </summary>
         internal void OnCreated(CefBrowser browser)
         {
+            _Browser = browser;
+            _BrowserHandle = _Browser.GetHost().GetWindowHandle();
+            ResizeWindow(Width, Height);
+            /*
             //if (_created) throw new InvalidOperationException("Browser already created.");
-            _created = true;
-            _browser = browser;
-
-            var handler = Created;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            if (Created != null)
+                Created(this, EventArgs.Empty);
+             */
         }
+        #endregion
 
-        internal void Close()
-        {
-            if (_browser != null)
-            {
-                _browser.Dispose();
-                _browser = null;
-            }
-        }
-
+        #region WebDisplayHandler
+        /// <summary>
+        /// 当前页面的标题发生变更
+        /// </summary>
         public event EventHandler<TitleChangedEventArgs> TitleChanged;
 
-        internal void OnTitleChanged(string title)
-        {
-            var handler = TitleChanged;
-            if (handler != null)
-            {
-                handler(this, new TitleChangedEventArgs(title));
-            }
-        }
-
+        /// <summary>
+        /// 当前页面的URL发生变更
+        /// </summary>
         public event EventHandler<AddressChangedEventArgs> AddressChanged;
 
-        internal void OnAddressChanged(string address)
-        {
-            var handler = AddressChanged;
-            if (handler != null)
-            {
-                handler(this, new AddressChangedEventArgs(address));
-            }
-        }
-
+        /// <summary>
+        /// 目标URL发生变更
+        /// </summary>
         public event EventHandler<TargetUrlChangedEventArgs> TargetUrlChanged;
 
+        /// <summary>
+        /// 内部方法，用于触发TitleChanged事件
+        /// </summary>
+        internal void OnTitleChanged(string title)
+        {
+            if (TitleChanged != null)
+                TitleChanged(this, new TitleChangedEventArgs(title));
+        }
+
+        /// <summary>
+        /// 内部方法，用于触发AddressChanged事件
+        /// </summary>
+        internal void OnAddressChanged(string address)
+        {
+            if (AddressChanged != null)
+                AddressChanged(this, new AddressChangedEventArgs(address));
+        }
+
+        /// <summary>
+        /// 内部方法，用于触发TargetUrlChanged事件
+        /// </summary>
         internal void OnTargetUrlChanged(string targetUrl)
         {
-            var handler = TargetUrlChanged;
-            if (handler != null)
-            {
-                handler(this, new TargetUrlChangedEventArgs(targetUrl));
-            }
+            if (TargetUrlChanged != null)
+                TargetUrlChanged(this, new TargetUrlChangedEventArgs(targetUrl));
         }
+        #endregion
 
+        #region WebLoadHandler
+        /// <summary>
+        /// 加载状态发生变更
+        /// </summary>
         public event EventHandler<LoadingStateChangedEventArgs> LoadingStateChanged;
 
+        /// <summary>
+        /// 内部方法，用于触发LoadingStateChanged事件
+        /// </summary>
         internal void OnLoadingStateChanged(bool isLoading, bool canGoBack, bool canGoForward)
         {
-            var handler = LoadingStateChanged;
-            if (handler != null)
+            if (LoadingStateChanged != null)
+                LoadingStateChanged(this, new LoadingStateChangedEventArgs(isLoading, canGoBack, canGoForward));
+        }
+        #endregion
+
+        private void ResizeWindow(int width, int height)
+        {
+            if (_BrowserHandle != IntPtr.Zero)
             {
-                handler(this, new LoadingStateChangedEventArgs(isLoading, canGoBack, canGoForward));
+                NativeMethods.SetWindowPos(
+                    _BrowserHandle, IntPtr.Zero,
+                    0, 0, width, height,
+                    SetWindowPosFlags.NoMove | SetWindowPosFlags.NoZOrder);
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_Browser != null)
+            {
+                var host = _Browser.GetHost();
+                host.CloseBrowser();
+                host.ParentWindowWillClose();
+                host.Dispose();
+                _Browser.Dispose();
+                _Browser = null;
+                _BrowserHandle = IntPtr.Zero;
+            }
+            base.Dispose(disposing);
+        }
+
+        /*
+internal void OnTitleChanged(string title)
+{
+    Title = title;
+
+    var handler = TitleChanged;
+    if (handler != null) handler(this, EventArgs.Empty);
+}
+
+public string Title { get; private set; }
+
+public event EventHandler TitleChanged;
+
+internal void OnAddressChanged(string address)
+{
+    Address = address;
+
+    var handler = AddressChanged;
+    if (handler != null) handler(this, EventArgs.Empty);
+}
+
+public string Address { get; private set; }
+
+public event EventHandler AddressChanged;
+
+internal void OnStatusMessage(string value)
+{
+    var handler = StatusMessage;
+    if (handler != null) handler(this, new StatusMessageEventArgs(value));
+}
+
+public event EventHandler<StatusMessageEventArgs> StatusMessage;
+*/
+
+
+        /*
+        private void PaintInDesignMode(object sender, PaintEventArgs e)
+        {
+            var width = this.Width;
+            var height = this.Height;
+            if (width > 1 && height > 1)
+            {
+                var brush = new SolidBrush(this.ForeColor);
+                var pen = new Pen(this.ForeColor);
+                pen.DashStyle = DashStyle.Dash;
+
+                e.Graphics.DrawRectangle(pen, 0, 0, width - 1, height - 1);
+
+                var fontHeight = (int)(this.Font.GetHeight(e.Graphics) * 1.25);
+
+                var x = 3;
+                var y = 3;
+
+                e.Graphics.DrawString("CefWebBrowser", Font, brush, x, y + (0 * fontHeight));
+                e.Graphics.DrawString(string.Format("StartUrl: {0}", StartUrl), Font, brush, x, y + (1 * fontHeight));
+
+                brush.Dispose();
+                pen.Dispose();
+            }
+        }
+        */
+
+
+        // public WebBrowserCore Browser { get { return _browser; } }
     }
 }

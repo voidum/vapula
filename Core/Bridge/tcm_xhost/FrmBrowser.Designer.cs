@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.TbxURL = new System.Windows.Forms.ToolStripTextBox();
             this.BtBack = new System.Windows.Forms.ToolStripButton();
             this.BtForward = new System.Windows.Forms.ToolStripButton();
             this.BtRefresh = new System.Windows.Forms.ToolStripButton();
+            this.TbxURL = new System.Windows.Forms.ToolStripTextBox();
             this.BtOption = new System.Windows.Forms.ToolStripButton();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
@@ -53,14 +53,6 @@
             this.toolbar.Size = new System.Drawing.Size(284, 26);
             this.toolbar.TabIndex = 0;
             this.toolbar.SizeChanged += new System.EventHandler(this.toolbar_SizeChanged);
-            // 
-            // TbxURL
-            // 
-            this.TbxURL.AutoSize = false;
-            this.TbxURL.Name = "TbxURL";
-            this.TbxURL.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.TbxURL.Size = new System.Drawing.Size(50, 25);
-            this.TbxURL.ToolTipText = "URL";
             // 
             // BtBack
             // 
@@ -91,6 +83,15 @@
             this.BtRefresh.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.BtRefresh.Size = new System.Drawing.Size(23, 22);
             this.BtRefresh.ToolTipText = "Refresh";
+            // 
+            // TbxURL
+            // 
+            this.TbxURL.AutoSize = false;
+            this.TbxURL.Name = "TbxURL";
+            this.TbxURL.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.TbxURL.Size = new System.Drawing.Size(50, 25);
+            this.TbxURL.ToolTipText = "URL";
+            this.TbxURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TbxURL_KeyPress);
             // 
             // BtOption
             // 

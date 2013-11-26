@@ -1,44 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xilium.CefGlue;
+using System.Windows.Forms;
 
 namespace TCM.xHost
 {
     internal sealed class WebClient : CefClient
     {
-        private readonly WebBrowser _core;
-        private readonly WebLifeSpanHandler _lifeSpanHandler;
-        private readonly WebDisplayHandler _displayHandler;
-        private readonly WebLoadHandler _loadHandler;
+        private readonly WebBrowser _Core;
+        private readonly WebLifeSpanHandler _LifeSpanHandler;
+        private readonly WebDisplayHandler _DisplayHandler;
+        private readonly WebLoadHandler _LoadHandler;
 
         public WebClient(WebBrowser core)
         {
-            _core = core;
-            _lifeSpanHandler = new WebLifeSpanHandler(_core);
-            _displayHandler = new WebDisplayHandler(_core);
-            _loadHandler = new WebLoadHandler(_core);
+            _Core = core;
+            _LifeSpanHandler = new WebLifeSpanHandler(_Core);
+            _DisplayHandler = new WebDisplayHandler(_Core);
+            _LoadHandler = new WebLoadHandler(_Core);
         }
 
         protected override CefLifeSpanHandler GetLifeSpanHandler()
         {
-            return _lifeSpanHandler;
+            return _LifeSpanHandler;
         }
 
         protected override CefDisplayHandler GetDisplayHandler()
         {
-            return _displayHandler;
+            return _DisplayHandler;
         }
 
         protected override CefLoadHandler GetLoadHandler()
         {
-            return _loadHandler;
+            return _LoadHandler;
         }
 
-        protected override bool OnProcessMessageReceived(CefBrowser browser, CefProcessId sourceProcess, CefProcessMessage message)
+        protected override bool OnProcessMessageReceived(
+            CefBrowser browser, CefProcessId sourceProcess, CefProcessMessage message)
         {
-            Console.WriteLine("Client::OnProcessMessageReceived: SourceProcess={0}", sourceProcess);
-            Console.WriteLine("Message Name={0} IsValid={1} IsReadOnly={2}", message.Name, message.IsValid, message.IsReadOnly);
+            string msg = string.Format(
+                "Client::OnProcessMessageReceived: SourceProcess={0}", 
+                sourceProcess);
+            MessageBox.Show(msg);
+            msg = string.Format(
+                "Message Name={0} IsValid={1} IsReadOnly={2}", 
+                message.Name, message.IsValid, message.IsReadOnly);
+            MessageBox.Show(msg);
             var arguments = message.Arguments;
             for (var i = 0; i < arguments.Count; i++)
             {
@@ -57,11 +63,10 @@ namespace TCM.xHost
                 Console.WriteLine("  [{0}] ({1}) = {2}", i, type, value);
             }
 
-            if (message.Name == "myMessage2" || message.Name == "myMessage3") return true;
-
+            if (message.Name == "myMessage2" || 
+                message.Name == "myMessage3")
+                return true;
             return false;
         }
-
-
     }
 }

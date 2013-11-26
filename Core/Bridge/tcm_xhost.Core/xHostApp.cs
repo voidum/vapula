@@ -7,7 +7,6 @@ namespace TCM.xHost
     {
         private const string DumpRequestDomain = "dump-request.demoapp.cefglue.xilium.local";
 
-        #region 构造
         protected xHostApp()
         {
         }
@@ -26,12 +25,6 @@ namespace TCM.xHost
         protected virtual void Dispose(bool disposing)
         {
         }
-        #endregion
-
-        public string Name { get { return "Xilium CefGlue Demo"; } }
-        public int DefaultWidth { get { return 800; } }
-        public int DefaultHeight { get { return 600; } }
-        public string HomeUrl { get { return "http://google.com"; } }
 
         public int Run(string[] args)
         {
@@ -40,7 +33,7 @@ namespace TCM.xHost
             var settings = new CefSettings();
             settings.MultiThreadedMessageLoop = CefRuntime.Platform == CefRuntimePlatform.Windows;
             settings.ReleaseDCheckEnabled = true;
-            settings.LogSeverity = CefLogSeverity.Verbose;
+            settings.LogSeverity = CefLogSeverity.Error;
             settings.LogFile = "cef.log";
             settings.ResourcesDirPath = System.IO.Path.GetDirectoryName(new Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).LocalPath);
             settings.RemoteDebuggingPort = 20480;
@@ -62,38 +55,39 @@ namespace TCM.xHost
                 return exitCode;
 
             // guard if something wrong
-            foreach (var arg in args) { if (arg.StartsWith("--type=")) { return -2; } }
+            foreach (var arg in args) 
+            { if (arg.StartsWith("--type=")) { return -2; } }
 
             CefRuntime.Initialize(mainArgs, settings, app);
 
             // register custom scheme handler
-            CefRuntime.RegisterSchemeHandlerFactory("http", DumpRequestDomain, new DemoAppSchemeHandlerFactory());
+            CefRuntime.RegisterSchemeHandlerFactory("http", DumpRequestDomain, new xHostSchemeHandlerFactory());
             // CefRuntime.AddCrossOriginWhitelistEntry("http://localhost", "http", "", true);
 
-            PlatformInitialize();
+            Initialize();
 
             IView view = CreateView();
-            PlatformRunMessageLoop();
+            RunMessageLoop();
             view.Dispose();
 
             CefRuntime.Shutdown();
 
-            PlatformShutdown();
+            Shutdown();
             return 0;
         }
 
         public void Quit()
         {
-            PlatformQuitMessageLoop();
+            QuitMessageLoop();
         }
 
-        protected abstract void PlatformInitialize();
+        protected abstract void Initialize();
 
-        protected abstract void PlatformShutdown();
+        protected abstract void Shutdown();
 
-        protected abstract void PlatformRunMessageLoop();
+        protected abstract void RunMessageLoop();
 
-        protected abstract void PlatformQuitMessageLoop();
+        protected abstract void QuitMessageLoop();
 
         protected abstract IView CreateView();
     }

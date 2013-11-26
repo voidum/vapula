@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xilium.CefGlue;
+﻿using Xilium.CefGlue;
 
 namespace TCM.xHost
 {
     internal sealed class WebLoadHandler : CefLoadHandler
     {
-        private readonly WebBrowser _core;
+        private readonly WebBrowser _Core;
 
         public WebLoadHandler(WebBrowser core)
         {
-            _core = core;
+            _Core = core;
         }
 
         protected override void OnLoadingStateChange(CefBrowser browser, bool isLoading, bool canGoBack, bool canGoForward)
         {
-            _core.OnLoadingStateChanged(isLoading, canGoBack, canGoForward);
+            _Core.OnLoadingStateChanged(isLoading, canGoBack, canGoForward);
         }
     }
 }

@@ -50,11 +50,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Control\CefWebBrowser.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Control\CefWebView.cs" />
-    <Compile Include="Control\NativeMethods.cs" />
     <Compile Include="FrmBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,9 +98,9 @@
     <None Include="Resource\stop.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\tcm_xhost.Core\tcm_xhost.Core.csproj">
+    <ProjectReference Include="..\tcm_xhost.Core\tcm_xhost.core.csproj">
       <Project>{BFB12933-284A-4950-9058-47966E77B77E}</Project>
-      <Name>tcm_xhost.Core</Name>
+      <Name>tcm_xhost.core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

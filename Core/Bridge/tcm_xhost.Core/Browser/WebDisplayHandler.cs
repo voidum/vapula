@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xilium.CefGlue;
+﻿using Xilium.CefGlue;
 
 namespace TCM.xHost
 {
     internal sealed class WebDisplayHandler : CefDisplayHandler
     {
-        private readonly WebBrowser _core;
+        private readonly WebBrowser _Core;
 
         public WebDisplayHandler(WebBrowser core)
         {
-            _core = core;
+            _Core = core;
         }
 
-        protected override void  OnTitleChange(CefBrowser browser, string title)
+        protected override void OnTitleChange(CefBrowser browser, string title)
         {
-            _core.OnTitleChanged(title);
+            _Core.OnTitleChanged(title);
         }
 
         protected override void OnAddressChange(CefBrowser browser, CefFrame frame, string url)
         {
             if (frame.IsMain)
             {
-                _core.OnAddressChanged(url);
+                _Core.OnAddressChanged(url);
             }
         }
 
         protected override void OnStatusMessage(CefBrowser browser, string value)
         {
-            _core.OnTargetUrlChanged(value);
+            _Core.OnTargetUrlChanged(value);
         }
 
         protected override bool OnTooltip(CefBrowser browser, string text)
         {
-        	Console.WriteLine("OnTooltip: {0}", text);
+            //_Core.OnTooltip(text);
         	return false;
         }
     }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace TCM.xHost
 {
@@ -112,6 +110,9 @@ namespace TCM.xHost
     {
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        public static extern bool SetWindowPos(
+            IntPtr hWnd, IntPtr hWndInsertAfter, 
+            int X, int Y, int cx, int cy, 
+            SetWindowPosFlags uFlags);
     }
 }

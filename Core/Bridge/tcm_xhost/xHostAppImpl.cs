@@ -4,22 +4,22 @@ namespace TCM.xHost
 {
     class xHostAppImpl : xHostApp
     {
-        protected override void PlatformInitialize()
+        protected override void Initialize()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
         }
 
-        protected override void PlatformShutdown()
+        protected override void Shutdown()
         {
         }
 
-        protected override void PlatformRunMessageLoop()
+        protected override void RunMessageLoop()
         {
             Application.Run();
         }
 
-        protected override void PlatformQuitMessageLoop()
+        protected override void QuitMessageLoop()
         {
             Application.Exit();
         }
@@ -27,6 +27,7 @@ namespace TCM.xHost
         protected override IView CreateView()
         {
             FrmBrowser form = new FrmBrowser();
+            form.Show();
             return form;
         }
     }

@@ -60,7 +60,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_model", "..\Model\tcm_m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost", "Bridge\tcm_xhost\tcm_xhost.csproj", "{5B079BFB-19F2-492D-B163-EE7B373B69ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost.Core", "Bridge\tcm_xhost.core\tcm_xhost.Core.csproj", "{BFB12933-284A-4950-9058-47966E77B77E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost.core", "Bridge\tcm_xhost.Core\tcm_xhost.core.csproj", "{BFB12933-284A-4950-9058-47966E77B77E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

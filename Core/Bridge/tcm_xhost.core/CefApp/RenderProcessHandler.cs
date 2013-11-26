@@ -3,7 +3,7 @@ using Xilium.CefGlue;
 
 namespace TCM.xHost
 {
-    class DemoRenderProcessHandler : CefRenderProcessHandler
+    public class RenderProcessHandler : CefRenderProcessHandler
     {
         protected override bool OnProcessMessageReceived(CefBrowser browser, CefProcessId sourceProcess, CefProcessMessage message)
         {
