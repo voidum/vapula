@@ -31,7 +31,7 @@ namespace TCM.xHost
             CefRuntime.Load();
 
             var settings = new CefSettings();
-            settings.MultiThreadedMessageLoop = CefRuntime.Platform == CefRuntimePlatform.Windows;
+            settings.MultiThreadedMessageLoop = (CefRuntime.Platform == CefRuntimePlatform.Windows);
             settings.ReleaseDCheckEnabled = true;
             settings.LogSeverity = CefLogSeverity.Error;
             settings.LogFile = "cef.log";

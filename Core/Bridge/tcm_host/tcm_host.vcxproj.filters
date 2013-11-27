@@ -39,14 +39,11 @@
     <ClInclude Include="worker_null.h">
       <Filter>头文件\task</Filter>
     </ClInclude>
-    <ClInclude Include="worker_pipe.h">
-      <Filter>头文件\task</Filter>
-    </ClInclude>
-    <ClInclude Include="worker_scp_lua.h">
-      <Filter>头文件\task</Filter>
-    </ClInclude>
     <ClInclude Include="tcm_task.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="worker_pipe.h">
+      <Filter>头文件\task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,14 +59,11 @@
     <ClCompile Include="worker_null.cpp">
       <Filter>源文件\task</Filter>
     </ClCompile>
-    <ClCompile Include="worker_pipe.cpp">
-      <Filter>源文件\task</Filter>
-    </ClCompile>
-    <ClCompile Include="worker_scp_lua.cpp">
-      <Filter>源文件\task</Filter>
-    </ClCompile>
     <ClCompile Include="tcm_task.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="worker_pipe.cpp">
+      <Filter>源文件\task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worker_pipe.h"
 
-#include "tcm_Invoker.h"
+#include "tcm_invoker.h"
 #include "tcm_xml.h"
 #include "tcm_config.h"
 

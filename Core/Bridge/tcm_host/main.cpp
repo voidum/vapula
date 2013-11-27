@@ -57,8 +57,6 @@ int APIENTRY wWinMain(
 			worker = new Worker_NULL(); break;
 		case TCM_HOST_CJ_PIPE:
 			worker = new Worker_PIPE(); break;
-		case TCM_HOST_CJ_SCP_LUA:
-			worker = new Worker_SCP_LUA(); break;
 	}
 	bool ret = task->RunAs(worker);
 	
