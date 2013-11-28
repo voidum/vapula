@@ -27,6 +27,4 @@
         /// </summary>
         void ClearLog();
     }
-
-
 }

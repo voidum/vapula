@@ -64,8 +64,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost", "Bridge\tcm_xho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcm_xhost.core", "Bridge\tcm_xhost.Core\tcm_xhost.core.csproj", "{BFB12933-284A-4950-9058-47966E77B77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -262,18 +260,6 @@ Global
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|Win32.ActiveCfg = Release|Any CPU
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|x86.ActiveCfg = Release|Any CPU
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|Win32.ActiveCfg = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|x86.ActiveCfg = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Debug|x86.Build.0 = Debug|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|Any CPU.ActiveCfg = Release|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|Mixed Platforms.Build.0 = Release|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|Win32.ActiveCfg = Release|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|x86.ActiveCfg = Release|x86
-		{5C0983D4-05EA-4000-A3AA-BCD2CD916B21}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

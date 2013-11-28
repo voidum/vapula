@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<script>
+  <context>
+    <src>~</src>
+    <dst>~</dst>
+  </context>
+  <commands>
+    <command type="0">
+      <dir>Publish\Core\cpp\include</dir>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_base.h</src>
+      <dst>Publish\Core\cpp\include\tcm_base.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_bridge_c.h</src>
+      <dst>Publish\Core\cpp\include\tcm_bridge_c.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_candy.h</src>
+      <dst>Publish\Core\cpp\include\tcm_candy.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_config.h</src>
+      <dst>Publish\Core\cpp\include\tcm_config.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_const.h</src>
+      <dst>Publish\Core\cpp\include\tcm_const.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_context.h</src>
+      <dst>Publish\Core\cpp\include\tcm_context.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_dev_drv.h</src>
+      <dst>Publish\Core\cpp\include\tcm_dev_drv.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_dev_lib.h</src>
+      <dst>Publish\Core\cpp\include\tcm_dev_lib.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_driver.h</src>
+      <dst>Publish\Core\cpp\include\tcm_driver.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_envelope.h</src>
+      <dst>Publish\Core\cpp\include\tcm_envelope.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_invoker.h</src>
+      <dst>Publish\Core\cpp\include\tcm_invoker.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_library.h</src>
+      <dst>Publish\Core\cpp\include\tcm_library.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_log.h</src>
+      <dst>Publish\Core\cpp\include\tcm_log.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_pipe.h</src>
+      <dst>Publish\Core\cpp\include\tcm_pipe.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_time.h</src>
+      <dst>Publish\Core\cpp\include\tcm_time.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_token.h</src>
+      <dst>Publish\Core\cpp\include\tcm_token.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_translator.h</src>
+      <dst>Publish\Core\cpp\include\tcm_translator.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\tcm_bridge\include\tcm_xml.h</src>
+      <dst>Publish\Core\cpp\include\tcm_xml.h</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\Core\cpp\lib\debug</dir>
+    </command>
+    <command type="0">
+      <dir>Publish\Core\cpp\lib\release</dir>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\tcm_bridge.lib</src>
+      <dst>Publish\Core\cpp\lib\debug\tcm_bridge.lib</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\tcm_bridge.lib</src>
+      <dst>Publish\Core\cpp\lib\release\tcm_bridge.lib</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\Core\bin\debug</dir>
+    </command>
+    <command type="0">
+      <dir>Publish\Core\bin\release</dir>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\tcm_bridge.dll</src>
+      <dst>Publish\Core\bin\debug\tcm_bridge.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\tcm_host.exe</src>
+      <dst>Publish\Core\bin\debug\tcm_host.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\clr.tcm.driver</src>
+      <dst>Publish\Core\bin\debug\clr.tcm.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\crt.tcm.driver</src>
+      <dst>Publish\Core\bin\debug\crt.tcm.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\sample_lib.dll</src>
+      <dst>Publish\Core\bin\debug\sample_lib.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Debug\sample_invoker.exe</src>
+      <dst>Publish\Core\bin\debug\sample_invoker.exe</dst>
+    </command>
+
+    <command type="1">
+      <src>Core\OutDir\Release\tcm_bridge.dll</src>
+      <dst>Publish\Core\bin\release\tcm_bridge.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\tcm_host.exe</src>
+      <dst>Publish\Core\bin\release\tcm_host.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\clr.tcm.driver</src>
+      <dst>Publish\Core\bin\release\clr.tcm.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\crt.tcm.driver</src>
+      <dst>Publish\Core\bin\release\crt.tcm.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\sample_lib.dll</src>
+      <dst>Publish\Core\bin\release\sample_lib.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\sample_invoker.exe</src>
+      <dst>Publish\Core\bin\release\sample_invoker.exe</dst>
+    </command>
+  </commands>
+</script>

@@ -64,7 +64,6 @@
     <Compile Include="CefApp\RenderProcessHandler.cs" />
     <Compile Include="SchemeHandler\xHostSchemeHandlerFactory.cs" />
     <Compile Include="SchemeHandler\DumpRequestResourceHandler.cs" />
-    <Compile Include="WebBrowserState.cs" />
     <Compile Include="xHostApp.cs">
       <SubType>Code</SubType>
     </Compile>
