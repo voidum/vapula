@@ -9,6 +9,12 @@
 
 #include "windows.h" //#IFDEF
 
+#ifdef TCM_BRIDGE_EXPORTS
+#define TCM_BRIDGE_API __declspec(dllexport)
+#else
+#define TCM_BRIDGE_API
+#endif
+
 namespace tcm
 {
 	//using namespace

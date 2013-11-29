@@ -3,8 +3,8 @@
 [Ii]ntDir/
 [Oo]utDir/
 [Oo]bj/
+3rdparty/
 [Pp]ublish/
-CEF/
 
 ## SVN
 .svn/

@@ -9,8 +9,7 @@ namespace tcm
 
 		object Load(strw path, str& data)
 		{
-			std::locale::global(std::locale(""));
-			str path_a = WcToMb(path, CP_OEMCP);
+			str path_a = WcToMb(path);
 			if(path_a == null) return null;
 			data = null;
 			try

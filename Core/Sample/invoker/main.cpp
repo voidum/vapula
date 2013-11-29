@@ -115,7 +115,7 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load(L"E:\\Projects\\vapula\\Core\\OutDir\\debug-vc10\\sample_lib.tcm.xml");
+	Library* lib = Library::Load(L"E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.tcm.xml");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";

@@ -59,17 +59,20 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TCM_BRIDGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)3rdparty/icu/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdparty/icu/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>icuuc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -112,6 +115,7 @@
     <ClInclude Include="include\tcm_log.h" />
     <ClInclude Include="include\tcm_driver.h" />
     <ClInclude Include="include\tcm_pipe.h" />
+    <ClInclude Include="include\tcm_string.h" />
     <ClInclude Include="include\tcm_time.h" />
     <ClInclude Include="include\tcm_token.h" />
     <ClInclude Include="include\tcm_translator.h" />
@@ -132,6 +136,7 @@
     <ClCompile Include="src\tcm_invoker.cpp" />
     <ClCompile Include="src\tcm_log.cpp" />
     <ClCompile Include="src\tcm_pipe.cpp" />
+    <ClCompile Include="src\tcm_string.cpp" />
     <ClCompile Include="src\tcm_time.cpp" />
     <ClCompile Include="src\tcm_token.cpp" />
     <ClCompile Include="src\tcm_translator.cpp" />

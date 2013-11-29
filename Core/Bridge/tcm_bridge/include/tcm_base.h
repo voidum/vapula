@@ -2,13 +2,8 @@
 
 #pragma warning(disable:4251) //禁用DLL模板警告
 
-#ifdef TCM_BRIDGE_EXPORTS
-#define TCM_BRIDGE_API __declspec(dllexport)
-#else
-#define TCM_BRIDGE_API
-#endif
-
 #include "tcm_const.h"
+#include "tcm_string.h"
 
 namespace tcm
 {
@@ -26,28 +21,6 @@ namespace tcm
 
 	//获得指定TCM类型的字节长度
 	TCM_BRIDGE_API int GetTypeUnit(int type);
-
-	//转换多字节到宽字节
-	//转换到宽字节默认使用UTF8编码
-	TCM_BRIDGE_API strw MbToWc(str src, uint32 cp = 65001);
-
-	//转换宽字节到多字节
-	//转换到多字节默认使用UTF8编码
-	TCM_BRIDGE_API str WcToMb(strw src, uint32 cp = 65001);
-
-	//修正编码
-	//将多字节经过指定中间编码转换成指定最终编码
-	TCM_BRIDGE_API str FixEncoding(str src, uint32 cp_by = 65001, uint32 cp_to = 1);
-
-	//将给定多字节字符串中所有指定子串替换为目标
-	TCM_BRIDGE_API str ReplaceStrA(str src, str from, str to);
-
-	//将给定宽字节字符串中所有指定子串替换为目标
-	TCM_BRIDGE_API strw ReplaceStrW(strw src, strw from, strw to);
-
-	//复制字符串，返回副本字符串地址
-	TCM_BRIDGE_API str CopyStrA(str src);
-	TCM_BRIDGE_API strw CopyStrW(strw src);
 
 	//转换数值到多字节字符串
 	template<typename T>

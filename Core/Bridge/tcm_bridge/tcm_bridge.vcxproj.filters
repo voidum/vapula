@@ -108,6 +108,9 @@
     <ClInclude Include="include\tcm_const.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
+    <ClInclude Include="include\tcm_string.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -159,6 +162,9 @@
       <Filter>源文件\core</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_string.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
   </ItemGroup>
