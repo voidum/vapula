@@ -103,7 +103,7 @@ void Test3(Library* lib)
 	Context* ctx = inv->GetContext();
 	Envelope* env = inv->GetEnvelope();
 	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
-	std::wcout<<L"param 1:"<<env->Read<PCWSTR>(1)<<L"\n";
+	ShowMsgStr(env->Read<PCWSTR>(1));
 }
 
 int main()

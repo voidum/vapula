@@ -21,16 +21,4 @@ namespace tcm
 
 	//将给定宽字节字符串中所有指定子串替换为目标
 	TCM_BRIDGE_API strw ReplaceStrW(strw src, strw from, strw to);
-
-	//字符串
-	class TCM_BRIDGE_API String
-	{
-	public:
-		String();
-		~String();
-	private:
-		uint64 _Length;
-		byte* _Data;
-		bool _IsUTF8;
-	};
 }

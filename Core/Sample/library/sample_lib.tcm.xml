@@ -32,7 +32,7 @@
       <description>输出一个字符串</description>
       <name>输出示例</name>
       <params>
-        <param id="1" type="22" in="false">
+        <param id="1" type="21" in="false">
           <description>输出的字符串</description>
           <name>输出</name>
           <catalog>输出</catalog>

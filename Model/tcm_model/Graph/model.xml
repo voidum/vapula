@@ -14,7 +14,6 @@
           <sender></sender>
         </param>
       </params>
-      <config></config>
     </node>
   </nodes>
   <links>

@@ -22,8 +22,10 @@ namespace tcm
 		static Config* GetInstance();
 	private:
 		Flag* _Flag;
+		int _test;
 	public:
 		Flag* GetFlag();
+		int GetTest() { return _test; }
 	public:
 		bool IsSilent();
 		bool IsRealTimeMonitor();
