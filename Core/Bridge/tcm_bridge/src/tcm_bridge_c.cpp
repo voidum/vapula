@@ -274,41 +274,33 @@ void tcmCastDeliverEnvelope(object src_env, object dst_env, int from, int to)
 	src->CastDeliver(dst, from, to);
 }
 
-//Design the following
-
 object tcmCreatePipe()
 {
 	tcm::Pipe* pipe = new tcm::Pipe();
 	return pipe;
 }
 
-strw tcmListenPipe(object pipe)
+str tcmListenPipe(object pipe)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
 	if(!obj->Listen()) return null;
 	return obj->GetPipeId();
 }
 
-int tcmGetPipeFlag(object pipe, int action)
+void tcmClosePipe(object pipe)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
-	return obj->GetFlag(action) ? TRUE : FALSE;
+	obj->Close();
 }
 
-void tcmSetPipeFlag(object pipe, int action, int value)
+void tcmWritePipe(object pipe, strw value)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
-	obj->SetFlag(action, value == TRUE);
+	obj->Write(value);
 }
 
-void tcmWritePipe(object pipe, object value, uint32 size)
+strw tcmReadPipe(object pipe)
 {
 	tcm::Pipe* obj = (tcm::Pipe*)pipe;
-	obj->Write(value, size);
-}
-
-void tcmReadPipe(object pipe, object data)
-{
-	tcm::Pipe* obj = (tcm::Pipe*)pipe;
-	obj->Read(data);
+	return obj->Read();
 }

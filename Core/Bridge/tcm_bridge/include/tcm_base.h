@@ -19,10 +19,7 @@ namespace tcm
 		}
 	}
 
-	//获得指定TCM类型的字节长度
-	TCM_BRIDGE_API int GetTypeUnit(int type);
-
-	//转换数值到多字节字符串
+	//转换数值到窄字符串
 	template<typename T>
 	TCM_BRIDGE_API str ValueToStr(T value)
 	{
@@ -44,14 +41,13 @@ namespace tcm
 			dst[i++] = *iter;
 		return dst;
 	}
-	
-	//生成一个随机HEX字符串
-	TCM_BRIDGE_API str GetRandomHexA(int len);
-	TCM_BRIDGE_API strw GetRandomHexW(int len);
 
-	//生成时间字符串
-	TCM_BRIDGE_API str GetTimeStrA();
-	TCM_BRIDGE_API strw GetTimeStrW();
+	//获得指定TCM类型的字节长度
+	TCM_BRIDGE_API int GetTypeUnit(int type);
+
+	//生成本地唯一标识字符串
+	TCM_BRIDGE_API str GetLuidA();
+	TCM_BRIDGE_API strw GetLuidW();
 
 	//显示简易的信息框，值内容
 	template<typename T>

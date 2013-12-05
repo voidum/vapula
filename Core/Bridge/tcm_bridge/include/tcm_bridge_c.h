@@ -65,9 +65,8 @@ extern "C"
 
 	//Pipe
 	TCM_BRIDGE_API object tcmCreatePipe();
-	TCM_BRIDGE_API strw tcmListenPipe(object pipe);
-	TCM_BRIDGE_API int tcmGetPipeFlag(object pipe, int action);
-	TCM_BRIDGE_API void tcmSetPipeFlag(object pipe, int action, int value);
-	TCM_BRIDGE_API void tcmWritePipe(object pipe, object value, uint32 size);
-	TCM_BRIDGE_API void tcmReadPipe(object pipe, object data);
+	TCM_BRIDGE_API str tcmListenPipe(object pipe);
+	TCM_BRIDGE_API void tcmClosePipe(object pipe);
+	TCM_BRIDGE_API void tcmWritePipe(object pipe, strw value);
+	TCM_BRIDGE_API strw tcmReadPipe(object pipe);
 }

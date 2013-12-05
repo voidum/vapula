@@ -33,64 +33,29 @@ namespace tcm
 		}
 	}
 
-	str GetRandomHexA(int len)
+	str GetLuidA()
 	{
-		string hex = "";
-		srand((uint32)time(0));
-		int i,j;
-		for (i=0; i<len; i++)
+		std::ostringstream oss;
+		oss.imbue(std::locale("C"));
+		const time_t t = time(null);
+		tm* ct = localtime(&t);
+
+		oss<<"TCM_"<<ct->tm_year<<ct->tm_mon<<ct->tm_yday;
+		oss<<ct->tm_hour<<ct->tm_min<<ct->tm_sec<<"_";
+
+		for(int8 i=0; i<5; i++)
 		{
-			int c;
-			j = (int)(16.0 * rand() / (RAND_MAX + 1.0));
-			if(j < 10) c = j + 48;
-			else c = j + 87;
-			hex += ((char)c);
+			int rnd = rand() % 10;
+			oss<<rnd;
 		}
-		str ret = CopyStrA(hex.c_str());
-		return ret;
+		return CopyStrA(oss.str().c_str());
 	}
 
-	strw GetRandomHexW(int len)
+	strw GetLuidW()
 	{
-		str tmp = GetRandomHexA(len);
-		strw ret = MbToWc(tmp);
-		delete tmp;
-		return ret;
-	}
-
-	str GetTimeStrA()
-	{
-		SYSTEMTIME time;
-		str tmp = null;
-		string str;
-
-		GetLocalTime(&time);
-		tmp = ValueToStr(time.wYear);
-		str += tmp; delete tmp;
-		if(time.wMonth < 10) str += "0";
-		tmp = ValueToStr(time.wMonth);
-		str += tmp; delete tmp;
-		if(time.wDay < 10) str += "0";
-		tmp = ValueToStr(time.wDay);
-		str += tmp; delete tmp;
-		if(time.wHour < 10) str += "0";
-		tmp = ValueToStr(time.wHour);
-		str += tmp; delete tmp;
-		if(time.wMinute < 10) str += "0";
-		tmp = ValueToStr(time.wMinute);
-		str += tmp; delete tmp;
-		if(time.wSecond < 10) str += "0";
-		tmp = ValueToStr(time.wSecond);
-		str += tmp; delete tmp;
-		tmp = CopyStrA(str.c_str());
-		return tmp;
-	}
-
-	strw GetTimeStrW()
-	{
-		str tmp = GetTimeStrA();
-		strw ret = MbToWc(tmp);
-		delete tmp;
+		str guid = GetLuidA();
+		strw ret = MbToWc(guid, "utf8");
+		delete guid;
 		return ret;
 	}
 

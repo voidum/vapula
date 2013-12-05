@@ -81,9 +81,6 @@
     <ClInclude Include="include\tcm_dev_drv.h">
       <Filter>头文件\sdk</Filter>
     </ClInclude>
-    <ClInclude Include="include\tcm_pipe.h">
-      <Filter>头文件\utility</Filter>
-    </ClInclude>
     <ClInclude Include="include\tcm_log.h">
       <Filter>头文件\utility</Filter>
     </ClInclude>
@@ -110,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="include\tcm_string.h">
       <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tcm_pipe.h">
+      <Filter>头文件\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +146,6 @@
     <ClCompile Include="src\tcm_log.cpp">
       <Filter>源文件\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_pipe.cpp">
-      <Filter>源文件\utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\tcm_time.cpp">
       <Filter>源文件\utility</Filter>
     </ClCompile>
@@ -166,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="src\tcm_string.cpp">
       <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_pipe.cpp">
+      <Filter>源文件\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@
 #include <ctime>
 #include <random>
 #include <stdexcept>
+#include <ctime>
 
 #include "windows.h" //#IFDEF
 

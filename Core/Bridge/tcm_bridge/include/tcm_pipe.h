@@ -2,8 +2,8 @@
 
 #include "tcm_base.h"
 
-#define TCM_MMF_DATASIZE 4096
-#define TCM_MMF_PRTCSIZE 32
+#define TCM_PIPE_DATASIZE 1024
+#define TCM_PIPE_PRTCSIZE 15
 
 namespace tcm
 {
@@ -14,52 +14,56 @@ namespace tcm
 		Pipe();
 		~Pipe();
 	private:
-		int _DataVol;
 		str _Id;
-		HANDLE _Mapping;
 		object _Data;
+		object _Mapping;
+		uint32 _Volume;
  		bool _IsServer;
+
+	//物理实现
 	private:
-		bool CreateMMF(UINT vol);
-		void CloseMMF();
-		bool BeginUpdate();
-		void EndUpdate();
-	public:
+		bool _CreateMapping(uint32 vol);
+		void _CloseMapping();
+		bool _BeginUpdate();
+		void _EndUpdate();
+	
+	//协议
+	private:
+		uint8 GetFlag(uint32 offset);
+		void SetFlag(uint32 offset, uint8 value);
+		uint32 GetValue(uint32 offset);
+		void SetValue(uint32 offset, uint32 value);
+
+	//链路
+	public: 
 		//获取信道标识;
 		str GetPipeId();
 
 		//获取数据容量
-		int GetDataVol();
+		int GetVolume();
 		
-		//启动监听，可以指定信道容量
-		bool Listen(UINT vol = TCM_MMF_DATASIZE);
+		//启动监听
+		//可指定信道的数据容量
+		bool Listen(uint32 vol = TCM_PIPE_DATASIZE);
 
 		//连接指定的信道
 		bool Connect(str pid);
 
+		//关闭信道
+		void Close();
+
+	//应用
+	public:
 		//检查新消息
 		bool HasNewData();
+
+		//获取可读有效数据的大小
+		uint32 GetReadSize();
 
 		//写入数据
 		void Write(strw data);
 
 		//读取数据
-		//同时可以获取数据标识
-		strw Read(int* id);
-	private:
-		//获取数据标志
-		BYTE GetFlag(int action);
-
-		//设置数据标志
-		void SetFlag(int action, int value = 0);
-
-		//获取可读有效数据的大小
-		UINT GetReadSize();
-
-		//等待读取数据
-		LPVOID WaitRead(int time = 0);
-
-		//等待数据已读
-		bool BeenRead(int time = 0);
+		strw Read();
 	};
 }

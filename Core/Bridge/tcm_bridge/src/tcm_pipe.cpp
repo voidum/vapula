@@ -5,187 +5,178 @@ namespace tcm
 {
 	Pipe::Pipe()
 	{
-		_Mapping = NULL;
-		_Id = NULL;
-		_Data = NULL;
-		_DataVol = 0;
+		_Mapping = null;
+		_Id = null;
+		_Data = null;
+		_Volume = 0;
 	}
 
 	Pipe::~Pipe()
 	{
-		CloseMMF();
+		_CloseMapping();
 	}
 
-	bool Pipe::CreateMMF(UINT vol)
+	bool Pipe::_CreateMapping(uint32 vol)
 	{
-		std::wstring id;
-		std::wstring str;
-		int trytimes = 0;
+		int ntry = 0;
 		do
 		{
-			if(trytimes++ > 20) return false;
-			PCWSTR tmp = GetRandomHexW(6); id = tmp; delete tmp;
-			id += L"_";
-			tmp = GetTimeStrW(); id += tmp; delete tmp;
-			str = id + L"_TCM_PIPE";
-			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,vol,str.c_str());
+			Clear(_Id);
+			if(ntry++ > 10) return false;
+			_Id = GetLuidA();
+			strw tmp = MbToWc(_Id);
+			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, vol, tmp);
+			delete tmp;
 		} while (GetLastError() != ERROR_SUCCESS);
-		_Id = CopyStrW(id.c_str());
 		return true;
 	}
 
-	void Pipe::CloseMMF()
+	void Pipe::_CloseMapping()
 	{
-		if(_IsServer) SetFlag(TCM_PIPE_GLOBAL, 0);
-		EndUpdate();
-		if(_Mapping != NULL)
+		_EndUpdate();
+		if(_Mapping != null)
 		{
 			CloseHandle(_Mapping);
-			_Mapping = NULL;
-		}
-		if(_Id != NULL)
-		{
-			delete _Id;
-			_Id = NULL;
+			_Mapping = null;
 		}
 	}
 
-	bool Pipe::BeginUpdate()
+	bool Pipe::_BeginUpdate()
 	{
-		if(_Mapping == NULL) return false;
+		if(_Mapping == null)
+			return false;
 		_Data = MapViewOfFile(_Mapping, FILE_MAP_READ|FILE_MAP_WRITE, 0, 0, 0);
-		return (_Data != NULL);
+		return (_Data != null);
 	}
 
-	void Pipe::EndUpdate()
+	void Pipe::_EndUpdate()
 	{
-		if(_Data != NULL) UnmapViewOfFile(_Data);
+		if(_Data != null) 
+			UnmapViewOfFile(_Data);
 	}
 
-	PCWSTR Pipe::GetPipeId()
+	uint8 Pipe::GetFlag(uint32 offset)
+	{
+		if(_Data == null)
+			return false;
+		uint8 v = *(uint8*)((uint32)_Data + offset);
+		return v;
+	}
+
+	void Pipe::SetFlag(uint32 offset, uint8 value)
+	{
+		if(_Data != null) 
+			*(uint8*)((uint32)_Data + offset) = value;
+	}
+
+	uint32 Pipe::GetValue(uint32 offset)
+	{
+		if(_Data == null)
+			return false;
+		uint32 v = *(uint32*)((uint32)_Data + offset);
+		return v;
+	}
+
+	void Pipe::SetValue(uint32 offset, uint32 value)
+	{
+		if(_Data != null) 
+			*(uint32*)((uint32)_Data + offset) = value;
+	}
+
+	str Pipe::GetPipeId()
 	{
 		return _Id;
 	}
 
-	int Pipe::GetDataVol()
+	int Pipe::GetVolume()
 	{
-		return _DataVol;
+		return _Volume;
 	}
 
-	BYTE Pipe::GetFlag(int action)
+	bool Pipe::Listen(uint32 vol)
 	{
-		if(_Data == NULL) return false;
-		BYTE flag = ((BYTE*)_Data)[action];
-		return flag;
-	}
-
-	void Pipe::SetFlag(int action, int value)
-	{
-		if(_Data == NULL) return;
-		((BYTE*)_Data)[action] = value;
-	}
-
-	bool Pipe::Listen(UINT vol)
-	{
-		if(vol < 2) return false;
-		CloseMMF();
+		if(vol < 1) 
+			return false;
+		Close();
 		_IsServer = true;
-		_DataVol = vol;
-		UINT size = vol * 2 + TCM_MMF_PRTCSIZE;
-		if(!CreateMMF(size)) return false;
-		if(!BeginUpdate()) return false;
+		_Volume = vol;
+		uint32 size = vol * 2 + TCM_PIPE_PRTCSIZE;
+		if(!_CreateMapping(size))
+			return false;
+		if(!_BeginUpdate())
+			return false;
+		SetFlag(0, 1);
 		return true;
 	}
 
-	bool Pipe::Connect(PCWSTR pid)
+	bool Pipe::Connect(str pid)
 	{
-		CloseMMF();
+		Close();
 		_IsServer = false;
-		std::wstring str = pid;
-		str += L"_TCM_PIPE";
-		_Mapping = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, str.c_str());
-		if(GetLastError() != ERROR_SUCCESS) return false;
-		if(!BeginUpdate()) return false;
-		_Id = CopyStrW(pid);
+		_Id = CopyStrA(pid);
+		strw tmp = MbToWc(_Id);
+		_Mapping = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, tmp);
+		if(GetLastError() != ERROR_SUCCESS)
+			return false;
+		if(!_BeginUpdate()) 
+			return false;
+		_Volume = GetValue(2);
 		return true;
 	}
 
-	void Pipe::Write(LPVOID value, UINT size)
+	void Pipe::Close()
 	{
-		//if(size > _DataVol) return;
-		//TODO: Connect方式无法确定Vol，可以调整协议以适应容量全不定MMF
-		if(_IsServer)
-		{
-			((UINT*)((UINT)_Data + TCM_PIPE_S2C + 1))[0] = size;
-			memcpy((LPVOID)((UINT)_Data + TCM_MMF_PRTCSIZE), value, size);
-			SetFlag(TCM_PIPE_S2C, 1);
-		}
-		else
-		{
-			((UINT*)((UINT)_Data + TCM_PIPE_C2S + 1))[0] = size;
-			memcpy((LPVOID)((UINT)_Data + TCM_MMF_PRTCSIZE + TCM_MMF_DATASIZE), value, size);
-			SetFlag(TCM_PIPE_C2S, 1);
-		}
+		if(_IsServer) 
+			SetFlag(0, 0);
+		_CloseMapping();
+		Clear(_Id);
 	}
 
-	void Pipe::Read(LPVOID data)
+	bool Pipe::HasNewData()
 	{
-		if(_IsServer)
-		{
-			UINT size = ((UINT*)((UINT)_Data + TCM_PIPE_C2S + 1))[0];
-			memcpy(data, (LPVOID)((UINT)_Data + TCM_MMF_PRTCSIZE + TCM_MMF_DATASIZE), size);
-			SetFlag(TCM_PIPE_C2S, 0);
-		}
-		else
-		{
-			UINT size = ((UINT*)((UINT)_Data + TCM_PIPE_S2C + 1))[0];
-			memcpy(data, (LPVOID)((UINT)_Data + TCM_MMF_PRTCSIZE), size);
-			SetFlag(TCM_PIPE_S2C, 0);
-		}
+		uint8 flag = GetFlag(_IsServer ? 2 : 1);
+		return (flag != 0);
 	}
 
-	UINT Pipe::GetReadSize()
+	uint32 Pipe::GetReadSize()
 	{
-		UINT size = 0;
-		if(_IsServer)
-			size = ((UINT*)((UINT)_Data + TCM_PIPE_C2S + 1))[0];
-		else
-			size = ((UINT*)((UINT)_Data + TCM_PIPE_S2C + 1))[0];
+		uint32 size = GetValue(_IsServer ? 7 : 11);
 		return size;
 	}
 
-	LPVOID Pipe::WaitRead(int time)
+	void Pipe::Write(strw data)
 	{
-		int times = time / 50;
-		times = (times == 0 ? 1 : times);
-		int i = 0;
-		while(time == 0 || i < times) //time为0表示持续等待
+		uint32 size = wcslen(data) * 2;
+		if(_IsServer)
 		{
-			BYTE flag = GetFlag(_IsServer ? TCM_PIPE_C2S : TCM_PIPE_S2C);
-			if(flag == 0x01)
-			{
-				LPVOID data = new BYTE[GetReadSize()];
-				Read(data);
-				return data;
-			}
-			i++;
-			Sleep(50);
+			*(uint32*)((uint32)_Data + 7) = size;
+			memcpy((object)((uint32)_Data + TCM_PIPE_PRTCSIZE), data, size);
+			SetFlag(1, 1);
 		}
-		return NULL;
+		else
+		{
+			*(uint32*)((uint32)_Data + 11) = size;
+			memcpy((object)((uint32)_Data + TCM_PIPE_PRTCSIZE + _Volume), data, size);
+			SetFlag(2, 1);
+		}
 	}
 
-	bool Pipe::BeenRead(int time)
+	strw Pipe::Read()
 	{
-		int times = time / 50;
-		times = (times == 0 ? 1 : times);
-		int i = 0;
-		while(time == 0 || i < times) //time为0表示持续等待
+		strw data;
+		uint32 size = 0;
+		if(_IsServer)
 		{
-			BYTE flag = GetFlag(_IsServer ? TCM_PIPE_S2C : TCM_PIPE_C2S);
-			if(flag == 0x00) return true;
-			i++;
-			Sleep(50);
+			size = GetValue(11);
+			memcpy((object)data, (object)((uint32)_Data + TCM_PIPE_PRTCSIZE + _Volume), size);
+			SetFlag(2, 0);
 		}
-		return false;
+		else
+		{
+			size = GetValue(7);
+			memcpy((object)data, (object)((uint32)_Data + TCM_PIPE_PRTCSIZE), size);
+			SetFlag(1, 0);
+		}
+		return data;
 	}
 }
