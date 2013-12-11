@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
+using TCM.Runtime;
 
-namespace tcm_disp
+namespace TCM.Dispatcher
 {
     static class Program
     {
@@ -13,7 +15,28 @@ namespace tcm_disp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run();
+            string[] args = Environment.GetCommandLineArgs();
+            if(args.Length != 1)
+            {
+                MessageBox.Show(
+                    "Command Line: tcm_disp [pipe id]", 
+                    "TCM Dispatcher");
+            }
+            Pipe pipe = new Pipe();
+            if (!pipe.Connect(args[0])) 
+            {
+                MessageBox.Show("err id");
+                return;
+            }
+            while (true)
+            {
+                if (pipe.HasNewData)
+                {
+                    string msg = pipe.Read();
+                    MessageBox.Show(msg);
+                }
+                Thread.Sleep(50);
+            }
         }
     }
 }

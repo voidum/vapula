@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\base">
+      <UniqueIdentifier>{62319621-c5ab-4c65-bbad-cb7250a14b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\base">
+      <UniqueIdentifier>{67c0c82c-f83a-40c1-be7a-916bd371900a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\sdk">
+      <UniqueIdentifier>{b54294e6-7b43-4b1b-a0ec-c85220f7f154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\sdk">
+      <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\i18n">
+      <UniqueIdentifier>{c179c1fb-2a3c-4773-b01f-8fdc9f85ff33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\i18n">
+      <UniqueIdentifier>{026a9fe6-9287-4cf6-a3c7-ccdfe7aec980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core">
+      <UniqueIdentifier>{2a797e5d-80e8-46b4-a435-348fc0fd22a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\core">
+      <UniqueIdentifier>{d70dd52a-88a1-4481-8147-1fd8ceabaca9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\utility">
+      <UniqueIdentifier>{edb3a99e-e9b9-438d-b82c-9351e4871620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\utility">
+      <UniqueIdentifier>{4448cd2d-33cf-4187-bb9c-d22f14eb8cbf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\targetver.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="res\resource.h">
+      <Filter>资源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_base.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_candy.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_config.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_const.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_string.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_xml.h">
+      <Filter>头文件\base</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_context.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_driver.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_envelope.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_invoker.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_library.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_translator.h">
+      <Filter>头文件\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_bridge_c.h">
+      <Filter>头文件\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_drv.h">
+      <Filter>头文件\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_lib.h">
+      <Filter>头文件\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_log.h">
+      <Filter>头文件\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_pipe.h">
+      <Filter>头文件\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_time.h">
+      <Filter>头文件\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_token.h">
+      <Filter>头文件\utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dllmain.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_xml.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_base.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_bridge_c.cpp">
+      <Filter>源文件\sdk</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_translator.cpp">
+      <Filter>源文件\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_envelope.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_context.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_candy.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_driver.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_config.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_log.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_time.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_token.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_library.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_invoker.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_string.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tcm_pipe.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\tcm_bridge.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

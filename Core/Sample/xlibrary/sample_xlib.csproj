@@ -44,12 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\xBridge\tcm_xbridge\tcm_xbridge.csproj">
-      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
-      <Name>tcm_xbridge</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="sample_xlib.tcm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

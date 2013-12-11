@@ -1,20 +1,15 @@
-#include "tcm_pipe.h"
-
-using namespace tcm;
-using namespace std;
+#include "pipe.h"
 
 int main()
 {
-	Pipe* pipe = new Pipe();
-	pipe->Listen();
-	str id = pipe->GetPipeId();
-	cout<<"id:"<<id<<endl;
-
+	cout<<"[Vapula Pipe TEST]"<<endl;
+	cout<<">mode:";
 	string input;
-	for(;;)
-	{
-		cin>>input;
-		cout<<input;
-	}
+	cin>>input;
+
+	if(input == "server")
+		Pipe_Server();
+	else if(input == "client")
+		Pipe_Client();
 	return 0;
 };
