@@ -1,10 +1,10 @@
-#include "stdafx.h"
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
 #include "vf_xml.h"
+#include "rapidxml/rapidxml.hpp"
 
-namespace vf
+namespace vapula
 {
 	using rapidxml::xml_node;
 	using rapidxml::xml_document;
@@ -24,16 +24,17 @@ namespace vf
 		Clear(_LibId);
 	}
 
-	Library* Library::Load(strw path)
+	Library* Library::Load(cstrw path)
 	{
-		str data = null;
+		cstr data = null;
 		xml_document<>* xdoc 
 			= (xml_document<>*)xml::Load(path, data);
-		if(xdoc == null) return null;
+		if(xdoc == null) 
+			return null;
 
 		xml_node<>* xeroot = xdoc->first_node("library");
 		DriverHub* drv_hub = DriverHub::GetInstance();
-		PCSTR drv_id = xml::ValueA(xeroot->first_node("runtime"));
+		cstr drv_id = xml::ValueA(xeroot->first_node("runtime"));
 		Driver* driver = drv_hub->GetDriver(drv_id);
 		delete drv_id;
 		if(driver == null)
@@ -53,7 +54,7 @@ namespace vf
 		return Library::_Count;
 	}
 
-	strw Library::GetLibraryId()
+	cstrw Library::GetLibraryId()
 	{
 		return _LibId;
 	}
@@ -71,7 +72,8 @@ namespace vf
 	{
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		Driver* driver = drv_hub->GetDriver(GetRuntimeId());
-		if(driver == null) return null;
+		if(driver == null) 
+			return null;
 		Invoker* inv = driver->CreateInvoker();
 		inv->Initialize(this, fid);
 		return inv;

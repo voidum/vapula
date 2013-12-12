@@ -2,10 +2,10 @@
 
 #include "vf_base.h"
 
-namespace vf
+namespace vapula
 {
 	//ÈÕÖ¾Æ÷
-	class TCM_BRIDGE_API Logger
+	class VAPULA_API Logger
 	{
 	public:
 		Logger();

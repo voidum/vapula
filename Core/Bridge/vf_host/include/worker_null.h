@@ -1,8 +1,8 @@
 #pragma once
 
-#include "task.h"
+#include "vf_worker.h"
 
-using namespace tcm;
+using vapula::Worker;
 
 class Worker_NULL : public Worker
 {

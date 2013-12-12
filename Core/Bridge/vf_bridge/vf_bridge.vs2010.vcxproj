@@ -42,7 +42,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>vf_bridge</TargetName>
     <IncludePath>include;$(IncludePath)</IncludePath>
     <SourcePath>src;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -52,13 +52,14 @@
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>include;$(IncludePath)</IncludePath>
     <SourcePath>src;$(SourcePath)</SourcePath>
+    <TargetName>vf_bridge</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;TCM_BRIDGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VAPULA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)3rdparty/icu/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -82,7 +83,7 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;TCM_BRIDGE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VAPULA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)3rdparty/icu/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -101,8 +102,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\targetver.h" />
     <ClInclude Include="include\vf_base.h" />
     <ClInclude Include="include\vf_bridge_c.h" />
     <ClInclude Include="include\vf_candy.h" />
@@ -122,30 +121,28 @@
     <ClInclude Include="include\vf_token.h" />
     <ClInclude Include="include\vf_translator.h" />
     <ClInclude Include="include\vf_xml.h" />
-    <ClInclude Include="res\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\tcm_base.cpp" />
-    <ClCompile Include="src\tcm_bridge_c.cpp" />
-    <ClCompile Include="src\tcm_candy.cpp" />
-    <ClCompile Include="src\tcm_library.cpp" />
-    <ClCompile Include="src\tcm_config.cpp" />
-    <ClCompile Include="src\tcm_context.cpp" />
-    <ClCompile Include="src\tcm_driver.cpp" />
-    <ClCompile Include="src\tcm_envelope.cpp" />
-    <ClCompile Include="src\tcm_invoker.cpp" />
-    <ClCompile Include="src\tcm_log.cpp" />
-    <ClCompile Include="src\tcm_pipe.cpp" />
-    <ClCompile Include="src\tcm_string.cpp" />
-    <ClCompile Include="src\tcm_time.cpp" />
-    <ClCompile Include="src\tcm_token.cpp" />
-    <ClCompile Include="src\tcm_translator.cpp" />
-    <ClCompile Include="src\tcm_xml.cpp" />
+    <ClCompile Include="src\vf_base.cpp" />
+    <ClCompile Include="src\vf_bridge_c.cpp" />
+    <ClCompile Include="src\vf_candy.cpp" />
+    <ClCompile Include="src\vf_library.cpp" />
+    <ClCompile Include="src\vf_config.cpp" />
+    <ClCompile Include="src\vf_context.cpp" />
+    <ClCompile Include="src\vf_driver.cpp" />
+    <ClCompile Include="src\vf_envelope.cpp" />
+    <ClCompile Include="src\vf_invoker.cpp" />
+    <ClCompile Include="src\vf_log.cpp" />
+    <ClCompile Include="src\vf_pipe.cpp" />
+    <ClCompile Include="src\vf_string.cpp" />
+    <ClCompile Include="src\vf_time.cpp" />
+    <ClCompile Include="src\vf_token.cpp" />
+    <ClCompile Include="src\vf_translator.cpp" />
+    <ClCompile Include="src\vf_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\tcm_bridge.rc" />
+    <ResourceCompile Include="res\vf_bridge.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

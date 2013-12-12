@@ -1,16 +1,15 @@
-#include "stdafx.h"
 #include "vf_invoker.h"
 #include "vf_library.h"
 #include "vf_driver.h"
+#include "process.h"
 
-namespace vf
+namespace vapula
 {
 	Invoker::Invoker()
 	{
 		_FuncId = -1;
 		_Envelope = null;
 		_Context = null;
-		_ContextToken = null;
 		_Thread = null;
 		_IsSuspend = false;
 	}
@@ -20,7 +19,6 @@ namespace vf
 		if(_Thread != null) CloseHandle(_Thread);
 		Clear(_Envelope);
 		Clear(_Context);
-		Clear(_ContextToken);
 	}
 
 	bool Invoker::Initialize(Library* lib, int fid)
@@ -36,11 +34,9 @@ namespace vf
 
 	Context* Invoker::GetContext() { return _Context; }
 
-	Token* Invoker::GetContextToken() { return _ContextToken; }
-
 	uint32 WINAPI Invoker::_ThreadProc()
 	{
-		return TCM_RETURN_NULLTASK;
+		return VF_RETURN_NULLTASK;
 	}
 
 	bool Invoker::Start()
@@ -53,11 +49,10 @@ namespace vf
 		func_addr.member = &Invoker::_ThreadProc;
 
 		Clear(_Context);
-		Clear(_ContextToken);
 		_Context = new Context();
-		_ContextToken = Token::Stamp(_Context);
-		_Context->SetState(_ContextToken, TCM_STATE_BUSY);
-		if(_Thread != null) CloseHandle(_Thread);
+		_Context->SetState(VF_STATE_BUSY);
+		if(_Thread != null)
+			CloseHandle(_Thread);
 		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
 		//if Assert [_Thread]
 		return true;
@@ -69,25 +64,25 @@ namespace vf
 		{
 			TerminateThread(_Thread, 1);
 			WaitForSingleObject(_Thread, INFINITE);
-			_Context->SetReturnCode(_ContextToken, TCM_RETURN_CANCELBYFORCE);
+			_Context->SetReturnCode(VF_RETURN_CANCELBYFORCE);
 		}
 		else
 		{
-			_Context->SetCtrlCode(_ContextToken, TCM_CTRL_CANCEL);
+			_Context->SetCtrlCode(VF_CTRL_CANCEL);
 			DWORD dw = WaitForSingleObject(_Thread, wait);
 			if(dw != WAIT_OBJECT_0)
 			{
 				TerminateThread(_Thread, 1);
 				WaitForSingleObject(_Thread, INFINITE);
-				_Context->SetReturnCode(_ContextToken, TCM_RETURN_CANCELBYFORCE);
+				_Context->SetReturnCode(VF_RETURN_CANCELBYFORCE);
 			}
 			else
 			{
-				_Context->SetReturnCode(_ContextToken, TCM_RETURN_CANCELBYMSG);
+				_Context->SetReturnCode(VF_RETURN_CANCELBYMSG);
 			}
 		}
-		_Context->SetCtrlCode(_ContextToken, TCM_CTRL_NULL);
-		_Context->SetState(_ContextToken, TCM_STATE_IDLE);
+		_Context->SetCtrlCode(VF_CTRL_NULL);
+		_Context->SetState(VF_STATE_IDLE);
 		CloseHandle(_Thread);
 		_Thread = null;
 	}
@@ -98,11 +93,12 @@ namespace vf
 		if(wait != 0)
 		{
 			int times = wait / 25;
-			if(wait % 25 != 0) times++;
-			_Context->SetCtrlCode(_ContextToken, TCM_CTRL_PAUSE);
+			if(wait % 25 != 0) 
+				times++;
+			_Context->SetCtrlCode(VF_CTRL_PAUSE);
 			for(int i=0; i<times; i++)
 			{
-				if(_Context->GetState() == TCM_STATE_PAUSE)
+				if(_Context->GetState() == VF_STATE_PAUSE)
 				{
 					paused = true;
 					break;
@@ -115,8 +111,8 @@ namespace vf
 			_IsSuspend = true;
 			SuspendThread(_Thread);
 		}
-		_Context->SetCtrlCode(_ContextToken, TCM_CTRL_NULL);
-		_Context->SetState(_ContextToken, TCM_STATE_PAUSE);
+		_Context->SetCtrlCode(VF_CTRL_NULL);
+		_Context->SetState(VF_STATE_PAUSE);
 	}
 
 	void Invoker::Resume()
@@ -125,11 +121,11 @@ namespace vf
 		{
 			_IsSuspend = false;
 			ResumeThread(_Thread);
-			_Context->SetState(_ContextToken, TCM_STATE_BUSY);
+			_Context->SetState(VF_STATE_BUSY);
 		}
 		else
 		{
-			_Context->SetCtrlCode(_ContextToken, TCM_CTRL_RESUME);
+			_Context->SetCtrlCode(VF_CTRL_RESUME);
 		}
 	}
 

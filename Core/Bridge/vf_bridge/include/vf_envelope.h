@@ -2,10 +2,10 @@
 
 #include "vf_base.h"
 
-namespace vf
+namespace vapula
 {
 	//参数信封
-	class TCM_BRIDGE_API Envelope
+	class VAPULA_API Envelope
 	{
 	private:
 		Envelope(int total, int* types, bool* ins);
@@ -13,11 +13,11 @@ namespace vf
 		~Envelope();
 	public:
 		//由XML文件解析出信封对象
-		static Envelope* Load(strw path, int fid);
+		static Envelope* Load(cstrw path, int fid);
 		
 		//由XML字符串解析出信封对象
 		//要求输入params节点
-		static Envelope* Parse(str xml);
+		static Envelope* Parse(cstr xml);
 	private:
 		//由XML对象解析出信封对象
 		//要求输入params节点
@@ -32,7 +32,8 @@ namespace vf
 	private:
 		inline bool AssertId(int id, Envelope* env = null)
 		{
-			if(id < 1) return false;
+			if(id < 1)
+				return false;
 			return env == null ? id <= _Total : id <= env->_Total;
 		}
 	private:
@@ -73,7 +74,7 @@ namespace vf
 
 		//不允许以多字节字符串形式读取参数
 		template<>
-		str Read<str>(int id)
+		cstr Read<cstr>(int)
 		{
 			throw invalid_argument(_vf_err_4);
 		}
@@ -98,27 +99,27 @@ namespace vf
 		//写入字符串，自动复制
 		//多字节字符串首先转换成宽字节字符串
 		template<>
-		void Write<str>(int id, str value)
+		void Write<cstr>(int id, cstr value)
 		{
-			strw strw = MbToWc(value);
+			cstrw strw = MbToWc(value);
 			WriteEx(id, (object)strw, wcslen(strw) * 2 + 2);
 			delete strw;
 		}
 
 		//写入字符串，自动复制
 		template<>
-		void Write<strw>(int id, strw value)
+		void Write<cstrw>(int id, cstrw value)
 		{
 			WriteEx(id, (object)value, wcslen(value) * 2 + 2);
 		}
 
 		//读出数值并自动转型到字符串
-		str CastReadA(int id);
-		strw CastReadW(int id);
+		cstr CastReadA(int id);
+		cstrw CastReadW(int id);
 
 		//由字符串自动转型到数值并写入
-		void CastWriteA(int id, str value);
-		void CastWriteW(int id, strw value);
+		void CastWriteA(int id, cstr value);
+		void CastWriteW(int id, cstrw value);
 
 		//投递当前信封到目标
 		//要求类型完全一致

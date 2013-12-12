@@ -2,10 +2,10 @@
 
 #include "vf_candy.h"
 
-namespace vf
+namespace vapula
 {
 	//支持令牌封签特性
-	class TCM_BRIDGE_API Stampable
+	class VAPULA_API Stampable
 	{
 	public:
 		Stampable();
@@ -16,7 +16,7 @@ namespace vf
 	};
 
 	//操作令牌
-	class TCM_BRIDGE_API Token : Uncopiable
+	class VAPULA_API Token : Uncopiable
 	{
 	private:
 		Token();

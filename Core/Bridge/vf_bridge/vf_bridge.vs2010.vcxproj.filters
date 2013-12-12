@@ -45,15 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\targetver.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
-    <ClInclude Include="res\resource.h">
-      <Filter>资源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stdafx.h">
-      <Filter>头文件\base</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_base.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
@@ -116,60 +107,57 @@
     <ClCompile Include="src\dllmain.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_xml.cpp">
+    <ClCompile Include="src\vf_base.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_base.cpp">
+    <ClCompile Include="src\vf_config.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_bridge_c.cpp">
-      <Filter>源文件\sdk</Filter>
+    <ClCompile Include="src\vf_candy.cpp">
+      <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_translator.cpp">
+    <ClCompile Include="src\vf_string.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_xml.cpp">
+      <Filter>源文件\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_invoker.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_envelope.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_context.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_driver.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_library.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_log.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_pipe.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_time.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_token.cpp">
+      <Filter>源文件\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_translator.cpp">
       <Filter>源文件\i18n</Filter>
     </ClCompile>
-    <ClCompile Include="src\tcm_envelope.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_context.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_candy.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_driver.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_config.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_log.cpp">
-      <Filter>源文件\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_time.cpp">
-      <Filter>源文件\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_token.cpp">
-      <Filter>源文件\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_library.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_invoker.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_string.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tcm_pipe.cpp">
-      <Filter>源文件\utility</Filter>
+    <ClCompile Include="src\vf_bridge_c.cpp">
+      <Filter>源文件\sdk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\tcm_bridge.rc">
+    <ResourceCompile Include="res\vf_bridge.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

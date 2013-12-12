@@ -1,8 +1,7 @@
-#include "stdafx.h"
 #include "vf_driver.h"
 #include "windows.h"
 
-namespace vf
+namespace vapula
 {
 	Driver::Driver() { }
 	Driver::~Driver() { }
@@ -20,7 +19,7 @@ namespace vf
 		KickAll();
 	}
 
-	int DriverHub::GetIndex(str id)
+	int DriverHub::GetIndex(cstr id)
 	{
 		typedef vector<Driver*>::iterator iter;
 		int x = 0;
@@ -33,10 +32,11 @@ namespace vf
 		return -1;
 	}
 
-	Driver* DriverHub::GetDriver(str id)
+	Driver* DriverHub::GetDriver(cstr id)
 	{
 		int index = GetIndex(id);
-		if(index < 0) return null;
+		if(index < 0)
+			return null;
 		Driver* driver = _Drivers[index];
 		return driver;
 	}
@@ -46,12 +46,12 @@ namespace vf
 		return _Drivers.size();
 	}
 
-	bool DriverHub::Link(str id)
+	bool DriverHub::Link(cstr id)
 	{
 		int index = GetIndex(id);
 		if(index >= 0) return true;
 
-		strw id_w = MbToWc(id);
+		cstrw id_w = MbToWc(id);
 		std::wstring path = id_w;
 		path += L".vf.driver";
 		HMODULE module = LoadLibraryW(path.c_str());
@@ -66,10 +66,11 @@ namespace vf
 		return true;
 	}
 
-	bool DriverHub::Kick(str id)
+	bool DriverHub::Kick(cstr id)
 	{
 		int index = GetIndex(id);
-		if(index < 0) return true;
+		if(index < 0)
+			return true;
 		Driver* driver = _Drivers[index];
 		Clear(driver);
 		_Drivers.erase(_Drivers.begin() + index);

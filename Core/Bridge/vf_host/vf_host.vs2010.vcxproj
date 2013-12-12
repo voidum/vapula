@@ -44,6 +44,9 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>vf_host</TargetName>
+    <IncludePath>include;$(IncludePath)</IncludePath>
+    <SourcePath>src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -58,18 +61,19 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)Bridge\tcm_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)Bridge\vf_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tcm_bridge.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vf_bridge.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,33 +117,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="tcm_task.h" />
-    <ClInclude Include="worker.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="task.h" />
-    <ClInclude Include="worker_null.h" />
-    <ClInclude Include="worker_pipe.h" />
+    <ClInclude Include="include\vf_host.h" />
+    <ClInclude Include="include\vf_task.h" />
+    <ClInclude Include="include\vf_worker.h" />
+    <ClInclude Include="include\worker_null.h" />
+    <ClInclude Include="include\worker_pipe.h" />
+    <ClInclude Include="res\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="task.cpp" />
-    <ClCompile Include="tcm_task.cpp" />
-    <ClCompile Include="worker_null.cpp" />
-    <ClCompile Include="worker_pipe.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\vf_task.cpp" />
+    <ClCompile Include="src\vf_worker.cpp" />
+    <ClCompile Include="src\worker_null.cpp" />
+    <ClCompile Include="src\worker_pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="tcm_host.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="sample_task.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <ResourceCompile Include="res\vf_host.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

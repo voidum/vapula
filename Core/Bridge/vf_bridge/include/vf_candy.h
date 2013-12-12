@@ -3,7 +3,7 @@
 
 #include "vf_base.h"
 
-namespace vf
+namespace vapula
 {
 	//不可复制
 	class Uncopiable
@@ -17,7 +17,7 @@ namespace vf
 	};
 
 	//自旋锁
-	class TCM_BRIDGE_API Lock : Uncopiable
+	class VAPULA_API Lock : Uncopiable
 	{
 	public:
 		Lock();
@@ -72,7 +72,7 @@ namespace vf
 	};
 
 	//标志
-	class TCM_BRIDGE_API Flag : Uncopiable
+	class VAPULA_API Flag : Uncopiable
 	{
 	public:
 		Flag();
@@ -92,39 +92,39 @@ namespace vf
 	};
 
 	//字典
-	class TCM_BRIDGE_API Dictionary : Uncopiable
+	class VAPULA_API Dict : Uncopiable
 	{
 	public:
-		Dictionary();
-		~Dictionary();
+		Dict();
+		~Dict();
 	private:
-		typedef vector<strw>::iterator iter;
+		typedef vector<cstrw>::iterator iter;
 		Lock* _Lock;
-		vector<strw> _Keys;
-		vector<strw> _Values;
+		vector<cstrw> _Keys;
+		vector<cstrw> _Values;
 	public:
 		//获取记录数
 		int GetCount();
 
 		//检查记录是否存在
-		bool Contain(strw key);
+		bool Contain(cstrw key);
 
 		//添加记录
-		bool Add(strw key, strw value);
+		bool Add(cstrw key, cstrw value);
 
 		//移除记录
-		bool Remove(strw key);
+		bool Remove(cstrw key);
 
 		//获取指定索引的键
-		strw GetKey(uint32 id);
+		cstrw GetKey(uint32 id);
 
 		//获取指定索引的值
-		strw GetValue(uint32 id);
+		cstrw GetValue(uint32 id);
 
 		//清空字典
 		void Clear();
 
 		//根据Key查询记录的Value
-		strw Find(strw key);
+		cstrw Find(cstrw key);
 	};
 }

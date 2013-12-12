@@ -5,11 +5,11 @@
 #include "vf_const.h"
 #include "vf_string.h"
 
-namespace vf
+namespace vapula
 {
 	//安全清理目标
 	template<typename T>
-	TCM_BRIDGE_API void Clear(T target, bool isarr = false)
+	VAPULA_API void Clear(T target, bool isarr = false)
 	{
 		if(target != null)
 		{
@@ -21,7 +21,7 @@ namespace vf
 
 	//转换数值到窄字符串
 	template<typename T>
-	TCM_BRIDGE_API str ValueToStr(T value)
+	VAPULA_API cstr ValueToStr(T value)
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
@@ -31,7 +31,7 @@ namespace vf
 
 	//转换Vector容器到定长数组
 	template<typename T>
-	TCM_BRIDGE_API T* VectorToArray(vector<T>& src)
+	VAPULA_API T* VectorToArray(vector<T>& src)
 	{
 		if(src.size() == 0)
 			return null;
@@ -42,36 +42,36 @@ namespace vf
 		return dst;
 	}
 
-	//获得指定TCM类型的字节长度
-	TCM_BRIDGE_API int GetTypeUnit(int type);
+	//获得指定VF类型的字节长度
+	VAPULA_API int GetTypeUnit(int type);
 
 	//生成本地唯一标识字符串
-	TCM_BRIDGE_API str GetLuidA();
-	TCM_BRIDGE_API strw GetLuidW();
+	VAPULA_API cstr GetLuidA();
+	VAPULA_API cstrw GetLuidW();
 
 	//显示简易的信息框，值内容
 	template<typename T>
-	TCM_BRIDGE_API void ShowMsgValue(T value, strw caption = null)
+	VAPULA_API void ShowMsgValue(T value, cstrw caption = null)
 	{
 		ShowMsgStr(MbToWc(ValueToStr(value)), caption);
 	}
 
 	//显示简易的信息框，字符串内容
-	TCM_BRIDGE_API void ShowMsgStr(str value, str caption = null);
-	TCM_BRIDGE_API void ShowMsgStr(strw value, strw caption = null);
+	VAPULA_API void ShowMsgStr(cstr value, cstr caption = null);
+	VAPULA_API void ShowMsgStr(cstrw value, cstrw caption = null);
 
 	//获取运行时所在目录
-	TCM_BRIDGE_API strw GetRuntimeDir();
+	VAPULA_API cstrw GetRuntimeDir();
 
 	//获取当前应用程序目录
-	TCM_BRIDGE_API strw GetAppDir();
+	VAPULA_API cstrw GetAppDir();
 
 	//获取当前应用程序名称
-	TCM_BRIDGE_API strw GetAppName();
+	VAPULA_API cstrw GetAppName();
 
 	//获取路径的规范目录
-	TCM_BRIDGE_API strw GetDirPath(strw path, bool isfile = false);
+	VAPULA_API cstrw GetDirPath(cstrw path, bool isfile = false);
 
 	//测试指定文件是否能以读的方式打开
-	TCM_BRIDGE_API bool CanOpenRead(strw file);
+	VAPULA_API bool CanOpenRead(cstrw file);
 }

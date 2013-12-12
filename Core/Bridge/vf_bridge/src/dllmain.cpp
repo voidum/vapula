@@ -1,9 +1,10 @@
-#include "stdafx.h"
+#include "windows.h"
 
 #pragma warning(disable:4100) //未使用变量警告
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-	DWORD  ul_reason_for_call,
+BOOL APIENTRY DllMain(
+	HMODULE hModule,
+	DWORD ul_reason_for_call,
 	LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)

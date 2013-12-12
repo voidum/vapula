@@ -2,19 +2,19 @@
 
 #include "vf_base.h"
 
-#define TCM_PIPE_DATASIZE 1024
-#define TCM_PIPE_PRTCSIZE 15
+#define VF_PIPE_DATASIZE 1024
+#define VF_PIPE_PRTCSIZE 15
 
-namespace vf
+namespace vapula
 {
 	//全双工跨进程信道
-	class TCM_BRIDGE_API Pipe
+	class VAPULA_API Pipe
 	{
 	public:
 		Pipe();
 		~Pipe();
 	private:
-		str _Id;
+		cstr _Id;
 		object _Data;
 		object _Mapping;
 		uint32 _Volume;
@@ -39,7 +39,7 @@ namespace vf
 	//链路
 	public: 
 		//获取信道标识;
-		str GetPipeId();
+		cstr GetPipeId();
 
 		//获取数据容量
 		int GetVolume();
@@ -49,10 +49,10 @@ namespace vf
 
 		//启动监听
 		//可指定信道的数据容量
-		bool Listen(uint32 vol = TCM_PIPE_DATASIZE);
+		bool Listen(uint32 vol = VF_PIPE_DATASIZE);
 
 		//连接指定的信道
-		bool Connect(str pid);
+		bool Connect(cstr pid);
 
 		//关闭信道
 		void Close();
@@ -66,11 +66,11 @@ namespace vf
 		uint32 GetReadSize();
 
 		//写入数据
-		void Write(strw data);
-		void WriteA(str data);
+		void Write(cstrw data);
+		void WriteA(cstr data);
 
 		//读取数据
-		strw Read();
-		str ReadA();
+		cstrw Read();
+		cstr ReadA();
 	};
 }

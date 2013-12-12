@@ -13,67 +13,53 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="头文件\task">
+    <Filter Include="头文件\worker">
       <UniqueIdentifier>{3d1a653b-4a69-441e-b6d0-514fedfc33d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\task">
+    <Filter Include="源文件\worker">
       <UniqueIdentifier>{382ddada-44c9-40f4-8e57-659579bdcff1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="include\worker_null.h">
+      <Filter>头文件\worker</Filter>
+    </ClInclude>
+    <ClInclude Include="include\worker_pipe.h">
+      <Filter>头文件\worker</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_task.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="include\vf_host.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>资源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="task.h">
-      <Filter>头文件\task</Filter>
-    </ClInclude>
-    <ClInclude Include="worker.h">
-      <Filter>头文件\task</Filter>
-    </ClInclude>
-    <ClInclude Include="worker_null.h">
-      <Filter>头文件\task</Filter>
-    </ClInclude>
-    <ClInclude Include="tcm_task.h">
+    <ClInclude Include="include\vf_worker.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="worker_pipe.h">
-      <Filter>头文件\task</Filter>
+    <ClInclude Include="res\resource.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\worker_null.cpp">
+      <Filter>源文件\worker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worker_pipe.cpp">
+      <Filter>源文件\worker</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\vf_task.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="task.cpp">
-      <Filter>源文件\task</Filter>
-    </ClCompile>
-    <ClCompile Include="worker_null.cpp">
-      <Filter>源文件\task</Filter>
-    </ClCompile>
-    <ClCompile Include="tcm_task.cpp">
+    <ClCompile Include="src\vf_worker.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="worker_pipe.cpp">
-      <Filter>源文件\task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="tcm_host.rc">
+    <ResourceCompile Include="res\vf_host.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="sample_task.xml">
-      <Filter>资源文件</Filter>
-    </None>
   </ItemGroup>
 </Project>

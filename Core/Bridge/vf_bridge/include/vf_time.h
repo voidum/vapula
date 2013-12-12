@@ -2,10 +2,10 @@
 
 #include "vf_candy.h"
 
-namespace vf
+namespace vapula
 {
 	//¼ÆÊ±Æ÷
-	class TCM_BRIDGE_API Stopwatch : Uncopiable
+	class VAPULA_API Stopwatch : Uncopiable
 	{
 	public:
 		Stopwatch();

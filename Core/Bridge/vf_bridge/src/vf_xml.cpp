@@ -1,16 +1,19 @@
-#include "stdafx.h"
 #include "vf_xml.h"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
+#include "rapidxml/rapidxml_print.hpp"
 
-namespace vf
+namespace vapula
 {
 	namespace xml
 	{
 		using namespace rapidxml;
 
-		object Load(strw path, str& data)
+		object Load(cstrw path, cstr& data)
 		{
-			str path_a = WcToMb(path);
-			if(path_a == null) return null;
+			cstr path_a = WcToMb(path);
+			if(path_a == null) 
+				return null;
 			data = null;
 			try
 			{
@@ -29,14 +32,14 @@ namespace vf
 			return xdoc;
 		}
 
-		object Parse(str xml)
+		object Parse(cstr xml)
 		{
 			xml_document<>* xdoc = new xml_document<>();
 			xdoc->parse<0>(const_cast<char*>(xml));
 			return xdoc;
 		}
 
-		str Print(object src)
+		cstr Print(object src)
 		{
 			xml_node<>* xml = (xml_node<>*)src;
 			string s;
@@ -59,11 +62,12 @@ namespace vf
 			return xe;
 		}
 
-		str ValueA(object src)
+		cstr ValueA(object src)
 		{
-			if(src == null) return null;
+			if(src == null) 
+				return null;
 			xml_base<>* xbase = (xml_base<>*)src;
-			str tmp = xbase->value();
+			cstr tmp = xbase->value();
 			if(strlen(tmp) > 0) return CopyStrA(tmp);
 			else
 			{
@@ -78,17 +82,18 @@ namespace vf
 			return null;
 		}
 
-		strw ValueW(object src)
+		cstrw ValueW(object src)
 		{
-			str tmpa = ValueA(src);
+			cstr tmpa = ValueA(src);
 			if(tmpa == null) return null;
 			return MbToWc(tmpa);
 		}
 
 		int ValueInt(object src)
 		{
-			if(src == null) return 0;
-			str tmpa = ValueA(src);
+			if(src == null) 
+				return 0;
+			cstr tmpa = ValueA(src);
 			int ret = atoi(tmpa);
 			delete tmpa;
 			return ret;
@@ -96,17 +101,19 @@ namespace vf
 
 		double ValueReal(object src)
 		{
-			if(src == null) return 0;
-			str tmpa = ValueA(src);
+			if(src == null) 
+				return 0;
+			cstr tmpa = ValueA(src);
 			double ret = atof(tmpa);
 			delete tmpa;
 			return ret;
 		}
 
-		bool ValueBool(object src, str value)
+		bool ValueBool(object src, cstr value)
 		{
-			if(src == null || value == null) return 0;
-			str tmpa = ValueA(src);
+			if(src == null || value == null) 
+				return 0;
+			cstr tmpa = ValueA(src);
 			bool ret = (strcmp(tmpa, value) == 0);
 			delete tmpa;
 			return ret;

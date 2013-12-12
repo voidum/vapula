@@ -1,7 +1,6 @@
-#include "stdafx.h"
-#include "tcm_pipe.h"
+#include "vf_pipe.h"
 
-namespace tcm
+namespace vapula
 {
 	Pipe::Pipe()
 	{
@@ -24,7 +23,7 @@ namespace tcm
 			Clear(_Id);
 			if(ntry++ > 10) return false;
 			_Id = GetLuidA();
-			strw tmp = MbToWc(_Id);
+			cstrw tmp = MbToWc(_Id);
 			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, vol, tmp);
 			delete tmp;
 		} while (GetLastError() != ERROR_SUCCESS);
@@ -93,13 +92,13 @@ namespace tcm
 		if(_IsServer)
 		{
 			((uint32*)((uint32)_Data + 7))[0] = len;
-			memcpy((object)((uint32)_Data + TCM_PIPE_PRTCSIZE), data, len);
+			memcpy((object)((uint32)_Data + VF_PIPE_PRTCSIZE), data, len);
 			_SetFlag(1, 1);
 		}
 		else
 		{
 			((uint32*)((uint32)_Data + 11))[0] = len;
-			memcpy((object)((uint32)_Data + TCM_PIPE_PRTCSIZE + _Volume), data, len);
+			memcpy((object)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), data, len);
 			_SetFlag(2, 1);
 		}
 	}
@@ -112,20 +111,20 @@ namespace tcm
 		{
 			len = _GetValue(11);
 			data = new byte[len];
-			memcpy(data, (object)((uint32)_Data + TCM_PIPE_PRTCSIZE + _Volume), len);
+			memcpy(data, (object)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), len);
 			_SetFlag(2, 0);
 		}
 		else
 		{
 			len = _GetValue(7);
 			data = new byte[len];
-			memcpy(data, (object)((uint32)_Data + TCM_PIPE_PRTCSIZE), len);
+			memcpy(data, (object)((uint32)_Data + VF_PIPE_PRTCSIZE), len);
 			_SetFlag(1, 0);
 		}
 		return data;
 	}
 
-	str Pipe::GetPipeId()
+	cstr Pipe::GetPipeId()
 	{
 		return _Id;
 	}
@@ -147,7 +146,7 @@ namespace tcm
 		Close();
 		_IsServer = true;
 		_Volume = vol;
-		uint32 size = vol * 2 + TCM_PIPE_PRTCSIZE;
+		uint32 size = vol * 2 + VF_PIPE_PRTCSIZE;
 		if(!_CreateMapping(size))
 			return false;
 		if(!_BeginUpdate())
@@ -156,12 +155,12 @@ namespace tcm
 		return true;
 	}
 
-	bool Pipe::Connect(str pid)
+	bool Pipe::Connect(cstr pid)
 	{
 		Close();
 		_IsServer = false;
 		_Id = CopyStrA(pid);
-		strw tmp = MbToWc(_Id);
+		cstrw tmp = MbToWc(_Id);
 		_Mapping = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, tmp);
 		delete tmp;
 		if(GetLastError() != ERROR_SUCCESS)
@@ -192,27 +191,27 @@ namespace tcm
 		return size;
 	}
 
-	void Pipe::Write(strw data)
+	void Pipe::Write(cstrw data)
 	{
 		uint32 len = wcslen(data) * 2 + 2;
 		_Write((object)data, len);
 	}
 
-	void Pipe::WriteA(str data)
+	void Pipe::WriteA(cstr data)
 	{
 		uint32 len = strlen(data) + 1;
 		_Write((object)data, len);
 	}
 
-	strw Pipe::Read()
+	cstrw Pipe::Read()
 	{
-		strw data = (strw)_Read();
+		cstrw data = (cstrw)_Read();
 		return data;
 	}
 
-	str Pipe::ReadA()
+	cstr Pipe::ReadA()
 	{
-		str data = (str)_Read();
+		cstr data = (cstr)_Read();
 		return data;
 	}
 }

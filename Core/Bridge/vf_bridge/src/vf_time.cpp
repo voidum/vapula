@@ -1,7 +1,6 @@
-#include "stdafx.h"
-#include "tcm_time.h"
+#include "vf_time.h"
 
-namespace tcm
+namespace vapula
 {
 	Stopwatch::Stopwatch() { }
 

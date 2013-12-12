@@ -1,7 +1,6 @@
-#include "stdafx.h"
-#include "tcm_token.h"
+#include "vf_token.h"
 
-namespace tcm
+namespace vapula
 {
 	using namespace std::tr1;
 

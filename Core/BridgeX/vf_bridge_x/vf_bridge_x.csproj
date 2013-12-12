@@ -66,12 +66,6 @@
     <Compile Include="Runtime\Pipe.cs" />
     <Compile Include="Security\Hash.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Model\tcm_model\tcm_model.csproj">
-      <Project>{EC85B801-A356-481A-8D5E-EFE603F8689A}</Project>
-      <Name>tcm_model</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

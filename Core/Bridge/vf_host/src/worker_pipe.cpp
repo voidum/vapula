@@ -1,12 +1,10 @@
-#include "stdafx.h"
 #include "worker_pipe.h"
 
-#include "tcm_invoker.h"
-#include "tcm_xml.h"
-#include "tcm_config.h"
+#include "vf_task.h"
+#include "vf_invoker.h"
+#include "vf_xml.h"
+#include "vf_config.h"
 
-using namespace rapidxml;
-using std::string;
 using std::ostringstream;
 
 Worker_PIPE::Worker_PIPE()
@@ -21,10 +19,10 @@ Worker_PIPE::~Worker_PIPE()
 
 bool Worker_PIPE::RunStageA()
 {
-	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
+	Task* task = dynamic_cast<Task*>(_Task);
 	xml_node<>* cfg = (xml_node<>*)xml::Parse(task->GetCtrlConfig());
 	std::locale::global(std::locale(""));
-	str pid = xml::ValueA(cfg->first_node("pid"));
+	cstr pid = xml::ValueA(cfg->first_node("pid"));
 	if(!_Pipe->Connect(pid))
 		return false;
 	_Pipe->Write(L"A");
@@ -37,45 +35,45 @@ bool Worker_PIPE::RunStageB()
 	Config* config = Config::GetInstance();
 	Flag* flag = config->GetFlag();
 
-	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
+	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();
 
 	_Pipe->Write(L"B");
 	//TODO: wait for permission
 
-	int freq_monitor = flag->Valid(TCM_CONFIG_RTMON) ? 5 : 50;
+	int freq_monitor = flag->Valid(VF_CONFIG_RTMON) ? 5 : 50;
 	inv->Start();
 	Context* ctx = inv->GetContext();
-	while(ctx->GetState() != TCM_STATE_IDLE)
+	while(ctx->GetState() != VF_STATE_IDLE)
 	{
 		ostringstream oss;
 		oss<<ctx->GetState()<<",";
 		oss<<ctx->GetProgress();
 		_Pipe->WriteA(oss.str().c_str());
-		str data = _Pipe->ReadA();
+		cstr data = _Pipe->ReadA();
 		int ctrl = atoi(data);
 		switch(ctrl)
 		{
-		case TCM_CTRL_CANCEL:
+		case VF_CTRL_CANCEL:
 			inv->Stop(30000);
 			break;
-		case TCM_CTRL_PAUSE:
+		case VF_CTRL_PAUSE:
 			inv->Pause();
-		case TCM_CTRL_RESUME:
+		case VF_CTRL_RESUME:
 			inv->Resume();
 			break;
 		}
 		Sleep(freq_monitor);
 	}
 	ostringstream oss;
-	oss<<TCM_STATE_IDLE<<","<<100.0f;
+	oss<<VF_STATE_IDLE<<","<<100.0f;
 	_Pipe->WriteA(oss.str().c_str());
 	return true;
 }
 
 bool Worker_PIPE::RunStageC()
 {
-	TaskEx* task = dynamic_cast<TaskEx*>(_Task);
+	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();
 	Envelope* env = inv->GetEnvelope();
 
@@ -98,7 +96,7 @@ bool Worker_PIPE::RunStageC()
 
 	//if(_Pipe->GetDataVol() >= xml.size())
 	//{
-	str str = CopyStrA(resp.c_str());
+	cstr str = CopyStrA(resp.c_str());
 	_Pipe->WriteA(str);
 	delete str;
 	//}

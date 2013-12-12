@@ -10,13 +10,13 @@
 
 #include "windows.h" //#IFDEF
 
-#ifdef TCM_BRIDGE_EXPORTS
-#define TCM_BRIDGE_API __declspec(dllexport)
+#ifdef VAPULA_EXPORTS
+#define VAPULA_API __declspec(dllexport)
 #else
-#define TCM_BRIDGE_API
+#define VAPULA_API
 #endif
 
-namespace vf
+namespace vapula
 {
 	//using namespace
 	using std::vector;
@@ -38,60 +38,62 @@ namespace vf
 	typedef unsigned long long uint64;
 	typedef float real32;
 	typedef double real64;
-	typedef const char* str;
-	typedef const wchar_t* strw;
+	typedef char* str;
+	typedef wchar_t* strw;
+	typedef const char* cstr;
+	typedef const wchar_t* cstrw;
 
 	#define null 0
 
 	//define enum
 	enum DataType
 	{
-		TCM_DATA_POINTER = 0,
-		TCM_DATA_INT8 = 1,
-		TCM_DATA_INT16 = 2,
-		TCM_DATA_INT32 = 3,
-		TCM_DATA_INT64 = 4,
-		TCM_DATA_UINT8 = 5,
-		TCM_DATA_UINT16 = 6,
-		TCM_DATA_UINT32 = 7,
-		TCM_DATA_UINT64 = 8,
-		TCM_DATA_REAL32 = 10,
-		TCM_DATA_REAL64 = 11,
-		TCM_DATA_BOOL = 20,
-		TCM_DATA_STRING = 21
+		VF_DATA_POINTER = 0,
+		VF_DATA_INT8 = 1,
+		VF_DATA_INT16 = 2,
+		VF_DATA_INT32 = 3,
+		VF_DATA_INT64 = 4,
+		VF_DATA_UINT8 = 5,
+		VF_DATA_UINT16 = 6,
+		VF_DATA_UINT32 = 7,
+		VF_DATA_UINT64 = 8,
+		VF_DATA_REAL32 = 10,
+		VF_DATA_REAL64 = 11,
+		VF_DATA_BOOL = 20,
+		VF_DATA_STRING = 21
 	}; //envelope data type
 
 	enum State
 	{
-		TCM_STATE_IDLE = 0,
-		TCM_STATE_BUSY = 1,
-		TCM_STATE_PAUSE = 2,
-		TCM_STATE_UI = 3
+		VF_STATE_IDLE = 0,
+		VF_STATE_BUSY = 1,
+		VF_STATE_PAUSE = 2,
+		VF_STATE_UI = 3
 	}; //context state
 
 	enum CtrlCode
 	{
-		TCM_CTRL_NULL = 0,
-		TCM_CTRL_PAUSE = 1,
-		TCM_CTRL_RESUME = 2,
-		TCM_CTRL_CANCEL = 3,
-		TCM_CTRL_RESTART = 4
+		VF_CTRL_NULL = 0,
+		VF_CTRL_PAUSE = 1,
+		VF_CTRL_RESUME = 2,
+		VF_CTRL_CANCEL = 3,
+		VF_CTRL_RESTART = 4
 	}; //context control code
 
 	enum ReturnCode
 	{
-		TCM_RETURN_ERROR = 0,
-		TCM_RETURN_NORMAL = 1,
-		TCM_RETURN_CANCELBYMSG = 2,
-		TCM_RETURN_CANCELBYFORCE = 3,
-		TCM_RETURN_NULLENTRY = 4,
-		TCM_RETURN_NULLTASK = 5,
+		VF_RETURN_ERROR = 0,
+		VF_RETURN_NORMAL = 1,
+		VF_RETURN_CANCELBYMSG = 2,
+		VF_RETURN_CANCELBYFORCE = 3,
+		VF_RETURN_NULLENTRY = 4,
+		VF_RETURN_NULLTASK = 5,
 	}; //context return code
 
 	//define error
-	const str _vf_err_0 = "invalid data type";
-	const str _vf_err_1 = "access null param";
-	const str _vf_err_2 = "write null value";
-	const str _vf_err_3 = "deliver between different types";
-	const str _vf_err_4 = "read string as multi-bytes";
+	str const _vf_err_0 = "invalid data type";
+	str const _vf_err_1 = "access null param";
+	str const _vf_err_2 = "write null value";
+	str const _vf_err_3 = "deliver between different types";
+	str const _vf_err_4 = "read string as multi-bytes";
 }

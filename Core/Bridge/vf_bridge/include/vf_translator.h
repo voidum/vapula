@@ -2,10 +2,10 @@
 
 #include "vf_candy.h"
 
-namespace vf
+namespace vapula
 {
 	//查看语言代码参考
-	TCM_BRIDGE_API void SeeAlsoLangCode();
+	VAPULA_API void SeeAlsoLangCode();
 
 	//语言代码
 	enum LangCode
@@ -26,21 +26,21 @@ namespace vf
 	//获取语言代码名称
 	strw GetLangName(int lc);
 
-	class TCM_BRIDGE_API Translator
+	class VAPULA_API Translator
 	{
 	public:
 		Translator();
 		~Translator();
 	private:
-		strw _Dir;
-		Dictionary* _Dict;
+		cstrw _Dir;
+		Dict* _Dict;
 	public:
 		//设置字典路径
 		//需要形如"X:\\...\\"
-		void SetDictDir(strw dir);
+		void SetDictDir(cstrw dir);
 
 		//通过key查找文本
-		strw GetText(strw key);
+		cstrw GetText(cstrw key);
 
 		//加载语言包
 		void LoadLangPack(int lc = zh_CN);

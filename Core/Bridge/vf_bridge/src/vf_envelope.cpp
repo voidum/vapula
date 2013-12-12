@@ -1,8 +1,8 @@
-#include "stdafx.h"
 #include "vf_envelope.h"
 #include "vf_xml.h"
+#include "rapidxml/rapidxml.hpp"
 
-namespace vf
+namespace vapula
 {
 	using rapidxml::xml_document;
 	using rapidxml::xml_node;
@@ -102,7 +102,7 @@ namespace vf
 		}
 	}
 
-	Envelope* Envelope::Parse(str xml)
+	Envelope* Envelope::Parse(cstr xml)
 	{
 		xml_document<>* xdoc = (xml_document<>*)xml::Parse(xml);
 		Envelope* env = Parse(xdoc->first_node());
@@ -110,9 +110,9 @@ namespace vf
 		return env;
 	}
 
-	Envelope* Envelope::Load(strw path, int fid)
+	Envelope* Envelope::Load(cstrw path, int fid)
 	{
-		str data = null;
+		cstr data = null;
 		xml_document<>* xdoc = (xml_document<>*)xml::Load(path, data);
 		xml_node<>* xe = (xml_node<>*)xml::Path(
 			xdoc, 3, "library", "functions", "function");
@@ -144,76 +144,110 @@ namespace vf
 		return _InStates[id - 1];
 	}
 
-	str Envelope::CastReadA(int id)
+	cstr Envelope::CastReadA(int id)
 	{
-		if(!AssertId(id)) throw invalid_argument(_vf_err_1);
+		if(!AssertId(id))
+			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
 		switch(type)
 		{
-		case TCM_DATA_POINTER:	return ValueToStr((uint64)Read<object>(id));
-		case TCM_DATA_INT8:	return ValueToStr(Read<int8>(id));
-		case TCM_DATA_UINT8:	return ValueToStr(Read<uint8>(id));
-		case TCM_DATA_INT16:	return ValueToStr(Read<int16>(id));
-		case TCM_DATA_UINT16:	return ValueToStr(Read<uint16>(id));
-		case TCM_DATA_INT32:	return ValueToStr(Read<int32>(id));
-		case TCM_DATA_UINT32:	return ValueToStr(Read<uint32>(id));
-		case TCM_DATA_INT64:	return ValueToStr(Read<int64>(id));
-		case TCM_DATA_UINT64:	return ValueToStr(Read<uint64>(id));
-		case TCM_DATA_REAL32:	return ValueToStr(Read<real32>(id));
-		case TCM_DATA_REAL64:	return ValueToStr(Read<real64>(id));
-		case TCM_DATA_BOOL:	return Read<bool>(id) ? "true" : "false";
-		case TCM_DATA_STRING:	return WcToMb(Read<strw>(id));
-		default:				return null;
+		case VF_DATA_POINTER:
+			return ValueToStr((uint64)Read<object>(id));
+		case VF_DATA_INT8:	
+			return ValueToStr(Read<int8>(id));
+		case VF_DATA_UINT8:
+			return ValueToStr(Read<uint8>(id));
+		case VF_DATA_INT16:
+			return ValueToStr(Read<int16>(id));
+		case VF_DATA_UINT16:
+			return ValueToStr(Read<uint16>(id));
+		case VF_DATA_INT32:
+			return ValueToStr(Read<int32>(id));
+		case VF_DATA_UINT32:
+			return ValueToStr(Read<uint32>(id));
+		case VF_DATA_INT64:
+			return ValueToStr(Read<int64>(id));
+		case VF_DATA_UINT64:
+			return ValueToStr(Read<uint64>(id));
+		case VF_DATA_REAL32:
+			return ValueToStr(Read<real32>(id));
+		case VF_DATA_REAL64:
+			return ValueToStr(Read<real64>(id));
+		case VF_DATA_BOOL:	
+			return Read<bool>(id) ? "true" : "false";
+		case VF_DATA_STRING:
+			return WcToMb(Read<strw>(id));
+		default:
+			return null;
 		}
 	}
 
-	strw Envelope::CastReadW(int id)
+	cstrw Envelope::CastReadW(int id)
 	{
-		if(!AssertId(id)) throw invalid_argument(_vf_err_1);
+		if(!AssertId(id)) 
+			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
-		if(type == TCM_DATA_STRING)
+		if(type == VF_DATA_STRING)
 			return CopyStrW(Read<strw>(id));
-		else if(type == TCM_DATA_BOOL)
+		else if(type == VF_DATA_BOOL)
 			return Read<bool>(id) ? L"true" : L"false";
 		else 
 			return MbToWc(CastReadA(id));
 	}
 
-	void Envelope::CastWriteA(int id, str value)
+	void Envelope::CastWriteA(int id, cstr value)
 	{
-		if(value == null) throw invalid_argument(_vf_err_2);
-		if(!AssertId(id)) throw invalid_argument(_vf_err_1);
+		if(value == null)
+			throw invalid_argument(_vf_err_2);
+		if(!AssertId(id))
+			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
 		switch(type)
 		{
-		case TCM_DATA_POINTER:	WriteEx(id, (object)abs(atoi(value)),0); return;
-		case TCM_DATA_INT8:	Write(id, (int8)atoi(value)); return;
-		case TCM_DATA_UINT8:	Write(id, (uint8)atoi(value)); return;
-		case TCM_DATA_INT16:	Write(id, (int16)atoi(value)); return;
-		case TCM_DATA_UINT16:	Write(id, (uint16)atoi(value)); return;
-		case TCM_DATA_INT32:	Write(id, atoi(value)); return;
-		case TCM_DATA_UINT32:	Write(id, (uint32)atoi(value)); return;
-		case TCM_DATA_INT64:	Write(id, _atoi64(value)); return;
-		case TCM_DATA_UINT64:	Write(id, (uint64)_atoi64(value)); return;
-		case TCM_DATA_REAL32:	Write(id, atof(value)); return;
-		case TCM_DATA_REAL64:	Write(id, atof(value)); return;
-		case TCM_DATA_BOOL:	Write(id, (strcmp(value,"true") == 0) ? 1 : 0); return;
-		case TCM_DATA_STRING:	Write(id, MbToWc(value)); return;
-		default:				return;
+		case VF_DATA_POINTER:
+			WriteEx(id, (object)abs(atoi(value)),0); break;
+		case VF_DATA_INT8:	
+			Write(id, (int8)atoi(value)); break;
+		case VF_DATA_UINT8:
+			Write(id, (uint8)atoi(value)); break;
+		case VF_DATA_INT16:
+			Write(id, (int16)atoi(value)); break;
+		case VF_DATA_UINT16:
+			Write(id, (uint16)atoi(value)); break;
+		case VF_DATA_INT32:
+			Write(id, atoi(value)); break;
+		case VF_DATA_UINT32:
+			Write(id, (uint32)atoi(value)); break;
+		case VF_DATA_INT64:
+			Write(id, _atoi64(value)); break;
+		case VF_DATA_UINT64:
+			Write(id, (uint64)_atoi64(value)); break;
+		case VF_DATA_REAL32:
+			Write(id, atof(value)); break;
+		case VF_DATA_REAL64:
+			Write(id, atof(value)); break;
+		case VF_DATA_BOOL:	
+			Write(id, (strcmp(value,"true") == 0) ? 1 : 0); break;
+		case VF_DATA_STRING:
+			Write(id, MbToWc(value)); break;
+		default:
+			break;
 		}
 	}
 
-	void Envelope::CastWriteW(int id, strw value)
+	void Envelope::CastWriteW(int id, cstrw value)
 	{
-		if(value == null) throw invalid_argument(_vf_err_2);
-		if(!AssertId(id)) throw invalid_argument(_vf_err_1);
+		if(value == null) 
+			throw invalid_argument(_vf_err_2);
+		if(!AssertId(id)) 
+			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
-		if(type == TCM_DATA_STRING)
+		if(type == VF_DATA_STRING)
 		{
 			Write(id, value);
 			return;
 		}
-		str str = WcToMb(value);
+		cstr str = WcToMb(value);
 		CastWriteA(id, str);
 	}
 
@@ -228,67 +262,67 @@ namespace vf
 		object ptr = null;
 		switch(type)
 		{
-		case TCM_DATA_POINTER:
+		case VF_DATA_POINTER:
 			ptr = new object[1];
 			*((object*)ptr) = Read<object>(from);
 			who->Write(to, ptr);
 			break;
-		case TCM_DATA_INT8:
+		case VF_DATA_INT8:
 			ptr = new int8[1];
 			*((int8*)ptr) = Read<int8>(from);
 			who->Write(to, *((int8*)ptr));
 			break;
-		case TCM_DATA_UINT8:
+		case VF_DATA_UINT8:
 			ptr = new uint8[1];
 			*((uint8*)ptr) = Read<uint8>(from);
 			who->Write(to, *((uint8*)ptr));
 			break;
-		case TCM_DATA_INT16:
+		case VF_DATA_INT16:
 			ptr = new int16[1];
 			*((int16*)ptr) = Read<int16>(from);
 			who->Write(to, *((int16*)ptr));
 			break;
-		case TCM_DATA_UINT16:
+		case VF_DATA_UINT16:
 			ptr = new uint16[1];
 			*((uint16*)ptr) = Read<uint16>(from);
 			who->Write(to, *((uint16*)ptr));
 			break;
-		case TCM_DATA_INT32:
+		case VF_DATA_INT32:
 			ptr = new int32[1];
 			*((int32*)ptr) = Read<int32>(from);
 			who->Write(to, *((int32*)ptr));
 			break;
-		case TCM_DATA_UINT32:
+		case VF_DATA_UINT32:
 			ptr = new uint32[1];
 			*((uint32*)ptr) = Read<uint32>(from);
 			who->Write(to, *((uint32*)ptr));
 			break;
-		case TCM_DATA_INT64:
+		case VF_DATA_INT64:
 			ptr = new int64[1];
 			*((int64*)ptr) = Read<int64>(from);
 			who->Write(to, *((int64*)ptr));
 			break;
-		case TCM_DATA_UINT64:
+		case VF_DATA_UINT64:
 			ptr = new uint64[1];
 			*((uint64*)ptr) = Read<uint64>(from);
 			who->Write(to, *((uint64*)ptr));
 			break;
-		case TCM_DATA_REAL32:
+		case VF_DATA_REAL32:
 			ptr = new real32[1];
 			*((real32*)ptr) = Read<real32>(from);
 			who->Write(to, *((real32*)ptr));
 			break;
-		case TCM_DATA_REAL64:
+		case VF_DATA_REAL64:
 			ptr = new real64[1];
 			*((real64*)ptr) = Read<real64>(from);
 			who->Write(to, *((real64*)ptr));
 			break;
-		case TCM_DATA_BOOL:
+		case VF_DATA_BOOL:
 			ptr = new int8[1];
 			*((int8*)ptr) = Read<int8>(from);
 			who->Write(to, *((int8*)ptr));
 			break;
-		case TCM_DATA_STRING:
+		case VF_DATA_STRING:
 			ptr = new strw[1];
 			*((strw*)ptr) = Read<strw>(from);
 			who->Write(to, *((strw*)ptr));
@@ -304,7 +338,7 @@ namespace vf
 		if(!AssertId(from) || !AssertId(to, who))
 			throw invalid_argument(_vf_err_1);
 		int type = GetType(from);
-		if(type == TCM_DATA_POINTER)
+		if(type == VF_DATA_POINTER)
 		{
 			object* ptr = new object[1];
 			ptr[0] = Read<object>(from);
@@ -312,7 +346,7 @@ namespace vf
 		}
 		else
 		{
-			strw value = CastReadW(from);
+			cstrw value = CastReadW(from);
 			return who->CastWriteW(to, value);
 		}
 	}

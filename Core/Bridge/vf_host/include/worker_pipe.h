@@ -1,9 +1,10 @@
 #pragma once
 
-#include "task.h"
-#include "tcm_pipe.h"
+#include "vf_worker.h"
+#include "vf_pipe.h"
 
-using namespace tcm;
+using vapula::Pipe;
+using vapula::Worker;
 
 class Worker_PIPE : public Worker
 {

@@ -3,13 +3,12 @@
 #include "vf_context.h"
 #include "vf_envelope.h"
 
-namespace vf
+namespace vapula
 {
-	class Token;
 	class Library;
 
 	//功能调用器
-	class TCM_BRIDGE_API Invoker
+	class VAPULA_API Invoker
 	{
 	protected:
 		Invoker();
@@ -19,7 +18,6 @@ namespace vf
 		int _FuncId;
 		Envelope* _Envelope;
 		Context* _Context;
-		Token* _ContextToken;
 	protected:
 		object _Thread;
 		bool _IsSuspend;
@@ -33,9 +31,6 @@ namespace vf
 
 		//获取上下文
 		Context* GetContext();
-
-		//获取上下文令牌
-		Token* GetContextToken();
 	public:
 		//启动
 		bool Start();

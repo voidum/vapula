@@ -1,7 +1,6 @@
-#include "stdafx.h"
 #include "vf_candy.h"
 
-namespace vf
+namespace vapula
 {
 	Uncopiable::Uncopiable() { }
 
@@ -125,18 +124,18 @@ namespace vf
 		return ((v & flag) == flag);
 	}
 
-	Dictionary::Dictionary()
+	Dict::Dict()
 	{
 		_Lock = new Lock();
 	}
 
-	Dictionary::~Dictionary()
+	Dict::~Dict()
 	{
 		Clear();
 		delete _Lock;
 	}
 
-	int Dictionary::GetCount()
+	int Dict::GetCount()
 	{
 		_Lock->EnterEx();
 		int i = _Keys.size();
@@ -144,7 +143,7 @@ namespace vf
 		return i;
 	}
 
-	bool Dictionary::Contain(strw key)
+	bool Dict::Contain(cstrw key)
 	{
 		if(key == null)
 			return false;
@@ -162,7 +161,7 @@ namespace vf
 		return ret;
 	}
 
-	bool Dictionary::Add(strw key, strw value)
+	bool Dict::Add(cstrw key, cstrw value)
 	{
 		if(key == null || value == null)
 			return false;
@@ -175,7 +174,7 @@ namespace vf
 		return true;
 	}
 
-	bool Dictionary::Remove(strw key)
+	bool Dict::Remove(cstrw key)
 	{
 		if(key == null)
 			return true;
@@ -199,28 +198,29 @@ namespace vf
 		return ret;
 	}
 
-	strw Dictionary::GetKey(uint32 id)
+	cstrw Dict::GetKey(uint32 id)
 	{
 		_Lock->EnterEx();
-		strw ret = null;
+		cstrw ret = null;
 		if(id < _Keys.size())
 			ret = CopyStrW(_Keys[id]);
 		_Lock->Leave();
 		return ret;
 	}
 
-	strw Dictionary::GetValue(uint32 id)
+	cstrw Dict::GetValue(uint32 id)
 	{
-		if(id < 0) return null;
+		if(id < 0) 
+			return null;
 		_Lock->EnterEx();
-		strw ret = null;
+		cstrw ret = null;
 		if(id < _Values.size())
 			ret = CopyStrW(_Values[id]);
 		_Lock->Leave();
 		return ret;
 	}
 
-	void Dictionary::Clear()
+	void Dict::Clear()
 	{
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
@@ -232,10 +232,11 @@ namespace vf
 		_Lock->Leave();
 	}
 
-	strw Dictionary::Find(strw key)
+	cstrw Dict::Find(cstrw key)
 	{
-		if(key == null) return null;
-		strw ret = null;
+		if(key == null) 
+			return null;
+		cstrw ret = null;
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
 		{

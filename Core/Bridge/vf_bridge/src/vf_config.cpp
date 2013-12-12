@@ -1,7 +1,6 @@
-#include "stdafx.h"
 #include "vf_config.h"
 
-namespace vf
+namespace vapula
 {
 	Config* Config::_Instance = null;
 
@@ -29,11 +28,11 @@ namespace vf
 
 	bool Config::IsSilent()
 	{
-		return _Flag->Valid(TCM_CONFIG_SILENT);
+		return _Flag->Valid(VF_CONFIG_SILENT);
 	}
 
 	bool Config::IsRealTimeMonitor()
 	{
-		return _Flag->Valid(TCM_CONFIG_RTMON);
+		return _Flag->Valid(VF_CONFIG_RTMON);
 	}
 }

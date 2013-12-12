@@ -1,20 +1,16 @@
-#include "stdafx.h"
-#include "task.h"
-#include "worker.h"
-#include "tcm_config.h"
+#include "vf_task.h"
+#include "vf_worker.h"
+#include "vf_config.h"
 
-#pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")  // NOLINT(whitespace/line_length)
+#include "worker_null.h"
+#include "worker_pipe.h"
 
-using std::wstring;
-using namespace tcm;
-
-enum HostReturnCode
-{
-	TCM_HOST_RETURN_NORMAL = 0,
-	TCM_HOST_RETURN_INVALIDCMD = 1,
-	TCM_HOST_RETURN_INVALIDTASK = 2,
-	TCM_HOST_RETURN_FAILEXEC = 3
-};
+#pragma comment(linker, \
+	"/manifestdependency:\"type='win32' \
+	name='Microsoft.Windows.Common-Controls' \
+	_version='6.0.0.0' \
+	processorArchitecture='*' \
+	publicKeyToken='6595b64144ccf1df' language='*'\"")  // NOLINT(whitespace/line_length)
 
 void CheckOption(int argc, LPWSTR* argv);
 void ShowHelp();
@@ -31,31 +27,31 @@ int APIENTRY wWinMain(
 	if(argc < 2)
 	{
 		ShowHelp();
-		return TCM_HOST_RETURN_INVALIDCMD;
+		return VF_HOST_RETURN_INVALIDCMD;
 	}
 
 	CheckOption(argc, argv);
 
 	if(!CanOpenRead(argv[1]))
 	{
-		ShowMsgStr(L"Fail to open task file.",L"TCM Host");
-		return TCM_HOST_RETURN_INVALIDTASK;
+		ShowMsgStr("Fail to open task file.", _vf_host_appname);
+		return VF_HOST_RETURN_INVALIDTASK;
 	}
 
-	TaskEx* task = dynamic_cast<TaskEx*>(TaskEx::Parse(argv[1]));
-	if(task == NULL)
+	Task* task = dynamic_cast<Task*>(Task::Parse(argv[1]));
+	if(task == null)
 	{
-		ShowMsgStr(L"Fail to parse task file.",L"TCM Host");
-		return TCM_HOST_RETURN_INVALIDTASK;
+		ShowMsgStr("Fail to parse task file.", _vf_host_appname);
+		return VF_HOST_RETURN_INVALIDTASK;
 	}
 	
-	Worker* worker = NULL;
+	Worker* worker = null;
 	int mode = task->GetCtrlMode();
 	switch(mode)
 	{
-		case TCM_HOST_CJ_NULL:
+		case VF_HOST_CJ_NULL:
 			worker = new Worker_NULL(); break;
-		case TCM_HOST_CJ_PIPE:
+		case VF_HOST_CJ_PIPE:
 			worker = new Worker_PIPE(); break;
 	}
 	bool ret = task->RunAs(worker);
@@ -63,8 +59,8 @@ int APIENTRY wWinMain(
 	delete worker;
 	delete task;
 	
-	if(ret) return TCM_HOST_RETURN_NORMAL;
-	else return TCM_HOST_RETURN_FAILEXEC;
+	if(ret) return VF_HOST_RETURN_NORMAL;
+	else return VF_HOST_RETURN_FAILEXEC;
 }
 
 void CheckOption(int argc, LPWSTR* argv)
@@ -75,12 +71,12 @@ void CheckOption(int argc, LPWSTR* argv)
 	{
 		if (wcscmp(argv[i], L"silent") == 0)
 		{
-			flag->Enable(TCM_CONFIG_SILENT);
+			flag->Enable(VF_CONFIG_SILENT);
 			continue;
 		}
 		if (wcscmp(argv[i], L"rtmon") == 0)
 		{
-			flag->Enable(TCM_CONFIG_RTMON);
+			flag->Enable(VF_CONFIG_RTMON);
 			continue;
 		}
 	}
@@ -88,10 +84,11 @@ void CheckOption(int argc, LPWSTR* argv)
 
 void ShowHelp()
 {
-	wstring str = L"command lines:\n";
-	str += L" tcm_host [task file] [option]\n";
-	str += L"option:\n";
-	str += L" \"silent\" - to run without any prompt\n";
-	str += L" \"rtmon\" - to monitor in high CPU usage\n";
-	ShowMsgStr(str.c_str(),L"TCM Host");
+	ostringstream oss;
+	oss<<"command lines:\n";
+	oss<<" vf_host [task file] [option]\n";
+	oss<<"option:\n";
+	oss<<" \"silent\" - to run without any prompt\n";
+	oss<<" \"rtmon\" - to monitor in high CPU usage\n";
+	ShowMsgStr(oss.str().c_str(), _vf_host_appname);
 }

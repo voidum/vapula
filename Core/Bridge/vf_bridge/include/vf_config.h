@@ -2,15 +2,15 @@
 
 #include "vf_candy.h"
 
-namespace vf
+namespace vapula
 {
 	enum ConfigItem
 	{
-		TCM_CONFIG_SILENT = 1,
-		TCM_CONFIG_RTMON = 2
+		VF_CONFIG_SILENT = 1,
+		VF_CONFIG_RTMON = 2
 	};
 
-	class TCM_BRIDGE_API Config : Uncopiable
+	class VAPULA_API Config : Uncopiable
 	{
 	private:
 		Config();

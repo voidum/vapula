@@ -1,8 +1,8 @@
-#include "stdafx.h"
 #include "vf_translator.h"
 #include "vf_xml.h"
+#include "rapidxml/rapidxml.hpp"
 
-namespace vf
+namespace vapula
 {
 	using std::cout;
 	using std::endl;
@@ -61,36 +61,37 @@ namespace vf
 		if(_Dict != null) delete _Dict;
 	}
 
-	void Translator::SetDictDir(strw dir)
+	void Translator::SetDictDir(cstrw dir)
 	{
 		_Dir = dir;
 	}
 
 	void Translator::LoadLangPack(int lc)
 	{
-		strw name = GetLangName(lc);
-		if(name == null) return;
+		cstrw name = GetLangName(lc);
+		if(name == null) 
+			return;
 		wstring path = _Dir;
 		path += name;
 		path += L".xml";
 		std::locale::global(std::locale(""));
-		str data = null;
+		cstr data = null;
 		xml_document<>* xdoc = 
 			(xml_document<>*)xml::Load(path.c_str(), data);
 		_Dict->Clear();
 		xml_node<>* xe = (xml_node<>*)xml::Path(&xdoc, 2, "root", "item");
 		while (xe)
 		{
-			strw tmp = xml::ValueW(xe->first_attribute("key"));
+			cstrw tmp = xml::ValueW(xe->first_attribute("key"));
 			_Dict->Add(tmp, xml::ValueW(xe));
 			xe = xe->next_sibling();
 		}
 		delete data;
 	}
 
-	strw Translator::GetText(strw key)
+	cstrw Translator::GetText(cstrw key)
 	{
-		strw tmp = _Dict->Find(key);
+		cstrw tmp = _Dict->Find(key);
 		return tmp;
 	}
 }
