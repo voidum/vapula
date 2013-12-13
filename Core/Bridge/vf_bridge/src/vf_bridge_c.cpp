@@ -21,13 +21,13 @@ int vfeGetDriverCount()
 	return obj->GetCount();
 }
 
-int vfeLinkDriver(str id)
+int vfeLinkDriver(cstr8 id)
 {
 	DriverHub* obj = DriverHub::GetInstance();
 	return obj->Link(id) ? 1 : 0;
 }
 
-int vfeKickDriver(str id)
+int vfeKickDriver(cstr8 id)
 {
 	DriverHub* obj = DriverHub::GetInstance();
 	return obj->Kick(id) ? 1 : 0;
@@ -44,26 +44,26 @@ int vfeGetLibraryCount()
 	return Library::GetCount();
 }
 
-object vfeLoadLibraryW(strw path)
+object vfeLoadLibraryW(cstr16 path)
+{
+	cstr8 path8 = str::ToCh8(path);
+	object lib = Library::Load(path8);
+	delete path8;
+	return lib;
+}
+
+object vfeLoadLibrary(cstr8 path)
 {
 	return Library::Load(path);
 }
 
-object vfeLoadLibraryA(str path)
-{
-	cstrw path_w = MbToWc(path);
-	object ret = Library::Load(path_w);
-	delete path_w;
-	return ret;
-}
-
-cstr vfeGetLibraryRuntime(object lib)
+cstr8 vfeGetLibraryRuntime(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetRuntimeId();
 }
 
-cstrw vfeGetLibraryId(object lib)
+cstr8 vfeGetLibraryId(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetLibraryId();
@@ -176,54 +176,59 @@ object vfeGetEnvelope(object inv)
 	return obj->GetEnvelope();
 }
 
-object vfeLoadEnvelopeW(strw path, int fid)
+object vfeLoadEnvelopeW(cstr16 path, int fid)
+{
+	cstr8 s8 = str::ToCh8(path);
+	object env = Envelope::Load(s8, fid);
+	delete s8;
+	return env;
+}
+
+object vfeLoadEnvelope(cstr8 path, int fid)
 {
 	return Envelope::Load(path, fid);
 }
 
-object vfeLoadEnvelopeA(str path, int fid)
+object vfeParseEnvelopeW(cstr16 xml)
 {
-	cstrw path_w = MbToWc(path);
-	object ret = Envelope::Load(path_w, fid);
-	delete path_w;
-	return ret;
+	cstr8 s8 = str::ToCh8(xml);
+	object env = Envelope::Parse(s8);
+	delete s8;
+	return env;
 }
 
-object vfeParseEnvelopeW(strw xml)
-{
-	cstr str = WcToMb(xml);
-	object ret = Envelope::Parse(str);
-	delete str;
-	return ret;
-}
-
-object vfeParseEnvelopeA(str xml)
+object vfeParseEnvelope(cstr8 xml)
 {
 	return Envelope::Parse(xml);
 }
 
-void vfeWriteEnvelopeW(object env, int id, strw value)
+void vfeWriteEnvelopeW(object env, int id, cstr16 value)
 {
+	cstr8 s8 = str::ToCh8(value, _vf_default_encoding);
 	Envelope* obj = (Envelope*)env;
-	obj->CastWriteW(id, value);
+	obj->CastWrite(id, s8);
+	delete s8;
 }
 
-void vfeWriteEnvelopeA(object env, int id, str value)
+void vfeWriteEnvelope(object env, int id, cstr8 value)
 {
 	Envelope* obj = (Envelope*)env;
-	obj->CastWriteA(id, value);
+	obj->CastWrite(id, value);
 }
 
-cstrw vfeReadEnvelopeW(object env, int id)
+cstr16 vfeReadEnvelopeW(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	return obj->CastReadW(id);
+	cstr8 s8 = obj->CastRead(id);
+	cstr16 s16 = str::ToCh16(s8);
+	delete s8;
+	return s16;
 }
 
-cstr vfeReadEnvelopeA(object env, int id)
+cstr8 vfeReadEnvelope(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	return obj->CastReadA(id);
+	return obj->CastRead(id);
 }
 
 void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to)
@@ -258,14 +263,14 @@ int vfePipeHasNewData(object pipe)
 	return obj->HasNewData() ? TRUE : FALSE;
 }
 
-cstr vfeListenPipe(object pipe)
+cstr8 vfeListenPipe(object pipe)
 {
 	Pipe* obj = (Pipe*)pipe;
 	if(!obj->Listen()) return null;
 	return obj->GetPipeId();
 }
 
-int vfeConnectPipe(object pipe, cstr id)
+int vfeConnectPipe(object pipe, cstr8 id)
 {
 	Pipe* obj = (Pipe*)pipe;
 	return (obj->Connect(id) ? TRUE : FALSE);
@@ -277,13 +282,13 @@ void vfeClosePipe(object pipe)
 	obj->Close();
 }
 
-void vfeWritePipe(object pipe, cstrw value)
+void vfeWritePipe(object pipe, cstr8 value)
 {
 	Pipe* obj = (Pipe*)pipe;
 	obj->Write(value);
 }
 
-cstrw vfeReadPipe(object pipe)
+cstr8 vfeReadPipe(object pipe)
 {
 	Pipe* obj = (Pipe*)pipe;
 	return obj->Read();

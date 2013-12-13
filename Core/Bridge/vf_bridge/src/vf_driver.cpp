@@ -1,5 +1,4 @@
 #include "vf_driver.h"
-#include "windows.h"
 
 namespace vapula
 {
@@ -19,7 +18,7 @@ namespace vapula
 		KickAll();
 	}
 
-	int DriverHub::GetIndex(cstr id)
+	int DriverHub::GetIndex(cstr8 id)
 	{
 		typedef vector<Driver*>::iterator iter;
 		int x = 0;
@@ -32,7 +31,7 @@ namespace vapula
 		return -1;
 	}
 
-	Driver* DriverHub::GetDriver(cstr id)
+	Driver* DriverHub::GetDriver(cstr8 id)
 	{
 		int index = GetIndex(id);
 		if(index < 0)
@@ -46,18 +45,21 @@ namespace vapula
 		return _Drivers.size();
 	}
 
-	bool DriverHub::Link(cstr id)
+	bool DriverHub::Link(cstr8 id)
 	{
 		int index = GetIndex(id);
-		if(index >= 0) return true;
+		if(index >= 0) 
+			return true;
 
-		cstrw id_w = MbToWc(id);
-		std::wstring path = id_w;
-		path += L".vf.driver";
-		HMODULE module = LoadLibraryW(path.c_str());
-		delete id_w;
+		std::string s = id;
+		s += ".vapula.driver";
+		cstr16 path16 = str::ToCh16(s.c_str());
+		HMODULE module = LoadLibraryW(path16);
+		delete path16;
 
-		if(module == null) return false;
+		if(module == null) 
+			return false;
+		
 		typedef Driver* (*Delegate)();
 		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
 		Driver* driver = d();
@@ -66,7 +68,7 @@ namespace vapula
 		return true;
 	}
 
-	bool DriverHub::Kick(cstr id)
+	bool DriverHub::Kick(cstr8 id)
 	{
 		int index = GetIndex(id);
 		if(index < 0)

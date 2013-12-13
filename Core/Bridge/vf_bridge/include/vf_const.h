@@ -38,10 +38,11 @@ namespace vapula
 	typedef unsigned long long uint64;
 	typedef float real32;
 	typedef double real64;
-	typedef char* str;
-	typedef wchar_t* strw;
-	typedef const char* cstr;
-	typedef const wchar_t* cstrw;
+
+	typedef char* str8;
+	typedef wchar_t* str16;
+	typedef const char* cstr8;
+	typedef const wchar_t* cstr16;
 
 	#define null 0
 
@@ -91,9 +92,11 @@ namespace vapula
 	}; //context return code
 
 	//define error
-	str const _vf_err_0 = "invalid data type";
-	str const _vf_err_1 = "access null param";
-	str const _vf_err_2 = "write null value";
-	str const _vf_err_3 = "deliver between different types";
-	str const _vf_err_4 = "read string as multi-bytes";
+	cstr8 const _vf_err_0 = "invalid data type";
+	cstr8 const _vf_err_1 = "access null param";
+	cstr8 const _vf_err_2 = "write null value";
+	cstr8 const _vf_err_3 = "deliver between different types";
+	cstr8 const _vf_err_4 = "can NOT read char-based string from envelope";
+	cstr8 const _vf_bridge = "Vapula Bridge";
+	cstr8 const _vf_default_encoding = "utf8";
 }

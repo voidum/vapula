@@ -15,7 +15,7 @@ namespace vapula
 		virtual ~Driver();
 	public:
 		//获取运行环境标识
-		virtual cstr
+		virtual cstr8
 			GetRuntimeId() = 0;
 
 		//创建组件
@@ -43,19 +43,19 @@ namespace vapula
 		vector<Driver*> _Drivers;
 		vector<object> _Modules;
 	private:
-		int GetIndex(cstr id);
+		int GetIndex(cstr8 id);
 	public:
 		//链接驱动
-		bool Link(cstr id);
+		bool Link(cstr8 id);
 
 		//踢出驱动
-		bool Kick(cstr id);
+		bool Kick(cstr8 id);
 
 		//踢出所有驱动
 		void KickAll();
 	public:
 		//获取驱动
-		Driver* GetDriver(cstr id);
+		Driver* GetDriver(cstr8 id);
 
 		//获取已接驳驱动数量
 		int GetCount();

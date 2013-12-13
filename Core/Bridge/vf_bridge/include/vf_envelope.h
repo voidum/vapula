@@ -13,11 +13,11 @@ namespace vapula
 		~Envelope();
 	public:
 		//由XML文件解析出信封对象
-		static Envelope* Load(cstrw path, int fid);
+		static Envelope* Load(cstr8 path, int fid);
 		
 		//由XML字符串解析出信封对象
 		//要求输入params节点
-		static Envelope* Parse(cstr xml);
+		static Envelope* Parse(cstr8 xml);
 	private:
 		//由XML对象解析出信封对象
 		//要求输入params节点
@@ -72,11 +72,23 @@ namespace vapula
 			return (ret == 1);
 		}
 
-		//不允许以多字节字符串形式读取参数
+		//读出参数，特化8位字节字符串
 		template<>
-		cstr Read<cstr>(int)
+		cstr8 Read<cstr8>(int id)
 		{
-			throw invalid_argument(_vf_err_4);
+			cstr8 tmp = (cstr8)Read<object>(id);
+			cstr8 s8 = str::Copy(tmp);
+			return s8;
+		}
+
+		//读出参数，特化16位字节字符串
+		template<>
+		cstr16 Read<cstr16>(int id)
+		{
+			cstr8 s8 = Read<cstr8>(id);
+			cstr16 s16 = str::ToCh16(s8);
+			delete s8;
+			return s16;
 		}
 
 		//写入参数
@@ -97,29 +109,27 @@ namespace vapula
 		}
 
 		//写入字符串，自动复制
-		//多字节字符串首先转换成宽字节字符串
+		//务必写入UTF8编码的字符串
 		template<>
-		void Write<cstr>(int id, cstr value)
+		void Write<cstr8>(int id, cstr8 value)
 		{
-			cstrw strw = MbToWc(value);
-			WriteEx(id, (object)strw, wcslen(strw) * 2 + 2);
-			delete strw;
+			WriteEx(id, (object)value, strlen(value) + 1);
 		}
 
 		//写入字符串，自动复制
 		template<>
-		void Write<cstrw>(int id, cstrw value)
+		void Write<cstr16>(int id, cstr16 value)
 		{
-			WriteEx(id, (object)value, wcslen(value) * 2 + 2);
+			cstr8 s8 = str::ToCh8(value, _vf_default_encoding);
+			Write(id, s8);
+			delete s8;
 		}
 
 		//读出数值并自动转型到字符串
-		cstr CastReadA(int id);
-		cstrw CastReadW(int id);
+		cstr8 CastRead(int id);
 
 		//由字符串自动转型到数值并写入
-		void CastWriteA(int id, cstr value);
-		void CastWriteW(int id, cstrw value);
+		void CastWrite(int id, cstr8 value);
 
 		//投递当前信封到目标
 		//要求类型完全一致

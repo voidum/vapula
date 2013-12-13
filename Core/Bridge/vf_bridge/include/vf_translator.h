@@ -24,7 +24,7 @@ namespace vapula
 	int GetZoneCode(int lc);
 
 	//获取语言代码名称
-	strw GetLangName(int lc);
+	cstr8 GetLangName(int lc);
 
 	class VAPULA_API Translator
 	{
@@ -32,15 +32,15 @@ namespace vapula
 		Translator();
 		~Translator();
 	private:
-		cstrw _Dir;
+		cstr8 _Dir;
 		Dict* _Dict;
 	public:
 		//设置字典路径
 		//需要形如"X:\\...\\"
-		void SetDictDir(cstrw dir);
+		void SetDictDir(cstr8 dir);
 
 		//通过key查找文本
-		cstrw GetText(cstrw key);
+		cstr8 GetText(cstr8 key);
 
 		//加载语言包
 		void LoadLangPack(int lc = zh_CN);

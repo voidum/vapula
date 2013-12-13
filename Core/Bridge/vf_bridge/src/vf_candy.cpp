@@ -63,31 +63,30 @@ namespace vapula
 		InterlockedExchange(_Core, FALSE);
 	}
 
-	VarAOO::VarAOO()
+	VarAO::VarAO()
 	{
-		_Token = new byte[1];
+		_Seal = new byte[1];
 		_Value = null;
 	}
 
-	VarAOO::~VarAOO()
+	VarAO::~VarAO()
 	{
-		if(_Token != null)
-			delete [] _Token;
-		if(_Value != null)
-			delete [] _Value;
+		Clear(_Seal, true);
+		Clear(_Value);
 	}
 
-	bool VarAOO::CanSet()
+	bool VarAO::CanSet()
 	{
-		return (_Token != null);
+		return (_Seal != null);
 	}
 
-	void VarAOO::_Set(object data, uint32 len)
+	void VarAO::Set(object data, uint32 size)
 	{
-		_Value = new byte[len];
-		memcpy(_Value, data, len);
-		delete [] (byte*)_Token;
-		_Token = null;
+		if(!CanSet())
+			return;
+		_Value = new byte[size];
+		memcpy(_Value, data, size);
+		Clear(_Seal, true);
 	}
 
 	Flag::Flag()
@@ -143,7 +142,7 @@ namespace vapula
 		return i;
 	}
 
-	bool Dict::Contain(cstrw key)
+	bool Dict::Contain(cstr8 key)
 	{
 		if(key == null)
 			return false;
@@ -151,7 +150,7 @@ namespace vapula
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
 		{
-			if(wcscmp(key, *i) != 0)
+			if(strcmp(key, *i) != 0)
 				continue;
 			_Lock->Leave();
 			ret = true;
@@ -161,20 +160,20 @@ namespace vapula
 		return ret;
 	}
 
-	bool Dict::Add(cstrw key, cstrw value)
+	bool Dict::Add(cstr8 key, cstr8 value)
 	{
 		if(key == null || value == null)
 			return false;
 		if(Contain(key)) 
 			return false;
 		_Lock->EnterEx();
-		_Keys.push_back(CopyStrW(key));
-		_Values.push_back(CopyStrW(value));
+		_Keys.push_back(str::Copy(key));
+		_Values.push_back(str::Copy(value));
 		_Lock->Leave();
 		return true;
 	}
 
-	bool Dict::Remove(cstrw key)
+	bool Dict::Remove(cstr8 key)
 	{
 		if(key == null)
 			return true;
@@ -183,7 +182,7 @@ namespace vapula
 		_Lock->EnterEx();
 		for(iter i1 = _Keys.begin(); i1 != _Keys.end(); i1++)
 		{
-			if(wcscmp(key, *i1) != 0) 	
+			if(strcmp(key, *i1) != 0) 	
 			{
 				i++;
 				continue;
@@ -198,24 +197,24 @@ namespace vapula
 		return ret;
 	}
 
-	cstrw Dict::GetKey(uint32 id)
+	cstr8 Dict::GetKey(uint32 id)
 	{
 		_Lock->EnterEx();
-		cstrw ret = null;
+		cstr8 ret = null;
 		if(id < _Keys.size())
-			ret = CopyStrW(_Keys[id]);
+			ret = str::Copy(_Keys[id]);
 		_Lock->Leave();
 		return ret;
 	}
 
-	cstrw Dict::GetValue(uint32 id)
+	cstr8 Dict::GetValue(uint32 id)
 	{
 		if(id < 0) 
 			return null;
 		_Lock->EnterEx();
-		cstrw ret = null;
+		cstr8 ret = null;
 		if(id < _Values.size())
-			ret = CopyStrW(_Values[id]);
+			ret = str::Copy(_Values[id]);
 		_Lock->Leave();
 		return ret;
 	}
@@ -232,17 +231,17 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	cstrw Dict::Find(cstrw key)
+	cstr8 Dict::Find(cstr8 key)
 	{
 		if(key == null) 
 			return null;
-		cstrw ret = null;
+		cstr8 ret = null;
 		_Lock->EnterEx();
 		for(iter i = _Keys.begin(); i != _Keys.end(); i++)
 		{
-			if(wcscmp(key, *i) != 0)
+			if(strcmp(key, *i) != 0)
 				continue;
-			ret = CopyStrW(*i);
+			ret = str::Copy(*i);
 			break;
 		}
 		_Lock->Leave();

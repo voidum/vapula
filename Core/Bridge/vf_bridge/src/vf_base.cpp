@@ -30,7 +30,7 @@ namespace vapula
 		}
 	}
 
-	cstr GetLuidA()
+	cstr8 GetLuid()
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
@@ -42,92 +42,90 @@ namespace vapula
 			int rnd = rand() % 10;
 			oss<<rnd;
 		}
-		return CopyStrA(oss.str().c_str());
+		return str::Copy(oss.str().c_str());
 	}
 
-	cstrw GetLuidW()
-	{
-		cstr guid = GetLuidA();
-		cstrw ret = MbToWc(guid, "utf8");
-		delete guid;
-		return ret;
-	}
-
-	void ShowMsgStr(cstr value, cstr caption)
+	void ShowMsgbox(cstr8 value, cstr8 caption)
 	{
 		Config* config = Config::GetInstance();
 		if(!config->IsSilent())
-			MessageBoxA(null, 
-				value, 
-				caption == null ? "" : caption, 0);
+			MessageBoxA(null, value, 
+			caption == null ? _vf_bridge : caption, 0);
 	}
 
-	void ShowMsgStr(cstrw value, cstrw caption)
+	void ShowMsgbox(cstr16 value, cstr16 caption)
 	{
 		Config* config = Config::GetInstance();
 		if(!config->IsSilent())
-			MessageBoxW(null, 
-				value,
-				caption == null ? L"" : caption, 0);
+			MessageBoxW(null, value,
+				caption == null ? str::ToCh16(_vf_bridge) : caption, 0);
 	}
 
-	cstrw GetRuntimeDir()
+	cstr8 GetRuntimeDir()
 	{
 		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		WCHAR path[MAX_PATH];
+		wchar_t path[MAX_PATH];
 		GetModuleFileName(mod, path, MAX_PATH);
-		wstring str_full = path;
-		wstring str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstrw ret = CopyStrW(str_ret.c_str());
+		cstr8 path8 = str::ToCh8(path);
+		string str_full = path8;
+		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
+		cstr8 ret = str::Copy(str_ret.c_str());
+		delete path8;
 		return ret;
 	}
 
-	cstrw GetAppName()
+	cstr8 GetAppName()
 	{
 		wchar_t path[MAX_PATH];
 		GetModuleFileName(null, path, MAX_PATH);
-		wstring str_full = path;
-		wstring str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
-		cstrw ret = CopyStrW(str_ret.c_str());
+		cstr8 path8 = str::ToCh8(path);
+		string str_full = path8;
+		string str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
+		cstr8 ret = str::Copy(str_ret.c_str());
+		delete path8;
 		return ret;
 	}
 
-	cstrw GetAppDir()
+	cstr8 GetAppDir()
 	{
 		wchar_t path[MAX_PATH];
 		GetModuleFileName(null, path, MAX_PATH);
-		wstring str_full = path;
-		wstring str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstrw ret = CopyStrW(str_ret.c_str());
+		cstr8 path8 = str::ToCh8(path);
+		string str_full = path8;
+		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
+		cstr8 ret = str::Copy(str_ret.c_str());
+		delete path8;
 		return ret;
 	}
 
-	cstrw GetDirPath(cstrw path, bool isfile)
+	cstr8 GetDirPath(cstr8 path, bool isfile)
 	{
-		if(wcslen(path) < 1) 
-			return CopyStrW(L"\\");
-		cstrw strw_fix = ReplaceStrW(path, L"/", L"\\");
-		wstring str = strw_fix;
+		if(strlen(path) < 1) 
+			return str::Copy("\\");
+		cstr8 str_fix = str::Replace(path, "/", "\\");
+		string s = str_fix;
 		if(!isfile)
-			str += L'\\';
+			s += L'\\';
 		else
 		{
-			uint32 p = str.rfind(L'\\');
+			uint32 p = s.rfind('\\');
 			if(p == wstring::npos)
-				str = L"\\";
-			else if(p != str.size() - 1) 
-				str = str.substr(0, p+1);
+				s = "\\";
+			else if(p != s.size() - 1) 
+				s = s.substr(0, p+1);
 		}
-		delete strw_fix;
-		return CopyStrW(str.c_str());
+		delete str_fix;
+		return str::Copy(s.c_str());
 	}
 
-	bool CanOpenRead(cstrw file)
+	bool CanOpenRead(cstr8 file)
 	{
+		cstr16 file16 = str::ToCh16(file);
 		HANDLE handle = 
-			CreateFile(file, 0, 
+			CreateFile(file16, 0, 
 				FILE_SHARE_READ, null, 
 				OPEN_EXISTING, null, null);
+		delete file16;
 		if(handle == INVALID_HANDLE_VALUE) 
 			return false;
 		CloseHandle(handle);

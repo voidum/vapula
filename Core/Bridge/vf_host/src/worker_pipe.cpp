@@ -22,10 +22,10 @@ bool Worker_PIPE::RunStageA()
 	Task* task = dynamic_cast<Task*>(_Task);
 	xml_node<>* cfg = (xml_node<>*)xml::Parse(task->GetCtrlConfig());
 	std::locale::global(std::locale(""));
-	cstr pid = xml::ValueA(cfg->first_node("pid"));
+	cstr8 pid = xml::ValueCh8(cfg->first_node("pid"));
 	if(!_Pipe->Connect(pid))
 		return false;
-	_Pipe->Write(L"A");
+	_Pipe->Write("A");
 	//TODO: wait for permission
 	return true;
 }
@@ -38,7 +38,7 @@ bool Worker_PIPE::RunStageB()
 	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();
 
-	_Pipe->Write(L"B");
+	_Pipe->Write("B");
 	//TODO: wait for permission
 
 	int freq_monitor = flag->Valid(VF_CONFIG_RTMON) ? 5 : 50;
@@ -49,8 +49,8 @@ bool Worker_PIPE::RunStageB()
 		ostringstream oss;
 		oss<<ctx->GetState()<<",";
 		oss<<ctx->GetProgress();
-		_Pipe->WriteA(oss.str().c_str());
-		cstr data = _Pipe->ReadA();
+		_Pipe->Write(oss.str().c_str());
+		cstr8 data = _Pipe->Read();
 		int ctrl = atoi(data);
 		switch(ctrl)
 		{
@@ -67,7 +67,7 @@ bool Worker_PIPE::RunStageB()
 	}
 	ostringstream oss;
 	oss<<VF_STATE_IDLE<<","<<100.0f;
-	_Pipe->WriteA(oss.str().c_str());
+	_Pipe->Write(oss.str().c_str());
 	return true;
 }
 
@@ -83,9 +83,9 @@ bool Worker_PIPE::RunStageC()
 		if(!env->GetInState(i))
 		{
 			resp += "<param id=\"";
-			resp += ValueToStr(i);
+			resp += str::ValueTo(i);
 			resp += "\">";
-			resp += env->CastReadA(i);
+			resp += env->CastRead(i);
 			resp += "</param>";
 		}
 	}
@@ -96,8 +96,8 @@ bool Worker_PIPE::RunStageC()
 
 	//if(_Pipe->GetDataVol() >= xml.size())
 	//{
-	cstr str = CopyStrA(resp.c_str());
-	_Pipe->WriteA(str);
+	cstr8 str = str::Copy(resp.c_str());
+	_Pipe->Write(str);
 	delete str;
 	//}
 	return false;

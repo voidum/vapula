@@ -23,11 +23,11 @@ namespace vapula
 	private:
 		Dict* _Tags;
 		int _CtrlMode;
-		cstr _CtrlConfig;
+		cstr8 _CtrlConfig;
 
 	public:
 		//从指定XML文件解析任务
-		static Task* Parse(cstrw path);
+		static Task* Parse(cstr8 path);
 
 	public:
 		//设置阶段耗时，以秒为单位
@@ -53,7 +53,7 @@ namespace vapula
 		int GetCtrlMode();
 
 		//获取控制配置
-		cstr GetCtrlConfig();
+		cstr8 GetCtrlConfig();
 
 	public:
 		//指定工作者运行任务

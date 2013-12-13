@@ -34,10 +34,10 @@ namespace vapula
 
 	Envelope::~Envelope()
 	{
-		if(_InStates != null) delete [] _InStates;
-		if(_Types != null) delete [] _Types;
-		if(_Offsets != null) delete [] _Offsets;
-		if(_Memory != null) delete [] _Memory;
+		Clear(_InStates, true);
+		Clear(_Types, true);
+		Clear(_Offsets, true);
+		Clear(_Memory);
 	}
 
 	uint64 Envelope::_AddrOf(int id)
@@ -102,7 +102,7 @@ namespace vapula
 		}
 	}
 
-	Envelope* Envelope::Parse(cstr xml)
+	Envelope* Envelope::Parse(cstr8 xml)
 	{
 		xml_document<>* xdoc = (xml_document<>*)xml::Parse(xml);
 		Envelope* env = Parse(xdoc->first_node());
@@ -110,9 +110,9 @@ namespace vapula
 		return env;
 	}
 
-	Envelope* Envelope::Load(cstrw path, int fid)
+	Envelope* Envelope::Load(cstr8 path, int fid)
 	{
-		cstr data = null;
+		cstr8 data = null;
 		xml_document<>* xdoc = (xml_document<>*)xml::Load(path, data);
 		xml_node<>* xe = (xml_node<>*)xml::Path(
 			xdoc, 3, "library", "functions", "function");
@@ -144,7 +144,7 @@ namespace vapula
 		return _InStates[id - 1];
 	}
 
-	cstr Envelope::CastReadA(int id)
+	cstr8 Envelope::CastRead(int id)
 	{
 		if(!AssertId(id))
 			throw invalid_argument(_vf_err_1);
@@ -152,50 +152,37 @@ namespace vapula
 		switch(type)
 		{
 		case VF_DATA_POINTER:
-			return ValueToStr((uint64)Read<object>(id));
+			return str::ValueTo((uint64)Read<object>(id));
 		case VF_DATA_INT8:	
-			return ValueToStr(Read<int8>(id));
+			return str::ValueTo(Read<int8>(id));
 		case VF_DATA_UINT8:
-			return ValueToStr(Read<uint8>(id));
+			return str::ValueTo(Read<uint8>(id));
 		case VF_DATA_INT16:
-			return ValueToStr(Read<int16>(id));
+			return str::ValueTo(Read<int16>(id));
 		case VF_DATA_UINT16:
-			return ValueToStr(Read<uint16>(id));
+			return str::ValueTo(Read<uint16>(id));
 		case VF_DATA_INT32:
-			return ValueToStr(Read<int32>(id));
+			return str::ValueTo(Read<int32>(id));
 		case VF_DATA_UINT32:
-			return ValueToStr(Read<uint32>(id));
+			return str::ValueTo(Read<uint32>(id));
 		case VF_DATA_INT64:
-			return ValueToStr(Read<int64>(id));
+			return str::ValueTo(Read<int64>(id));
 		case VF_DATA_UINT64:
-			return ValueToStr(Read<uint64>(id));
+			return str::ValueTo(Read<uint64>(id));
 		case VF_DATA_REAL32:
-			return ValueToStr(Read<real32>(id));
+			return str::ValueTo(Read<real32>(id));
 		case VF_DATA_REAL64:
-			return ValueToStr(Read<real64>(id));
+			return str::ValueTo(Read<real64>(id));
 		case VF_DATA_BOOL:	
 			return Read<bool>(id) ? "true" : "false";
 		case VF_DATA_STRING:
-			return WcToMb(Read<strw>(id));
+			return str::Copy(Read<cstr8>(id));
 		default:
 			return null;
 		}
 	}
 
-	cstrw Envelope::CastReadW(int id)
-	{
-		if(!AssertId(id)) 
-			throw invalid_argument(_vf_err_1);
-		int type = GetType(id);
-		if(type == VF_DATA_STRING)
-			return CopyStrW(Read<strw>(id));
-		else if(type == VF_DATA_BOOL)
-			return Read<bool>(id) ? L"true" : L"false";
-		else 
-			return MbToWc(CastReadA(id));
-	}
-
-	void Envelope::CastWriteA(int id, cstr value)
+	void Envelope::CastWrite(int id, cstr8 value)
 	{
 		if(value == null)
 			throw invalid_argument(_vf_err_2);
@@ -229,26 +216,10 @@ namespace vapula
 		case VF_DATA_BOOL:	
 			Write(id, (strcmp(value,"true") == 0) ? 1 : 0); break;
 		case VF_DATA_STRING:
-			Write(id, MbToWc(value)); break;
+			Write(id, value); break;
 		default:
 			break;
 		}
-	}
-
-	void Envelope::CastWriteW(int id, cstrw value)
-	{
-		if(value == null) 
-			throw invalid_argument(_vf_err_2);
-		if(!AssertId(id)) 
-			throw invalid_argument(_vf_err_1);
-		int type = GetType(id);
-		if(type == VF_DATA_STRING)
-		{
-			Write(id, value);
-			return;
-		}
-		cstr str = WcToMb(value);
-		CastWriteA(id, str);
 	}
 
 	void Envelope::Deliver(Envelope* who, int from, int to)
@@ -323,9 +294,9 @@ namespace vapula
 			who->Write(to, *((int8*)ptr));
 			break;
 		case VF_DATA_STRING:
-			ptr = new strw[1];
-			*((strw*)ptr) = Read<strw>(from);
-			who->Write(to, *((strw*)ptr));
+			ptr = new cstr16[1];
+			*((cstr16*)ptr) = Read<cstr16>(from);
+			who->Write(to, *((cstr16*)ptr));
 			break;
 		default:
 			return;
@@ -346,8 +317,8 @@ namespace vapula
 		}
 		else
 		{
-			cstrw value = CastReadW(from);
-			return who->CastWriteW(to, value);
+			cstr8 value = CastRead(from);
+			return who->CastWrite(to, value);
 		}
 	}
 }

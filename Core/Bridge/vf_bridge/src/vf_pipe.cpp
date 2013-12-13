@@ -22,8 +22,8 @@ namespace vapula
 		{
 			Clear(_Id);
 			if(ntry++ > 10) return false;
-			_Id = GetLuidA();
-			cstrw tmp = MbToWc(_Id);
+			_Id = GetLuid();
+			cstr16 tmp = str::ToCh16(_Id);
 			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, vol, tmp);
 			delete tmp;
 		} while (GetLastError() != ERROR_SUCCESS);
@@ -124,7 +124,7 @@ namespace vapula
 		return data;
 	}
 
-	cstr Pipe::GetPipeId()
+	cstr8 Pipe::GetPipeId()
 	{
 		return _Id;
 	}
@@ -155,12 +155,12 @@ namespace vapula
 		return true;
 	}
 
-	bool Pipe::Connect(cstr pid)
+	bool Pipe::Connect(cstr8 pid)
 	{
 		Close();
 		_IsServer = false;
-		_Id = CopyStrA(pid);
-		cstrw tmp = MbToWc(_Id);
+		_Id = str::Copy(pid);
+		cstr16 tmp = str::ToCh16(_Id);
 		_Mapping = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, tmp);
 		delete tmp;
 		if(GetLastError() != ERROR_SUCCESS)
@@ -191,27 +191,15 @@ namespace vapula
 		return size;
 	}
 
-	void Pipe::Write(cstrw data)
-	{
-		uint32 len = wcslen(data) * 2 + 2;
-		_Write((object)data, len);
-	}
-
-	void Pipe::WriteA(cstr data)
+	void Pipe::Write(cstr8 data)
 	{
 		uint32 len = strlen(data) + 1;
 		_Write((object)data, len);
 	}
 
-	cstrw Pipe::Read()
+	cstr8 Pipe::Read()
 	{
-		cstrw data = (cstrw)_Read();
-		return data;
-	}
-
-	cstr Pipe::ReadA()
-	{
-		cstr data = (cstr)_Read();
+		cstr8 data = (cstr8)_Read();
 		return data;
 	}
 }

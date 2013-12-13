@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace TCM.API
+namespace Vapula.API
 {
     internal class Bridge
     {
@@ -10,210 +10,201 @@ namespace TCM.API
         /// </summary>
         public static string MarshalString(IntPtr ptr, bool unicode = true)
         {
-            string ret = null;
-            if (unicode) ret = Marshal.PtrToStringUni(ptr);
-            else ret = Marshal.PtrToStringAnsi(ptr);
+            string ret =
+                unicode ?
+                    Marshal.PtrToStringUni(ptr) :
+                    Marshal.PtrToStringAnsi(ptr);
             return ret;
         }
 
         #region Base
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmTestBridge",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeTestBridge",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void TestBridge();
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmDeleteObject",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteObject",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeleteObject(IntPtr obj);
         #endregion
 
         #region Driver
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetDriverCount",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetDriverCount",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetDriverCount();
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmLinkDriver",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeLinkDriver",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool LinkDriver(string id);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmKickDriver",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeKickDriver",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool KickDriver(string id);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmKickAllDrivers",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeKickAllDrivers",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void KickAllDrivers();
         #endregion
 
         #region Library
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetLibraryCount",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLibraryCount",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetLibraryCount();
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmLoadLibraryW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeLoadLibraryW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr LoadLibrary(string path);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetLibraryRuntime",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLibraryRuntime",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetLibraryRuntime(IntPtr lib);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetLibraryId",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLibraryId",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetLibraryId(IntPtr lib);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmMountLibrary",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeMountLibrary",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool MountLibrary(IntPtr lib);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmUnmountLibrary",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeUnmountLibrary",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void UnmountLibrary(IntPtr lib);
         #endregion
 
         #region Invoker
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmCreateInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeCreateInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateInvoker(IntPtr lib, int fid);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetFunctionId",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetFunctionId",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetFunctionId(IntPtr lib);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStartInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeStartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool StartInvoker(IntPtr inv);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStopInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeStopInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void StopInvoker(IntPtr inv, uint wait);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmPauseInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfePauseInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void PauseInvoker(IntPtr inv, uint wait);
         
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmResumeInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeResumeInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void ResumeInvoker(IntPtr inv);
         
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmRestartInvoker",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeRestartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void RestartInvoker(IntPtr inv, uint wait);
         #endregion
 
-        #region Token
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetContextToken",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetContextToken(IntPtr inv);
-
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmStampContext",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr StampContext(IntPtr ctx);
-        #endregion
-
         #region Context
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetContext",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetContext",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetContext(IntPtr inv);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetCtrlCode(IntPtr ctx);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmSetCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetCtrlCode(IntPtr ctx, int ctrl_code, IntPtr token);
+        public static extern void SetCtrlCode(IntPtr ctx, int ctrl_code);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmReplyCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReplyCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void ReplyCtrlCode(IntPtr ctx);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetProgress",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetProgress",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern float GetProgress(IntPtr ctx);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmSetProgress",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetProgress",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetProgress(IntPtr ctx, float prog);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetState",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetState",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetState(IntPtr ctx);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmSetState",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetState",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetState(IntPtr ctx, int state, IntPtr token);
+        public static extern void SetState(IntPtr ctx, int state);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetReturnCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetReturnCode",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetReturnCode(IntPtr ctx);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmSetReturnCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetReturnCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetReturnCode(IntPtr ctx, int return_code, IntPtr token);
+        public static extern void SetReturnCode(IntPtr ctx, int return_code);
         #endregion
 
         #region Envelope
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmGetEnvelope",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEnvelope",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetEnvelope(IntPtr inv);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmParseEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeParseEnvelopeW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ParseEnvelope(string xml);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmWriteEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void WriteEnvelope(IntPtr env, int id, string value);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmReadEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeW",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ReadEnvelope(IntPtr env, int id);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmDeliverEnvelope",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeliverEnvelope",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeliverEnvelope(IntPtr src, IntPtr dst, int from, int to);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmCastDeliverEnvelope",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeCastDeliverEnvelope",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void CastDeliverEnvelope(IntPtr src, IntPtr dst, int from, int to);
         #endregion
 
         #region Pipe
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmCreatePipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeCreatePipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreatePipe();
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmListenPipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeListenPipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ListenPipe(IntPtr pipe);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmConnectPipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeConnectPipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool ConnectPipe(IntPtr pipe, string pid);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmClosePipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeClosePipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void ClosePipe(IntPtr pipe);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmPipeIsClose",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeIsClose",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool PipeIsClose(IntPtr pipe);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmPipeHasNewData",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeHasNewData",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern bool PipeHasNewData(IntPtr pipe);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmWritePipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWritePipe",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void WritePipe(IntPtr pipe, string data);
 
-        [DllImport("tcm_bridge.dll", EntryPoint = "tcmReadPipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadPipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ReadPipe(IntPtr pipe);
         #endregion

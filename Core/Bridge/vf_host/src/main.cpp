@@ -8,11 +8,11 @@
 #pragma comment(linker, \
 	"/manifestdependency:\"type='win32' \
 	name='Microsoft.Windows.Common-Controls' \
-	_version='6.0.0.0' \
+	version='6.0.0.0' \
 	processorArchitecture='*' \
 	publicKeyToken='6595b64144ccf1df' language='*'\"")  // NOLINT(whitespace/line_length)
 
-void CheckOption(int argc, LPWSTR* argv);
+void CheckOption(int argc, str16* argv);
 void ShowHelp();
 
 int APIENTRY wWinMain(
@@ -22,7 +22,7 @@ int APIENTRY wWinMain(
 	int nCmdShow)
 {
 	int argc = 0;
-	LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(),&argc);
+	str16* argv = CommandLineToArgvW(GetCommandLineW(),&argc);
 
 	if(argc < 2)
 	{
@@ -31,17 +31,18 @@ int APIENTRY wWinMain(
 	}
 
 	CheckOption(argc, argv);
+	cstr8 path = str::ToCh8(argv[1]);
 
-	if(!CanOpenRead(argv[1]))
+	if(!CanOpenRead(path))
 	{
-		ShowMsgStr("Fail to open task file.", _vf_host_appname);
+		ShowMsgbox("Fail to open task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 
-	Task* task = dynamic_cast<Task*>(Task::Parse(argv[1]));
+	Task* task = dynamic_cast<Task*>(Task::Parse(path));
 	if(task == null)
 	{
-		ShowMsgStr("Fail to parse task file.", _vf_host_appname);
+		ShowMsgbox("Fail to parse task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 	
@@ -90,5 +91,5 @@ void ShowHelp()
 	oss<<"option:\n";
 	oss<<" \"silent\" - to run without any prompt\n";
 	oss<<" \"rtmon\" - to monitor in high CPU usage\n";
-	ShowMsgStr(oss.str().c_str(), _vf_host_appname);
+	ShowMsgbox(oss.str().c_str(), _vf_host);
 }

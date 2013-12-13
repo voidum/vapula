@@ -56,7 +56,7 @@ namespace vapula
 		return _CtrlMode; 
 	}
 
-	cstr Task::GetCtrlConfig() 
+	cstr8 Task::GetCtrlConfig() 
 	{
 		return _CtrlConfig; 
 	}
@@ -66,13 +66,13 @@ namespace vapula
 		return _Tags; 
 	}
 
-	Task* Task::Parse(cstrw path)
+	Task* Task::Parse(cstr8 path)
 	{
-		cstr data = null;
+		cstr8 data = null;
 		xml_node<>* xdoc = (xml_node<>*)xml::Load(path, data);
 		if(xdoc == null)
 		{
-			ShowMsgStr("Fail to load task file.", _vf_host_appname);
+			ShowMsgbox("Fail to load task file.", _vf_host);
 			return null;
 		}
 
@@ -82,31 +82,31 @@ namespace vapula
 		xml_node<>* xe_ext = xe_root->first_node("extension");
 
 		DriverHub* driver_hub = DriverHub::GetInstance();
-		cstr driver_id = xml::ValueA(xe_target->first_node("runtime"));
+		cstr8 driver_id = xml::ValueCh8(xe_target->first_node("runtime"));
 		if(!driver_hub->Link(driver_id))
 		{
-			ShowMsgStr("Fail to link driver.", _vf_host_appname);
+			ShowMsgbox("Fail to link driver.", _vf_host);
 			return null;
 		}
 		delete driver_id;
 
-		cstrw dir = xml::ValueW(xe_target->first_node("dir"));
-		cstrw lib = xml::ValueW(xe_target->first_node("lib"));
-		wstring str_path = dir;
+		cstr8 dir = xml::ValueCh8(xe_target->first_node("dir"));
+		cstr8 lib = xml::ValueCh8(xe_target->first_node("lib"));
+		string str_path = dir;
 		str_path += lib;
-		str_path += L".vapula.task";
+		str_path += ".vapula.library";
 		task->_Lib = Library::Load(str_path.c_str());
 		delete lib;
 
 		if(task->_Lib == null)
 		{
-			ShowMsgStr("Fail to load library.", _vf_host_appname);
+			ShowMsgbox("Fail to load library.", _vf_host);
 			return null;
 		}
 
 		if(!task->_Lib->Mount())
 		{
-			ShowMsgStr("Fail to mount library", _vf_host_appname);
+			ShowMsgbox("Fail to mount library", _vf_host);
 			return null;
 		}
 
@@ -118,8 +118,8 @@ namespace vapula
 		while (xe_param)
 		{
 			int pid = xml::ValueInt(xe_param->first_attribute("id"));
-			cstr pv = xml::ValueA(xe_param);
-			env->CastWriteA(pid, pv);
+			cstr8 pv = xml::ValueCh8(xe_param);
+			env->CastWrite(pid, pv);
 			delete pv;
 			xe_param = xe_param->next_sibling();
 		}
@@ -128,8 +128,8 @@ namespace vapula
 		xml_node<>* xe_tag = (xml_node<>*)xml::Path(xe_ext, 2, "tags", "tag");
 		while(xe_tag)
 		{
-			cstrw key = xml::ValueW(xe_tag->first_attribute("key"));
-			cstrw value = xml::ValueW(xe_tag);
+			cstr8 key = xml::ValueCh8(xe_tag->first_attribute("key"));
+			cstr8 value = xml::ValueCh8(xe_tag);
 			task->_Tags->Add(key, value);
 			delete key;
 			delete value;
@@ -160,17 +160,17 @@ namespace vapula
 			oss<<_Lib->GetLibraryId()<<"=>"<<_FuncId;
 			oss<<"\nReturn code:"<<ret_task;
 			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
-			ShowMsgStr(oss.str().c_str(), _vf_host_appname);
+			ShowMsgbox(oss.str().c_str(), _vf_host);
 			ret = true;
 		}
 		else if(ret_worker > VF_HOST_RETURN_NORMAL)
 		{
 			ostringstream oss;
 			oss<<"Vapula host has NOT done with task:\n";
-			oss<<_Lib->GetLibraryId()<<"=>"<<ValueToStr(_FuncId);
+			oss<<_Lib->GetLibraryId()<<"=>"<<str::ValueTo(_FuncId);
 			oss<<"\nLast stage: "<<('A' + ret_worker - 1);
 			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
-			ShowMsgStr(oss.str().c_str(), _vf_host_appname);
+			ShowMsgbox(oss.str().c_str(), _vf_host);
 		}
 		return ret;
 	}

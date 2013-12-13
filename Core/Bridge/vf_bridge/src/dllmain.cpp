@@ -1,6 +1,6 @@
 #include "windows.h"
 
-#pragma warning(disable:4100) //未使用变量警告
+#pragma warning(disable:4100)
 
 BOOL APIENTRY DllMain(
 	HMODULE hModule,

@@ -8,8 +8,8 @@
     <ProjectGuid>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TCM</RootNamespace>
-    <AssemblyName>tcm_xbridge</AssemblyName>
+    <RootNamespace>Vapula</RootNamespace>
+    <AssemblyName>vf_bridge_x</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

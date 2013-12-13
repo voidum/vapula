@@ -52,6 +52,9 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>vf_host</TargetName>
+    <IncludePath>include;$(IncludePath)</IncludePath>
+    <SourcePath>src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug-vc10|Win32'">
     <OutDir>$(SolutionDir)OutDir\$(Configuration)</OutDir>
@@ -79,13 +82,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)Bridge\tcm_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdparty;$(SolutionDir)Bridge\vf_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -94,7 +98,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tcm_bridge.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vf_bridge.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug-vc10|Win32'">

@@ -25,7 +25,12 @@ namespace vapula
 		int _test;
 	public:
 		Flag* GetFlag();
-		int GetTest() { return _test; }
+		int Test(int value)
+		{
+			if(value != _test)
+				value = _test;
+			return _test; 
+		}
 	public:
 		bool IsSilent();
 		bool IsRealTimeMonitor();

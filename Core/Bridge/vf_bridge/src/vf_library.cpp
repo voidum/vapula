@@ -24,9 +24,9 @@ namespace vapula
 		Clear(_LibId);
 	}
 
-	Library* Library::Load(cstrw path)
+	Library* Library::Load(cstr8 path)
 	{
-		cstr data = null;
+		cstr8 data = null;
 		xml_document<>* xdoc 
 			= (xml_document<>*)xml::Load(path, data);
 		if(xdoc == null) 
@@ -34,7 +34,7 @@ namespace vapula
 
 		xml_node<>* xeroot = xdoc->first_node("library");
 		DriverHub* drv_hub = DriverHub::GetInstance();
-		cstr drv_id = xml::ValueA(xeroot->first_node("runtime"));
+		cstr8 drv_id = xml::ValueCh8(xeroot->first_node("runtime"));
 		Driver* driver = drv_hub->GetDriver(drv_id);
 		delete drv_id;
 		if(driver == null)
@@ -43,7 +43,7 @@ namespace vapula
 			return null;
 		}
 		Library* lib = driver->CreateLibrary();
-		lib->_LibId = xml::ValueW(xeroot->first_node("id"));
+		lib->_LibId = xml::ValueCh8(xeroot->first_node("id"));
 		lib->_Dir = GetDirPath(path, true);
 		delete data;
 		return lib;
@@ -54,17 +54,17 @@ namespace vapula
 		return Library::_Count;
 	}
 
-	cstrw Library::GetLibraryId()
+	cstr8 Library::GetLibraryId()
 	{
 		return _LibId;
 	}
 
 	Envelope* Library::CreateEnvelope(int fid)
 	{
-		wstring str = _Dir;
-		str += _LibId;
-		str += L".vf.xml";
-		Envelope* env = Envelope::Load(str.c_str(), fid);
+		string s = _Dir;
+		s += _LibId;
+		s += ".vapula.library";
+		Envelope* env = Envelope::Load(s.c_str(), fid);
 		return env;
 	}
 
