@@ -1,4 +1,4 @@
-﻿namespace TCM.Model.Designer.UI
+﻿namespace Vapula.Designer.UI
 {
     partial class FrmStage
     {

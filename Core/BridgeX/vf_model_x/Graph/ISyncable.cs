@@ -1,4 +1,4 @@
-﻿namespace TCM.Model
+﻿namespace Vapula.Model
 {
     public interface ISyncable
     {

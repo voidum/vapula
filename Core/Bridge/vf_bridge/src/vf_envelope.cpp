@@ -38,6 +38,7 @@ namespace vapula
 		Clear(_Types, true);
 		Clear(_Offsets, true);
 		Clear(_Memory);
+		//TODO: Leak at Type:String & Type:Object
 	}
 
 	uint64 Envelope::_AddrOf(int id)
@@ -51,7 +52,7 @@ namespace vapula
 		object* param = (object*)_AddrOf(id);
 		if(size > 0)
 		{
-			//Ç³¿½±´
+			//Ç³¿½±´µ½¶Ñ
 			param[0] = new byte[size];
 			memcpy(param[0], value, size);
 		}
@@ -64,7 +65,8 @@ namespace vapula
 
 	Envelope* Envelope::Parse(object xml)
 	{
-		if(xml == null) return null;
+		if(xml == null)
+			return null;
 
 		vector<int> v_id;
 		vector<int> v_type;
@@ -192,7 +194,7 @@ namespace vapula
 		switch(type)
 		{
 		case VF_DATA_POINTER:
-			WriteEx(id, (object)abs(atoi(value)),0); break;
+			WriteEx(id, (object)abs(atoi(value)), 0); break;
 		case VF_DATA_INT8:	
 			Write(id, (int8)atoi(value)); break;
 		case VF_DATA_UINT8:

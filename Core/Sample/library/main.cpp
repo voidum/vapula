@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "main.h"
 #include <iostream>
 
@@ -24,7 +23,7 @@ int Run(int function, Envelope* envelope, Context* context)
 		ret = Function_TestContext(envelope,ctx);
 		break;
 	default:
-		ret = TCM_RETURN_NULLENTRY;
+		ret = VF_RETURN_NULLENTRY;
 	}
 	return ret;
 }
@@ -39,7 +38,7 @@ int Function_Math(Envelope* envelope, Context* context)
 
 	context->SetProgress(100);
 	envelope->Write(3, c);
-	return TCM_RETURN_NORMAL;
+	return VF_RETURN_NORMAL;
 }
 
 //第二个任务
@@ -48,7 +47,7 @@ int Function_Out(Envelope* envelope,Context* context)
 	PCWSTR str = L"中文Engligh日本語テスト";
 	context->SetProgress(100);
 	envelope->Write(1, str);
-	return TCM_RETURN_NORMAL;
+	return VF_RETURN_NORMAL;
 }
 
 //第三个任务
@@ -62,7 +61,7 @@ int Function_TestArray(Envelope* envelope,Context* context)
 		result += data[i];
 
 	envelope->Write(3,result);
-	return TCM_RETURN_NORMAL;
+	return VF_RETURN_NORMAL;
 }
 
 //第四个任务
@@ -75,7 +74,7 @@ int Function_TestObject(Envelope* envelope,Context* context)
 	else obj->Dec();
 
 	envelope->Write(3,(LPVOID)obj);
-	return TCM_RETURN_NORMAL;
+	return VF_RETURN_NORMAL;
 }
 
 //第五个任务
@@ -84,14 +83,15 @@ int Function_TestContext(Envelope* envelope,Context* context)
 	for(int i=0;i<1000;i++)
 	{
 		int ctrl = context->GetCtrlCode();
-		if(ctrl == TCM_CTRL_CANCEL) return TCM_RETURN_CANCELBYMSG;
-		if(ctrl == TCM_CTRL_PAUSE)
+		if(ctrl == VF_CTRL_CANCEL)
+			return VF_RETURN_CANCELBYMSG;
+		if(ctrl == VF_CTRL_PAUSE)
 		{
 			context->ReplyCtrlCode();
 			while(true)
 			{
 				int ctrl = context->GetCtrlCode();
-				if(ctrl == TCM_CTRL_RESUME)
+				if(ctrl == VF_CTRL_RESUME)
 				{
 					context->ReplyCtrlCode();
 					break;
@@ -102,5 +102,5 @@ int Function_TestContext(Envelope* envelope,Context* context)
 		context->SetProgress(i/10.0);
 		Sleep(25);
 	}
-	return TCM_RETURN_NORMAL;
+	return VF_RETURN_NORMAL;
 }

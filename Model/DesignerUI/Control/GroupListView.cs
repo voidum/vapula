@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using TCM.API;
+using Vapula.API;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public enum ListViewGroupMask
     {

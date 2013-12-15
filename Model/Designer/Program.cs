@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     static class Program
     {

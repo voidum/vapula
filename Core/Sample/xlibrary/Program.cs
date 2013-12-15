@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using TCM.Runtime;
+using Vapula.Runtime;
 
 namespace sample_xlib
 {

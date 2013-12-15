@@ -19,21 +19,21 @@ namespace vapula
 		int _ReturnCode;
 		int _CtrlCode;
 		float _ProgValue; //0 - 100
-	private:
+	public:
 		//安全调用：设置状态
 		void SetState(int state);
+
+		//获取状态
+		int GetState();
 
 		//安全调用：设置返回值
 		void SetReturnCode(int return_code);
 
-		//安全调用：设置控制码
-		void SetCtrlCode(int ctrl_code);
-	public:
-		//获取状态
-		int GetState();
-
 		//获取返回值
 		int GetReturnCode();
+
+		//安全调用：设置控制码
+		void SetCtrlCode(int ctrl_code);
 
 		//获取控制码
 		int GetCtrlCode();

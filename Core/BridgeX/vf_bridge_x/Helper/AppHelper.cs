@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Linq;
 
-namespace TCM.Helper
+namespace Vapula.Helper
 {
     /// <summary>
     /// 应用程序配置
@@ -23,12 +23,15 @@ namespace TCM.Helper
             if (!File.Exists(file)) return false;
             try
             {
-                XDocument xmldoc = XDocument.Load(file);
-                XElement xeroot = xmldoc.Element("root");
+                XDocument xdoc = XDocument.Load(file);
+                XElement xeroot = xdoc.Element("root");
                 foreach (XElement xe in xeroot.Elements("item"))
                     _Configs.Add(xe.Attribute("key").Value, xe.Value);
             }
-            catch { return false; }
+            catch 
+            {
+                return false;
+            }
             return true;
         }
 
@@ -37,7 +40,8 @@ namespace TCM.Helper
         /// </summary>
         public bool Save()
         {
-            if (string.IsNullOrWhiteSpace(_ConfigPath)) return false;
+            if (string.IsNullOrWhiteSpace(_ConfigPath))
+                return false;
             return Save(_ConfigPath);
         }
 
@@ -48,19 +52,22 @@ namespace TCM.Helper
         {
             try
             {
-                XDocument xmldoc = new XDocument(
+                XDocument xdoc = new XDocument(
                     new XDeclaration("1.0", "utf-8", "yes"),
                     new XElement("root"));
-                XElement xeroot = xmldoc.Element("root");
-                foreach (KeyValuePair<string, string> kvp in _Configs)
+                XElement xeroot = xdoc.Element("root");
+                foreach (var kvp in _Configs)
                 {
                     xeroot.Add(new XElement("item",
                         new XAttribute("key", kvp.Key),
                         new XCData(kvp.Value)));
                 }
-                xmldoc.Save(file);
+                xdoc.Save(file);
             }
-            catch { return false; }
+            catch 
+            {
+                return false; 
+            }
             return true;
         }
 
@@ -71,14 +78,17 @@ namespace TCM.Helper
         {
             get
             {
-                foreach (KeyValuePair<string, string> kvp in _Configs)
-                    if (kvp.Key == key) return kvp.Value;
+                foreach (var kvp in _Configs)
+                    if (kvp.Key == key)
+                        return kvp.Value;
                 return null;
             }
             set
             {
-                if (_Configs.ContainsKey(key)) _Configs[key] = value;
-                else _Configs.Add(key, value);
+                if (_Configs.ContainsKey(key))
+                    _Configs[key] = value;
+                else
+                    _Configs.Add(key, value);
             }
         }
     }

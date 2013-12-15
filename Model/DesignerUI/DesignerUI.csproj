@@ -8,8 +8,8 @@
     <ProjectGuid>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TCM.Model.Designer</RootNamespace>
-    <AssemblyName>DesignerUI</AssemblyName>
+    <RootNamespace>Vapula.Designer.UI</RootNamespace>
+    <AssemblyName>vf_designer.ui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,7 +36,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -49,6 +48,7 @@
     <Compile Include="Control\GroupListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GDIHelper.cs" />
     <Compile Include="GDIPlusCache.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GraphCanvas\Connection.cs" />
@@ -65,7 +65,16 @@
     <Compile Include="GraphCanvas\Shape\ShapeStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_model_x\vf_model_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_model_x</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

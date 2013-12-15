@@ -4,7 +4,7 @@ using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TCM.Security
+namespace Vapula.Security
 {
     public class Hash
     {

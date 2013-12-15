@@ -1,4 +1,4 @@
-﻿namespace TCM.Helper
+﻿namespace Vapula.Helper
 {
     /// <summary>
     /// 日志类型

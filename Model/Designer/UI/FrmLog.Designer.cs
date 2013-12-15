@@ -1,4 +1,4 @@
-﻿namespace TCM.Model.Designer
+﻿namespace Vapula.Designer
 {
     partial class FrmLog
     {
@@ -84,7 +84,7 @@
             // BtClear
             // 
             this.BtClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtClear.Image = global::TCM.Model.Designer.Properties.Resources.broom_s;
+            this.BtClear.Image = global::Vapula.Designer.Properties.Resources.broom_s;
             this.BtClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtClear.Name = "BtClear";
             this.BtClear.Size = new System.Drawing.Size(29, 20);
@@ -94,7 +94,7 @@
             // BtSave
             // 
             this.BtSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtSave.Image = global::TCM.Model.Designer.Properties.Resources.disk_s;
+            this.BtSave.Image = global::Vapula.Designer.Properties.Resources.disk_s;
             this.BtSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtSave.Name = "BtSave";
             this.BtSave.Size = new System.Drawing.Size(29, 20);

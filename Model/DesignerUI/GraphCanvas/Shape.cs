@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using TCM.Helper;
+using Vapula.Helper;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     /// <summary>
     /// 图元：形状

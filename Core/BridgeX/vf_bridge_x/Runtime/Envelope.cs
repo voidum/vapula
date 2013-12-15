@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using TCM.API;
+using Vapula.API;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 信封
     /// </summary>
-    public class Envelope : IDisposable
+    public class Envelope
     {
         private IntPtr _Handle = IntPtr.Zero;
 
@@ -24,18 +24,7 @@ namespace TCM.Runtime
         /// </summary>
         public Envelope(IntPtr handle)
         {
-            if (handle == IntPtr.Zero)
-                throw new Exception("信封对象的句柄没有意义");
             _Handle = handle;
-        }
-
-        /// <summary>
-        /// 释放信封对象
-        /// </summary>
-        public void Dispose()
-        {
-            if (_Handle != IntPtr.Zero)
-                Bridge.DeleteObject(_Handle);
         }
 
         /// <summary>
@@ -55,10 +44,9 @@ namespace TCM.Runtime
         public string Read(int id)
         {
             IntPtr ptr = Bridge.ReadEnvelope(_Handle, id);
-            if (ptr == IntPtr.Zero)
-                throw new Exception("不存在指定标识的参数");
             string result =
-                Marshal.PtrToStringUni(ptr);
+                ptr != IntPtr.Zero ? 
+                Marshal.PtrToStringUni(ptr) : null;
             return result;
         }
 

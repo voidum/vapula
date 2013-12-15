@@ -2,8 +2,9 @@
 using System.Drawing;
 using System.IO;
 using System.Xml.Linq;
+using Vapula.Model;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public enum LibraryState
     {

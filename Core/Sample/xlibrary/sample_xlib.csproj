@@ -34,7 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -44,7 +43,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sample_xlib.tcm.xml" />
+    <None Include="sample_xlib.vapula.library" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

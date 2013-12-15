@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     public enum NodeType
     {

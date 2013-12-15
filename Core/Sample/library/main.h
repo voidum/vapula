@@ -1,8 +1,8 @@
 #pragma once
 
-#include "tcm_dev_lib.h"
+#include "vf_dev_lib.h"
 
-using namespace tcm;
+using namespace vapula;
 
 extern "C" __declspec(dllexport)
 int Run(int function, Envelope* envelope, Context* context);

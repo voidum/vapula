@@ -1,6 +1,6 @@
 ﻿using xDockPanel;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public partial class FrmDebug : DockContent
     {

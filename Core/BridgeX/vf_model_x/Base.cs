@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace TCM
+namespace Vapula
 {
     /// <summary>
-    /// TCM支持的数据类型
+    /// Vapula支持的数据类型
     /// </summary>
     public enum DataType
     {
@@ -38,7 +38,7 @@ namespace TCM
         }
 
         /// <summary>
-        /// 获取TCM数据类型对应的CLR类型
+        /// 获取Vapula数据类型对应的CLR类型
         /// </summary>
         public static Type GetCLRType(DataType type)
         {
@@ -62,7 +62,7 @@ namespace TCM
         }
 
         /// <summary>
-        /// 获取TCM数据类型对应的CLR可空类型
+        /// 获取Vapula数据类型对应的CLR可空类型
         /// </summary>
         public static Type GetNullableCLRType(DataType type)
         {

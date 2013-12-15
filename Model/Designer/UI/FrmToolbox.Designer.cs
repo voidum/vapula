@@ -1,4 +1,4 @@
-﻿namespace TCM.Model.Designer
+﻿namespace Vapula.Designer
 {
     partial class FrmToolbox
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.LsvTools = new TCM.Model.Designer.GroupListView();
+            this.LsvTools = new Vapula.Designer.GroupListView();
             this.ctxmenubar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +65,7 @@
             // 
             // MnuExpandGroup
             // 
-            this.MnuExpandGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_plus_s;
+            this.MnuExpandGroup.Image = global::Vapula.Designer.Properties.Resources.toggle_plus_s;
             this.MnuExpandGroup.Name = "MnuExpandGroup";
             this.MnuExpandGroup.Size = new System.Drawing.Size(153, 22);
             this.MnuExpandGroup.Text = "展开所有组";
@@ -73,7 +73,7 @@
             // 
             // MnuCollapseGroup
             // 
-            this.MnuCollapseGroup.Image = global::TCM.Model.Designer.Properties.Resources.toggle_minus_s;
+            this.MnuCollapseGroup.Image = global::Vapula.Designer.Properties.Resources.toggle_minus_s;
             this.MnuCollapseGroup.Name = "MnuCollapseGroup";
             this.MnuCollapseGroup.Size = new System.Drawing.Size(153, 22);
             this.MnuCollapseGroup.Text = "折叠所有组";

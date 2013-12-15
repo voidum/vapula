@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Vapula.Model;
 using xDockPanel;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public partial class FrmDocument : DockContent
     {

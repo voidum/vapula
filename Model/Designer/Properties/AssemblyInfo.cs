@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Designer")]
-[assembly: AssemblyDescription("模型设计器")]
+[assembly: AssemblyTitle("Vapula Model Designer")]
+[assembly: AssemblyDescription("Vapula模型设计器")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Designer")]
+[assembly: AssemblyProduct("vf_designer")]
 [assembly: AssemblyCopyright("Copyright © 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

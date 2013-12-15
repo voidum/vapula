@@ -2,7 +2,7 @@
 using System.Drawing;
 using System;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     /// <summary>
     /// GDI+对象缓存集合

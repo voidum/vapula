@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.TbxLog = new System.Windows.Forms.TextBox();
             this.BtRun1 = new System.Windows.Forms.ToolStripButton();
+            this.TbxLog = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,15 +45,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(284, 25);
             this.toolStrip1.TabIndex = 0;
             // 
-            // TbxLog
-            // 
-            this.TbxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TbxLog.Location = new System.Drawing.Point(0, 25);
-            this.TbxLog.Multiline = true;
-            this.TbxLog.Name = "TbxLog";
-            this.TbxLog.Size = new System.Drawing.Size(284, 237);
-            this.TbxLog.TabIndex = 1;
-            // 
             // BtRun1
             // 
             this.BtRun1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -64,6 +55,15 @@
             this.BtRun1.Text = "Run1";
             this.BtRun1.Click += new System.EventHandler(this.BtRun1_Click);
             // 
+            // TbxLog
+            // 
+            this.TbxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TbxLog.Location = new System.Drawing.Point(0, 25);
+            this.TbxLog.Multiline = true;
+            this.TbxLog.Name = "TbxLog";
+            this.TbxLog.Size = new System.Drawing.Size(284, 237);
+            this.TbxLog.TabIndex = 1;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -73,7 +73,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sample xInvoker";
+            this.Text = "Sample Invoker (.NET)";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

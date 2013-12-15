@@ -1,5 +1,5 @@
 ﻿
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
     /// 节点：决策

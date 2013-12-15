@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
     /// 参数坐标

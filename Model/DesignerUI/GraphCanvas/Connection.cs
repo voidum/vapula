@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     /// <summary>
     /// 图元：连接线

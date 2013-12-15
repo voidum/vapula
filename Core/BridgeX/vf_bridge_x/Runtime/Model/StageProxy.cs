@@ -1,8 +1,8 @@
 ﻿using System.Threading;
-using TCM.Helper;
-using TCM.Model;
+using Vapula.Helper;
+using Vapula.Model;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 模型阶段的执行代理

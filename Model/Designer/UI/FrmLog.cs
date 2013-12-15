@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using TCM.Helper;
+using Vapula.Helper;
 using xDockPanel;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public partial class FrmLog : DockContent, ILogger
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 
-namespace TCM.Helper
+namespace Vapula.Helper
 {
     /// <summary>
     /// 文件日志器
@@ -16,7 +15,7 @@ namespace TCM.Helper
             {
                 if (_LogPath == null)
                     _LogPath = 
-                        Application.StartupPath + "\\tcm.log";
+                        Base.AppDir + "\\vapula.log";
                 return _LogPath;
             }
             set

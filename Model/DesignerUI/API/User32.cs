@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace TCM.API
+namespace Vapula.API
 {
     public class User32
     {

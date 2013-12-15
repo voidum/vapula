@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using Vapula.Model;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     /// <summary>
     /// 图元

@@ -16,7 +16,8 @@ namespace vapula
 
 	Invoker::~Invoker()
 	{
-		if(_Thread != null) CloseHandle(_Thread);
+		if(_Thread != null) 
+			CloseHandle(_Thread);
 		Clear(_Envelope);
 		Clear(_Context);
 	}

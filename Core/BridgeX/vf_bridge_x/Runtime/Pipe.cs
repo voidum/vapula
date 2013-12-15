@@ -1,7 +1,7 @@
 ﻿using System;
-using TCM.API;
+using Vapula.API;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 全双工信道
@@ -10,6 +10,23 @@ namespace TCM.Runtime
     {
         private IntPtr _Handle = IntPtr.Zero;
         private string _Id = null;
+
+        /// <summary>
+        /// 构造信道
+        /// </summary>
+        public Pipe()
+        {
+            _Handle = Bridge.CreatePipe();
+        }
+
+        /// <summary>
+        /// 释放信道对象
+        /// </summary>
+        public void Dispose()
+        {
+            if (_Handle != IntPtr.Zero)
+                Bridge.DeleteObject(_Handle);
+        }
 
         /// <summary>
         /// 获取内核句柄
@@ -33,23 +50,6 @@ namespace TCM.Runtime
         public bool HasNewData
         {
             get { return Bridge.PipeHasNewData(_Handle); }
-        }
-
-        /// <summary>
-        /// 构造信道
-        /// </summary>
-        public Pipe()
-        {
-            _Handle = Bridge.CreatePipe();
-        }
-
-        /// <summary>
-        /// 释放信道对象
-        /// </summary>
-        public void Dispose()
-        {
-            if (_Handle != IntPtr.Zero)
-                Bridge.DeleteObject(_Handle);
         }
 
         /// <summary>

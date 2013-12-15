@@ -113,13 +113,13 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetCtrlCode(IntPtr ctx);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetState",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetCtrlCode(IntPtr ctx, int ctrl_code);
+        public static extern int GetState(IntPtr ctx);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReplyCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetReturnCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ReplyCtrlCode(IntPtr ctx);
+        public static extern int GetReturnCode(IntPtr ctx);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetProgress",
             CallingConvention = CallingConvention.Cdecl)]
@@ -129,21 +129,9 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetProgress(IntPtr ctx, float prog);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetState",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReplyCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetState(IntPtr ctx);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetState",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetState(IntPtr ctx, int state);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetReturnCode",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetReturnCode(IntPtr ctx);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetReturnCode",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetReturnCode(IntPtr ctx, int return_code);
+        public static extern void ReplyCtrlCode(IntPtr ctx);
         #endregion
 
         #region Envelope
@@ -179,6 +167,14 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreatePipe();
 
+        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeIsClose",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool PipeIsClose(IntPtr pipe);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeHasNewData",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool PipeHasNewData(IntPtr pipe);
+
         [DllImport("vf_bridge.dll", EntryPoint = "vfeListenPipe",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ListenPipe(IntPtr pipe);
@@ -191,20 +187,12 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void ClosePipe(IntPtr pipe);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeIsClose",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool PipeIsClose(IntPtr pipe);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfePipeHasNewData",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool PipeHasNewData(IntPtr pipe);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeWritePipe",
-            CharSet = CharSet.Ansi,
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWritePipeW",
+            CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void WritePipe(IntPtr pipe, string data);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadPipe",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadPipeW",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ReadPipe(IntPtr pipe);
         #endregion

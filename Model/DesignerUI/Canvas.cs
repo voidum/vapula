@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Vapula.Model;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     /// <summary>
     /// 画布基类

@@ -22,6 +22,7 @@ namespace vapula
 	using std::vector;
 	using std::string;
 	using std::wstring;
+	using std::ostringstream;
 	using std::invalid_argument;
 	using std::bad_exception;
 
@@ -98,5 +99,5 @@ namespace vapula
 	cstr8 const _vf_err_3 = "deliver between different types";
 	cstr8 const _vf_err_4 = "can NOT read char-based string from envelope";
 	cstr8 const _vf_bridge = "Vapula Bridge";
-	cstr8 const _vf_default_encoding = "utf8";
+	cstr8 const _vf_msg_cp = "utf8";
 }

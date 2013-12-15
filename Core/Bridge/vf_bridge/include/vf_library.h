@@ -40,6 +40,7 @@ namespace vapula
 		virtual cstr8 GetRuntimeId() = 0;
 
 		//获取物理库扩展名
+		//以"."开始
 		virtual cstr8 GetBinExt() = 0;
 
 		//装载库

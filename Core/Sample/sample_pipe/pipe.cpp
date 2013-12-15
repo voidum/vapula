@@ -4,7 +4,7 @@ void Pipe_Server()
 {
 	Pipe* pipe = new Pipe();
 	pipe->Listen();
-	str id = pipe->GetPipeId();
+	cstr8 id = pipe->GetPipeId();
 	cout<<"id:"<<id<<endl;
 	cout<<"[pause] <you can start another pipe as client>"<<endl;
 	string input;
@@ -16,7 +16,7 @@ void Pipe_Server()
 		cin>>input;
 		if(input == "quit")
 			break;
-		pipe->WriteA(input.c_str());
+		pipe->Write(input.c_str());
 	}
 	pipe->Close();
 }
@@ -40,7 +40,7 @@ void Pipe_Client()
 			break;
 		if(pipe->HasNewData())
 		{
-			str msg = pipe->ReadA();
+			cstr8 msg = pipe->Read();
 			cout<<"recv: "<<msg<<endl;
 		}
 		Sleep(20);

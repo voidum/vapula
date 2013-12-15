@@ -1,9 +1,9 @@
 ﻿using System.Xml.Linq;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
-    /// TCM模型的参数描述
+    /// Vapula模型的参数描述
     /// </summary>
     public class Parameter
     {

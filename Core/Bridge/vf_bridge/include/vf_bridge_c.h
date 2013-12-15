@@ -18,8 +18,8 @@ extern "C"
 
 	//Library
 	VAPULA_API int vfeGetLibraryCount();
-	VAPULA_API object vfeLoadLibraryW(cstr16 path);
 	VAPULA_API object vfeLoadLibrary(cstr8 path);
+	VAPULA_API object vfeLoadLibraryW(cstr16 path);
 	VAPULA_API cstr8 vfeGetLibraryRuntime(object lib);
 	VAPULA_API cstr8 vfeGetLibraryId(object lib);
 	VAPULA_API int vfeMountLibrary(object lib);
@@ -36,7 +36,6 @@ extern "C"
 	
 	//Context
 	VAPULA_API object vfeGetContext(object inv);
-	VAPULA_API object vfeCreateContext();
 	VAPULA_API int vfeGetCtrlCode(object ctx);
 	VAPULA_API int vfeGetState(object ctx);
 	VAPULA_API int vfeGetReturnCode(object ctx);
@@ -46,13 +45,12 @@ extern "C"
 
 	//Envelope
 	VAPULA_API object vfeGetEnvelope(object inv);
-	VAPULA_API object vfeCreateEnvelope(object lib, int fid);
-	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
 	VAPULA_API object vfeParseEnvelope(cstr8 xml);
-	VAPULA_API void vfeWriteEnvelopeW(object env, int id, cstr16 value);
+	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
 	VAPULA_API void vfeWriteEnvelope(object env, int id, cstr8 value);
-	VAPULA_API cstr16 vfeReadEnvelopeW(object env, int id);
+	VAPULA_API void vfeWriteEnvelopeW(object env, int id, cstr16 value);
 	VAPULA_API cstr8 vfeReadEnvelope(object env, int id);
+	VAPULA_API cstr16 vfeReadEnvelopeW(object env, int id);
 	VAPULA_API void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to);
 	VAPULA_API void vfeCastDeliverEnvelope(object src_env, object dst_env, int from, int to);
 
@@ -60,9 +58,11 @@ extern "C"
 	VAPULA_API object vfeCreatePipe();
 	VAPULA_API int vfePipeIsClose(object pipe);
 	VAPULA_API int vfePipeHasNewData(object pipe);
-	VAPULA_API int vfeConnectPipe(object pipe, cstr8 id);
 	VAPULA_API cstr8 vfeListenPipe(object pipe);
+	VAPULA_API int vfeConnectPipe(object pipe, cstr8 id);
 	VAPULA_API void vfeClosePipe(object pipe);
 	VAPULA_API void vfeWritePipe(object pipe, cstr8 value);
+	VAPULA_API void vfeWritePipeW(object pipe, cstr16 value);
 	VAPULA_API cstr8 vfeReadPipe(object pipe);
+	VAPULA_API cstr16 vfeReadPipeW(object pipe);
 }

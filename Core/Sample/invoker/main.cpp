@@ -1,15 +1,15 @@
 #include "windows.h"
 
-#include "tcm_driver.h"
-#include "tcm_library.h"
-#include "tcm_invoker.h"
-#include "tcm_config.h"
+#include "vf_driver.h"
+#include "vf_library.h"
+#include "vf_invoker.h"
+#include "vf_config.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
 
-using namespace tcm;
+using namespace vapula;
 
 void Assert(bool condition)
 {
@@ -32,7 +32,7 @@ void Test1(Library* lib)
 	Assert(inv->Start());
 
 	Context* ctx = inv->GetContext();
-	while(ctx->GetState() != TCM_STATE_IDLE)
+	while(ctx->GetState() != VF_STATE_IDLE)
 	{
 		float prog = ctx->GetProgress();
 		if(prog > 10)
@@ -53,7 +53,8 @@ void Test1(Library* lib)
 	inv->Resume();
 	float prog = ctx->GetProgress();
 	cout<<"[resume] progress:"<<prog<<endl;
-	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
+	while(ctx->GetState() != VF_STATE_IDLE) 
+		Sleep(50);
 	cout<<"finished"<<endl;
 }
 
@@ -75,7 +76,8 @@ void Test2(Library* lib)
 	Assert(inv->Start());
 
 	Context* ctx = inv->GetContext();
-	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
+	while(ctx->GetState() != VF_STATE_IDLE) 
+		Sleep(50);
 	
 	int result = env->Read<int>(3);
 	cout<<"<valid> - out:"<<result<<endl;
@@ -89,7 +91,8 @@ void Test2(Library* lib)
 		env->Write(2, 23);
 		inv->Start();
 		Context* ctx = inv->GetContext();
-		while(ctx->GetState() != TCM_STATE_IDLE) Sleep(0);
+		while(ctx->GetState() != VF_STATE_IDLE) 
+			Sleep(0);
 		int result = env->Read<int>(3);
 	}
 	QueryPerformanceCounter(&t2);
@@ -102,8 +105,9 @@ void Test3(Library* lib)
 	inv->Start();
 	Context* ctx = inv->GetContext();
 	Envelope* env = inv->GetEnvelope();
-	while(ctx->GetState() != TCM_STATE_IDLE) Sleep(50);
-	ShowMsgStr(env->Read<PCWSTR>(1));
+	while(ctx->GetState() != VF_STATE_IDLE)
+		Sleep(50);
+	ShowMsgbox(env->Read<PCWSTR>(1));
 }
 
 int main()
@@ -115,7 +119,7 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load(L"E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.tcm.xml");
+	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.tcm.xml");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";

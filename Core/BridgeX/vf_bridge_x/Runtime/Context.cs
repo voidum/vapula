@@ -1,12 +1,12 @@
 ﻿using System;
-using TCM.API;
+using Vapula.API;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 上下文
     /// </summary>
-    public class Context : IDisposable
+    public class Context
     {
         private IntPtr _Handle = IntPtr.Zero;
 
@@ -19,16 +19,7 @@ namespace TCM.Runtime
         }
 
         /// <summary>
-        /// 释放上下文对象
-        /// </summary>
-        public void Dispose()
-        {
-            if (_Handle != IntPtr.Zero)
-                Bridge.DeleteObject(_Handle);
-        }
-
-        /// <summary>
-        /// 获取上下文句柄
+        /// 获取内核句柄
         /// </summary>
         public IntPtr Handle
         {
@@ -66,30 +57,6 @@ namespace TCM.Runtime
         public CtrlCode CtrlCode
         {
             get { return (CtrlCode)Bridge.GetCtrlCode(_Handle); }
-        }
-
-        /// <summary>
-        /// 设置运行状态(操作要求授信)
-        /// </summary>
-        public void SetState(State state, IntPtr token)
-        {
-            Bridge.SetState(_Handle, (int)state, token);
-        }
-
-        /// <summary>
-        /// 设置返回值(操作要求授信)
-        /// </summary>
-        public void SetReturnCode(ReturnCode return_code, IntPtr token)
-        {
-            Bridge.SetReturnCode(_Handle, (int)return_code, token);
-        }
-
-        /// <summary>
-        /// 设置控制码(操作要求授信)
-        /// </summary>
-        public void SetCtrlCode(CtrlCode ctrl_code, IntPtr token)
-        {
-            Bridge.SetCtrlCode(_Handle, (int)ctrl_code, token);
         }
 
         /// <summary>

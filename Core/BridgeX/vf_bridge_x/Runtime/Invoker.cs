@@ -1,7 +1,7 @@
 ﻿using System;
-using TCM.API;
+using Vapula.API;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 调用器基类
@@ -109,8 +109,8 @@ namespace TCM.Runtime
         /// </summary>
         public virtual void Dispose()
         {
-            if(_Envelope != null) _Envelope.Dispose();
-            if(_Context != null) _Context.Dispose();
+            if(_Handle != IntPtr.Zero)
+                Bridge.DeleteObject(_Handle);
         }
         #endregion
     }

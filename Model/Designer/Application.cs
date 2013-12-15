@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Windows.Forms;
-using TCM.Helper;
+using Vapula.Helper;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public class AppData
     {

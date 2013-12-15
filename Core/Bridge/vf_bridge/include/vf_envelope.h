@@ -120,7 +120,7 @@ namespace vapula
 		template<>
 		void Write<cstr16>(int id, cstr16 value)
 		{
-			cstr8 s8 = str::ToCh8(value, _vf_default_encoding);
+			cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
 			Write(id, s8);
 			delete s8;
 		}

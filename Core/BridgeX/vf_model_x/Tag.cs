@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TCM
+namespace Vapula
 {
     /// <summary>
     /// 通过键值对存储的附加数据字典

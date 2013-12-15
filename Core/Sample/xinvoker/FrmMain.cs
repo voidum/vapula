@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using TCM.Runtime;
+using Vapula.Runtime;
 
 namespace sample_xinvoker
 {
@@ -93,7 +93,7 @@ namespace sample_xinvoker
 
         private void BtRun1_Click(object sender, EventArgs e)
         {
-            Library lib = Library.Load("E:\\Projects\\TCM\\tcm_bridge\\OutDir\\debug-vc10\\sample_xlib.tcm.xml");
+            Library lib = Library.Load("...");
             if (lib == null) return;
             lib.Mount();
             Test1(lib);

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TCM.API;
-using TCM.Helper;
-using TCM.Model;
+using Vapula.API;
+using Vapula.Helper;
+using Vapula.Model;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     public class GraphProxy
     {
@@ -85,11 +85,11 @@ namespace TCM.Runtime
 
         public bool Start()
         {
-            //测试TCM Bridge可用
+            //测试Vapula Bridge可用
             try { Bridge.TestBridge(); }
             catch
             {
-                Logger.WriteLog(LogType.Critical, "框架损坏，不能加载 TCM Bridge");
+                Logger.WriteLog(LogType.Critical, "框架损坏，不能加载 Vapula Bridge");
                 return false;
             }
 

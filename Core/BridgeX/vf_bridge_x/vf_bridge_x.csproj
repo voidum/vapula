@@ -34,11 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -48,7 +45,6 @@
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />
     <Compile Include="Helper\Logger\ILogger.cs" />
-    <Compile Include="I18N\Enums.cs" />
     <Compile Include="I18N\Translator.cs" />
     <Compile Include="Runtime\Base.cs" />
     <Compile Include="Runtime\DriverEntry.cs" />
@@ -65,6 +61,12 @@
     <Compile Include="Runtime\Model\StageProxy.cs" />
     <Compile Include="Runtime\Pipe.cs" />
     <Compile Include="Security\Hash.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\vf_model_x\vf_model_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_model_x</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

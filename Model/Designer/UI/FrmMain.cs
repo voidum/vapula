@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using TCM.Helper;
-using TCM.Runtime;
+using Vapula.Helper;
+using Vapula.Runtime;
 using xDockPanel;
 
-namespace TCM.Model.Designer
+namespace Vapula.Designer
 {
     public partial class FrmMain : Form
     {

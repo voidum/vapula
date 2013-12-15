@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     public class LibraryCLR : Library
     {

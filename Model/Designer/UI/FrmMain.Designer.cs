@@ -1,4 +1,4 @@
-﻿namespace TCM.Model.Designer
+﻿namespace Vapula.Designer
 {
     partial class FrmMain
     {

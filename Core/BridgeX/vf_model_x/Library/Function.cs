@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
-    /// TCM模型的功能描述
+    /// Vapula模型的功能描述
     /// </summary>
     public class Function
     {
@@ -29,8 +29,9 @@ namespace TCM.Model
         {
             get
             {
-                foreach (Parameter param in _Params)
-                    if (param.Id == id) return param;
+                foreach (var param in _Params)
+                    if (param.Id == id)
+                        return param;
                 return null;
             }
         }
@@ -49,7 +50,7 @@ namespace TCM.Model
             var xml_params = xml.Element("params").Elements("param");
             foreach (var xml_param in xml_params)
             {
-                Parameter param = Parameter.Parse(xml_param);
+                var param = Parameter.Parse(xml_param);
                 param.Function = func;
                 func._Params.Add(param);
             }
@@ -66,9 +67,9 @@ namespace TCM.Model
                 new XElement("name", Name),
                 new XElement("params"),
                 new XAttribute("id", Id));
-            foreach (Parameter param in _Params)
+            foreach (var param in _Params)
             {
-                XElement xml_param = param.ToXML();
+                var xml_param = param.ToXML();
                 xml.Element("params").Add(xml_param);
             }
             return xml;

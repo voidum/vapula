@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
     /// 模型图的关联，对应有向图的边

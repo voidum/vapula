@@ -1,27 +1,26 @@
-﻿using System;
-using TCM.API;
-using System.Windows.Forms;
+﻿using Vapula.API;
 
-namespace TCM.Runtime
+namespace Vapula.Runtime
 {
     /// <summary>
     /// 驱动板
     /// </summary>
-    public class DriverHub : IDisposable
+    public class DriverHub
     {
-        private DriverHub()
-        {
-        }
-
         private static DriverHub _Instance = null;
+
         public static DriverHub Instance
         {
-            get 
+            get
             {
                 if (_Instance == null)
                     _Instance = new DriverHub();
                 return _Instance;
             }
+        }
+
+        private DriverHub()
+        {
         }
 
         public int Count
@@ -42,11 +41,6 @@ namespace TCM.Runtime
         public void KickAll()
         {
             Bridge.KickAllDrivers();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace TCM.I18N
+namespace Vapula.I18N
 {
     public class Translator
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
     /// 基于有向图描述的模型图

@@ -2,10 +2,10 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace TCM.Model
+namespace Vapula.Model
 {
     /// <summary>
-    /// TCM模型的库描述
+    /// Vapula模型的库描述
     /// </summary>
     public class Library
     {
@@ -33,8 +33,9 @@ namespace TCM.Model
         {
             get
             {
-                foreach (Function func in _Functions)
-                    if (func.Id == id) return func;
+                foreach (var func in _Functions)
+                    if (func.Id == id)
+                        return func;
                 return null;
             }
         }
@@ -43,7 +44,7 @@ namespace TCM.Model
         #region 序列化
         public static Library Load(string path)
         {
-            XmlReaderSettings xrs = new XmlReaderSettings();
+            var xrs = new XmlReaderSettings();
             xrs.ValidationType = ValidationType.Schema;
             xrs.Schemas.Add(null,
                 System.IO.Path.Combine(Base.AppDir, "library.xsd"));
@@ -74,7 +75,7 @@ namespace TCM.Model
             lib.Publisher = xml.Element("publisher").Value;
             lib.Description = xml.Element("description").Value;
             var xml_funcs = xml.Element("functions").Elements("function");
-            foreach (XElement xml_func in xml_funcs)
+            foreach (var xml_func in xml_funcs)
             {
                 Function func = Function.Parse(xml_func);
                 func.Library = lib;
@@ -96,9 +97,9 @@ namespace TCM.Model
                 new XElement("version", Version),
                 new XElement("publisher", Publisher),
                 new XElement("functions"));
-            foreach (Function func in _Functions)
+            foreach (var func in _Functions)
             {
-                XElement xml_func = func.ToXML();
+                var xml_func = func.ToXML();
                 xml.Element("functions").Add(xml_func);
             }
             return xml;
@@ -108,7 +109,7 @@ namespace TCM.Model
         #region 集合
         public void Clear()
         {
-            foreach (Function func in _Functions)
+            foreach (var func in _Functions)
                 func.Clear();
             _Functions.Clear();
         }

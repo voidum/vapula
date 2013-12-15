@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TCM.Helper
+namespace Vapula.Helper
 {
     /// <summary>
     /// 控制台日志器
