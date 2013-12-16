@@ -1,4 +1,5 @@
 #include "vf_base.h"
+#include "vf_config.h"
 #include "unicode/ucnv.h"
 
 using namespace vapula;

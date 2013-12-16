@@ -15,21 +15,31 @@ namespace Vapula.Dispatcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += 
+                new ThreadExceptionEventHandler(Application_ThreadException);
+
             string[] args = Environment.GetCommandLineArgs();
-            if(args.Length != 1)
+            if(args.Length != 2)
             {
                 MessageBox.Show(
-                    "Command Line: vf_disp [pipe id]", 
+                    "command line: vf_disp [pipe id]", 
                     "Vapula Dispatcher");
-            }
-            Pipe pipe = new Pipe();
-            if (!pipe.Connect(args[0])) 
-            {
-                MessageBox.Show("err id");
                 return;
             }
+            Pipe pipe = new Pipe();
+            if (!pipe.Connect(args[1])) 
+            {
+                MessageBox.Show("invalid pipe id", "Vapula Dispatcher");
+                return;
+            }
+
             while (true)
             {
+                if (pipe.IsClose) 
+                {
+                    MessageBox.Show("信道已关闭，分发器将退出。");
+                    break;
+                }
                 if (pipe.HasNewData)
                 {
                     string msg = pipe.Read();
@@ -37,6 +47,15 @@ namespace Vapula.Dispatcher
                 }
                 Thread.Sleep(50);
             }
+        }
+
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            string ex = "Message: " + e.Exception.Message;
+            ex += Environment.NewLine + "Source: " + e.Exception.Source;
+            ex += Environment.NewLine + "StackTrace: " + e.Exception.StackTrace;
+            MessageBox.Show(ex, "Vapula Dispatcher");
+            Application.Exit();
         }
     }
 }
