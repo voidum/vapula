@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Vapula.Dispatcher
 {
-    class Dispatcher
+    public class Dispatcher
     {
-        private List<xHost> _xHosts 
-            = new List<xHost>();
+        private List<Host> _Hosts 
+            = new List<Host>();
 
-        public bool Execute(Command command) 
+        public bool Load(Target target) 
         {
+            foreach (Host host in _Hosts)
+            {
+                if (host.Type == target.Type)
+                {
+                    bool ret = host.Load(target);
+                    return ret;
+                }
+            }
+            Host newhost = new Host(target.Type);
             return false;
         }
     }

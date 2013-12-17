@@ -33,6 +33,7 @@ namespace Vapula.Dispatcher
                 return;
             }
 
+            Dispatcher disp = new Dispatcher();
             while (true)
             {
                 if (pipe.IsClose) 
@@ -43,7 +44,16 @@ namespace Vapula.Dispatcher
                 if (pipe.HasNewData)
                 {
                     string msg = pipe.Read();
-                    MessageBox.Show(msg);
+                    MessageBox.Show("Received:" + msg, "Vapula Dispatcher");
+                    try
+                    {
+                        Target tar = Target.Parse(msg);
+                        disp.Load(tar);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Vapula Dispatcher");
+                    }
                 }
                 Thread.Sleep(50);
             }

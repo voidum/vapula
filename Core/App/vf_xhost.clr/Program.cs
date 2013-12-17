@@ -44,6 +44,19 @@ namespace Vapula.xHost.CLR
                 {
                     string msg = pipe.Read();
                     MessageBox.Show(msg);
+                    UIContext ctx = UIContext.Parse(msg);
+
+                    Thread thread = new Thread(
+                        new ThreadStart(() => 
+                        {
+                            Control ctrl = Loader.LoadCLR(ctx.Path, ctx.Clsid);
+                            FrmHost host = new FrmHost();
+                            host.Controls.Add(ctrl);
+                            host.ClientSize = ctrl.Size;
+                            ctrl.Dock = DockStyle.Fill;
+                            host.ShowDialog();
+                        }));
+                    thread.Start();
                 }
                 Thread.Sleep(50);
             }

@@ -63,7 +63,7 @@ namespace vapula
 	{
 		string s = _Dir;
 		s += _LibId;
-		s += ".vapula.library";
+		s += ".library";
 		Envelope* env = Envelope::Load(s.c_str(), fid);
 		return env;
 	}

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7A76BE2D-4682-4712-B9C4-7E4425B188CE}</ProjectGuid>
+    <ProjectGuid>{16DDBD4F-651A-44BB-8001-816B36D43A62}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula.xHost.CLR</RootNamespace>
-    <AssemblyName>vf_xhost.clr</AssemblyName>
+    <RootNamespace>sample_xpipe</RootNamespace>
+    <AssemblyName>sample_xpipe</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -45,18 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmHost.cs">
+    <Compile Include="Application.cs" />
+    <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmHost.Designer.cs">
-      <DependentUpon>FrmHost.cs</DependentUpon>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Loader.cs" />
+    <Compile Include="FrmPipe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPipe.Designer.cs">
+      <DependentUpon>FrmPipe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIContext.cs" />
-    <EmbeddedResource Include="FrmHost.resx">
-      <DependentUpon>FrmHost.cs</DependentUpon>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPipe.resx">
+      <DependentUpon>FrmPipe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -66,7 +75,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

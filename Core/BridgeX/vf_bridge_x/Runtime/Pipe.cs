@@ -37,6 +37,14 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
+        /// 获取信道标识
+        /// </summary>
+        public string Id
+        {
+            get { return _Id; }
+        }
+
+        /// <summary>
         /// 获取信道是否关闭
         /// </summary>
         public bool IsClose

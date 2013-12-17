@@ -68,7 +68,7 @@ namespace Vapula.Designer
             Library lib = Library.Load(
                 Path.Combine(
                 AppData.Instance.PathLibrary,
-                id + "\\" + id + ".tcm.xml"));
+                id + "\\" + id + ".library"));
             if (lib != null)
             {
                 _Libraries.Add(lib);
