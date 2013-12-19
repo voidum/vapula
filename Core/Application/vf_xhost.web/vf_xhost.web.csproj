@@ -84,12 +84,6 @@
   <ItemGroup>
     <Content Include="xhost.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\vf_xhost.web.core\vf_xhost.web.core.csproj">
-      <Project>{BFB12933-284A-4950-9058-47966E77B77E}</Project>
-      <Name>vf_xhost.web.core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

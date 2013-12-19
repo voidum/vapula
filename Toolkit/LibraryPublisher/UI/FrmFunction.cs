@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using TCM.Model;
+using Vapula.Model;
 
-namespace TCM.Toolkit
+namespace Vapula.Toolkit
 {
-    public partial class FrmDetailFunc : Form
+    public partial class FrmFunction : Form
     {
         private Function _Function = null;
         public Function Function
@@ -19,7 +19,7 @@ namespace TCM.Toolkit
             }
         }
 
-        public FrmDetailFunc()
+        public FrmFunction()
         {
             InitializeComponent();
         }

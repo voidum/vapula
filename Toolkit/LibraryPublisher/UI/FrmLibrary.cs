@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Windows.Forms;
-using TCM.Model;
+using Vapula.Model;
 
-namespace TCM.Toolkit
+namespace Vapula.Toolkit
 {
-    public partial class FrmDetailLib : Form
+    public partial class FrmLibrary : Form
     {
         private string[] _RuntimeIds
             = new string[] { 
                 "crt", "clr", "jre",
                 "py", "js", "mat",
                 "idl", "ruby" };
+
+        private string[] _RuntimeNames
+            = new string[] {
+                "C/C++", ".NET", "Java",
+                "Python", "JavaScript", "Matlab",
+                "IDL", "Ruby" };
 
         public int RuntimeId
         {
@@ -42,9 +48,12 @@ namespace TCM.Toolkit
             }
         }
 
-        public FrmDetailLib()
+        public FrmLibrary()
         {
             InitializeComponent();
+            CobxRuntime.Items.Clear();
+            foreach (string s in _RuntimeNames)
+                CobxRuntime.Items.Add(s);
         }
 
         private void BtCancel_Click(object sender, EventArgs e)

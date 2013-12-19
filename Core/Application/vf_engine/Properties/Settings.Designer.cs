@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Vapula.Dispatcher.Properties {
+namespace Vapula.Engine.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

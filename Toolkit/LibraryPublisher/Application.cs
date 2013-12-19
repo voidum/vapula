@@ -1,7 +1,8 @@
-﻿using TCM.Helper;
-using TCM.Model;
+﻿using System.IO;
+using Vapula.Helper;
+using Vapula.Model;
 
-namespace TCM.Toolkit
+namespace Vapula.Toolkit
 {
     public class AppData
     {
@@ -33,23 +34,49 @@ namespace TCM.Toolkit
             }
         }
 
-        private string _PathConfig = null;
+        private string _PathDpt = null;
+        private string _PathBin = null;
+        private string _PathTarget = null;
+
         /// <summary>
-        /// 获取当前组件的配置路径
+        /// 获取或设置当前组件的库描述文件路径
         /// </summary>
-        public string PathConfig
+        public string PathDpt
         {
-            get
-            {
-                if (_PathConfig == null)
-                    return "";
-                return _PathConfig;
-            }
+            get { return _PathDpt; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _PathConfig = null;
-                else _PathConfig = value;
+                _PathDpt = 
+                    string.IsNullOrWhiteSpace(value) 
+                    ? null : value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置当前组件的库主体文件路径
+        /// </summary>
+        public string PathBin
+        {
+            get { return _PathBin; }
+            set
+            {
+                _PathBin = 
+                    string.IsNullOrWhiteSpace(value)
+                    ? null : value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置组件的目标发布目录
+        /// </summary>
+        public string PathTarget
+        {
+            get { return _PathTarget; }
+            set 
+            {
+                _PathTarget 
+                    = string.IsNullOrWhiteSpace(value)
+                    ? null : value;
             }
         }
 

@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("TCM任务助手")]
-[assembly: AssemblyDescription("用于配置、运行、监控TCM任务")]
+[assembly: AssemblyTitle("Vapula任务助手")]
+[assembly: AssemblyDescription("用于配置、运行、监控Vapula任务")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TaskHelper")]

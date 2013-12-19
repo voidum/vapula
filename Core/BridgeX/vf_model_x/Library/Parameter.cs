@@ -1,4 +1,6 @@
 ﻿using System.Xml.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Vapula.Model
 {
@@ -8,13 +10,12 @@ namespace Vapula.Model
     public class Parameter
     {
         #region 字段
-        protected int _Id;
-        protected DataType _Type;
-        protected bool _IsIn;
-        protected string _Catalog;
-        protected string _Name;
-        protected string _Description;
-        protected Function _Function = null;
+        private int _Id;
+        private DataType _Type;
+        private ParamMode _Mode;
+        private Function _Function;
+        private List<Tag> _Tags
+            = new List<Tag>();
         #endregion
 
         #region 构造
@@ -24,29 +25,61 @@ namespace Vapula.Model
         public Parameter() { }
         #endregion
 
+        #region 索引器
+        /// <summary>
+        /// 根据指定键获取标签
+        /// </summary>
+        public Tag GetTag(string key)
+        {
+            foreach (var tag in _Tags)
+                if (tag.Key == key)
+                    return tag;
+            return null;
+        }
+        #endregion
+
         #region 序列化
+        /// <summary>
+        /// 由XML解析参数描述
+        /// </summary>
         public static Parameter Parse(XElement xml)
         {
             Parameter param = new Parameter();
             param.Id = int.Parse(xml.Attribute("id").Value);
-            param.Type = (DataType)int.Parse(xml.Attribute("type").Value);
-            param.IsIn = (xml.Attribute("in").Value == "true");
-            param.Name = xml.Element("name").Value;
-            param.Catalog = xml.Element("catalog").Value;
-            param.Description = xml.Element("description").Value;
+            param.Type = (DataType)int.Parse(xml.Element("type").Value);
+            param.Mode = (ParamMode)int.Parse(xml.Element("mode").Value);
+            var xmls_tag = xml.Element("tags").Elements("tag");
+            foreach (var xml_tag in xmls_tag)
+                param.Tags.Add(Tag.Parse(xml_tag));
             return param;
         }
 
+        /// <summary>
+        /// 将参数描述序列化成XML元素
+        /// </summary>
         public XElement ToXML()
         {
             XElement xml = new XElement("param",
-                new XAttribute("id", Id),
-                new XAttribute("type", (int)Type),
-                new XAttribute("in", IsIn ? "true" : "false"),
-                new XElement("description", Description),
-                new XElement("name", Name),
-                new XElement("catalog", Catalog));
+                new XElement("id", Id),
+                new XElement("type", (int)Type),
+                new XElement("mode", (int)Mode),
+                new XElement("tags"));
+            foreach (var tag in _Tags)
+            {
+                var xml_tag = tag.ToXML();
+                xml.Element("tags").Add(xml_tag);
+            }
             return xml;
+        }
+        #endregion
+
+        #region 集合
+        /// <summary>
+        /// 清理参数描述
+        /// </summary>
+        public void Clear()
+        {
+            Tags.Clear();
         }
         #endregion
 
@@ -70,63 +103,12 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数是否是输入参数
+        /// 获取或设置参数的模式
         /// </summary>
-        public bool IsIn
+        public ParamMode Mode
         {
-            get { return _IsIn; }
-            set { _IsIn = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置参数的分类
-        /// </summary>
-        public string Catalog
-        {
-            get
-            {
-                if (_Catalog == null) return "";
-                return _Catalog;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) _Catalog = null;
-                else _Catalog = value;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置参数的名称
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                if (_Name == null) return "";
-                return _Name;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) _Name = null;
-                else _Name = value;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置参数的描述
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                if (_Description == null) return "";
-                return _Description;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) _Description = null;
-                else _Description = value;
-            }
+            get { return _Mode; }
+            set { _Mode = value; }
         }
 
         /// <summary>
@@ -137,13 +119,97 @@ namespace Vapula.Model
             get { return _Function; }
             set { _Function = value; }
         }
+
+        /// <summary>
+        /// 获取参数的标签表
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return _Tags; }
+        }
+
+        /// <summary>
+        /// 获取或设置参数的名称
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                Tag tag = GetTag("name");
+                if (tag == null)
+                    return "";
+                return tag.Value;
+            }
+            set
+            {
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("name");
+                if (tag == null)
+                    _Tags.Add(new Tag("name", v));
+                else
+                    tag.Value = v;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置参数的类别
+        /// </summary>
+        public string Category
+        {
+            get
+            {
+                Tag tag = GetTag("category");
+                if (tag == null)
+                    return "";
+                return tag.Value;
+            }
+            set
+            {
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("category");
+                if (tag == null)
+                    _Tags.Add(new Tag("category", v));
+                else
+                    tag.Value = v;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置参数的描述
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                Tag tag = GetTag("description");
+                if (tag == null)
+                    return "";
+                return tag.Value;
+            }
+            set
+            {
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("description");
+                if (tag == null)
+                    _Tags.Add(new Tag("description", v));
+                else
+                    tag.Value = v;
+            }
+        }
+
         #endregion
 
         #region 方法
         /// <summary>
         /// 创建参数存根
         /// </summary>
-        public ParamStub CreateParaStub()
+        public ParamStub CreateStub()
         {
             ParamStub stub = new ParamStub();
             stub.Prototype = this;

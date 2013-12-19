@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace TCM.ComManager
+namespace Vapula.ComManager
 {
     public partial class FrmMain : Form
     {

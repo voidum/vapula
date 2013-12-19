@@ -107,7 +107,7 @@ void Test3(Library* lib)
 	Envelope* env = inv->GetEnvelope();
 	while(ctx->GetState() != VF_STATE_IDLE)
 		Sleep(50);
-	ShowMsgbox(env->Read<PCWSTR>(1));
+	ShowMsgbox(env->Read<cstr16>(1));
 }
 
 int main()
@@ -119,7 +119,7 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.tcm.xml");
+	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";

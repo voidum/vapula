@@ -5,21 +5,11 @@
     attributeFormDefault="qualified"
 >
   <xs:element name="library" type="library" />
+  
   <xs:complexType name="library">
     <xs:all>
-      <xs:element name="runtime" type="xs:string" maxOccurs="1" />
-      <xs:element name="id" maxOccurs="1">
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:whiteSpace value="replace" />
-            <xs:pattern value="([a-zA-Z0-9._])+" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
-      <xs:element name="name" type="xs:string" maxOccurs="1" />
-      <xs:element name="description" type="xs:string" maxOccurs="1" />
-      <xs:element name="version" type="xs:string" maxOccurs="1" />
-      <xs:element name="publisher" type="xs:string" maxOccurs="1" />
+      <xs:element name="id" maxOccurs="1" type="ascii_string" />
+      <xs:element name="runtime" maxOccurs="1" type="ascii_string" />
       <xs:element name="functions" maxOccurs="1">
         <xs:complexType>
           <xs:sequence>
@@ -27,21 +17,22 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="tags" type="tags" />
     </xs:all>
   </xs:complexType>
+  
   <xs:complexType name="function">
     <xs:all>
-      <xs:element name="name" type="xs:string" maxOccurs="1" />
-      <xs:element name="description" type="xs:string" maxOccurs="1" />
-      <xs:element name="params" maxOccurs="1">
+      <xs:element name="params">
         <xs:complexType>
           <xs:sequence>
             <xs:element name="param" type="param" minOccurs="0" maxOccurs="unbounded" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="tags" type="tags" />
     </xs:all>
-    <xs:attribute name="id" use="required">
+    <xs:attribute name="id">
       <xs:simpleType>
         <xs:restriction base="xs:int">
           <xs:minInclusive value="1" />
@@ -49,26 +40,40 @@
       </xs:simpleType>
     </xs:attribute>
   </xs:complexType>
+  
   <xs:complexType name="param">
     <xs:all>
-      <xs:element name="name" type="xs:string" maxOccurs="1" />
-      <xs:element name="catalog" type="xs:string" maxOccurs="1" />
-      <xs:element name="description" type="xs:string" maxOccurs="1" />
+      <xs:element name="type" type="xs:int" />
+      <xs:element name="mode" type="xs:int" />
+      <xs:element name="tags" type="tags" />
     </xs:all>
-    <xs:attribute name="id" use="required">
+    <xs:attribute name="id">
       <xs:simpleType>
         <xs:restriction base="xs:int">
           <xs:minInclusive value="1" />
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="type" type="xs:int" use="required" />
-    <xs:attribute name="in" type="bool" use="required" />
   </xs:complexType>
-  <xs:simpleType name="bool">
+
+  <xs:complexType name="tags">
+    <xs:sequence>
+      <xs:element name="tag" type="tag" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="tag">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="key" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="ascii_string">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="true" />
-      <xs:enumeration value="false" />
+      <xs:whiteSpace value="replace" />
+      <xs:pattern value="([a-zA-Z0-9._])+" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

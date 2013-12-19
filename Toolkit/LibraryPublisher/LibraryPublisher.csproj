@@ -8,8 +8,8 @@
     <ProjectGuid>{1E736ED4-9970-404B-8C67-7DD17425F6AA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TCM.Toolkit</RootNamespace>
-    <AssemblyName>LibraryPublisher</AssemblyName>
+    <RootNamespace>Vapula.Toolkit</RootNamespace>
+    <AssemblyName>vf_libpub</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -69,52 +69,68 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="FrmDetailLib.cs">
+    <Compile Include="UI\FrmLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDetailLib.designer.cs">
-      <DependentUpon>FrmDetailLib.cs</DependentUpon>
+    <Compile Include="UI\FrmLibrary.designer.cs">
+      <DependentUpon>FrmLibrary.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmDetailFunc.cs">
+    <Compile Include="UI\FrmFunction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDetailFunc.designer.cs">
-      <DependentUpon>FrmDetailFunc.cs</DependentUpon>
+    <Compile Include="UI\FrmFunction.designer.cs">
+      <DependentUpon>FrmFunction.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmDetailParam.cs">
+    <Compile Include="UI\FrmParameter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDetailParam.designer.cs">
-      <DependentUpon>FrmDetailParam.cs</DependentUpon>
+    <Compile Include="UI\FrmParameter.designer.cs">
+      <DependentUpon>FrmParameter.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMain.cs">
+    <Compile Include="UI\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMain.Designer.cs">
+    <Compile Include="UI\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmDetailLib.resx">
-      <DependentUpon>FrmDetailLib.cs</DependentUpon>
+    <Compile Include="UI\UctCore.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctCore.Designer.cs">
+      <DependentUpon>UctCore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctLicence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctLicence.Designer.cs">
+      <DependentUpon>UctLicence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctUI.Designer.cs">
+      <DependentUpon>UctUI.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UI\FrmLibrary.resx">
+      <DependentUpon>FrmLibrary.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmDetailFunc.resx">
-      <DependentUpon>FrmDetailFunc.cs</DependentUpon>
+    <EmbeddedResource Include="UI\FrmFunction.resx">
+      <DependentUpon>FrmFunction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmDetailParam.resx">
-      <DependentUpon>FrmDetailParam.cs</DependentUpon>
+    <EmbeddedResource Include="UI\FrmParameter.resx">
+      <DependentUpon>FrmParameter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMain.resx">
+    <EmbeddedResource Include="UI\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -127,6 +143,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\UctCore.resx">
+      <DependentUpon>UctCore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UctUI.resx">
+      <DependentUpon>UctUI.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -160,24 +182,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\xBridge\tcm_xbridge\tcm_xbridge.csproj">
-      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
-      <Name>tcm_xbridge</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\xBridge\tcm_xhelper\tcm_xhelper.csproj">
-      <Project>{B0DA7A04-CFF6-4F33-A262-C7D63AC92A54}</Project>
-      <Name>tcm_xhelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Model\tcm_model\tcm_model.csproj">
-      <Project>{EC85B801-A356-481A-8D5E-EFE603F8689A}</Project>
-      <Name>tcm_model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\attach_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add_s.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\detail_s.png" />
@@ -187,6 +192,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\function_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_model_x\vf_model_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_model_x</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_lib_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

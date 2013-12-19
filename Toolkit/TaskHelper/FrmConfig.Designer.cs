@@ -1,4 +1,4 @@
-﻿namespace TCM.Toolkit.TaskHelper
+﻿namespace Vapula.Toolkit.TaskHelper
 {
     partial class FrmConfig
     {

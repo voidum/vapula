@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TCM.Toolkit;
+using Vapula.Toolkit;
 
-namespace TCM.ComManager
+namespace Vapula.ComManager
 {
     public class AppData
     {

@@ -11,7 +11,8 @@ namespace Vapula.Model
         Decision = 1,
         Start = 2,
         Variable = 3,
-        Batch = 4
+        Batch = 4, 
+        Model = 5
     }
 
     /// <summary>
@@ -27,8 +28,6 @@ namespace Vapula.Model
             = new List<Node>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
-
-        protected Tag _Tag = new Tag();
         #endregion
 
         #region 索引器
@@ -40,7 +39,8 @@ namespace Vapula.Model
             get
             {
                 foreach (var stub in _ParamStubs)
-                    if (stub.Prototype.Id == id) return stub;
+                    if (stub.Prototype.Id == id) 
+                        return stub;
                 return null;
             }
         }
@@ -61,11 +61,17 @@ namespace Vapula.Model
         /// </summary>
         public abstract NodeType Type { get; }
 
+        /// <summary>
+        /// 获取节点的输入节点
+        /// </summary>
         public List<Node> InNodes
         {
             get { return _InNodes; }
         }
 
+        /// <summary>
+        /// 获取节点的输出节点
+        /// </summary>
         public List<Node> OutNodes 
         {
             get { return _OutNodes; }
@@ -77,15 +83,6 @@ namespace Vapula.Model
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
-        }
-
-        /// <summary>
-        /// 获取或设置节点的附加数据
-        /// </summary>
-        public Tag Tag
-        {
-            get { return _Tag; }
-            set { _Tag = value; }
         }
         #endregion
 
@@ -116,7 +113,6 @@ namespace Vapula.Model
             foreach (Node node in _OutNodes)
                 node.InNodes.Remove(this);
             _OutNodes.Clear();
-            _Tag.Dispose();
             _SyncTarget = null;
         }
         #endregion

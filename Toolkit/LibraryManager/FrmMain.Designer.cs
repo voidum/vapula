@@ -1,4 +1,4 @@
-﻿namespace TCM.ComManager
+﻿namespace Vapula.ComManager
 {
     partial class FrmMain
     {

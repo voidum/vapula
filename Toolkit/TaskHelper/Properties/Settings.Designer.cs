@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TCM.Toolkit.TaskHelper.Properties {
+namespace Vapula.Toolkit.TaskHelper.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -30,7 +30,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_lib", "Sample\librar
 		{D0F7A8D0-7402-4848-B1C6-29DD21E843D9} = {D0F7A8D0-7402-4848-B1C6-29DD21E843D9}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{7B66784F-5873-42A6-B3DE-98A29896770B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{7B66784F-5873-42A6-B3DE-98A29896770B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_pipe", "Sample\sample_pipe\sample_pipe.vcxproj", "{AE183F65-F55E-4AB4-A846-81F81FDBA62B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -54,15 +54,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vf_drv_clr", "Driver\vf_drv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vf_drv_crt", "Driver\vf_drv_crt\vf_drv_win32.vcxproj", "{D0F7A8D0-7402-4848-B1C6-29DD21E843D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_disp", "App\vf_disp\vf_disp.csproj", "{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.clr", "App\vf_xhost.clr\vf_xhost.clr.csproj", "{7A76BE2D-4682-4712-B9C4-7E4425B188CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.web", "App\vf_xhost.web\vf_xhost.web.csproj", "{5B079BFB-19F2-492D-B163-EE7B373B69ED}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.web.core", "App\vf_xhost.web.core\vf_xhost.web.core.csproj", "{BFB12933-284A-4950-9058-47966E77B77E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample_xpipe", "Sample\sample_xpipe\sample_xpipe.csproj", "{16DDBD4F-651A-44BB-8001-816B36D43A62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_engine", "Application\vf_engine\vf_engine.csproj", "{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.clr", "Application\vf_xhost.clr\vf_xhost.clr.csproj", "{7A76BE2D-4682-4712-B9C4-7E4425B188CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.web", "Application\vf_xhost.web\vf_xhost.web.csproj", "{5B079BFB-19F2-492D-B163-EE7B373B69ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_xhost.web.core", "Application\vf_xhost.web.core\vf_xhost.web.core.csproj", "{BFB12933-284A-4950-9058-47966E77B77E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -228,6 +228,18 @@ Global
 		{D0F7A8D0-7402-4848-B1C6-29DD21E843D9}.Release|Win32.ActiveCfg = Release|Win32
 		{D0F7A8D0-7402-4848-B1C6-29DD21E843D9}.Release|Win32.Build.0 = Release|Win32
 		{D0F7A8D0-7402-4848-B1C6-29DD21E843D9}.Release|x86.ActiveCfg = Release|Win32
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Win32.ActiveCfg = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|x86.ActiveCfg = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|x86.Build.0 = Debug|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Any CPU.ActiveCfg = Release|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Mixed Platforms.Build.0 = Release|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Win32.ActiveCfg = Release|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|x86.ActiveCfg = Release|x86
+		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|x86.Build.0 = Release|x86
 		{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -276,18 +288,6 @@ Global
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|Win32.ActiveCfg = Release|Any CPU
 		{BFB12933-284A-4950-9058-47966E77B77E}.Release|x86.ActiveCfg = Release|Any CPU
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|Win32.ActiveCfg = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|x86.ActiveCfg = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Debug|x86.Build.0 = Debug|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Any CPU.ActiveCfg = Release|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Mixed Platforms.Build.0 = Release|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|Win32.ActiveCfg = Release|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|x86.ActiveCfg = Release|x86
-		{16DDBD4F-651A-44BB-8001-816B36D43A62}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

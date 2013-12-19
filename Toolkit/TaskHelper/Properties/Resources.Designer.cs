@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TCM.Toolkit.TaskHelper.Properties {
+namespace Vapula.Toolkit.TaskHelper.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TCM.Toolkit.TaskHelper.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TCM.Toolkit.TaskHelper.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Vapula.Toolkit.TaskHelper.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

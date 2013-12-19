@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("TCM组件管理器")]
-[assembly: AssemblyDescription("用于管理TCM组件的实用工具")]
+[assembly: AssemblyTitle("Vapula组件管理器")]
+[assembly: AssemblyDescription("用于管理Vapula组件的实用工具")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("tcm_com_manager")]

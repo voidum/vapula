@@ -10,11 +10,11 @@ namespace Vapula.Model
     {
         #region 字段
         private int _Id;
-        private string _Name;
-        private string _Description;
         private Library _Library;
-        private Tag _Tag = new Tag();
-        private List<Parameter> _Params = new List<Parameter>();
+        private List<Tag> _Tags 
+            = new List<Tag>();
+        private List<Parameter> _Parameters 
+            = new List<Parameter>();
         #endregion
 
         #region 构造
@@ -29,11 +29,22 @@ namespace Vapula.Model
         {
             get
             {
-                foreach (var param in _Params)
+                foreach (var param in Parameters)
                     if (param.Id == id)
                         return param;
                 return null;
             }
+        }
+
+        /// <summary>
+        /// 根据指定键获取标签
+        /// </summary>
+        public Tag GetTag(string key)
+        {
+            foreach (var tag in _Tags)
+                if (tag.Key == key)
+                    return tag;
+            return null;
         }
         #endregion
 
@@ -45,14 +56,15 @@ namespace Vapula.Model
         {
             Function func = new Function();
             func.Id = int.Parse(xml.Attribute("id").Value);
-            func.Description = xml.Element("description").Value;
-            func.Name = xml.Element("name").Value;
+            var xmls_tag = xml.Element("tags").Elements("tag");
+            foreach (var xml_tag in xmls_tag)
+                func.Tags.Add(Tag.Parse(xml_tag));
             var xml_params = xml.Element("params").Elements("param");
             foreach (var xml_param in xml_params)
             {
                 var param = Parameter.Parse(xml_param);
                 param.Function = func;
-                func._Params.Add(param);
+                func.Parameters.Add(param);
             }
             return func;
         }
@@ -63,11 +75,15 @@ namespace Vapula.Model
         public XElement ToXML()
         {
             XElement xml = new XElement("function",
-                new XElement("description", Description),
-                new XElement("name", Name),
+                new XElement("tags"),
                 new XElement("params"),
                 new XAttribute("id", Id));
-            foreach (var param in _Params)
+            foreach (var tag in _Tags)
+            {
+                var xml_tag = tag.ToXML();
+                xml.Element("tags").Add(xml_tag);
+            }
+            foreach (var param in Parameters)
             {
                 var xml_param = param.ToXML();
                 xml.Element("params").Add(xml_param);
@@ -77,9 +93,15 @@ namespace Vapula.Model
         #endregion
 
         #region 集合
+        /// <summary>
+        /// 清理功能描述
+        /// </summary>
         public void Clear()
         {
-            _Params.Clear();
+            foreach(var param in Parameters)
+                param.Clear();
+            Parameters.Clear();
+            Tags.Clear();
         }
         #endregion
 
@@ -94,20 +116,52 @@ namespace Vapula.Model
         }
 
         /// <summary>
+        /// 获取功能所在的组件
+        /// </summary>
+        public Library Library
+        {
+            get { return _Library; }
+            set { _Library = value; }
+        }
+
+        /// <summary>
+        /// 获取功能的标签表
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return _Tags; }
+        }
+
+        /// <summary>
+        /// 获取功能的参数集合
+        /// </summary>
+        public List<Parameter> Parameters
+        {
+            get { return _Parameters; }
+        }
+
+        /// <summary>
         /// 获取或设置功能的名称
         /// </summary>
         public string Name
         {
             get
             {
-                if (_Name == null) return "";
-                return _Name;
+                Tag tag = GetTag("name");
+                if (tag == null)
+                    return "";
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Name = null;
-                else _Name = value;
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("name");
+                if (tag == null)
+                    _Tags.Add(new Tag("name", v));
+                else
+                    tag.Value = v;
             }
         }
 
@@ -118,41 +172,24 @@ namespace Vapula.Model
         {
             get
             {
-                if (_Description == null) return "";
-                return _Description;
+                Tag tag = GetTag("description");
+                if (tag == null)
+                    return "";
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Description = null;
-                else _Description = value;
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("description");
+                if (tag == null)
+                    _Tags.Add(new Tag("description", v));
+                else
+                    tag.Value = v;
             }
         }
 
-        /// <summary>
-        /// 获取功能所在的组件
-        /// </summary>
-        public Library Library
-        {
-            get { return _Library; }
-            set { _Library = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置附加数据
-        /// </summary>
-        public Tag Tag
-        {
-            get { return _Tag; }
-        }
-
-        /// <summary>
-        /// 获取功能的参数集合
-        /// </summary>
-        public List<Parameter> Parameters
-        {
-            get { return _Params; }
-        }
         #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TCM.ComManager
+namespace Vapula.ComManager
 {
     static class Program
     {

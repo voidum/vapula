@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("服务端托盘助手")]
-[assembly: AssemblyDescription("用于管理TCM服务端的托盘助手")]
+[assembly: AssemblyDescription("用于管理Vapula服务端的托盘助手")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ServerTray")]

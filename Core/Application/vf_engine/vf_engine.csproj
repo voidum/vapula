@@ -8,8 +8,8 @@
     <ProjectGuid>{B18C0CE8-F5D8-48BF-B123-CADACD90C9C2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula.Dispatcher</RootNamespace>
-    <AssemblyName>vf_disp</AssemblyName>
+    <RootNamespace>Vapula.Engine</RootNamespace>
+    <AssemblyName>vf_engine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

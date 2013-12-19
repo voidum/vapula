@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("TCM UI助手")]
-[assembly: AssemblyDescription("用于配制TCM的UI宿主")]
+[assembly: AssemblyTitle("Vapula UI助手")]
+[assembly: AssemblyDescription("用于配制Vapula的UI宿主")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("UIHelper")]

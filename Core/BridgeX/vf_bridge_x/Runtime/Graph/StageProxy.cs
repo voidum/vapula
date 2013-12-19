@@ -101,10 +101,10 @@ namespace Vapula.Runtime
         private void StartNode_Process(NodeProcess node)
         {
             Function func = node.Function;
-            Library lib = Library.Load(func.Library.Path);
+            Library lib = null;//Library.Load(func.Library.Path);
             lib.Mount();
             Invoker invoker = lib.CreateInvoker(func.Id);
-            node.Tag["Invoker"] = invoker;
+            //node.Tag["Invoker"] = invoker;
             bool ret = invoker.Start();
             Logger.WriteLog(LogType.Event,
                 string.Format("节点{0}的功能{1}启动",
@@ -121,13 +121,13 @@ namespace Vapula.Runtime
 
         private void WaitNode_Process(NodeProcess node)
         {
-            Invoker invoker = (Invoker)node.Tag["Invoker"];
+            Invoker invoker = null; // (Invoker)node.Tag["Invoker"];
             while (invoker.Context.State != State.Idle)
                 Thread.Sleep(50);
             foreach (var stub in node.ParamStubs)
             {
                 Parameter param = stub.Prototype;
-                if (!param.IsIn)
+                if (param.Mode != ParamMode.In)
                 {
                     Logger.WriteLog(LogType.Debug,
                         string.Format("节点{0}的参数{1}的值为{2}",

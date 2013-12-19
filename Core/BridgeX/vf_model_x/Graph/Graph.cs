@@ -10,8 +10,6 @@ namespace Vapula.Model
         #region 字段
         private List<Node> _Nodes 
             = new List<Node>();
-        private List<Stage> _Stages 
-            = new List<Stage>();
         private List<Link> _Links 
             = new List<Link>();
         #endregion
@@ -46,14 +44,6 @@ namespace Vapula.Model
         public List<Link> Links
         {
             get { return _Links; }
-        }
-
-        /// <summary>
-        /// 获取图的阶段集合
-        /// </summary>
-        public List<Stage> Stages
-        {
-            get { return _Stages; }
         }
 
         /// <summary>

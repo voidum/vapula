@@ -16,7 +16,7 @@ namespace Vapula.Model
             set 
             {
                 foreach (var param in value.Parameters)
-                    _ParamStubs.Add(param.CreateParaStub());
+                    _ParamStubs.Add(param.CreateStub());
                 _Function = value; 
             }
         }
@@ -28,6 +28,7 @@ namespace Vapula.Model
 
         public override object Sync(string cmd, object attach)
         {
+            /*
             if (cmd == "get-icon") 
             {
                 if(_Function.Tag["SmallIcon"] != null)
@@ -35,6 +36,7 @@ namespace Vapula.Model
             }
             else if(cmd == "get-text")
                 return _Function.Name;
+             */
             return base.Sync(cmd, attach);
         }
     }

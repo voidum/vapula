@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TCM.Properties {
+namespace Vapula.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

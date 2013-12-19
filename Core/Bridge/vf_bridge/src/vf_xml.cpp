@@ -15,16 +15,12 @@ namespace vapula
 			try
 			{
 				file<> xfile(path);
-				Clear(path);
 				data = str::Copy(xfile.data());
 			}
 			catch (std::exception e)
 			{
-				Clear(path);
 				return null;
 			}
-			if(data == null) 
-				return null;
 			xml_document<>* xdoc = new xml_document<>();
 			xdoc->parse<0>(const_cast<char*>(data));
 			return xdoc;

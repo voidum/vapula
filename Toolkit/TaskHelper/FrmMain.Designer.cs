@@ -1,4 +1,4 @@
-﻿namespace TCM.Toolkit.TaskHelper
+﻿namespace Vapula.Toolkit.TaskHelper
 {
     partial class FrmMain
     {
@@ -335,7 +335,7 @@
             // 
             // BtConfig
             // 
-            this.BtConfig.Image = global::TCM.Toolkit.TaskHelper.Properties.Resources.wrench_24;
+            this.BtConfig.Image = global::Vapula.Toolkit.TaskHelper.Properties.Resources.wrench_24;
             this.BtConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtConfig.Name = "BtConfig";
             this.BtConfig.Size = new System.Drawing.Size(65, 24);
@@ -360,7 +360,7 @@
             this.MinimumSize = new System.Drawing.Size(470, 540);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TCM任务助手";
+            this.Text = "Vapula任务助手";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.toolbar.ResumeLayout(false);
             this.toolbar.PerformLayout();

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Vapula.Toolkit.TaskHelper
+namespace Vapula.Toolkit
 {
-    public partial class FrmConfig : Form
+    public partial class UctLicence : UserControl
     {
-        public FrmConfig()
+        public UctLicence()
         {
             InitializeComponent();
         }

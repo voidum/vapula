@@ -86,12 +86,15 @@ namespace vapula
 		cstr16 Read<cstr16>(int id)
 		{
 			cstr8 s8 = Read<cstr8>(id);
-			cstr16 s16 = str::ToCh16(s8);
+			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
 			delete s8;
 			return s16;
 		}
 
 		//写入参数
+		//写入字符串时会自动复制
+		//使用8位字节承载时，务必使用UTF8编码
+		//使用16位字节承载时，会自动转换到UTF8编码
 		template<typename T>
 		void Write(int id, T value)
 		{
@@ -101,22 +104,18 @@ namespace vapula
 			param[0] = value;
 		}
 
-		//写入参数，特化bool
 		template<>
 		void Write<bool>(int id, bool value)
 		{
 			Write<char>(id, value ? 1 : 0);
 		}
 
-		//写入字符串，自动复制
-		//务必写入UTF8编码的字符串
 		template<>
 		void Write<cstr8>(int id, cstr8 value)
 		{
 			WriteEx(id, (object)value, strlen(value) + 1);
 		}
 
-		//写入字符串，自动复制
 		template<>
 		void Write<cstr16>(int id, cstr16 value)
 		{

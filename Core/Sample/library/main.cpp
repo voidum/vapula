@@ -3,8 +3,8 @@
 
 int Run(int function, Envelope* envelope, Context* context)
 {
-	Context* ctx = (context == NULL ? new Context() : context);
-	DWORD ret = 0;
+	Context* ctx = context;
+	int ret = 0;
 	switch(function)
 	{
 	case 1:
@@ -44,7 +44,7 @@ int Function_Math(Envelope* envelope, Context* context)
 //第二个任务
 int Function_Out(Envelope* envelope,Context* context)
 {
-	PCWSTR str = L"中文Engligh日本語テスト";
+	cstr16 str = L"中文Engligh日本語テスト";
 	context->SetProgress(100);
 	envelope->Write(1, str);
 	return VF_RETURN_NORMAL;
@@ -54,7 +54,7 @@ int Function_Out(Envelope* envelope,Context* context)
 int Function_TestArray(Envelope* envelope,Context* context)
 {
 	int count = envelope->Read<int>(1);
-	int* data = (int*)envelope->Read<LPVOID>(2);
+	int* data = (int*)envelope->Read<object>(2);
 
 	int result = 0;
 	for(int i=0;i<count;i++)
@@ -73,7 +73,7 @@ int Function_TestObject(Envelope* envelope,Context* context)
 	if(ifinc) obj->Inc();
 	else obj->Dec();
 
-	envelope->Write(3,(LPVOID)obj);
+	envelope->Write(3, (object)obj);
 	return VF_RETURN_NORMAL;
 }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TCM.Toolkit.Properties {
+namespace Vapula.Toolkit.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TCM.Toolkit.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TCM.Toolkit.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Vapula.Toolkit.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,13 +60,6 @@ namespace TCM.Toolkit.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap add_s {
-            get {
-                object obj = ResourceManager.GetObject("add_s", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap attach_s {
             get {
                 object obj = ResourceManager.GetObject("attach_s", resourceCulture);
@@ -84,6 +77,13 @@ namespace TCM.Toolkit.Properties {
         internal static System.Drawing.Bitmap function_s {
             get {
                 object obj = ResourceManager.GetObject("function_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap open_lib_s {
+            get {
+                object obj = ResourceManager.GetObject("open_lib_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

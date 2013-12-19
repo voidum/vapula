@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TCM.Toolkit
+namespace Vapula.Toolkit
 {
     static class Program
     {

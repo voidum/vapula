@@ -71,9 +71,6 @@ namespace Vapula.Runtime
 
         private void ClearModel() 
         {
-            foreach (var stage in _Model.Stages)
-                stage.Nodes.Clear();
-            _Model.Stages.Clear();
         }
 
         public GraphProxy(Graph model)

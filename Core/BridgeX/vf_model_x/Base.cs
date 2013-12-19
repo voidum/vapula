@@ -22,6 +22,16 @@ namespace Vapula
 	    String = 21
     };
 
+    /// <summary>
+    /// Vapula支持的参数模式
+    /// </summary>
+    public enum ParamMode
+    {
+        In = 0,
+        Out = 1,
+        InOut = 2
+    }
+
     public class Base
     {
         /// <summary>

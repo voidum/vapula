@@ -1,40 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Xml.Linq;
 
-namespace Vapula
+namespace Vapula.Model
 {
     /// <summary>
-    /// 通过键值对存储的附加数据字典
+    /// Vapula附加数据
     /// </summary>
-    public class Tag : IDisposable
+    public class Tag
     {
-        private Dictionary<string, object> _Data 
-            = new Dictionary<string, object>();
+        private string _Key;
+        private string _Value;
 
-        /// <summary>
-        /// 获取或设置附加数据
-        /// </summary>
-        public object this[string key]
+        public Tag()
+        {
+        }
+
+        public Tag(string key, string value)
+        {
+            _Key = key;
+            _Value = value;
+        }
+
+        public static Tag Parse(XElement xml)
+        {
+            Tag tag = new Tag();
+            tag._Key = xml.Attribute("key").Value;
+            tag._Value = xml.Value;
+            return tag;
+        }
+
+        public XElement ToXML()
+        {
+            XElement xml = new XElement("tag",
+                new XAttribute("key", _Key), 
+                _Value);
+            return xml;
+        }
+
+        public string Key
         {
             get
             {
-                if (!_Data.ContainsKey(key))
-                    return null;
-                else
-                    return _Data[key];
+                if (_Key == null)
+                    return "";
+                return _Key;
             }
             set
             {
-                if (_Data.ContainsKey(key))
-                    _Data[key] = value;
-                else
-                    _Data.Add(key, value);
+                if (string.IsNullOrWhiteSpace(value))
+                    _Key = null;
+                else _Key = value;
             }
         }
 
-        public void Dispose()
+        public string Value
         {
-            _Data.Clear();
+            get
+            {
+                if (_Value == null)
+                    return "";
+                return _Value;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _Value = null;
+                else _Value = value;
+            }
         }
     }
 }

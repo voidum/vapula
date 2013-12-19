@@ -12,13 +12,11 @@ namespace Vapula.Model
         #region 字段
         private string _Id;
         private string _Runtime;
-        private string _Name;
-        private string _Publisher;
-        private string _Description;
-        private string _Version;
-        private string _Path;
-        private Tag _Tag = new Tag();
-        private List<Function> _Functions = new List<Function>();
+        private List<Tag> _Tags
+            = new List<Tag>();
+        private List<Function> _Functions 
+            = new List<Function>();
+        private object _Attach;
         #endregion
 
         #region 构造
@@ -33,15 +31,30 @@ namespace Vapula.Model
         {
             get
             {
-                foreach (var func in _Functions)
+                foreach (var func in Functions)
                     if (func.Id == id)
                         return func;
                 return null;
             }
         }
+
+        /// <summary>
+        /// 根据指定键获取标签
+        /// </summary>
+        public Tag GetTag(string key)
+        {
+            foreach (var tag in _Tags)
+                if (tag.Key == key)
+                    return tag;
+            return null;
+        }
         #endregion
 
         #region 序列化
+        /// <summary>
+        /// 加载Vapula组件的库描述
+        /// </summary>
+        /// <param name="path">库描述文件的全路径</param>
         public static Library Load(string path)
         {
             var xrs = new XmlReaderSettings();
@@ -56,47 +69,47 @@ namespace Vapula.Model
             {
                 XElement xeroot = xml.Element("library");
                 Library library = Parse(xeroot);
-                library.Path = path;
                 return library;
             }
             return null;
         }
 
         /// <summary>
-        /// 由XML解析组件对象
+        /// 由XML解析库描述
         /// </summary>
         public static Library Parse(XElement xml)
         {
             Library lib = new Library();
             lib.Id = xml.Element("id").Value;
             lib.Runtime = xml.Element("runtime").Value;
-            lib.Version = xml.Element("version").Value;
-            lib.Name = xml.Element("name").Value;
-            lib.Publisher = xml.Element("publisher").Value;
-            lib.Description = xml.Element("description").Value;
-            var xml_funcs = xml.Element("functions").Elements("function");
-            foreach (var xml_func in xml_funcs)
+            var xmls_tag = xml.Element("tags").Elements("tag");
+            foreach (var xml_tag in xmls_tag)
+                lib.Tags.Add(Tag.Parse(xml_tag));
+            var xmls_func = xml.Element("functions").Elements("function");
+            foreach (var xml_func in xmls_func)
             {
-                Function func = Function.Parse(xml_func);
+                var func = Function.Parse(xml_func);
                 func.Library = lib;
-                lib._Functions.Add(func);
+                lib.Functions.Add(func);
             }
             return lib;
         }
 
         /// <summary>
-        /// 将组件序列化成XML元素
+        /// 将库描述序列化成XML元素
         /// </summary>
         public XElement ToXML()
         {
             XElement xml = new XElement("library",
-                new XElement("runtime", Runtime),
                 new XElement("id", Id),
-                new XElement("name", Name),
-                new XElement("description", Description),
-                new XElement("version", Version),
-                new XElement("publisher", Publisher),
+                new XElement("runtime", Runtime),
+                new XElement("tags"),
                 new XElement("functions"));
+            foreach (var tag in _Tags)
+            {
+                var xml_tag = tag.ToXML();
+                xml.Element("tags").Add(xml_tag);
+            }
             foreach (var func in _Functions)
             {
                 var xml_func = func.ToXML();
@@ -107,17 +120,21 @@ namespace Vapula.Model
         #endregion
 
         #region 集合
+        /// <summary>
+        /// 清理库描述
+        /// </summary>
         public void Clear()
         {
-            foreach (var func in _Functions)
+            foreach (var func in Functions)
                 func.Clear();
-            _Functions.Clear();
+            Functions.Clear();
+            Tags.Clear();
         }
         #endregion
 
         #region 属性
         /// <summary>
-        /// 获取或设置组件标识
+        /// 获取或设置库的标识
         /// </summary>
         public string Id
         {
@@ -136,7 +153,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置组件运行时
+        /// 获取或设置库的运行时
         /// </summary>
         public string Runtime
         {
@@ -155,104 +172,128 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置组件名称
+        /// 获取库的标签表
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return _Tags; }
+        }
+
+        /// <summary>
+        /// 获取库的功能集合
+        /// </summary>
+        public List<Function> Functions
+        {
+            get { return _Functions; }
+        }
+
+        /// <summary>
+        /// 获取或设置库的附加数据
+        /// </summary>
+        public object Attach
+        {
+            get { return _Attach; }
+            set { _Attach = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置库的名称
         /// </summary>
         public string Name 
         {
             get
             {
-                if (_Name == null)
+                Tag tag = GetTag("name");
+                if (tag == null)
                     return "";
-                return _Name;
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Name = null;
-                else _Name = value;
+                string v = 
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("name");
+                if (tag == null)
+                    _Tags.Add(new Tag("name", v));
+                else
+                    tag.Value = v;
             }
         }
 
         /// <summary>
-        /// 获取或设置组件发布方
+        /// 获取或设置库的发布方
         /// </summary>
         public string Publisher 
         {
             get
             {
-                if (_Publisher == null)
+                Tag tag = GetTag("publisher");
+                if (tag == null)
                     return "";
-                return _Publisher;
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Publisher = null;
-                else _Publisher = value;
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("publisher");
+                if (tag == null)
+                    _Tags.Add(new Tag("publisher", v));
+                else
+                    tag.Value = v;
             }
         }
 
         /// <summary>
-        /// 获取或设置组件描述
+        /// 获取或设置库的描述
         /// </summary>
         public string Description 
         {
             get
             {
-                if (_Description == null)
+                Tag tag = GetTag("description");
+                if (tag == null)
                     return "";
-                return _Description;
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Description = null;
-                else _Description = value;
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("description");
+                if (tag == null)
+                    _Tags.Add(new Tag("description", v));
+                else
+                    tag.Value = v;
             }
         }
 
         /// <summary>
-        /// 获取或设置组件版本
+        /// 获取或设置库的版本
         /// </summary>
         public string Version
         {
             get
             {
-                if (_Version == null)
+                Tag tag = GetTag("version");
+                if (tag == null)
                     return "";
-                return _Version;
+                return tag.Value;
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Version = null;
-                else _Version = value;
+                string v =
+                    string.IsNullOrWhiteSpace(value) ?
+                    "" : value;
+                Tag tag = GetTag("version");
+                if (tag == null)
+                    _Tags.Add(new Tag("version", v));
+                else
+                    tag.Value = v;
             }
-        }
-
-        /// <summary>
-        /// 获取库的附加数据表
-        /// </summary>
-        public Tag Tag
-        {
-            get { return _Tag; }
-        }
-
-        /// <summary>
-        /// 获取或设置库的路径
-        /// </summary>
-        public string Path
-        {
-            get { return _Path; }
-            set { _Path = value; }
-        }
-
-        /// <summary>
-        /// 获取所有功能
-        /// </summary>
-        public List<Function> Functions
-        {
-            get { return _Functions; }
         }
         #endregion
     }
