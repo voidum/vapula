@@ -80,6 +80,12 @@
     <Compile Include="UI\FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FrmModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmModel.Designer.cs">
+      <DependentUpon>FrmModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmStage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,18 @@
     </Compile>
     <Compile Include="UI\FrmToolbox.Designer.cs">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctDataFlow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctDataFlow.Designer.cs">
+      <DependentUpon>UctDataFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctGraph.Designer.cs">
+      <DependentUpon>UctGraph.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="UI\FrmDocument.resx">
       <DependentUpon>FrmDocument.cs</DependentUpon>
@@ -112,11 +130,20 @@
     <EmbeddedResource Include="UI\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmModel.resx">
+      <DependentUpon>FrmModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmStage.resx">
       <DependentUpon>FrmStage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UctDataFlow.resx">
+      <DependentUpon>UctDataFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UctGraph.resx">
+      <DependentUpon>UctGraph.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\advtool.list" />
     <None Include="Config\designer.config" />
