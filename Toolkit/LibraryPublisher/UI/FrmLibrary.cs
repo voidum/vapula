@@ -37,6 +37,7 @@ namespace Vapula.Toolkit
             {
                 _Library = value;
                 TbxId.Text = value.Id;
+                TbxEntry.Text = value.Entry;
                 TbxName.Text = value.Name;
                 TbxVersion.Text = value.Version;
                 TbxPublisher.Text = value.Publisher;
@@ -63,6 +64,7 @@ namespace Vapula.Toolkit
 
         private void BtOK_Click(object sender, EventArgs e)
         {
+            _Library.Entry = TbxEntry.Text;
             _Library.Name = TbxName.Text;
             _Library.Version = TbxVersion.Text;
             _Library.Publisher = TbxPublisher.Text;

@@ -10,6 +10,7 @@
     <xs:all>
       <xs:element name="id" maxOccurs="1" type="ascii_string" />
       <xs:element name="runtime" maxOccurs="1" type="ascii_string" />
+      <xs:element name="entry" maxOccurs="1" type="ascii_string" />
       <xs:element name="functions" maxOccurs="1">
         <xs:complexType>
           <xs:sequence>

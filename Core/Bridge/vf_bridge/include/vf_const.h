@@ -50,7 +50,7 @@ namespace vapula
 	//define enum
 	enum DataType
 	{
-		VF_DATA_POINTER = 0,
+		VF_DATA_MEMORY = 0,
 		VF_DATA_INT8 = 1,
 		VF_DATA_INT16 = 2,
 		VF_DATA_INT32 = 3,
@@ -64,6 +64,13 @@ namespace vapula
 		VF_DATA_BOOL = 20,
 		VF_DATA_STRING = 21
 	}; //envelope data type
+
+	enum ParamMode
+	{
+		VF_PM_IN = 0,
+		VF_PM_OUT = 1,
+		VF_PM_INOUT = 2
+	};
 
 	enum State
 	{
@@ -95,9 +102,7 @@ namespace vapula
 	//define error
 	cstr8 const _vf_err_0 = "invalid data type";
 	cstr8 const _vf_err_1 = "access null param";
-	cstr8 const _vf_err_2 = "write null value";
-	cstr8 const _vf_err_3 = "deliver between different types";
-	cstr8 const _vf_err_4 = "can NOT read char-based string from envelope";
+	cstr8 const _vf_err_2 = "invalid invoke";
 	cstr8 const _vf_bridge = "Vapula Bridge";
 	cstr8 const _vf_msg_cp = "utf8";
 }

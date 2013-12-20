@@ -7,60 +7,38 @@ namespace vapula
 	using rapidxml::xml_document;
 	using rapidxml::xml_node;
 
-	Envelope::Envelope(int total, int* types, bool* ins)
+	Envelope::Envelope(int32 total)
 	{
 		_Total = total;
-		_Types = types;
-		_InStates = ins;
 		if(total > 0)
 		{
-			_Offsets = new int[total];
-			int len = 0;
-			for(int i=0; i<total; i++)
-			{
-				_Offsets[i] = len;
-				len += GetTypeUnit(_Types[i]);
-			}
-			_Length = len;
-			_Memory = new byte[len];
-			memset(_Memory, 0, len);
+			_Types = new int8[total];
+			_Modes = new int8[total];
+			_Addrs = new uint32[total];
+			_Lengths = new uint32[total];
+			memset(_Addrs, 0, total * sizeof(uint32));
+			memset(_Lengths, 0, total * sizeof(uint32));
 		}
 		else
 		{
-			_Offsets = null;
-			_Memory = null;
+			_Types = null;
+			_Modes = null;
+			_Addrs = null;
+			_Lengths = null;
 		}
 	}
 
 	Envelope::~Envelope()
 	{
-		Clear(_InStates, true);
+		for(int i=0; i<_Total; i++)
+		{
+			if(_Addrs[i] != null)
+				delete (object)(_Addrs[i]);
+		}
 		Clear(_Types, true);
-		Clear(_Offsets, true);
-		Clear(_Memory);
-		//TODO: Leak at Type:String & Type:Object
-	}
-
-	uint64 Envelope::_AddrOf(int id)
-	{
-		uint64 addr = (uint64)_Memory + _Offsets[id - 1];
-		return addr;
-	}
-
-	void Envelope::WriteEx(int id, object value, int size)
-	{
-		object* param = (object*)_AddrOf(id);
-		if(size > 0)
-		{
-			//浅拷贝到堆
-			param[0] = new byte[size];
-			memcpy(param[0], value, size);
-		}
-		else
-		{
-			//引用复制
-			param[0] = value;
-		}
+		Clear(_Modes, true);
+		Clear(_Addrs, true);
+		Clear(_Lengths, true);
 	}
 
 	Envelope* Envelope::Parse(object xml)
@@ -69,39 +47,41 @@ namespace vapula
 			return null;
 
 		vector<int> v_id;
-		vector<int> v_type;
-		vector<bool> v_in;
+		vector<int8> v_type;
+		vector<int8> v_mode;
 
 		xml_node<>* node = (xml_node<>*)xml;
 		node = node->first_node();
 		int total = 0;
 		while(node)
 		{
-			v_id.push_back(xml::ValueInt(node->first_attribute("id")));
-			v_type.push_back(xml::ValueInt(node->first_attribute("type")));
-			v_in.push_back(xml::ValueBool(node->first_attribute("in"), "true"));
+			v_id.push_back(xml::ValueInt(node->first_node("id")));
+			v_type.push_back(xml::ValueInt(node->first_node("type")));
+			v_mode.push_back(xml::ValueInt(node->first_node("mode")));
 			node = node->next_sibling();
 			total++;
 		}
 
+		Envelope* env = null;
 		if(total > 0)
 		{
-			int* arr_type = new int[total];
-			bool* arr_in = new bool[v_id.size()];
+			int8* arr_type = new int8[total];
+			int8* arr_mode = new int8[total];
 			for(int i=0; i<total; i++)
 			{
 				int id = v_id[i] - 1;
 				arr_type[id] = v_type[i];
-				arr_in[id] = v_in[i];
+				arr_mode[id] = v_mode[i];
 			}
-			Envelope* env = new Envelope(v_id.size(), arr_type, arr_in);
-			return env;
+			env = new Envelope(total);
+			env->_Types = arr_type;
+			env->_Modes = arr_mode;
 		}
 		else
 		{
-			Envelope* env = new Envelope(0, null, null);
-			return env;
+			env = new Envelope(0);
 		}
+		return env;
 	}
 
 	Envelope* Envelope::Parse(cstr8 xml)
@@ -112,49 +92,69 @@ namespace vapula
 		return env;
 	}
 
-	Envelope* Envelope::Load(cstr8 path, int fid)
-	{
-		cstr8 data = null;
-		xml_document<>* xdoc = (xml_document<>*)xml::Load(path, data);
-		xml_node<>* xe = (xml_node<>*)xml::Path(
-			xdoc, 3, "library", "functions", "function");
-		while (xe)
-		{
-			int tmpv = xml::ValueInt(xe->first_attribute("id"));
-			if(tmpv == fid) break;
-			xe = xe->next_sibling();
-		}
-		xe = xe->first_node("params");
-		Envelope* env = Envelope::Parse(xe);
-		delete data;
-		return env;
-	}
-
-	int Envelope::GetType(int id)
-	{
-		return _Types[id - 1];
-	}
-
-	int Envelope::GetTotal()
+	int32 Envelope::GetTotal()
 	{
 		return _Total;
 	}
 
-	bool Envelope::GetInState(int id)
+	int8 Envelope::GetType(int id)
 	{
-		if(!AssertId(id)) throw invalid_argument(_vf_err_1);
-		return _InStates[id - 1];
+		if(!_AssertId(id)) 
+			throw invalid_argument(_vf_err_1);
+		return _Types[id - 1];
+	}
+
+	int8 Envelope::GetMode(int id)
+	{
+		if(!_AssertId(id)) 
+			throw invalid_argument(_vf_err_1);
+		return _Modes[id - 1];
+	}
+
+	uint32 Envelope::GetLength(int id)
+	{
+		if(!_AssertId(id)) 
+			throw invalid_argument(_vf_err_1);
+		return _Lengths[id - 1];
+	}
+
+	object Envelope::ReadObject(int id, uint32& size, bool copy)
+	{
+		if(!_AssertId(id))
+			throw invalid_argument(_vf_err_1);
+		int idx = id - 1;
+		if(_Addrs[idx] == null)
+			return null;
+		if(!copy)
+			return (object)(_Addrs[idx]);
+		size = _Lengths[idx];
+		object data = new byte[size];
+		memcpy(data, (object)(_Addrs[idx]), size);
+		return data;
+	}
+
+	void Envelope::WriteObject(int id, object value, uint32 size, bool copy)
+	{
+		if(!_AssertId(id))
+			throw invalid_argument(_vf_err_1);
+		int idx = id - 1;
+		if(_Addrs[idx] != null)
+			delete (object)(_Addrs[idx]);
+		if(!copy)
+			_Addrs[idx] = (uint32)value;
+		object data = new byte[size];
+		memcpy(data, value, size);
+		_Lengths[idx] = size;
+		_Addrs[idx] = (uint32)data;
 	}
 
 	cstr8 Envelope::CastRead(int id)
 	{
-		if(!AssertId(id))
+		if(!_AssertId(id))
 			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
 		switch(type)
 		{
-		case VF_DATA_POINTER:
-			return str::ValueTo((uint64)Read<object>(id));
 		case VF_DATA_INT8:	
 			return str::ValueTo(Read<int8>(id));
 		case VF_DATA_UINT8:
@@ -188,13 +188,11 @@ namespace vapula
 	{
 		if(value == null)
 			throw invalid_argument(_vf_err_2);
-		if(!AssertId(id))
+		if(!_AssertId(id))
 			throw invalid_argument(_vf_err_1);
 		int type = GetType(id);
 		switch(type)
 		{
-		case VF_DATA_POINTER:
-			WriteEx(id, (object)abs(atoi(value)), 0); break;
 		case VF_DATA_INT8:	
 			Write(id, (int8)atoi(value)); break;
 		case VF_DATA_UINT8:
@@ -224,18 +222,19 @@ namespace vapula
 		}
 	}
 
+	//TODO: Write Following
 	void Envelope::Deliver(Envelope* who, int from, int to)
 	{
-		if(!AssertId(from) || !AssertId(to, who))
+		if(!_AssertId(from) || !_AssertId(to, who))
 			throw invalid_argument(_vf_err_1);
 		int type = GetType(from);
 		if(type != who->GetType(to))
-			throw invalid_argument(_vf_err_3);
+			throw invalid_argument(_vf_err_0);
 
 		object ptr = null;
 		switch(type)
 		{
-		case VF_DATA_POINTER:
+		case VF_DATA_MEMORY:
 			ptr = new object[1];
 			*((object*)ptr) = Read<object>(from);
 			who->Write(to, ptr);
@@ -308,10 +307,10 @@ namespace vapula
 
 	void Envelope::CastDeliver(Envelope* who, int from, int to)
 	{
-		if(!AssertId(from) || !AssertId(to, who))
+		if(!_AssertId(from) || !_AssertId(to, who))
 			throw invalid_argument(_vf_err_1);
 		int type = GetType(from);
-		if(type == VF_DATA_POINTER)
+		if(type == VF_DATA_MEMORY)
 		{
 			object* ptr = new object[1];
 			ptr[0] = Read<object>(from);

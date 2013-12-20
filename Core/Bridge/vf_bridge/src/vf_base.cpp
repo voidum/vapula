@@ -3,33 +3,6 @@
 
 namespace vapula
 {
-	int GetTypeUnit(int type)
-	{
-		switch(type)
-		{
-		case VF_DATA_POINTER:
-		case VF_DATA_STRING:
-			return sizeof(object);
-		case VF_DATA_BOOL:
-		case VF_DATA_INT8:
-		case VF_DATA_UINT8:
-			return 1;
-		case VF_DATA_INT16:
-		case VF_DATA_UINT16:
-			return 2;
-		case VF_DATA_INT32:
-		case VF_DATA_UINT32:
-		case VF_DATA_REAL32:
-			return 4;
-		case VF_DATA_INT64:
-		case VF_DATA_UINT64:
-		case VF_DATA_REAL64:
-			return 8;
-		default:
-			throw invalid_argument(_vf_err_0);
-		}
-	}
-
 	cstr8 GetLuid()
 	{
 		std::ostringstream oss;

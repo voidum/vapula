@@ -12,6 +12,7 @@ namespace Vapula.Model
         #region 字段
         private string _Id;
         private string _Runtime;
+        private string _Entry;
         private List<Tag> _Tags
             = new List<Tag>();
         private List<Function> _Functions 
@@ -82,6 +83,7 @@ namespace Vapula.Model
             Library lib = new Library();
             lib.Id = xml.Element("id").Value;
             lib.Runtime = xml.Element("runtime").Value;
+            lib.Entry = xml.Element("entry").Value;
             var xmls_tag = xml.Element("tags").Elements("tag");
             foreach (var xml_tag in xmls_tag)
                 lib.Tags.Add(Tag.Parse(xml_tag));
@@ -103,6 +105,7 @@ namespace Vapula.Model
             XElement xml = new XElement("library",
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
+                new XElement("entry", Entry),
                 new XElement("tags"),
                 new XElement("functions"));
             foreach (var tag in _Tags)
@@ -168,6 +171,25 @@ namespace Vapula.Model
                 if (string.IsNullOrWhiteSpace(value))
                     _Runtime = null;
                 else _Runtime = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置库的入口点
+        /// </summary>
+        public string Entry 
+        {
+            get
+            {
+                if (_Entry == null)
+                    return "";
+                return _Entry;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _Entry = null;
+                else _Entry = value;
             }
         }
 

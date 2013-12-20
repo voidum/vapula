@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <library>
-  <runtime>crt</runtime>
   <id>sample_lib</id>
+  <runtime>crt</runtime>
+  <entry>Run</entry>
   <tags>
     <tag key="name">Vapula C++示例组件</tag>
     <tag key="description"></tag>

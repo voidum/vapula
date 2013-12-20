@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable:4100)
+
 #include "vf_base.h"
 
 namespace vapula
@@ -8,114 +10,191 @@ namespace vapula
 	class VAPULA_API Envelope
 	{
 	private:
-		Envelope(int total, int* types, bool* ins);
+		Envelope(int32 total);
 	public:
 		~Envelope();
+
 	public:
-		//由XML文件解析出信封对象
-		static Envelope* Load(cstr8 path, int fid);
-		
 		//由XML字符串解析出信封对象
 		//要求输入params节点
 		static Envelope* Parse(cstr8 xml);
-	private:
+
 		//由XML对象解析出信封对象
 		//要求输入params节点
 		static Envelope* Parse(object xml);
+
 	private:
-		int _Length;
-		int _Total;
-		object _Memory;
-		int*	_Types;
-		bool* _InStates;
-		int* _Offsets;
+		int32 _Total; //参数总数
+		int8* _Types; //参数类型
+		int8* _Modes; //参数模式
+		uint32* _Addrs; //内存地址表
+		uint32* _Lengths; //参数长度表
+
 	private:
-		inline bool AssertId(int id, Envelope* env = null)
+		inline bool _AssertId(int id, Envelope* env = null)
 		{
 			if(id < 1)
 				return false;
-			return env == null ? id <= _Total : id <= env->_Total;
+			if(env == null)
+				return id <= _Total;
+			else
+				return id <= env->_Total;
 		}
-	private:
-		//求取标识对应参数的内存地址
-		uint64 _AddrOf(int id);
+
 	public:
-		//获取参数数量
-		int GetTotal();
+		//获取参数总数
+		int32 GetTotal();
 
-		//获取参数方向
-		//true - 输入 | false - 输出
-		bool GetInState(int id);
+		//获取指定参数的模式
+		int8 GetMode(int id);
 
-		//获取参数类型
-		int GetType(int id);
+		//获取指定参数的类型
+		int8 GetType(int id);
+
+		//获取指定参数的长度
+		uint32 GetLength(int id);
+
 	public:
-		//写入对象
-		//size>0时浅拷贝对象数据
-		void WriteEx(int id, object value, int size = 0);
+		//读取内存块
+		//可选是否复制
+		object ReadObject(int id, uint32& size, bool copy = false);
 
-		//读出参数
+		//写入内存块
+		//必须设置内存块大小，可选是否复制
+		void WriteObject(int id, object value, uint32 size, bool copy = false);
+
+	public:
+		//读出参数数组
+		//可选是否复制
+		template<typename T>
+		T* Read(int id, uint32& length, bool copy = false)
+		{
+			if(!_AssertId(id))
+				throw invalid_argument(_vf_err_1);
+			int idx = id - 1;
+			length = _Lengths[idx];
+			if(!copy)
+				return (T*)(_Addrs[idx]);
+			T* data = new T[length];
+			memcpy(data, (object)(_Addrs[idx]), length * sizeof(T));
+			return data;
+		}
+
+		//读出参数值
 		template<typename T>
 		T Read(int id)
 		{
-			if(!AssertId(id))
+			if(!_AssertId(id))
 				throw invalid_argument(_vf_err_1);
-			T* param = (T*)_AddrOf(id);
+			int idx = id - 1;
+			T* param = (T*)(_Addrs[idx]);
 			return param[0];
 		}
 
-		//读出参数，特化bool
-		template<>
-		bool Read<bool>(int id)
+		//写入参数数组
+		template<typename T>
+		void Write(int id, T* value, uint32 length)
 		{
-			char ret = Read<char>(id);
-			return (ret == 1);
+			if(!_AssertId(id))
+				throw invalid_argument(_vf_err_1);
+			int idx = id - 1;
+			//内源数据不处理
+			if(value == _Addrs[idx])
+				return;
+			//空输入表示清除数据
+			if(value == null)
+			{
+				delete (object)(_Addrs[idx]);
+				return;
+			}
+			//外源数据复制
+			if(_Lengths[idx] != length)
+			{
+				if(_Addrs[idx] != 0)
+					delete (object)(_Addrs[idx]);
+				_Addrs[idx] = new T[length];
+				_Lengths[idx] = length;
+			}
+			memcpy(_Addrs[idx], value, length * sizeof(T));
 		}
 
-		//读出参数，特化8位字节字符串
-		template<>
-		cstr8 Read<cstr8>(int id)
-		{
-			cstr8 tmp = (cstr8)Read<object>(id);
-			cstr8 s8 = str::Copy(tmp);
-			return s8;
-		}
-
-		//读出参数，特化16位字节字符串
-		template<>
-		cstr16 Read<cstr16>(int id)
-		{
-			cstr8 s8 = Read<cstr8>(id);
-			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
-			delete s8;
-			return s16;
-		}
-
-		//写入参数
-		//写入字符串时会自动复制
-		//使用8位字节承载时，务必使用UTF8编码
-		//使用16位字节承载时，会自动转换到UTF8编码
+		//写入参数值
 		template<typename T>
 		void Write(int id, T value)
 		{
-			if(!AssertId(id))
+			if(!_AssertId(id))
 				throw invalid_argument(_vf_err_1);
-			T* param = (T*)_AddrOf(id);
+			int idx = id - 1;
+			object data = null;
+			if(_Lengths[idx] != 1)
+			{
+				if(_Addrs[idx] != 0)
+					delete (object)(_Addrs[idx]);
+				data = new T[1];
+				_Lengths[idx] = 1;
+			}
+			T* param = (T*)(data);
 			param[0] = value;
+			_Addrs[idx] = (uint32)data;
 		}
 
+	public:
+		//该接口不适用内存块
 		template<>
-		void Write<bool>(int id, bool value)
+		object Read<object>(int id)
 		{
-			Write<char>(id, value ? 1 : 0);
+			throw new bad_exception(_vf_err_2);
 		}
 
+		//该接口不适用内存块
+		template<>
+		object* Read<object>(int id, uint32& length, bool copy)
+		{
+			throw new bad_exception(_vf_err_2);
+		}
+
+		//该接口不适用内存块
+		template<>
+		void Write<object>(int id, object* value, uint32 length)
+		{
+			throw new bad_exception(_vf_err_2);
+		}
+
+		//该接口不适用内存块
+		template<>
+		void Write<object>(int id, object value)
+		{
+			throw new bad_exception(_vf_err_2);
+		}
+
+	public:
+		//特化8位字节字符串，读出参数值
+		template<>
+		cstr8 Read<cstr8>(int id)
+		{
+			uint32 size = 0;
+			cstr8 tmp = (cstr8)ReadObject(id, size, true);
+			return s8;
+		}
+
+		//特化16位字节字符串，读出参数值
+		template<>
+		cstr16 Read<cstr16>(int id)
+		{
+			uint32 size = 0;
+			cstr8 tmp = (cstr8)ReadObject(id, size, false);
+			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
+			return s16;
+		}
+
+		//特化8位字节字符串，写入参数值
 		template<>
 		void Write<cstr8>(int id, cstr8 value)
 		{
-			WriteEx(id, (object)value, strlen(value) + 1);
+			WriteObject(id, value, strlen(value) + 1, true);
 		}
 
+		//特化16位字节字符串，写入参数值
 		template<>
 		void Write<cstr16>(int id, cstr16 value)
 		{
@@ -124,6 +203,7 @@ namespace vapula
 			delete s8;
 		}
 
+	public:
 		//读出数值并自动转型到字符串
 		cstr8 CastRead(int id);
 

@@ -19,22 +19,6 @@ namespace vapula
 		}
 	}
 
-	//转换Vector容器到定长数组
-	template<typename T>
-	VAPULA_API T* VectorToArray(vector<T>& src)
-	{
-		if(src.size() == 0)
-			return null;
-		T* dst = new T[src.size()];
-		uint32 i=0;
-		for(vector<T>::iterator iter = src.begin(); iter != src.end(); iter++)
-			dst[i++] = *iter;
-		return dst;
-	}
-
-	//获得指定VF类型的字节长度
-	VAPULA_API int GetTypeUnit(int type);
-
 	//生成本地唯一标识字符串
 	VAPULA_API cstr8 GetLuid();
 

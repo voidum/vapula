@@ -14,14 +14,16 @@ namespace vapula
 
 	Library::Library()
 	{
-		_Dir = null;
 		_LibId = null;
+		_EntryDpt = null;
+		_FuncDpt = null;
 	}
 
 	Library::~Library()
 	{
-		Clear(_Dir);
 		Clear(_LibId);
+		Clear(_EntryDpt);
+		Clear(_FuncDpt);
 	}
 
 	Library* Library::Load(cstr8 path)
@@ -33,6 +35,7 @@ namespace vapula
 			return null;
 
 		xml_node<>* xeroot = xdoc->first_node("library");
+
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		cstr8 drv_id = xml::ValueCh8(xeroot->first_node("runtime"));
 		Driver* driver = drv_hub->GetDriver(drv_id);
@@ -42,9 +45,12 @@ namespace vapula
 			Clear(data);
 			return null;
 		}
+		
 		Library* lib = driver->CreateLibrary();
 		lib->_LibId = xml::ValueCh8(xeroot->first_node("id"));
-		lib->_Dir = GetDirPath(path, true);
+		lib->_EntryDpt = xml::ValueCh8(xeroot->first_node("entry"));
+		lib->_FuncDpt = xml::Print(xeroot->first_node("functions"));
+
 		delete data;
 		return lib;
 	}
@@ -61,10 +67,16 @@ namespace vapula
 
 	Envelope* Library::CreateEnvelope(int fid)
 	{
-		string s = _Dir;
-		s += _LibId;
-		s += ".library";
-		Envelope* env = Envelope::Load(s.c_str(), fid);
+		xml_node<>* xml = (xml_node<>*)xml::Parse(_FuncDpt);
+		xml_node<>* xe = xml->first_node("function");
+		while (xe)
+		{
+			int tmpv = xml::ValueInt(xe->first_attribute("id"));
+			if(tmpv == fid) break;
+			xe = xe->next_sibling();
+		}
+		xe = xe->first_node("params");
+		Envelope* env = Envelope::Parse(xe);
 		return env;
 	}
 

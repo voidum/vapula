@@ -16,8 +16,9 @@ namespace vapula
 	public:
 		virtual ~Library();
 	protected:
-		cstr8 _Dir; //组件目录
 		cstr8 _LibId; //组件标识
+		cstr8 _EntryDpt; //组件入口描述
+		cstr8 _FuncDpt; //组件功能描述
 	protected:
 		static int _Count;
 	public:
