@@ -7,6 +7,9 @@
 
 namespace vapula
 {
+	//获取类型的单位长度
+	VAPULA_API uint32 GetTypeUnit(int8 type);
+
 	//清理指定目标
 	template<typename T>
 	VAPULA_API void Clear(T target, bool isarr = false)

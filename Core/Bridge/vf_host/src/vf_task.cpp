@@ -94,7 +94,7 @@ namespace vapula
 		cstr8 lib = xml::ValueCh8(xe_target->first_node("lib"));
 		string str_path = dir;
 		str_path += lib;
-		str_path += ".vapula.library";
+		str_path += ".library";
 		task->_Lib = Library::Load(str_path.c_str());
 		delete lib;
 
@@ -119,7 +119,7 @@ namespace vapula
 		{
 			int pid = xml::ValueInt(xe_param->first_attribute("id"));
 			cstr8 pv = xml::ValueCh8(xe_param);
-			env->CastWrite(pid, pv);
+			env->CastWriteValue(pid, pv);
 			delete pv;
 			xe_param = xe_param->next_sibling();
 		}

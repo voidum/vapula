@@ -57,13 +57,17 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr LoadLibrary(string path);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLibraryRuntime",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetRuntime",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetLibraryRuntime(IntPtr lib);
+        public static extern IntPtr GetRuntime(IntPtr lib);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLibraryId",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetLibraryId(IntPtr lib);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEntryDpt",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetEntryDpt(IntPtr lib);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeMountLibrary",
             CallingConvention = CallingConvention.Cdecl)]
@@ -144,14 +148,23 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ParseEnvelope(string xml);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeValueW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WriteEnvelope(IntPtr env, int id, string value);
+        public static extern void WriteEnvelopeValue(IntPtr env, int id, string value);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeValueW",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ReadEnvelope(IntPtr env, int id);
+        public static extern IntPtr ReadEnvelopeValue(IntPtr env, int id);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeObjectW",
+            CharSet = CharSet.Unicode,
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void WriteEnvelopeObject(IntPtr env, int id, IntPtr value, uint length);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeObjectW",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr ReadEnvelopeObject(IntPtr env, int id, IntPtr length);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeDeliverEnvelope",
             CallingConvention = CallingConvention.Cdecl)]

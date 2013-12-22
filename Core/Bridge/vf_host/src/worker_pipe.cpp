@@ -80,12 +80,12 @@ bool Worker_PIPE::RunStageC()
 	string resp = "C<response><params>";
 	for(int i=0;i<env->GetTotal();i++) 
 	{
-		if(!env->GetInState(i))
+		if(env->GetMode(i) != VF_PM_IN)
 		{
 			resp += "<param id=\"";
 			resp += str::ValueTo(i);
 			resp += "\">";
-			resp += env->CastRead(i);
+			resp += env->CastReadValue(i);
 			resp += "</param>";
 		}
 	}

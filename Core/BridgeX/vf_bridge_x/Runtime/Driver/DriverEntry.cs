@@ -49,7 +49,8 @@ namespace Vapula.Runtime
         {
             IntPtr ptr = new IntPtr(int.Parse(arg));
             InvokerCLR inv = InvokerCLR.GetInvoker(ptr);
-            if (inv == null) return (int)ReturnCode.NullEntry;
+            if (inv == null)
+                return (int)ReturnCode.NullEntry;
             int retcode = inv.CallEntry();
             return retcode;
         }

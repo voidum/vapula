@@ -31,15 +31,9 @@ namespace vapula
 		uint32* _Lengths; //参数长度表
 
 	private:
-		inline bool _AssertId(int id, Envelope* env = null)
-		{
-			if(id < 1)
-				return false;
-			if(env == null)
-				return id <= _Total;
-			else
-				return id <= env->_Total;
-		}
+		bool _AssertId(int id, Envelope* env = null);
+		object _Read(int idx, uint32 size, bool copy);
+		void _Write(int idx, object value, uint32 size, bool clear, bool copy);
 
 	public:
 		//获取参数总数
@@ -56,168 +50,81 @@ namespace vapula
 
 	public:
 		//读取内存块
-		//可选是否复制
-		object ReadObject(int id, uint32& size, bool copy = false);
+		//可选是否复制，默认不复制
+		object ReadObject(int id, uint32* size = null, bool copy = false);
 
 		//写入内存块
-		//必须设置内存块大小，可选是否复制
+		//可选是否复制，默认不复制
 		void WriteObject(int id, object value, uint32 size, bool copy = false);
 
 	public:
 		//读出参数数组
-		//可选是否复制
+		//可选是否复制，默认不复制
 		template<typename T>
-		T* Read(int id, uint32& length, bool copy = false)
+		T* ReadArray(int id, uint32* length = null, bool copy = false)
 		{
 			if(!_AssertId(id))
 				throw invalid_argument(_vf_err_1);
 			int idx = id - 1;
-			length = _Lengths[idx];
-			if(!copy)
-				return (T*)(_Addrs[idx]);
-			T* data = new T[length];
-			memcpy(data, (object)(_Addrs[idx]), length * sizeof(T));
+			if(length != null)
+				*length = _Lengths[idx];
+			T* data = (T*)_Read(idx, _Lengths[idx] * sizeof(T), copy);
 			return data;
 		}
 
 		//读出参数值
 		template<typename T>
-		T Read(int id)
+		T ReadValue(int id)
 		{
-			if(!_AssertId(id))
-				throw invalid_argument(_vf_err_1);
-			int idx = id - 1;
-			T* param = (T*)(_Addrs[idx]);
-			return param[0];
+			T* data = ReadArray<T>(id);
+			return data[0];
 		}
 
 		//写入参数数组
 		template<typename T>
-		void Write(int id, T* value, uint32 length)
+		void WriteArray(int id, T* value, uint32 length, bool copy = false)
 		{
 			if(!_AssertId(id))
 				throw invalid_argument(_vf_err_1);
 			int idx = id - 1;
-			//内源数据不处理
-			if(value == _Addrs[idx])
-				return;
-			//空输入表示清除数据
-			if(value == null)
-			{
-				delete (object)(_Addrs[idx]);
-				return;
-			}
-			//外源数据复制
-			if(_Lengths[idx] != length)
-			{
-				if(_Addrs[idx] != 0)
-					delete (object)(_Addrs[idx]);
-				_Addrs[idx] = new T[length];
-				_Lengths[idx] = length;
-			}
-			memcpy(_Addrs[idx], value, length * sizeof(T));
+
+			bool clear = (value != null && _Lengths[idx] != length);
+			_Write(idx, value, length * sizeof(T), clear, copy);
+			_Lengths[idx] = length;
 		}
 
 		//写入参数值
 		template<typename T>
-		void Write(int id, T value)
+		void WriteValue(int id, T value)
 		{
-			if(!_AssertId(id))
-				throw invalid_argument(_vf_err_1);
-			int idx = id - 1;
-			object data = null;
-			if(_Lengths[idx] != 1)
-			{
-				if(_Addrs[idx] != 0)
-					delete (object)(_Addrs[idx]);
-				data = new T[1];
-				_Lengths[idx] = 1;
-			}
-			T* param = (T*)(data);
-			param[0] = value;
-			_Addrs[idx] = (uint32)data;
-		}
-
-	public:
-		//该接口不适用内存块
-		template<>
-		object Read<object>(int id)
-		{
-			throw new bad_exception(_vf_err_2);
-		}
-
-		//该接口不适用内存块
-		template<>
-		object* Read<object>(int id, uint32& length, bool copy)
-		{
-			throw new bad_exception(_vf_err_2);
-		}
-
-		//该接口不适用内存块
-		template<>
-		void Write<object>(int id, object* value, uint32 length)
-		{
-			throw new bad_exception(_vf_err_2);
-		}
-
-		//该接口不适用内存块
-		template<>
-		void Write<object>(int id, object value)
-		{
-			throw new bad_exception(_vf_err_2);
+			T tmp_value = value;
+			WriteArray(id, &tmp_value, 1, true);
 		}
 
 	public:
 		//特化8位字节字符串，读出参数值
-		template<>
-		cstr8 Read<cstr8>(int id)
-		{
-			uint32 size = 0;
-			cstr8 tmp = (cstr8)ReadObject(id, size, true);
-			return s8;
-		}
+		cstr8 ReadCh8(int id);
 
 		//特化16位字节字符串，读出参数值
-		template<>
-		cstr16 Read<cstr16>(int id)
-		{
-			uint32 size = 0;
-			cstr8 tmp = (cstr8)ReadObject(id, size, false);
-			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
-			return s16;
-		}
+		cstr16 ReadCh16(int id);
 
 		//特化8位字节字符串，写入参数值
-		template<>
-		void Write<cstr8>(int id, cstr8 value)
-		{
-			WriteObject(id, value, strlen(value) + 1, true);
-		}
-
+		void WriteCh8(int id, cstr8 value);
+		
 		//特化16位字节字符串，写入参数值
-		template<>
-		void Write<cstr16>(int id, cstr16 value)
-		{
-			cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
-			Write(id, s8);
-			delete s8;
-		}
+		void WriteCh16(int id, cstr16 value);
 
 	public:
 		//读出数值并自动转型到字符串
-		cstr8 CastRead(int id);
+		cstr8 CastReadValue(int id);
 
 		//由字符串自动转型到数值并写入
-		void CastWrite(int id, cstr8 value);
+		void CastWriteValue(int id, cstr8 value);
 
 		//投递当前信封到目标
-		//要求类型完全一致
-		//投递不会复制对象数据
 		void Deliver(Envelope* who, int from, int to);
 
-		//投递当前信封到目标
-		//具备自动类型转换但效率较低
-		//投递不会复制对象数据
+		//自适应转型投递当前信封到目标
 		void CastDeliver(Envelope* who, int from, int to);
 	};
 }

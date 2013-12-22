@@ -16,6 +16,7 @@ namespace vapula
 	public:
 		virtual ~Library();
 	protected:
+		cstr8 _Dir; //组件目录
 		cstr8 _LibId; //组件标识
 		cstr8 _EntryDpt; //组件入口描述
 		cstr8 _FuncDpt; //组件功能描述
@@ -30,6 +31,9 @@ namespace vapula
 	public:
 		//获取当前库标识
 		cstr8 GetLibraryId();
+
+		//获取入口描述符
+		cstr8 GetEntryDpt();
 
 		//创建指定功能的参数信封
 		Envelope* CreateEnvelope(int fid);

@@ -20,8 +20,9 @@ extern "C"
 	VAPULA_API int vfeGetLibraryCount();
 	VAPULA_API object vfeLoadLibrary(cstr8 path);
 	VAPULA_API object vfeLoadLibraryW(cstr16 path);
-	VAPULA_API cstr8 vfeGetLibraryRuntime(object lib);
+	VAPULA_API cstr8 vfeGetRuntime(object lib);
 	VAPULA_API cstr8 vfeGetLibraryId(object lib);
+	VAPULA_API cstr8 vfeGetEntryDpt(object lib);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
 
@@ -47,10 +48,12 @@ extern "C"
 	VAPULA_API object vfeGetEnvelope(object inv);
 	VAPULA_API object vfeParseEnvelope(cstr8 xml);
 	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
-	VAPULA_API void vfeWriteEnvelope(object env, int id, cstr8 value);
-	VAPULA_API void vfeWriteEnvelopeW(object env, int id, cstr16 value);
-	VAPULA_API cstr8 vfeReadEnvelope(object env, int id);
-	VAPULA_API cstr16 vfeReadEnvelopeW(object env, int id);
+	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, cstr8 value);
+	VAPULA_API void vfeWriteEnvelopeValueW(object env, int id, cstr16 value);
+	VAPULA_API cstr8 vfeReadEnvelopeValue(object env, int id);
+	VAPULA_API cstr16 vfeReadEnvelopeValueW(object env, int id);
+	VAPULA_API void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length);
+	VAPULA_API object vfeReadEnvelopeObject(object env, int id, uint32* length);
 	VAPULA_API void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to);
 	VAPULA_API void vfeCastDeliverEnvelope(object src_env, object dst_env, int from, int to);
 

@@ -47,6 +47,7 @@ namespace vapula
 		}
 		
 		Library* lib = driver->CreateLibrary();
+		lib->_Dir = GetDirPath(path, true);
 		lib->_LibId = xml::ValueCh8(xeroot->first_node("id"));
 		lib->_EntryDpt = xml::ValueCh8(xeroot->first_node("entry"));
 		lib->_FuncDpt = xml::Print(xeroot->first_node("functions"));
@@ -65,10 +66,16 @@ namespace vapula
 		return _LibId;
 	}
 
+	cstr8 Library::GetEntryDpt()
+	{
+		return _EntryDpt;
+	}
+
 	Envelope* Library::CreateEnvelope(int fid)
 	{
-		xml_node<>* xml = (xml_node<>*)xml::Parse(_FuncDpt);
-		xml_node<>* xe = xml->first_node("function");
+		cstr8 data = str::Copy(_FuncDpt);
+		xml_node<>* xml = (xml_node<>*)xml::Parse(data);
+		xml_node<>* xe = (xml_node<>*)xml::Path(xml, 2, "functions", "function");
 		while (xe)
 		{
 			int tmpv = xml::ValueInt(xe->first_attribute("id"));
@@ -77,6 +84,7 @@ namespace vapula
 		}
 		xe = xe->first_node("params");
 		Envelope* env = Envelope::Parse(xe);
+		delete data;
 		return env;
 	}
 

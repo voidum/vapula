@@ -12,24 +12,44 @@ namespace Vapula.Runtime
 
         protected IntPtr _Handle;
 
+        /// <summary>
+        /// 获取组件的标识
+        /// </summary>
         public string Id
         {
             get 
             {
                 string value = 
                     Bridge.MarshalString(
-                    Bridge.GetLibraryId(_Handle));
+                    Bridge.GetLibraryId(_Handle), false);
                 return value;
             }
         }
 
+        /// <summary>
+        /// 获取组件的运行时
+        /// </summary>
         public string RuntimeId
         {
             get 
             { 
                 string value = 
                     Bridge.MarshalString(
-                    Bridge.GetLibraryRuntime(_Handle), false);
+                    Bridge.GetRuntime(_Handle), false);
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// 获取组件的入口
+        /// </summary>
+        public string EntryDpt
+        {
+            get 
+            {
+                string value =
+                    Bridge.MarshalString(
+                    Bridge.GetEntryDpt(_Handle), false);
                 return value;
             }
         }
@@ -49,7 +69,7 @@ namespace Vapula.Runtime
             Library lib = null;
             string runtime = 
                 Bridge.MarshalString(
-                Bridge.GetLibraryRuntime(ptr), false);
+                Bridge.GetRuntime(ptr), false);
             if (runtime == Base.RuntimeId)
                 lib = new LibraryCLR(ptr);
             else

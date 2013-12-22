@@ -28,7 +28,8 @@ bool LibraryCRT::Mount()
 	delete s16;
 	if(_Module == null)
 		return false;
-	_Entry = GetProcAddress(_Module, "Run");
+	_Entry = GetProcAddress(
+		_Module, _EntryDpt == null ? "Run" : _EntryDpt);
 	Library::Mount();
 	return true;
 }

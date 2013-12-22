@@ -50,7 +50,7 @@ namespace vapula
 	//define enum
 	enum DataType
 	{
-		VF_DATA_MEMORY = 0,
+		VF_DATA_OBJECT = 0,
 		VF_DATA_INT8 = 1,
 		VF_DATA_INT16 = 2,
 		VF_DATA_INT32 = 3,

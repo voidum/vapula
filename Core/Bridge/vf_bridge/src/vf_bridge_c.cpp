@@ -14,7 +14,8 @@ void vfeTestBridge()
 
 void vfeDeleteObject(object obj)
 {
-	delete obj;
+	if(obj != null)
+		delete obj;
 }
 
 //Driver
@@ -63,7 +64,7 @@ object vfeLoadLibraryW(cstr16 path)
 	return lib;
 }
 
-cstr8 vfeGetLibraryRuntime(object lib)
+cstr8 vfeGetRuntime(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetRuntimeId();
@@ -73,6 +74,12 @@ cstr8 vfeGetLibraryId(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetLibraryId();
+}
+
+cstr8 vfeGetEntryDpt(object lib)
+{
+	Library* obj = (Library*)lib;
+	return obj->GetEntryDpt();
 }
 
 int vfeMountLibrary(object lib)
@@ -201,33 +208,50 @@ object vfeParseEnvelopeW(cstr16 xml)
 	return env;
 }
 
-void vfeWriteEnvelope(object env, int id, cstr8 value)
+void vfeWriteEnvelopeValue(object env, int id, cstr8 value)
 {
 	Envelope* obj = (Envelope*)env;
-	obj->CastWrite(id, value);
+	obj->CastWriteValue(id, value);
 }
 
 void vfeWriteEnvelopeW(object env, int id, cstr16 value)
 {
 	cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
 	Envelope* obj = (Envelope*)env;
-	obj->CastWrite(id, s8);
+	obj->CastWriteValue(id, s8);
 	delete s8;
 }
 
-cstr8 vfeReadEnvelope(object env, int id)
+cstr8 vfeReadEnvelopeValue(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	return obj->CastRead(id);
+	return obj->CastReadValue(id);
 }
 
-cstr16 vfeReadEnvelopeW(object env, int id)
+cstr16 vfeReadEnvelopeValueW(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	cstr8 s8 = obj->CastRead(id);
+	cstr8 s8 = obj->CastReadValue(id);
 	cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
 	delete s8;
 	return s16;
+}
+
+void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length)
+{
+	Envelope* obj = (Envelope*)env;
+	int8 type = obj->GetType(id);
+	obj->WriteObject(id, value, length * GetTypeUnit(type));
+}
+
+object vfeReadEnvelopeObject(object env, int id, uint32* length)
+{
+	Envelope* obj = (Envelope*)env;
+	uint32 len = null;
+	object data = obj->ReadObject(id, &len);
+	if(length != null)
+		*length = len;
+	return data;
 }
 
 void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to)

@@ -34,7 +34,7 @@ namespace Vapula.Runtime
         /// <param name="value">参数值</param>
         public void Write(int id, string value)
         {
-            Bridge.WriteEnvelope(_Handle, id, value);
+            Bridge.WriteEnvelopeValue(_Handle, id, value);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Vapula.Runtime
         /// <param name="id">参数标识</param>
         public string Read(int id)
         {
-            IntPtr ptr = Bridge.ReadEnvelope(_Handle, id);
+            IntPtr ptr = Bridge.ReadEnvelopeValue(_Handle, id);
             string result =
                 ptr != IntPtr.Zero ? 
                 Marshal.PtrToStringUni(ptr) : null;
