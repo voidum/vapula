@@ -54,7 +54,7 @@ namespace Vapula.Designer
         private void FormLayout_LoadLibraries()
         {
             LibraryManager mng = AppData.Instance.LibManager;
-            var libs = mng.Libraries;
+            var libs = mng.Libs;
             foreach (Library lib in libs)
             {
                 string lvg_header =
@@ -66,23 +66,25 @@ namespace Vapula.Designer
                     ListViewGroupState.Collapsible);
                 foreach (var func in lib.Functions)
                 {
+                    int idx = func.Id - 1;
                     string path_pre = Path.Combine(
                         AppData.Instance.PathResource,
                         func.Library.Id + "." + func.Id.ToString());
-                    string path1 = path_pre + ".tcm.png";
-                    string path2 = path_pre + "_s.tcm.png";
+                    string path1 = path_pre + "_l.png";
+                    string path2 = path_pre + "_s.png";
                     Image icon1 = File.Exists(path1) ? Image.FromFile(path1) : null;
                     Image icon2 = File.Exists(path2) ? Image.FromFile(path2) : null;
-                    func.Tag["LargeIcon"] = icon1;
-                    func.Tag["SmallIcon"] = icon2;
+                    func.Attach["LargeIcons"] = icon1;
+                    func.Attach["SmallIcons"] = icon1;
                     string lvi_text =
                         (func.Name == "" ? "（" + func.Id + "）" : func.Name);
                     string icon_key = "!process";
-                    if (func.Tag["LargeIcon"] != null || func.Tag["SmallIcon"] != null)
+                    if (func.Attach["LargeIcons"] != null ||
+                        func.Attach["SmallIcons"] != null)
                     {
                         icon_key = lib.Id + ":" + func.Id.ToString();
-                        _LargeIcons.Images.Add(icon_key, (Image)func.Tag["LargeIcon"]);
-                        _SmallIcons.Images.Add(icon_key, (Image)func.Tag["SmallIcon"]);
+                        _LargeIcons.Images.Add(icon_key, (Image)func.Attach["LargeIcons"]);
+                        _SmallIcons.Images.Add(icon_key, (Image)func.Attach["SmallIcons"]);
                     }
                     ListViewItem lvi = new ListViewItem(lvi_text, icon_key, lvg);
                     lvi.Tag = func;

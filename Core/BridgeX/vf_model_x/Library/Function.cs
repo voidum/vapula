@@ -11,10 +11,12 @@ namespace Vapula.Model
         #region 字段
         private int _Id;
         private Library _Library;
-        private List<Tag> _Tags 
-            = new List<Tag>();
+        private TagList _Tags
+            = new TagList();
         private List<Parameter> _Parameters 
             = new List<Parameter>();
+        private TagList _Attach 
+            = null;
         #endregion
 
         #region 构造
@@ -35,17 +37,6 @@ namespace Vapula.Model
                 return null;
             }
         }
-
-        /// <summary>
-        /// 根据指定键获取标签
-        /// </summary>
-        public Tag GetTag(string key)
-        {
-            foreach (var tag in _Tags)
-                if (tag.Key == key)
-                    return tag;
-            return null;
-        }
         #endregion
 
         #region 序列化
@@ -56,9 +47,8 @@ namespace Vapula.Model
         {
             Function func = new Function();
             func.Id = int.Parse(xml.Attribute("id").Value);
-            var xmls_tag = xml.Element("tags").Elements("tag");
-            foreach (var xml_tag in xmls_tag)
-                func.Tags.Add(Tag.Parse(xml_tag));
+            var xml_tags = xml.Element("tags");
+            func._Tags = TagList.Parse(xml_tags);
             var xml_params = xml.Element("params").Elements("param");
             foreach (var xml_param in xml_params)
             {
@@ -77,12 +67,8 @@ namespace Vapula.Model
             XElement xml = new XElement("function",
                 new XElement("tags"),
                 new XElement("params"),
+                _Tags.ToXML(),
                 new XAttribute("id", Id));
-            foreach (var tag in _Tags)
-            {
-                var xml_tag = tag.ToXML();
-                xml.Element("tags").Add(xml_tag);
-            }
             foreach (var param in Parameters)
             {
                 var xml_param = param.ToXML();
@@ -127,7 +113,7 @@ namespace Vapula.Model
         /// <summary>
         /// 获取功能的标签表
         /// </summary>
-        public List<Tag> Tags
+        public TagList Tags
         {
             get { return _Tags; }
         }
@@ -141,27 +127,35 @@ namespace Vapula.Model
         }
 
         /// <summary>
+        /// 获取功能的附加数据
+        /// </summary>
+        public TagList Attach 
+        {
+            get
+            {
+                if (_Attach == null)
+                    _Attach = new TagList();
+                return _Attach;
+            }
+        }
+
+        /// <summary>
         /// 获取或设置功能的名称
         /// </summary>
         public string Name
         {
             get
             {
-                Tag tag = GetTag("name");
+                var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["name"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("name");
-                if (tag == null)
-                    _Tags.Add(new Tag("name", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
@@ -172,24 +166,18 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("description");
+                var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["description"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("description");
-                if (tag == null)
-                    _Tags.Add(new Tag("description", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
-
         #endregion
     }
 }

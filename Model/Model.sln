@@ -1,7 +1,10 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designer", "Designer\Designer.csproj", "{06DA63FC-240E-46DB-B018-176153857AD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {B22FA0B0-7573-4F67-B9B7-60922C04B8BF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignerUI", "DesignerUI\DesignerUI.csproj", "{B1F183AE-6997-48EA-A444-875A15A3D0BA}"
 EndProject

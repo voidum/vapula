@@ -28,6 +28,8 @@ namespace Vapula.Model
             = new List<Node>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
+        protected TagList _Attach 
+            = null;
         #endregion
 
         #region 索引器
@@ -83,6 +85,19 @@ namespace Vapula.Model
         public List<ParamStub> ParamStubs
         {
             get { return _ParamStubs; }
+        }
+
+        /// <summary>
+        /// 获取节点的附加数据
+        /// </summary>
+        public TagList Attach
+        {
+            get 
+            {
+                if (_Attach == null)
+                    _Attach = new TagList();
+                return _Attach;
+            }
         }
         #endregion
 

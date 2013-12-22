@@ -1,32 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Xml.Linq;
 using Vapula.Model;
 
 namespace Vapula.Designer
 {
-    public enum LibraryState
+    public partial class LibraryManager
     {
-        Unknown = -1,
-        Normal = 0,
-        Disable = 1
-    }
-
-    public class LibraryManager
-    {
-        private List<Library> _Libraries
-            = new List<Library>();
-        public List<Library> Libraries
+        public enum State
         {
-            get { return _Libraries; }
+            Unknown = -1,
+            Normal = 0,
+            Disable = 1
+        }
+
+        private List<Library> _Libs
+            = new List<Library>();
+
+        public List<Library> Libs
+        {
+            get { return _Libs; }
         }
 
         public Library this[string id]
         {
             get
             {
-                foreach (var lib in _Libraries)
+                foreach (var lib in _Libs)
                     if (lib.Id == id)
                         return lib;
                 return null;
@@ -40,44 +40,37 @@ namespace Vapula.Designer
             foreach(XElement xml_lib in xml_libs)
             {
                 string id = xml_lib.Attribute("id").Value;
-                LibraryState state = (LibraryState)int.Parse(
-                    xml_lib.Attribute("state").Value);
-                Mount(id);
+                var lib = LoadLibrary(id);
+
+                if (lib != null) 
+                {
+                    State state = (State)int.Parse(
+                        xml_lib.Attribute("state").Value);
+                    lib.Attach["state"] = state;
+                }
             }
             return true;
         }
 
         public void Clear()
         {
-            foreach (var lib in _Libraries)
-            {
-                foreach (var func in lib.Functions)
-                {
-                    if (func.Tag["LargeIcon"] != null)
-                        ((Image)func.Tag["LargeIcon"]).Dispose();
-                    if (func.Tag["SmallIcon"] != null)
-                        ((Image)func.Tag["SmallIcon"]).Dispose();
-                }
+            foreach (var lib in _Libs)
                 lib.Clear();
-            }
-            _Libraries.Clear();
+            _Libs.Clear();
         }
 
-        public bool Mount(string id, LibraryState state = LibraryState.Normal)
+        public Library LoadLibrary(string id)
         {
-            Library lib = Library.Load(
+            var lib = Library.Load(
                 Path.Combine(
                 AppData.Instance.PathLibrary,
                 id + "\\" + id + ".library"));
             if (lib != null)
-            {
-                _Libraries.Add(lib);
-                lib.Tag["State"] = state;
-            }
-            return true;
+                _Libs.Add(lib);
+            return lib;
         }
 
-        public bool Unmount(string id)
+        public bool FreeLibrary(string id)
         {
             return false;
         }

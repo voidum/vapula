@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -13,11 +14,14 @@ namespace Vapula.Model
         private string _Id;
         private string _Runtime;
         private string _Entry;
-        private List<Tag> _Tags
-            = new List<Tag>();
+        private TagList _Tags
+            = new TagList();
         private List<Function> _Functions 
             = new List<Function>();
-        private object _Attach;
+
+        private string _Path;
+        private TagList _Attach
+            = null;
         #endregion
 
         #region 构造
@@ -38,17 +42,6 @@ namespace Vapula.Model
                 return null;
             }
         }
-
-        /// <summary>
-        /// 根据指定键获取标签
-        /// </summary>
-        public Tag GetTag(string key)
-        {
-            foreach (var tag in _Tags)
-                if (tag.Key == key)
-                    return tag;
-            return null;
-        }
         #endregion
 
         #region 序列化
@@ -62,15 +55,23 @@ namespace Vapula.Model
             xrs.ValidationType = ValidationType.Schema;
             xrs.Schemas.Add(null,
                 System.IO.Path.Combine(Base.AppDir, "library.xsd"));
-            XmlReader xr = XmlReader.Create(path, xrs);
-            XDocument xml = XDocument.Load(xr);
-            while (xr.Read()) { }
-            xr.Close();
-            if (xml != null)
+            try
             {
-                XElement xeroot = xml.Element("library");
-                Library library = Parse(xeroot);
-                return library;
+                XmlReader xr = XmlReader.Create(path, xrs);
+                XDocument xml = XDocument.Load(xr);
+                while (xr.Read()) { }
+                xr.Close();
+                if (xml != null)
+                {
+                    XElement xeroot = xml.Element("library");
+                    Library library = Parse(xeroot);
+                    library.Path = path;
+                    return library;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             return null;
         }
@@ -84,9 +85,8 @@ namespace Vapula.Model
             lib.Id = xml.Element("id").Value;
             lib.Runtime = xml.Element("runtime").Value;
             lib.Entry = xml.Element("entry").Value;
-            var xmls_tag = xml.Element("tags").Elements("tag");
-            foreach (var xml_tag in xmls_tag)
-                lib.Tags.Add(Tag.Parse(xml_tag));
+            var xml_tags = xml.Element("tags");
+            lib._Tags = TagList.Parse(xml_tags);
             var xmls_func = xml.Element("functions").Elements("function");
             foreach (var xml_func in xmls_func)
             {
@@ -106,13 +106,8 @@ namespace Vapula.Model
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
                 new XElement("entry", Entry),
-                new XElement("tags"),
-                new XElement("functions"));
-            foreach (var tag in _Tags)
-            {
-                var xml_tag = tag.ToXML();
-                xml.Element("tags").Add(xml_tag);
-            }
+                new XElement("functions"),
+                _Tags.ToXML());
             foreach (var func in _Functions)
             {
                 var xml_func = func.ToXML();
@@ -132,6 +127,8 @@ namespace Vapula.Model
                 func.Clear();
             Functions.Clear();
             Tags.Clear();
+            if (_Attach != null)
+                _Attach.Clear();
         }
         #endregion
 
@@ -196,7 +193,7 @@ namespace Vapula.Model
         /// <summary>
         /// 获取库的标签表
         /// </summary>
-        public List<Tag> Tags
+        public TagList Tags
         {
             get { return _Tags; }
         }
@@ -210,12 +207,25 @@ namespace Vapula.Model
         }
 
         /// <summary>
+        /// 获取库的路径
+        /// </summary>
+        public string Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
+        }
+
+        /// <summary>
         /// 获取或设置库的附加数据
         /// </summary>
-        public object Attach
+        public TagList Attach
         {
-            get { return _Attach; }
-            set { _Attach = value; }
+            get 
+            {
+                if (_Attach == null)
+                    _Attach = new TagList();
+                return _Attach; 
+            }
         }
 
         /// <summary>
@@ -225,21 +235,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("name");
+                var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v = 
+                _Tags["name"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("name");
-                if (tag == null)
-                    _Tags.Add(new Tag("name", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
@@ -250,21 +255,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("publisher");
+                var tag = _Tags["publisher"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["publisher"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("publisher");
-                if (tag == null)
-                    _Tags.Add(new Tag("publisher", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
@@ -275,21 +275,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("description");
+                var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["description"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("description");
-                if (tag == null)
-                    _Tags.Add(new Tag("description", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
@@ -300,21 +295,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("version");
+                var tag = _Tags["version"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["version"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("version");
-                if (tag == null)
-                    _Tags.Add(new Tag("version", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
         #endregion

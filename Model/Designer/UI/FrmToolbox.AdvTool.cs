@@ -24,7 +24,7 @@ namespace Vapula.Designer
             {
                 string id = xe.Attribute("id").Value;
                 string text = xe.Value;
-                Image img_l = Image.FromFile(Path.Combine(AppResDir ,id + ".png"));
+                Image img_l = Image.FromFile(Path.Combine(AppResDir ,id + "_l.png"));
                 Image img_s = Image.FromFile(Path.Combine(AppResDir, id + "_s.png"));
                 _LargeIcons.Images.Add("!" + id, img_l);
                 _SmallIcons.Images.Add("!" + id, img_s);

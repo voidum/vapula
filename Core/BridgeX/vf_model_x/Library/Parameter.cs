@@ -14,8 +14,8 @@ namespace Vapula.Model
         private DataType _Type;
         private ParamMode _Mode;
         private Function _Function;
-        private List<Tag> _Tags
-            = new List<Tag>();
+        private TagList _Tags
+            = new TagList();
         #endregion
 
         #region 构造
@@ -23,19 +23,6 @@ namespace Vapula.Model
         /// 构造参数描述
         /// </summary>
         public Parameter() { }
-        #endregion
-
-        #region 索引器
-        /// <summary>
-        /// 根据指定键获取标签
-        /// </summary>
-        public Tag GetTag(string key)
-        {
-            foreach (var tag in _Tags)
-                if (tag.Key == key)
-                    return tag;
-            return null;
-        }
         #endregion
 
         #region 序列化
@@ -48,9 +35,8 @@ namespace Vapula.Model
             param.Id = int.Parse(xml.Attribute("id").Value);
             param.Type = (DataType)int.Parse(xml.Element("type").Value);
             param.Mode = (ParamMode)int.Parse(xml.Element("mode").Value);
-            var xmls_tag = xml.Element("tags").Elements("tag");
-            foreach (var xml_tag in xmls_tag)
-                param.Tags.Add(Tag.Parse(xml_tag));
+            var xml_tags = xml.Element("tags");
+            param._Tags = TagList.Parse(xml_tags);
             return param;
         }
 
@@ -63,12 +49,7 @@ namespace Vapula.Model
                 new XElement("id", Id),
                 new XElement("type", (int)Type),
                 new XElement("mode", (int)Mode),
-                new XElement("tags"));
-            foreach (var tag in _Tags)
-            {
-                var xml_tag = tag.ToXML();
-                xml.Element("tags").Add(xml_tag);
-            }
+                _Tags.ToXML());
             return xml;
         }
         #endregion
@@ -123,7 +104,7 @@ namespace Vapula.Model
         /// <summary>
         /// 获取参数的标签表
         /// </summary>
-        public List<Tag> Tags
+        public TagList Tags
         {
             get { return _Tags; }
         }
@@ -135,21 +116,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("name");
+                var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
-                    string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("name");
-                if (tag == null)
-                    _Tags.Add(new Tag("name", v));
-                else
-                    tag.Value = v;
+                _Tags["name"] = 
+                    string.IsNullOrWhiteSpace(value) ? 
+                    null : value;
             }
         }
 
@@ -160,21 +136,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("category");
+                var tag = _Tags["category"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["category"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("category");
-                if (tag == null)
-                    _Tags.Add(new Tag("category", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
@@ -185,21 +156,16 @@ namespace Vapula.Model
         {
             get
             {
-                Tag tag = GetTag("description");
+                var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return tag.Value;
+                return (string)tag;
             }
             set
             {
-                string v =
+                _Tags["description"] =
                     string.IsNullOrWhiteSpace(value) ?
-                    "" : value;
-                Tag tag = GetTag("description");
-                if (tag == null)
-                    _Tags.Add(new Tag("description", v));
-                else
-                    tag.Value = v;
+                    null : value;
             }
         }
 
