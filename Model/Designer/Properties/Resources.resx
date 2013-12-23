@@ -124,9 +124,6 @@
   <data name="toggle_minus_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\toggle_minus_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="function" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\function.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="function_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\function_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -135,5 +132,8 @@
   </data>
   <data name="disk_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\disk_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="function_l" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\function_l.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

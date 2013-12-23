@@ -29,7 +29,7 @@ namespace vapula
 	template<typename T>
 	VAPULA_API void ShowMsgbox(T value)
 	{
-		ShowMsgStr(str::ValueTo(value), _vf_bridge);
+		ShowMsgbox(str::ValueTo(value), _vf_bridge);
 	}
 
 	//通过简易的信息框显示字符串

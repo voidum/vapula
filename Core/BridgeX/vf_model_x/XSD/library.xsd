@@ -33,7 +33,7 @@
       </xs:element>
       <xs:element name="tags" type="tags" />
     </xs:all>
-    <xs:attribute name="id">
+    <xs:attribute name="id" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:int">
           <xs:minInclusive value="1" />
@@ -48,7 +48,7 @@
       <xs:element name="mode" type="xs:int" />
       <xs:element name="tags" type="tags" />
     </xs:all>
-    <xs:attribute name="id">
+    <xs:attribute name="id" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:int">
           <xs:minInclusive value="1" />

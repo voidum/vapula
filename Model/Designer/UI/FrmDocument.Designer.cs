@@ -74,10 +74,11 @@
             this.CtrlTab.SelectedIndex = 0;
             this.CtrlTab.Size = new System.Drawing.Size(516, 346);
             this.CtrlTab.TabIndex = 3;
+            this.CtrlTab.SelectedIndexChanged += new System.EventHandler(this.CtrlTab_SelectedIndexChanged);
             // 
             // TabGraph
             // 
-            this.TabGraph.BackColor = System.Drawing.Color.Silver;
+            this.TabGraph.BackColor = System.Drawing.Color.Transparent;
             this.TabGraph.Location = new System.Drawing.Point(4, 4);
             this.TabGraph.Name = "TabGraph";
             this.TabGraph.Padding = new System.Windows.Forms.Padding(3);

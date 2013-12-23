@@ -54,7 +54,7 @@
     <Compile Include="Library\Function.cs" />
     <Compile Include="Library\Library.cs" />
     <Compile Include="Library\Parameter.cs" />
-    <Compile Include="Library\ParamStub.cs" />
+    <Compile Include="Graph\ParamStub.cs" />
     <Compile Include="TagList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

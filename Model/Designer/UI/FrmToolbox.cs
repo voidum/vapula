@@ -46,7 +46,7 @@ namespace Vapula.Designer
             ResourceManager mng = 
                 Properties.Resources.ResourceManager;
             _LargeIcons.Images.Add("!process", 
-                (Image)mng.GetObject("function"));
+                (Image)mng.GetObject("function_l"));
             _SmallIcons.Images.Add("!process", 
                 (Image)mng.GetObject("function_s"));
         }

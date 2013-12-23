@@ -83,7 +83,10 @@ namespace Vapula.Runtime
         public bool Start()
         {
             //测试Vapula Bridge可用
-            try { Bridge.TestBridge(); }
+            try 
+            {
+                Bridge.TestBridge(); 
+            }
             catch
             {
                 Logger.WriteLog(LogType.Critical, "框架损坏，不能加载 Vapula Bridge");

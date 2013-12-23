@@ -36,5 +36,12 @@ namespace Vapula.Designer
         {
             App.FormDebug.SelectObject(_UctGraph.Graph);
         }
+
+        private void CtrlTab_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = CtrlTab.SelectedIndex;
+            if (index == 1)
+                _UctData.UI_UpdateData(_UctGraph.Graph);
+        }
     }
 }

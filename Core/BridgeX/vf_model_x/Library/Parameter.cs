@@ -1,6 +1,4 @@
 ﻿using System.Xml.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Vapula.Model
 {
@@ -130,26 +128,6 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数的类别
-        /// </summary>
-        public string Category
-        {
-            get
-            {
-                var tag = _Tags["category"];
-                if (tag == null)
-                    return "";
-                return (string)tag;
-            }
-            set
-            {
-                _Tags["category"] =
-                    string.IsNullOrWhiteSpace(value) ?
-                    null : value;
-            }
-        }
-
-        /// <summary>
         /// 获取或设置参数的描述
         /// </summary>
         public string Description
@@ -168,7 +146,6 @@ namespace Vapula.Model
                     null : value;
             }
         }
-
         #endregion
 
         #region 方法

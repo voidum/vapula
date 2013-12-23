@@ -214,7 +214,7 @@ void vfeWriteEnvelopeValue(object env, int id, cstr8 value)
 	obj->CastWriteValue(id, value);
 }
 
-void vfeWriteEnvelopeW(object env, int id, cstr16 value)
+void vfeWriteEnvelopeValueW(object env, int id, cstr16 value)
 {
 	cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
 	Envelope* obj = (Envelope*)env;

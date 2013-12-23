@@ -44,12 +44,14 @@
     </function>
     <function id="2">
       <params>
-        <type>21</type>
-        <mode>1</mode>
-        <tags>
-          <tag key="name">输出</tag>
-          <tag key="description">输出的字符串</tag>
-        </tags>
+        <param id="1">
+          <type>21</type>
+          <mode>1</mode>
+          <tags>
+            <tag key="name">输出</tag>
+            <tag key="description">输出的字符串</tag>
+          </tags>
+        </param>
       </params>
       <tags>
         <tag key="name">输出示例</tag>

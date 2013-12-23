@@ -55,7 +55,7 @@ namespace vapula
 		int total = 0;
 		while(node)
 		{
-			v_id.push_back(xml::ValueInt(node->first_node("id")));
+			v_id.push_back(xml::ValueInt(node->first_attribute("id")));
 			v_type.push_back(xml::ValueInt(node->first_node("type")));
 			v_mode.push_back(xml::ValueInt(node->first_node("mode")));
 			node = node->next_sibling();
@@ -214,7 +214,7 @@ namespace vapula
 	{
 		if(!_AssertId(id))
 			throw invalid_argument(_vf_err_1);
-		int type = GetType(id);
+		int8 type = GetType(id);
 		switch(type)
 		{
 		case VF_DATA_INT8:	
@@ -252,7 +252,7 @@ namespace vapula
 			throw invalid_argument(_vf_err_2);
 		if(!_AssertId(id))
 			throw invalid_argument(_vf_err_1);
-		int type = GetType(id);
+		int8 type = GetType(id);
 		switch(type)
 		{
 		case VF_DATA_INT8:	

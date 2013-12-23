@@ -74,9 +74,9 @@ namespace Vapula.Designer.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap function {
+        internal static System.Drawing.Bitmap function_l {
             get {
-                object obj = ResourceManager.GetObject("function", resourceCulture);
+                object obj = ResourceManager.GetObject("function_l", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

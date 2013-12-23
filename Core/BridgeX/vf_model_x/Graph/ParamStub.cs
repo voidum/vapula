@@ -50,6 +50,8 @@ namespace Vapula.Model
             = null;
         private ParamPoint _From
             = null;
+        private bool _IsExport
+            = false;
         #endregion
 
         #region 属性
@@ -63,6 +65,12 @@ namespace Vapula.Model
         {
             get { return _Value; }
             set { _Value = value; }
+        }
+
+        public bool IsExport
+        {
+            get { return _IsExport; }
+            set { _IsExport = value; }
         }
 
         public bool HasValue 
