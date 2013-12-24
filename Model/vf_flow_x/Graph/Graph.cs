@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Vapula.Model;
 
 namespace Vapula.Flow
 {
     /// <summary>
     /// 基于有向图描述的模型图
     /// </summary>
-    public partial class Graph : ISyncable
+    public partial class Graph
     {
         #region 字段
         private List<Node> _Nodes 
@@ -72,7 +71,7 @@ namespace Vapula.Flow
         {
             get
             {
-                Stage stage = new Stage();
+                Stage stage = new Stage(this);
                 foreach (Node node in Nodes)
                 {
                     if (node.InNodes.Count == 0)
@@ -95,50 +94,6 @@ namespace Vapula.Flow
             Node node = this[location.NodeId];
             if (node != null)
                 return node[location.ParamId];
-            return null;
-        }
-        #endregion
-
-        #region ISyncable
-        private ISyncable _SyncTarget = null;
-
-        public ISyncable SyncTarget
-        {
-            get { return _SyncTarget; }
-            set { _SyncTarget = value; }
-        }
-
-        public object Sync(string cmd, object attach)
-        {
-            ISyncable target = attach as ISyncable;
-            if (cmd == "add-link")
-            {
-                Link link = new Link();
-                _Links.Add(link);
-                target.SyncTarget = link;
-                link.SyncTarget = target;
-            }
-            else if (cmd == "remove-link")
-            {
-                Link link = target.SyncTarget as Link;
-                link.Dispose();
-                _Links.Remove(link);
-            }
-            else if (cmd == "remove-node")
-            {
-                Node node = target.SyncTarget as Node;
-                node.Dispose();
-                _Nodes.Remove(node);
-            }
-            else if (cmd == "remove-all")
-            {
-                foreach (Node node in _Nodes)
-                    node.Dispose();
-                _Nodes.Clear();
-                foreach (Link link in _Links)
-                    link.Dispose();
-                _Links.Clear();
-            }
             return null;
         }
         #endregion

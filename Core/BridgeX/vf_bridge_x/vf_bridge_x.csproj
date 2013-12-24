@@ -46,6 +46,7 @@
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />
     <Compile Include="Helper\Logger\ILogger.cs" />
+    <Compile Include="Helper\Logger\LoggerHub.cs" />
     <Compile Include="I18N\Translator.cs" />
     <Compile Include="Model\ISyncable.cs" />
     <Compile Include="Model\Function.cs" />

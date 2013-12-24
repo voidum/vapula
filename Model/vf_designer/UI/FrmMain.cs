@@ -19,9 +19,8 @@ namespace Vapula.Designer
         private void FormAction_StartModel()
         {
             App.FormLog.WriteLog(LogType.Event, "开始执行模型");
-            GraphProxy proxy = new GraphProxy(doc.Model);
-            proxy.Logger = App.FormLog;
-            proxy.Start();
+            doc.Model.Logger = App.FormLog;
+            doc.Model.Start();
         }
 
         public FrmMain()

@@ -8,7 +8,7 @@
     <ProjectGuid>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula</RootNamespace>
+    <RootNamespace>Vapula.Flow</RootNamespace>
     <AssemblyName>vf_flow_x</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -41,17 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph.cs" />
-    <Compile Include="GraphProxy.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="Node\NodeDecision.cs" />
-    <Compile Include="Node\NodeProcess.cs" />
-    <Compile Include="Node\NodeStart.cs" />
-    <Compile Include="Node\NodeVariable.cs" />
-    <Compile Include="Stage.cs" />
-    <Compile Include="ParamStub.cs" />
-    <Compile Include="StageProxy.cs" />
+    <Compile Include="Graph\Graph.Action.cs" />
+    <Compile Include="Graph\Graph.cs" />
+    <Compile Include="Graph\Graph.ISyncable.cs" />
+    <Compile Include="Graph\Link.cs" />
+    <Compile Include="Node\Node.Action.cs" />
+    <Compile Include="Node\Node.cs" />
+    <Compile Include="Node\Node.ISyncable.cs" />
+    <Compile Include="Node\Nodes\NodeDecision.cs" />
+    <Compile Include="Node\Nodes\NodeProcess.cs" />
+    <Compile Include="Node\Nodes\NodeStart.cs" />
+    <Compile Include="Node\Nodes\NodeVariable.cs" />
+    <Compile Include="Stage\Stage.cs" />
+    <Compile Include="Node\ParamStub.cs" />
+    <Compile Include="Stage\Stage.Action.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -47,8 +47,11 @@ namespace Vapula.Designer
 
         protected override void DrawText(Graphics g)
         {
-            string id = (string)SyncTarget.Sync("get-id", null);
-            g.DrawString(id, _Cache.GetFont("id"), Brushes.Black, Left + 2, Top + 2);
+            int id = (int)SyncTarget.Sync("get-id", null);
+            g.DrawString("节点" + id.ToString(),
+                _Cache.GetFont("id"), 
+                Brushes.Black, 
+                Left + 2, Top + 2);
 
             string text = (string)SyncTarget.Sync("get-text", null);
             //text = text.Length > 4 ? text.Substring(0, 2) + "..." : text;

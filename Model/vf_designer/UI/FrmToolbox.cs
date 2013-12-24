@@ -55,7 +55,7 @@ namespace Vapula.Designer
 
         private void FormLayout_LoadLibraries()
         {
-            LibraryManager mng = AppData.Instance.LibManager;
+            LibraryHub mng = AppData.Instance.LibManager;
             var libs = mng.Libs;
             foreach (Library lib in libs)
             {

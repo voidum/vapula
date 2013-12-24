@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using Vapula.Flow;
 using Vapula.Model;
 
 namespace Vapula.Designer
 {
-    public partial class LibraryManager
+    public partial class LibraryHub
     {
         public enum State
         {

@@ -21,7 +21,7 @@ namespace Vapula.Designer
 
         #region 字段
         private AppConfig _Config = null;
-        private LibraryManager _LibManager = null;
+        private LibraryHub _LibManager = null;
         private FrmMain _FormMain = null;
         private FrmToolbox _FormToolbox = null;
         private FrmDebug _FormDebug = null;
@@ -39,12 +39,12 @@ namespace Vapula.Designer
             }
         }
 
-        public LibraryManager LibManager
+        public LibraryHub LibManager
         {
             get
             {
                 if (_LibManager == null)
-                    _LibManager = new LibraryManager();
+                    _LibManager = new LibraryHub();
                 return _LibManager;
             }
         }

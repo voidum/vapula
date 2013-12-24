@@ -19,7 +19,7 @@ namespace Vapula.Flow
     /// <summary>
     /// 模型图节点，对应有向图的顶点
     /// </summary>
-    public abstract class Node : IDisposable, ISyncable
+    public abstract partial class Node : IDisposable
     {
         #region 字段
         protected int _Id = -1;
@@ -29,6 +29,8 @@ namespace Vapula.Flow
             = new List<Node>();
         protected List<ParamStub> _ParamStubs
             = new List<ParamStub>();
+        protected Graph _Parent 
+            = null;
         protected TagList _Attach 
             = null;
         #endregion
@@ -58,7 +60,7 @@ namespace Vapula.Flow
             get { return _Id; }
             set { _Id = value; }
         }
-        
+
         /// <summary>
         /// 获取节点的类型
         /// </summary>
@@ -116,7 +118,9 @@ namespace Vapula.Flow
         /// </summary>
         public virtual XElement ToXML()
         {
-            return null;
+            var xml = new XElement("node", 
+                new XAttribute("id", _Id));
+            return xml;
         }
         #endregion
 
@@ -130,29 +134,6 @@ namespace Vapula.Flow
                 node.InNodes.Remove(this);
             _OutNodes.Clear();
             _SyncTarget = null;
-        }
-        #endregion
-
-        #region ISyncable
-        protected ISyncable _SyncTarget;
-
-        /// <summary>
-        /// 获取或设置同步目标
-        /// </summary>
-        public ISyncable SyncTarget
-        {
-            get { return _SyncTarget; }
-            set { _SyncTarget = value; }
-        }
-
-        public virtual object Sync(string cmd, object attach)
-        {
-            if (cmd == "get-id")
-            {
-                string ret = "节点" + Id.ToString();
-                return ret;
-            }
-            return null;
         }
         #endregion
     }

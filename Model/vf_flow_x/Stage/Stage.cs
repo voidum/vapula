@@ -5,10 +5,13 @@ namespace Vapula.Flow
     /// <summary>
     /// 模型图的阶段
     /// </summary>
-    public class Stage
+    public partial class Stage
     {
         private int _Id = -1;
-        private List<Node> _Nodes = new List<Node>();
+        private Graph _Parent 
+            = null;
+        private List<Node> _Nodes 
+            = new List<Node>();
 
         /// <summary>
         /// 获取或设置阶段标识
@@ -17,6 +20,14 @@ namespace Vapula.Flow
         {
             get { return _Id; }
             set { _Id = value; }
+        }
+
+        /// <summary>
+        /// 获取所属图
+        /// </summary>
+        public Graph Parent
+        {
+            get { return _Parent; }
         }
 
         /// <summary>
@@ -36,7 +47,7 @@ namespace Vapula.Flow
             {
                 if (Nodes.Count == 0) 
                     return null;
-                Stage stage = new Stage();
+                Stage stage = new Stage(_Parent);
                 foreach (var n in Nodes)
                 {
                     foreach (var n_o in n.OutNodes)
@@ -62,8 +73,9 @@ namespace Vapula.Flow
             }
         }
 
-        public Stage()
+        public Stage(Graph parent)
         {
+            _Parent = parent;
         }
 
         /// <summary>
