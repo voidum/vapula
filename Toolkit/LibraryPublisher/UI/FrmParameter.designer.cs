@@ -33,8 +33,6 @@
             this.BtOK = new System.Windows.Forms.Button();
             this.TbxDescription = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.TbxCatalog = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.TbxName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,7 +59,7 @@
             // BtCancel
             // 
             this.BtCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtCancel.Location = new System.Drawing.Point(282, 290);
+            this.BtCancel.Location = new System.Drawing.Point(282, 270);
             this.BtCancel.Name = "BtCancel";
             this.BtCancel.Size = new System.Drawing.Size(90, 30);
             this.BtCancel.TabIndex = 1;
@@ -71,7 +69,7 @@
             // 
             // BtOK
             // 
-            this.BtOK.Location = new System.Drawing.Point(186, 290);
+            this.BtOK.Location = new System.Drawing.Point(186, 270);
             this.BtOK.Name = "BtOK";
             this.BtOK.Size = new System.Drawing.Size(90, 30);
             this.BtOK.TabIndex = 0;
@@ -83,7 +81,7 @@
             // 
             this.TbxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TbxDescription.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TbxDescription.Location = new System.Drawing.Point(65, 78);
+            this.TbxDescription.Location = new System.Drawing.Point(65, 49);
             this.TbxDescription.MaxLength = 2000;
             this.TbxDescription.Multiline = true;
             this.TbxDescription.Name = "TbxDescription";
@@ -93,30 +91,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 83);
+            this.label5.Location = new System.Drawing.Point(19, 54);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 12;
             this.label5.Text = "描述：";
-            // 
-            // TbxCatalog
-            // 
-            this.TbxCatalog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TbxCatalog.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TbxCatalog.Location = new System.Drawing.Point(65, 49);
-            this.TbxCatalog.MaxLength = 500;
-            this.TbxCatalog.Name = "TbxCatalog";
-            this.TbxCatalog.Size = new System.Drawing.Size(275, 23);
-            this.TbxCatalog.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 54);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 12);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "分类：";
             // 
             // TbxName
             // 
@@ -220,13 +199,11 @@
             // 
             this.Grp2.Controls.Add(this.TbxName);
             this.Grp2.Controls.Add(this.label2);
-            this.Grp2.Controls.Add(this.label3);
-            this.Grp2.Controls.Add(this.TbxCatalog);
             this.Grp2.Controls.Add(this.TbxDescription);
             this.Grp2.Controls.Add(this.label5);
             this.Grp2.Location = new System.Drawing.Point(12, 138);
             this.Grp2.Name = "Grp2";
-            this.Grp2.Size = new System.Drawing.Size(360, 146);
+            this.Grp2.Size = new System.Drawing.Size(360, 115);
             this.Grp2.TabIndex = 15;
             this.Grp2.TabStop = false;
             this.Grp2.Text = "标签";
@@ -237,7 +214,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtCancel;
-            this.ClientSize = new System.Drawing.Size(384, 332);
+            this.ClientSize = new System.Drawing.Size(384, 312);
             this.ControlBox = false;
             this.Controls.Add(this.Grp2);
             this.Controls.Add(this.Grp1);
@@ -261,8 +238,6 @@
         private System.Windows.Forms.Button BtOK;
         private System.Windows.Forms.TextBox TbxDescription;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox TbxCatalog;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TbxName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

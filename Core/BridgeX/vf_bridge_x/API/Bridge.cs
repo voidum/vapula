@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Vapula.API
 {
-    internal class Bridge
+    public class Bridge
     {
         /// <summary>
         /// 转换P/Invoke返回的字符串

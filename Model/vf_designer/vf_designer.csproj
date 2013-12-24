@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{06DA63FC-240E-46DB-B018-176153857AD0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vapula.Designer</RootNamespace>
+    <AssemblyName>vf_designer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Irisecol">
+      <HintPath>..\3rdparty\Irisecol\Irisecol.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xDockPanel">
+      <HintPath>..\3rdparty\xDockPanel\xDockPanel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="LibraryManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmDocument.Designer.cs">
+      <DependentUpon>FrmDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmLog.Designer.cs">
+      <DependentUpon>FrmLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\FrmDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmDebug.Designer.cs">
+      <DependentUpon>FrmDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmModel.Designer.cs">
+      <DependentUpon>FrmModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmStage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmStage.Designer.cs">
+      <DependentUpon>FrmStage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmToolbox.AdvTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmToolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmToolbox.Designer.cs">
+      <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctData.Designer.cs">
+      <DependentUpon>UctData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UctGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UctGraph.Designer.cs">
+      <DependentUpon>UctGraph.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UI\FrmDocument.resx">
+      <DependentUpon>FrmDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmLog.resx">
+      <DependentUpon>FrmLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmDebug.resx">
+      <DependentUpon>FrmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmModel.resx">
+      <DependentUpon>FrmModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmStage.resx">
+      <DependentUpon>FrmStage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmToolbox.resx">
+      <DependentUpon>FrmToolbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UctData.resx">
+      <DependentUpon>UctData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UctGraph.resx">
+      <DependentUpon>UctGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Config\advtool.list" />
+    <None Include="Config\designer.config" />
+    <None Include="Config\library.list" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vf_designer.ui\vf_designer.ui.csproj">
+      <Project>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</Project>
+      <Name>vf_designer.ui</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vf_flow_x\vf_flow_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_flow_x</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_minus_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_plus_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\broom_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_l.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

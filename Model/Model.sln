@@ -1,20 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designer", "Designer\Designer.csproj", "{06DA63FC-240E-46DB-B018-176153857AD0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {B22FA0B0-7573-4F67-B9B7-60922C04B8BF}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignerUI", "DesignerUI\DesignerUI.csproj", "{B1F183AE-6997-48EA-A444-875A15A3D0BA}"
-EndProject
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{99890523-3856-41A9-8CDB-F029EF40D4D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F9F9DA4B-4327-4486-923E-EC925804120C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_model_x", "..\Core\BridgeX\vf_model_x\vf_model_x.csproj", "{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_bridge_x", "..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj", "{24DA7D2B-5931-49CE-BD0A-74B460FDC192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_designer", "vf_designer\vf_designer.csproj", "{06DA63FC-240E-46DB-B018-176153857AD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {B22FA0B0-7573-4F67-B9B7-60922C04B8BF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_designer.ui", "vf_designer.ui\vf_designer.ui.csproj", "{B1F183AE-6997-48EA-A444-875A15A3D0BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_flow_x", "vf_flow_x\vf_flow_x.csproj", "{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|x86.ActiveCfg = Release|Any CPU
 		{06DA63FC-240E-46DB-B018-176153857AD0}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{06DA63FC-240E-46DB-B018-176153857AD0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{06DA63FC-240E-46DB-B018-176153857AD0}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -56,24 +66,14 @@ Global
 		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|x86.ActiveCfg = Release|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Any CPU.Build.0 = Release|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B1F183AE-6997-48EA-A444-875A15A3D0BA} = {99890523-3856-41A9-8CDB-F029EF40D4D2}
 		{06DA63FC-240E-46DB-B018-176153857AD0} = {99890523-3856-41A9-8CDB-F029EF40D4D2}
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {F9F9DA4B-4327-4486-923E-EC925804120C}
+		{B1F183AE-6997-48EA-A444-875A15A3D0BA} = {99890523-3856-41A9-8CDB-F029EF40D4D2}
+		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {99890523-3856-41A9-8CDB-F029EF40D4D2}
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192} = {F9F9DA4B-4327-4486-923E-EC925804120C}
 	EndGlobalSection
 EndGlobal

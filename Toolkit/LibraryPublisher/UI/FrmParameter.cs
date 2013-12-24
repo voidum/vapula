@@ -46,7 +46,6 @@ namespace Vapula.Toolkit
                 _Parameter = value;
                 TbxId.Text = value.Id.ToString();
                 TbxName.Text = value.Name;
-                TbxCatalog.Text = value.Category;
                 TbxDescription.Text = value.Description;
                 CobxParamMode.SelectedIndex = GetParamModeIndex(_Parameter.Mode);
                 CobxDataType.SelectedIndex = GetDataTypeIndex(_Parameter.Type);
@@ -72,7 +71,6 @@ namespace Vapula.Toolkit
         private void BtOK_Click(object sender, EventArgs e)
         {
             _Parameter.Name = TbxName.Text;
-            _Parameter.Category = TbxCatalog.Text;
             _Parameter.Description = TbxDescription.Text;
             _Parameter.Mode = (ParamMode)_ParamModeValues[CobxParamMode.SelectedIndex];
             _Parameter.Type = (DataType)_DataTypeValues[CobxDataType.SelectedIndex];

@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</ProjectGuid>
+    <ProjectGuid>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula</RootNamespace>
-    <AssemblyName>vf_bridge_x</AssemblyName>
+    <RootNamespace>Vapula.Designer.UI</RootNamespace>
+    <AssemblyName>vf_designer.ui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,42 +33,43 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base.cs" />
-    <Compile Include="Helper\AppHelper.cs" />
-    <Compile Include="Helper\Logger\ConsoleLogger.cs" />
-    <Compile Include="Helper\Logger\FileLogger.cs" />
-    <Compile Include="Helper\Logger\ILogger.cs" />
-    <Compile Include="I18N\Translator.cs" />
-    <Compile Include="Model\ISyncable.cs" />
-    <Compile Include="Model\Function.cs" />
-    <Compile Include="Model\Library.cs" />
-    <Compile Include="Model\Parameter.cs" />
-    <Compile Include="Runtime\Core\Base.cs" />
-    <Compile Include="Runtime\Driver\DriverEntry.cs" />
+    <Compile Include="Canvas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GDIHelper.cs" />
+    <Compile Include="GDICache.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="GraphCanvas\Connection.cs" />
+    <Compile Include="GraphCanvas\Connector.cs" />
+    <Compile Include="GraphCanvas\GraphCanvas.Action.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphCanvas\GraphCanvas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphCanvas\Shape.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeDecision.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeProcess.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="API\Bridge.cs" />
-    <Compile Include="Runtime\Core\Context.cs" />
-    <Compile Include="Runtime\Driver\InvokerCLR.cs" />
-    <Compile Include="Runtime\Driver\LibraryCLR.cs" />
-    <Compile Include="Runtime\Core\Envelope.cs" />
-    <Compile Include="Runtime\Core\Invoker.cs" />
-    <Compile Include="Runtime\Core\Library.cs" />
-    <Compile Include="Runtime\Core\DriverHub.cs" />
-    <Compile Include="Runtime\Core\Pipe.cs" />
-    <Compile Include="Security\Hash.cs" />
-    <Compile Include="TagList.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="XSD\library.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vf_flow_x\vf_flow_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_flow_x</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

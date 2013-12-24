@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTray", "ServerTray\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_bridge_x", "..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj", "{24DA7D2B-5931-49CE-BD0A-74B460FDC192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vf_model_x", "..\Core\BridgeX\vf_model_x\vf_model_x.csproj", "{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,16 +85,6 @@ Global
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192}.Release|x86.ActiveCfg = Release|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +96,5 @@ Global
 		{38CE59DB-2270-4004-84C3-59E7079B25DF} = {F49C98A6-5673-46BD-8CDD-DB90C8556A85}
 		{594245A1-056E-42F4-8D66-C0A283E245AA} = {F49C98A6-5673-46BD-8CDD-DB90C8556A85}
 		{24DA7D2B-5931-49CE-BD0A-74B460FDC192} = {5EA4A1EB-46D8-4EF0-97FF-E262AE216CAC}
-		{B22FA0B0-7573-4F67-B9B7-60922C04B8BF} = {5EA4A1EB-46D8-4EF0-97FF-E262AE216CAC}
 	EndGlobalSection
 EndGlobal

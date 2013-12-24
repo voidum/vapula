@@ -198,10 +198,6 @@
       <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
       <Name>vf_bridge_x</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\BridgeX\vf_model_x\vf_model_x.csproj">
-      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
-      <Name>vf_model_x</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\open_lib_s.png" />
