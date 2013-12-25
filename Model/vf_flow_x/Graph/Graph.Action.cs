@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Vapula.API;
+﻿using Vapula.API;
 using Vapula.Helper;
 using Vapula.Runtime;
 
@@ -20,7 +19,7 @@ namespace Vapula.Flow
 
         public bool LoadAllDrivers()
         {
-            DriverHub driver_hub = DriverHub.Instance;
+            var driver_hub = DriverHub.Instance;
             foreach (var node in Nodes)
             {
                 if (node.Type == NodeType.Process)

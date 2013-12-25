@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Vapula.Helper;
 using Vapula.Model;
 using Vapula.Runtime;
@@ -13,19 +14,38 @@ namespace Vapula.Flow
         private Function _Function 
             = null;
 
-        public Function Function
-        {
-            get { return _Function; }
-            set 
-            {
-                //foreach (var param in value.Parameters)
-                _Function = value; 
-            }
-        }
-
         public override NodeType Type
         {
             get { return NodeType.Process; }
+        }
+
+        public override bool CanCustomParam
+        {
+            get { return false; }
+        }
+
+        public override List<Parameter> Parameters
+        {
+            get { return _Function.Parameters; }
+        }
+
+        public Function Function
+        {
+            get { return _Function; }
+            set
+            {
+                if (_Function == value)
+                    return;
+                _ParamStubs.Clear();
+                foreach (var param in value.Parameters)
+                {
+                    var stub = new ParamStub();
+                    stub.Parent = this;
+                    stub.Prototype = param;
+                    _ParamStubs.Add(stub);
+                }
+                _Function = value;
+            }
         }
 
         public override object Sync(string cmd, object attach)
@@ -60,21 +80,21 @@ namespace Vapula.Flow
 
         public override void Wait()
         {
-            var invoker = (Invoker)Attach["Invoker"];
+            var invoker = Attach["Invoker"] as Invoker;
             while (invoker.Context.State != State.Idle)
                 Thread.Sleep(50);
             foreach (var stub in ParamStubs)
             {
-                /*
+                var param = stub.Prototype;
                 if (param.Mode != ParamMode.In)
                 {
+                    stub.Value = invoker.Envelope.Read(param.Id);
                     Logger.WriteLog(LogType.Debug,
                         string.Format("节点{0}的参数{1}的值为{2}",
-                            node.Id,
+                            stub.Parent.Id,
                             param.Name,
                             invoker.Envelope.Read(param.Id)));
                 }
-                 */
             }
         }
     }

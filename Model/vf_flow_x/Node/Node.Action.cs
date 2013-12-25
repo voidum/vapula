@@ -6,12 +6,7 @@ namespace Vapula.Flow
     {
         public ILogger Logger 
         {
-            get 
-            {
-                if (_Parent == null)
-                    return null;
-                return _Parent.Logger; 
-            }
+            get { return Parent.Logger; }
         }
 
         public abstract bool Valid();

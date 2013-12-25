@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Resources;
 using System.Windows.Forms;
 using Irisecol;
-using Vapula.Flow;
 using xDockPanel;
-using Vapula.Model;
 
 namespace Vapula.Designer
 {
@@ -22,78 +19,26 @@ namespace Vapula.Designer
                 return dir;
             }
         }
+
         private ImageList _LargeIcons = new ImageList();
         private ImageList _SmallIcons = new ImageList();
 
         private void FormLayout_SwitchCollapse(bool collapse = false)
         {
-            if (collapse)
-            {
-                foreach (ListViewGroup lvg in LsvTools.Groups)
-                    LsvTools.SetGroupState(lvg, 
-                        ListViewGroupState.Collapsed |
-                        ListViewGroupState.Collapsible);
-            }
-            else 
-            {
-                foreach (ListViewGroup lvg in LsvTools.Groups)
-                    LsvTools.SetGroupState(lvg,
-                        ListViewGroupState.Normal |
-                        ListViewGroupState.Collapsible);
-            }
+            foreach (ListViewGroup lvg in LsvTools.Groups)
+                LsvTools.SetGroupState(lvg,
+                    (collapse ? ListViewGroupState.Collapsed : ListViewGroupState.Normal) |
+                    ListViewGroupState.Collapsible);
         }
 
         private void FormLayout_LoadCommonRes()
         {
-            ResourceManager mng = 
+            var mng = 
                 Properties.Resources.ResourceManager;
             _LargeIcons.Images.Add("!process", 
                 (Image)mng.GetObject("function_l"));
             _SmallIcons.Images.Add("!process", 
                 (Image)mng.GetObject("function_s"));
-        }
-
-        private void FormLayout_LoadLibraries()
-        {
-            LibraryHub mng = AppData.Instance.LibManager;
-            var libs = mng.Libs;
-            foreach (Library lib in libs)
-            {
-                string lvg_header =
-                    (lib.Name == "" ? "（" + lib.Id + "）" : lib.Name);
-                ListViewGroup lvg = new ListViewGroup(lib.Id, lvg_header);
-                LsvTools.Groups.Add(lvg);
-                LsvTools.SetGroupState(lvg,
-                    ListViewGroupState.Normal |
-                    ListViewGroupState.Collapsible);
-                foreach (var func in lib.Functions)
-                {
-                    int idx = func.Id - 1;
-                    string path_pre = Path.Combine(
-                        AppData.Instance.PathResource,
-                        func.Library.Id + "." + func.Id.ToString());
-                    string path1 = path_pre + "_l.png";
-                    string path2 = path_pre + "_s.png";
-                    Image icon1 = File.Exists(path1) ? Image.FromFile(path1) : null;
-                    Image icon2 = File.Exists(path2) ? Image.FromFile(path2) : null;
-                    func.Attach["LargeIcons"] = icon1;
-                    func.Attach["SmallIcons"] = icon1;
-                    string lvi_text =
-                        (func.Name == "" ? "（" + func.Id + "）" : func.Name);
-                    string icon_key = "!process";
-                    if (func.Attach["LargeIcons"] != null ||
-                        func.Attach["SmallIcons"] != null)
-                    {
-                        icon_key = lib.Id + ":" + func.Id.ToString();
-                        _LargeIcons.Images.Add(icon_key, (Image)func.Attach["LargeIcons"]);
-                        _SmallIcons.Images.Add(icon_key, (Image)func.Attach["SmallIcons"]);
-                    }
-                    ListViewItem lvi = new ListViewItem(lvi_text, icon_key, lvg);
-                    lvi.Tag = func;
-
-                    LsvTools.Items.Add(lvi);
-                }
-            }
         }
 
         public FrmToolbox()
@@ -116,7 +61,7 @@ namespace Vapula.Designer
 
         private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            ListViewItem lvi = e.Item as ListViewItem;
+            var lvi = e.Item as ListViewItem;
             if (lvi != null)
                 LsvTools.DoDragDrop(lvi, DragDropEffects.Copy);
         }

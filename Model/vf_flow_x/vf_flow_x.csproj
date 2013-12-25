@@ -52,8 +52,11 @@
     <Compile Include="Node\Nodes\NodeProcess.cs" />
     <Compile Include="Node\Nodes\NodeStart.cs" />
     <Compile Include="Node\Nodes\NodeVariable.cs" />
+    <Compile Include="Node\Nodes\NodeCode.cs" />
+    <Compile Include="Node\Nodes\NodeBatch.cs" />
+    <Compile Include="Parameter\ParamPoint.cs" />
     <Compile Include="Stage\Stage.cs" />
-    <Compile Include="Node\ParamStub.cs" />
+    <Compile Include="Parameter\ParamStub.cs" />
     <Compile Include="Stage\Stage.Action.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

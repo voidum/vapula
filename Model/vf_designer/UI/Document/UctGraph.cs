@@ -8,6 +8,7 @@ namespace Vapula.Designer
 {
     public partial class UctGraph : UserControl
     {
+        private AppData _App = AppData.Instance;
         private Graph _Graph = null;
         private CanvasGraph _Canvas = null;
 
@@ -23,35 +24,30 @@ namespace Vapula.Designer
 
         private Node Data_GetNodeByLvi(ListViewItem lvi)
         {
-            if (AppData.Instance.FormToolbox.IsAdvancedTool(lvi))
+            if (_App.FormToolbox.IsAdvancedTool(lvi))
             {
                 string type = lvi.Tag as string;
-                if (type == "start")
-                {
-                    NodeStart node_start = new NodeStart();
-                    return node_start;
-                }
-                else if (type == "code")
-                {
-                    NodeVariable node_variable = new NodeVariable();
-                    return node_variable;
-                }
-                else if (type == "decision")
-                {
-                    NodeDecision node_decision = new NodeDecision();
-                    return node_decision;
-                }
+                Node node = null;
+                if (type == "decision")
+                    node = new NodeDecision();
+                else if(type == "start")
+                    node = new NodeStart();
                 else if (type == "variable")
-                {
-                    NodeVariable node_variable = new NodeVariable();
-                    return node_variable;
-                }
-                else return null;
+                    node = new NodeVariable();
+                else if (type == "batch")
+                    node = new NodeBatch();
+                else if (type == "code")
+                    node = new NodeCode();
+                else 
+                    return null;
+                node.Parent = _Graph;
+                return node;
             }
             else
             {
-                Function func = lvi.Tag as Function;
-                NodeProcess node_process = new NodeProcess();
+                var func = lvi.Tag as Function;
+                var node_process = new NodeProcess();
+                node_process.Parent = _Graph;
                 node_process.Function = func;
                 return node_process;
             }
@@ -102,14 +98,12 @@ namespace Vapula.Designer
         private void Canvas_DragDrop(object sender, DragEventArgs e)
         {
             string[] fmts = e.Data.GetFormats();
-            ListViewItem lvi =
-                e.Data.GetData(typeof(ListViewItem))
+            var lvi = 
+                e.Data.GetData(typeof(ListViewItem)) 
                 as ListViewItem;
-            if (lvi == null) return;
-            Node node = Data_GetNodeByLvi(lvi);
-            if (node == null) return;
-            node.Id = Graph.NewNodeId;
-            Graph.Nodes.Add(node);
+            if (lvi == null) 
+                return;
+            var node = Data_GetNodeByLvi(lvi);
 
             Point p1 = new Point(e.X, e.Y);
             Point p2 = _Canvas.PointToClient(p1);
@@ -125,6 +119,8 @@ namespace Vapula.Designer
                 MessageBox.Show("未实现变量表");
             else if (node.Type == NodeType.Batch)
                 MessageBox.Show("未实现批处理");
+            else if (node.Type == NodeType.Code)
+                MessageBox.Show("未实现代码");
             if (shape != null)
                 Data_BindSync(shape, node);
         }
@@ -133,9 +129,9 @@ namespace Vapula.Designer
         {
             if (_Canvas.SelectedEntities.Count == 1)
             {
-                Entity entity = _Canvas.SelectedEntities[0];
+                var entity = _Canvas.SelectedEntities[0];
                 if (!(entity is Shape)) return;
-                Node node = entity.SyncTarget as Node;
+                var node = entity.SyncTarget as Node;
                 MessageBox.Show(node.Id.ToString());
             }
         }
@@ -144,7 +140,7 @@ namespace Vapula.Designer
         {
             if (_Canvas.SelectedEntities.Count == 1)
             {
-                Entity entity = _Canvas.SelectedEntities[0];
+                var entity = _Canvas.SelectedEntities[0];
                 if (entity != null)
                     AppData.Instance.FormDebug.SelectObject(entity.SyncTarget);
             }

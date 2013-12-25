@@ -57,6 +57,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UI\Document\FrmParamValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Document\FrmParamValue.Designer.cs">
+      <DependentUpon>FrmParamValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\FrmDocument.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,7 +101,7 @@
     <Compile Include="UI\FrmStage.Designer.cs">
       <DependentUpon>FrmStage.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FrmToolbox.AdvTool.cs">
+    <Compile Include="UI\FrmToolbox.Tool.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FrmToolbox.cs">
@@ -104,18 +110,21 @@
     <Compile Include="UI\FrmToolbox.Designer.cs">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UctData.cs">
+    <Compile Include="UI\Document\UctData.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UctData.Designer.cs">
+    <Compile Include="UI\Document\UctData.Designer.cs">
       <DependentUpon>UctData.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UctGraph.cs">
+    <Compile Include="UI\Document\UctGraph.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UctGraph.Designer.cs">
+    <Compile Include="UI\Document\UctGraph.Designer.cs">
       <DependentUpon>UctGraph.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\Document\FrmParamValue.resx">
+      <DependentUpon>FrmParamValue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmDocument.resx">
       <DependentUpon>FrmDocument.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,10 +151,10 @@
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UctData.resx">
+    <EmbeddedResource Include="UI\Document\UctData.resx">
       <DependentUpon>UctData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UctGraph.resx">
+    <EmbeddedResource Include="UI\Document\UctGraph.resx">
       <DependentUpon>UctGraph.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\advtool.list" />

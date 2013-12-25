@@ -13,7 +13,8 @@ namespace Vapula.Flow
         Start = 2,
         Variable = 3,
         Batch = 4, 
-        Model = 5
+        Model = 5,
+        Code = 6
     }
 
     /// <summary>
@@ -57,14 +58,47 @@ namespace Vapula.Flow
         /// </summary>
         public int Id
         {
-            get { return _Id; }
-            set { _Id = value; }
+            get 
+            {
+                if (_Id < 1)
+                    throw new Exception("未设置节点标识");
+                return _Id; 
+            }
+        }
+
+        /// <summary>
+        /// 获取节点所属图
+        /// 设置所属图会执行完备附加操作
+        /// </summary>
+        public Graph Parent
+        {
+            get 
+            {
+                if (_Parent == null)
+                    throw new Exception("未设置节点所属图");
+                return _Parent;
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                if (value.Nodes.Contains(this))
+                    return;
+                _Parent = value;
+                _Id = _Parent.NewNodeId;
+                _Parent.Nodes.Add(this);
+            }
         }
 
         /// <summary>
         /// 获取节点的类型
         /// </summary>
         public abstract NodeType Type { get; }
+
+        /// <summary>
+        /// 获取是否支持自定义参数
+        /// </summary>
+        public abstract bool CanCustomParam { get; }
 
         /// <summary>
         /// 获取节点的输入节点
@@ -81,6 +115,11 @@ namespace Vapula.Flow
         {
             get { return _OutNodes; }
         }
+
+        /// <summary>
+        /// 获取节点的参数集合
+        /// </summary>
+        public abstract List<Parameter> Parameters { get; }
 
         /// <summary>
         /// 获取节点的参数存根集合

@@ -36,10 +36,10 @@ namespace Vapula.Designer
         #region 方法
         protected override void DrawText(Graphics g)
         {
-            string id = (string)SyncTarget.Sync("get-id", null);
-            float id_width = g.MeasureString(id, _Cache.GetFont("id")).Width;
-            g.DrawString(id, _Cache.GetFont("id"), Brushes.Black,
-                X - id_width / 2, Y - 8);
+            int id = (int)SyncTarget.Sync("get-id", null);
+            string text = "节点" + id;
+            float width = g.MeasureString(text, _Cache.GetFont("id")).Width;
+            g.DrawString(text, _Cache.GetFont("id"), Brushes.Black, X - width / 2, Y - 8);
         }
 
         public override bool IsHit(Point p)

@@ -17,29 +17,28 @@ namespace Vapula.Flow
             ISyncable target = attach as ISyncable;
             if (cmd == "add-link")
             {
-                Link link = new Link();
+                var link = AddLink();
                 target.SyncTarget = link;
                 link.SyncTarget = target;
-                _Links.Add(link);
             }
             else if (cmd == "remove-link")
             {
-                Link link = target.SyncTarget as Link;
-                link.Dispose();
+                var link = target.SyncTarget as Link;
                 _Links.Remove(link);
+                link.Dispose();
             }
             else if (cmd == "remove-node")
             {
-                Node node = target.SyncTarget as Node;
-                node.Dispose();
+                var node = target.SyncTarget as Node;
                 _Nodes.Remove(node);
+                node.Dispose();
             }
             else if (cmd == "remove-all")
             {
-                foreach (Node node in _Nodes)
+                foreach (var node in _Nodes)
                     node.Dispose();
                 _Nodes.Clear();
-                foreach (Link link in _Links)
+                foreach (var link in _Links)
                     link.Dispose();
                 _Links.Clear();
             }

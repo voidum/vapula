@@ -22,8 +22,9 @@ namespace Vapula.Flow
         {
             get
             {
-                foreach (Node node in _Nodes)
-                    if (node.Id == id) return node;
+                foreach (var node in _Nodes)
+                    if (node.Id == id) 
+                        return node;
                 return null;
             }
         }
@@ -53,8 +54,8 @@ namespace Vapula.Flow
         {
             get
             {
-                List<int> ids = new List<int>();
-                foreach (Node node in _Nodes)
+                var ids = new List<int>();
+                foreach (var node in _Nodes)
                     ids.Add(node.Id);
                 ids.Sort();
                 for (int i = 1; i <= ids.Count; i++)
@@ -71,8 +72,8 @@ namespace Vapula.Flow
         {
             get
             {
-                Stage stage = new Stage(this);
-                foreach (Node node in Nodes)
+                var stage = new Stage(this);
+                foreach (var node in Nodes)
                 {
                     if (node.InNodes.Count == 0)
                         stage.Add(node);
@@ -91,10 +92,17 @@ namespace Vapula.Flow
         /// </summary>
         public ParamStub FindParamStub(ParamPoint location)
         {
-            Node node = this[location.NodeId];
+            var node = this[location.NodeId];
             if (node != null)
                 return node[location.ParamId];
             return null;
+        }
+
+        public Link AddLink()
+        {
+            var link = new Link();
+            _Links.Add(link);
+            return link;
         }
         #endregion
     }

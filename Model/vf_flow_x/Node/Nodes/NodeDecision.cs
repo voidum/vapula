@@ -1,4 +1,6 @@
-﻿
+﻿using System.Collections.Generic;
+using Vapula.Model;
+
 namespace Vapula.Flow
 {
     /// <summary>
@@ -11,6 +13,16 @@ namespace Vapula.Flow
         public override NodeType Type
         {
             get { return NodeType.Decision; }
+        }
+
+        public override bool CanCustomParam
+        {
+            get { return true; }
+        }
+
+        public override List<Parameter> Parameters
+        {
+            get { return new List<Parameter>(); }
         }
 
         public override bool Valid()

@@ -28,9 +28,5 @@ namespace Vapula.Flow
             foreach (var node in Nodes)
                 node.Wait();
         }
-
-        private void WaitNode_Process(NodeProcess node)
-        {
-        }
     }
 }
