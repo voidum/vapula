@@ -74,7 +74,7 @@
   <xs:simpleType name="ascii_string">
     <xs:restriction base="xs:string">
       <xs:whiteSpace value="replace" />
-      <xs:pattern value="([a-zA-Z0-9._])+" />
+      <xs:pattern value="([a-zA-Z0-9._])*" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

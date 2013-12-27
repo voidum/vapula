@@ -62,15 +62,54 @@ namespace Vapula.Flow
 
         public override bool Valid()
         {
+            foreach (var stub in ParamStubs)
+            {
+                var param = stub.Prototype;
+                if (param.Mode == ParamMode.Out)
+                    continue;
+                if (stub.IsExport)
+                {
+                    if (!stub.HasValue)
+                    {
+                        Logger.WriteLog(LogType.Error,
+                            string.Format("节点{0}的参数{1}没有指定数值",
+                            _Id, param.Id));
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (stub.Supply == ParamPoint.Null)
+                    {
+                        Logger.WriteLog(LogType.Error,
+                            string.Format("节点{0}的参数{1}没有关联参数供给",
+                            _Id, param.Id));
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 
         public override void Start()
         {
-            var lib = Runtime.Library.Load(_Function.Library.Path);
-            lib.Mount();
-            var invoker = lib.CreateInvoker(_Function.Id);
+            var library = Runtime.Library.Load(_Function.Library.Path);
+            library.Mount();
+            var invoker = library.CreateInvoker(_Function.Id);
             Attach["Invoker"] = invoker;
+            var envelope = invoker.Envelope;
+            foreach(var stub in ParamStubs)
+            {
+                var param = stub.Prototype;
+                if (param.Mode == ParamMode.Out)
+                    continue;
+                if (!stub.IsExport)
+                {
+                    var stub_supply = Parent.FindParamStub(stub.Supply);
+                    stub.Value = stub_supply.Value;
+                }
+                envelope.Write(stub.Prototype.Id, stub.Value);
+            }
             bool ret = invoker.Start();
             Logger.WriteLog(LogType.Event,
                 string.Format("节点{0}的功能{1}启动",
@@ -83,18 +122,31 @@ namespace Vapula.Flow
             var invoker = Attach["Invoker"] as Invoker;
             while (invoker.Context.State != State.Idle)
                 Thread.Sleep(50);
-            foreach (var stub in ParamStubs)
+            var ret = invoker.Context.ReturnCode;
+            if (ret == ReturnCode.Normal) 
             {
-                var param = stub.Prototype;
-                if (param.Mode != ParamMode.In)
+                foreach (var stub in ParamStubs)
                 {
-                    stub.Value = invoker.Envelope.Read(param.Id);
-                    Logger.WriteLog(LogType.Debug,
-                        string.Format("节点{0}的参数{1}的值为{2}",
-                            stub.Parent.Id,
-                            param.Name,
-                            invoker.Envelope.Read(param.Id)));
+                    var param = stub.Prototype;
+                    if (param.Mode != ParamMode.In)
+                    {
+                        stub.Value = invoker.Envelope.Read(param.Id);
+                        Logger.WriteLog(LogType.Debug,
+                            string.Format("节点{0}的参数{1}的值为{2}",
+                                Id, param.Name,
+                                invoker.Envelope.Read(param.Id)));
+                    }
                 }
+            }
+            else if (ret == ReturnCode.Error)
+            {
+                Logger.WriteLog(LogType.Debug,
+                    string.Format("节点{0}执行错误", Id));
+            }
+            else if (ret == ReturnCode.NullTask) 
+            {
+                Logger.WriteLog(LogType.Debug,
+                    string.Format("节点{0}调用具体功能前返回", Id));
             }
         }
     }

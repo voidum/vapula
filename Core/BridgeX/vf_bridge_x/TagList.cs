@@ -58,7 +58,8 @@ namespace Vapula.Model
             {
                 var xe = new XElement("tag",
                     new XAttribute("key", kvp.Key),
-                    kvp.Value.ToString());
+                    kvp.Value == null ? "" : kvp.Value.ToString());
+                xml.Add(xe);
             }
             return xml;
         }

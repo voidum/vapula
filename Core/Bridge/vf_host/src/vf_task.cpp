@@ -90,7 +90,10 @@ namespace vapula
 		}
 		delete driver_id;
 
-		cstr8 dir = xml::ValueCh8(xe_target->first_node("dir"));
+		cstr8 dir_utf8 = xml::ValueCh8(xe_target->first_node("dir"));
+		cstr8 dir = str::EncodeCh8(dir_utf8, _vf_msg_cp, null);
+		delete dir_utf8;
+
 		cstr8 lib = xml::ValueCh8(xe_target->first_node("lib"));
 		string str_path = dir;
 		str_path += lib;

@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.Grp2 = new System.Windows.Forms.GroupBox();
+            this.LsvSupply = new System.Windows.Forms.ListView();
+            this.ColhSupplyId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColhSupplyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColhSupplyType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.LblSource = new System.Windows.Forms.Label();
+            this.ChbxOptional = new System.Windows.Forms.CheckBox();
             this.ChbxExport = new System.Windows.Forms.CheckBox();
             this.TbxDescription = new System.Windows.Forms.TextBox();
             this.Grp1 = new System.Windows.Forms.GroupBox();
@@ -36,18 +42,14 @@
             this.ColhTargetId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhTargetName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhTargetType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ChbxOptional = new System.Windows.Forms.CheckBox();
-            this.LblSource = new System.Windows.Forms.Label();
-            this.LsvSupply = new System.Windows.Forms.ListView();
-            this.ColhSupplyId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColhSupplyName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColhSupplyType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.BtSetValue = new System.Windows.Forms.Button();
             this.Grp2.SuspendLayout();
             this.Grp1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Grp2
             // 
+            this.Grp2.Controls.Add(this.BtSetValue);
             this.Grp2.Controls.Add(this.LsvSupply);
             this.Grp2.Controls.Add(this.LblSource);
             this.Grp2.Controls.Add(this.ChbxOptional);
@@ -60,10 +62,59 @@
             this.Grp2.TabStop = false;
             this.Grp2.Text = "配置";
             // 
+            // LsvSupply
+            // 
+            this.LsvSupply.CheckBoxes = true;
+            this.LsvSupply.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ColhSupplyId,
+            this.ColhSupplyName,
+            this.ColhSupplyType});
+            this.LsvSupply.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LsvSupply.Font = new System.Drawing.Font("微软雅黑", 9F);
+            this.LsvSupply.FullRowSelect = true;
+            this.LsvSupply.Location = new System.Drawing.Point(20, 119);
+            this.LsvSupply.Name = "LsvSupply";
+            this.LsvSupply.Size = new System.Drawing.Size(225, 211);
+            this.LsvSupply.TabIndex = 42;
+            this.LsvSupply.UseCompatibleStateImageBehavior = false;
+            this.LsvSupply.View = System.Windows.Forms.View.Details;
+            this.LsvSupply.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LsvSupply_ItemChecked);
+            // 
+            // ColhSupplyId
+            // 
+            this.ColhSupplyId.Text = "标识";
+            // 
+            // ColhSupplyName
+            // 
+            this.ColhSupplyName.Text = "名称";
+            // 
+            // ColhSupplyType
+            // 
+            this.ColhSupplyType.Text = "类型";
+            // 
+            // LblSource
+            // 
+            this.LblSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this.LblSource.Location = new System.Drawing.Point(20, 89);
+            this.LblSource.Name = "LblSource";
+            this.LblSource.Size = new System.Drawing.Size(225, 30);
+            this.LblSource.TabIndex = 41;
+            this.LblSource.Text = "映射以下参数：";
+            this.LblSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ChbxOptional
+            // 
+            this.ChbxOptional.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ChbxOptional.Location = new System.Drawing.Point(20, 59);
+            this.ChbxOptional.Name = "ChbxOptional";
+            this.ChbxOptional.Size = new System.Drawing.Size(225, 30);
+            this.ChbxOptional.TabIndex = 39;
+            this.ChbxOptional.Text = "标记为可选参数";
+            this.ChbxOptional.UseVisualStyleBackColor = true;
+            this.ChbxOptional.CheckedChanged += new System.EventHandler(this.ChbxOptional_CheckedChanged);
+            // 
             // ChbxExport
             // 
-            this.ChbxExport.Checked = true;
-            this.ChbxExport.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ChbxExport.Dock = System.Windows.Forms.DockStyle.Top;
             this.ChbxExport.Location = new System.Drawing.Point(20, 29);
             this.ChbxExport.Name = "ChbxExport";
@@ -126,56 +177,15 @@
             // 
             this.ColhTargetType.Text = "类型";
             // 
-            // ChbxOptional
+            // BtSetValue
             // 
-            this.ChbxOptional.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ChbxOptional.Location = new System.Drawing.Point(20, 59);
-            this.ChbxOptional.Name = "ChbxOptional";
-            this.ChbxOptional.Size = new System.Drawing.Size(225, 30);
-            this.ChbxOptional.TabIndex = 39;
-            this.ChbxOptional.Text = "标记为可选参数";
-            this.ChbxOptional.UseVisualStyleBackColor = true;
-            this.ChbxOptional.CheckedChanged += new System.EventHandler(this.ChbxOptional_CheckedChanged);
-            // 
-            // LblSource
-            // 
-            this.LblSource.Dock = System.Windows.Forms.DockStyle.Top;
-            this.LblSource.Location = new System.Drawing.Point(20, 89);
-            this.LblSource.Name = "LblSource";
-            this.LblSource.Size = new System.Drawing.Size(225, 30);
-            this.LblSource.TabIndex = 41;
-            this.LblSource.Text = "映射以下参数：";
-            this.LblSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LsvSupply
-            // 
-            this.LsvSupply.CheckBoxes = true;
-            this.LsvSupply.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ColhSupplyId,
-            this.ColhSupplyName,
-            this.ColhSupplyType});
-            this.LsvSupply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LsvSupply.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.LsvSupply.FullRowSelect = true;
-            this.LsvSupply.Location = new System.Drawing.Point(20, 119);
-            this.LsvSupply.Name = "LsvSupply";
-            this.LsvSupply.Size = new System.Drawing.Size(225, 211);
-            this.LsvSupply.TabIndex = 42;
-            this.LsvSupply.UseCompatibleStateImageBehavior = false;
-            this.LsvSupply.View = System.Windows.Forms.View.Details;
-            this.LsvSupply.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.LsvSupply_ItemChecked);
-            // 
-            // ColhSupplyId
-            // 
-            this.ColhSupplyId.Text = "标识";
-            // 
-            // ColhSupplyName
-            // 
-            this.ColhSupplyName.Text = "名称";
-            // 
-            // ColhSupplyType
-            // 
-            this.ColhSupplyType.Text = "类型";
+            this.BtSetValue.Location = new System.Drawing.Point(145, 61);
+            this.BtSetValue.Name = "BtSetValue";
+            this.BtSetValue.Size = new System.Drawing.Size(100, 25);
+            this.BtSetValue.TabIndex = 43;
+            this.BtSetValue.Text = "设置参数值...";
+            this.BtSetValue.UseVisualStyleBackColor = true;
+            this.BtSetValue.Click += new System.EventHandler(this.BtSetValue_Click);
             // 
             // UctData
             // 
@@ -208,6 +218,7 @@
         private System.Windows.Forms.ColumnHeader ColhSupplyType;
         private System.Windows.Forms.Label LblSource;
         private System.Windows.Forms.CheckBox ChbxOptional;
+        private System.Windows.Forms.Button BtSetValue;
 
 
 

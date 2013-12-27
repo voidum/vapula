@@ -42,6 +42,7 @@
             this.BtOK.TabIndex = 0;
             this.BtOK.Text = "确认";
             this.BtOK.UseVisualStyleBackColor = true;
+            this.BtOK.Click += new System.EventHandler(this.BtOK_Click);
             // 
             // BtCancel
             // 
@@ -52,6 +53,7 @@
             this.BtCancel.TabIndex = 1;
             this.BtCancel.Text = "取消";
             this.BtCancel.UseVisualStyleBackColor = true;
+            this.BtCancel.Click += new System.EventHandler(this.BtCancel_Click);
             // 
             // label1
             // 
@@ -72,6 +74,7 @@
             this.TbxValue.Name = "TbxValue";
             this.TbxValue.Size = new System.Drawing.Size(360, 96);
             this.TbxValue.TabIndex = 4;
+            this.TbxValue.WordWrap = false;
             // 
             // FrmParamValue
             // 

@@ -65,7 +65,6 @@ namespace Vapula.Model
         public XElement ToXML()
         {
             XElement xml = new XElement("function",
-                new XElement("tags"),
                 new XElement("params"),
                 _Tags.ToXML(),
                 new XAttribute("id", Id));

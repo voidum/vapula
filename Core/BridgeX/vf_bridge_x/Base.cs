@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Vapula
 {
@@ -7,7 +8,7 @@ namespace Vapula
     /// </summary>
     public enum DataType
     {
-        Pointer = 0,
+        Object = 0,
 	    Int8 = 1,
 	    Int16 = 2,
 	    Int32 = 3,
@@ -45,6 +46,14 @@ namespace Vapula
         public static string AppDir
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
+        /// <summary>
+        /// 获取类型所在程序集的加载目录
+        /// </summary>
+        public static string GetTypeDir(Type type)
+        {
+            return Path.GetDirectoryName(type.Assembly.Location);
         }
 
         /// <summary>

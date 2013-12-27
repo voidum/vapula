@@ -53,7 +53,7 @@ namespace Vapula.Designer
                 Brushes.Black, 
                 Left + 2, Top + 2);
 
-            string text = (string)SyncTarget.Sync("get-text", null);
+            string text = (string)SyncTarget.Sync("get-name", null);
             //text = text.Length > 4 ? text.Substring(0, 2) + "..." : text;
 
             float text_width = g.MeasureString(text, _Cache.GetFont("text")).Width;

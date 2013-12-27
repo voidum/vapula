@@ -35,6 +35,8 @@ namespace Vapula.Designer
                 }
             }
             TbxDescription.Text = "";
+            ChbxOptional.Enabled = false;
+            BtSetValue.Enabled = false;
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -45,6 +47,8 @@ namespace Vapula.Designer
             Grp2.Width = Grp1.Width = width / 2 - 40;
             Grp2.Left = Grp1.Right + 25;
             Grp2.Height = Grp1.Height = height - 60;
+            BtSetValue.Left = LsvSupply.Right - BtSetValue.Width;
+            BtSetValue.Top = ChbxOptional.Top;
             ColhTargetId.Width = (int)(LsvTarget.Width * 0.15);
             ColhTargetName.Width = (int)(LsvTarget.Width * 0.65);
             ColhTargetType.Width = (int)(LsvTarget.Width * 0.2);
@@ -126,13 +130,12 @@ namespace Vapula.Designer
             if(ChbxOptional.Checked)
             {
                 stub_target.IsOptional = true;
-                var dlg = new FrmParamValue();
-                dlg.ShowDialog();
-                //TODO: set value
+                BtSetValue.Enabled = true;
             }
             else
             {
                 stub_target.IsOptional = false;
+                BtSetValue.Enabled = false;
                 stub_target.Value = null;
             }
         }
@@ -162,6 +165,18 @@ namespace Vapula.Designer
                     return;
                 stub_target.Supply = ParamPoint.Null;
             }
+        }
+
+        private void BtSetValue_Click(object sender, EventArgs e)
+        {
+            if (LsvTarget.SelectedItems.Count != 1)
+                return;
+            var lvi_target = LsvTarget.SelectedItems[0];
+            var stub_target = lvi_target.Tag as ParamStub;
+            var dlg = new FrmParamValue(stub_target.Prototype.Type);
+            dlg.Value = stub_target.Value;
+            if (dlg.ShowDialog() == DialogResult.OK)
+                stub_target.Value = dlg.Value;
         }
     }
 }

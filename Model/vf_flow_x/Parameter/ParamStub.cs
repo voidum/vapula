@@ -21,7 +21,7 @@ namespace Vapula.Flow
             = null;
         private Parameter _Prototype
             = null;
-        private object _Value
+        private string _Value
             = null;
         #endregion
 
@@ -66,13 +66,13 @@ namespace Vapula.Flow
         /// </summary>
         public bool HasValue 
         {
-            get { return _Value != null; }
+            get { return !string.IsNullOrWhiteSpace(_Value); }
         }
 
         /// <summary>
         /// 获取参数值
         /// </summary>
-        public object Value
+        public string Value
         {
             get { return _Value; }
             set { _Value = value; }
