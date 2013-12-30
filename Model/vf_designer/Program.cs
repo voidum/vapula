@@ -21,18 +21,21 @@ namespace Vapula.Designer
             if (!app.Config.Load(Path.Combine(
                 Application.StartupPath, "designer.config")))
             {
-                MessageBox.Show("加载Designer配置失败。");
+                MessageBox.Show("加载模型设计器配置失败。");
                 return;
             }
-            if (!app.LibManager.Load(Path.Combine(
+            if (!app.LibraryHub.Load(Path.Combine(
                 Application.StartupPath, app.Config["LibraryList"])))
             {
                 MessageBox.Show("加载组件库清单失败。");
                 return;
             }
-
-            app.FormMain.Show();
-            
+            app.WindowHub.Add(new FrmToolbox());
+            app.WindowHub.Add(new FrmLog());
+            app.WindowHub.Add(new FrmDebug());
+            app.WindowHub.Add(new FrmWorkspace());
+            app.WindowHub.Add(new FrmStage());
+            app.MainWindow.Show();
             Application.Run();
         }
 

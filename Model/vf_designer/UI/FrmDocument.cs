@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
 using Vapula.Flow;
-using xDockPanel;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
     public partial class FrmDocument : DockContent
     {
-        private AppData App = AppData.Instance;
+        private AppData _App = AppData.Instance;
 
         UctGraph _UctGraph = new UctGraph();
         UctData _UctData = new UctData();
@@ -28,12 +28,14 @@ namespace Vapula.Designer
 
         private void MnuDebugCanvas_Click(object sender, EventArgs e)
         {
-            App.FormDebug.SelectObject(_UctGraph.Canvas);
+            var dlg = _App.WindowHub["debug"] as FrmDebug;
+            dlg.SelectObject(_UctGraph.Canvas);
         }
 
         private void MnuDebugGraph_Click(object sender, EventArgs e)
         {
-            App.FormDebug.SelectObject(_UctGraph.Graph);
+            var dlg = _App.WindowHub["debug"] as FrmDebug;
+            dlg.SelectObject(_UctGraph.Graph);
         }
 
         private void CtrlTab_SelectedIndexChanged(object sender, EventArgs e)

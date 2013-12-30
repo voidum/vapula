@@ -1,9 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmDebug : DockContent, IWindow
+    public partial class FrmWorkspace : DockContent, IWindow
     {
         private WindowHub.State _State;
 
@@ -12,19 +13,14 @@ namespace Vapula.Designer
             get { return AppData.Instance; }
         }
 
-        public FrmDebug()
+        public FrmWorkspace()
         {
             InitializeComponent();
         }
 
-        public void SelectObject(object obj)
-        {
-            property.SelectedObject = obj;
-        }
-
         public string Id
         {
-            get { return "debug"; }
+            get { return "workspace"; }
         }
 
         public WindowHub.State State
@@ -35,13 +31,13 @@ namespace Vapula.Designer
                 if (_State == value)
                     return;
                 if (value == WindowHub.State.Visible)
-                    App.MainWindow.UI_ShowWindow(this, DockState.DockRightAutoHide);
+                    App.MainWindow.UI_ShowWindow(this, DockState.DockRight);
                 else Hide();
                 _State = value;
             }
         }
 
-        private void FrmDebug_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmWorkspace_FormClosing(object sender, FormClosingEventArgs e)
         {
             State = WindowHub.State.Hidden;
             e.Cancel = true;

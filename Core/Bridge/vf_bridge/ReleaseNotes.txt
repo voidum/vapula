@@ -1,0 +1,53 @@
+vBEFORE(from:1)
+
+=)support context
+=)=)function state (return code, progress, state)
+=)=)thread safety
+
+=)support envelope
+=)=)value-type data in/out
+
+=)support executor
+=)=)multi-thread invoke (start, stop)
+
+=)support pipe
+=)=)cross-process data
+
+
+vBEFORE(from:2.0.6.2)
+
+=)support string encoding by ICU
+=)=)UTF-8 encoding for message
+
+=)support driver
+=)=)load any runtime during running
+
++)improve pipe
++)=)exact encoding
++)=)exact protocol
+
++)improve context
++)=)support control code
+
++)improve envelope
++)=)support any data type
++)=)provide ways to operate array
+*)=)storage all data in heap
+
+*)change executor
+=)=)use "invoker"
+=)=)support any entry name
+
+*)change namespace
+=)=)use "vapula", "vfe", "vf"
+
+
+v2.1.0.0 [PLAN]
+
+=)support stack
+=)=)global vapula object storage
+=)=)support AOP
+=)=)support AOP plugin
+
+=)support logger
+=)support exception

@@ -45,13 +45,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(254, 412);
             this.Controls.Add(this.property);
-            this.DockAreas = ((xDockPanel.DockAreas)(((((xDockPanel.DockAreas.Float | xDockPanel.DockAreas.Left) 
-            | xDockPanel.DockAreas.Right) 
-            | xDockPanel.DockAreas.Top) 
-            | xDockPanel.DockAreas.Bottom)));
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmDebug";
             this.Text = "属性调试器";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDebug_FormClosing);
             this.ResumeLayout(false);
 
         }

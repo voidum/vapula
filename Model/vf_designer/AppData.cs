@@ -6,7 +6,7 @@ namespace Vapula.Designer
 {
     public class AppData
     {
-        #region 单例
+        #region 实例
         private static AppData _Instance = null;
         public static AppData Instance
         {
@@ -21,11 +21,9 @@ namespace Vapula.Designer
 
         #region 字段
         private AppConfig _Config = null;
-        private LibraryHub _LibManager = null;
-        private FrmMain _FormMain = null;
-        private FrmToolbox _FormToolbox = null;
-        private FrmDebug _FormDebug = null;
-        private FrmLog _FormLog = null;
+        private LibraryHub _LibraryHub = null;
+        private WindowHub _WindowHub = null;
+        private MainWindow _MainWindow = null;
         #endregion
 
         #region 属性
@@ -39,13 +37,23 @@ namespace Vapula.Designer
             }
         }
 
-        public LibraryHub LibManager
+        public LibraryHub LibraryHub
         {
             get
             {
-                if (_LibManager == null)
-                    _LibManager = new LibraryHub();
-                return _LibManager;
+                if (_LibraryHub == null)
+                    _LibraryHub = new LibraryHub();
+                return _LibraryHub;
+            }
+        }
+
+        public WindowHub WindowHub
+        {
+            get
+            {
+                if (_WindowHub == null)
+                    _WindowHub = new WindowHub();
+                return _WindowHub;
             }
         }
 
@@ -71,43 +79,13 @@ namespace Vapula.Designer
             }
         }
 
-        public FrmMain FormMain
+        public MainWindow MainWindow
         {
             get
             {
-                if (_FormMain == null)
-                    _FormMain = new FrmMain();
-                return _FormMain;
-            }
-        }
-
-        public FrmToolbox FormToolbox
-        {
-            get
-            {
-                if (_FormToolbox == null)
-                    _FormToolbox = new FrmToolbox();
-                return _FormToolbox;
-            }
-        }
-
-        public FrmDebug FormDebug
-        {
-            get
-            {
-                if (_FormDebug == null)
-                    _FormDebug = new FrmDebug();
-                return _FormDebug;
-            }
-        }
-
-        public FrmLog FormLog
-        {
-            get
-            {
-                if (_FormLog == null)
-                    _FormLog = new FrmLog();
-                return _FormLog;
+                if (_MainWindow == null)
+                    _MainWindow = new MainWindow();
+                return _MainWindow;
             }
         }
         #endregion

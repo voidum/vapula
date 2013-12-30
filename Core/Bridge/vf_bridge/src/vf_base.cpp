@@ -36,7 +36,7 @@ namespace vapula
 		const time_t t = time(null);
 		oss<<"VAPULA_"<<t<<"_";
 		srand((uint32)time(null));
-		for(int8 i=0; i<5; i++)
+		for(int8 i=0; i<8; i++)
 		{
 			int rnd = rand() % 10;
 			oss<<rnd;

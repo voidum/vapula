@@ -24,7 +24,8 @@ namespace Vapula.Designer
 
         private Node Data_GetNodeByLvi(ListViewItem lvi)
         {
-            if (_App.FormToolbox.IsAdvancedTool(lvi))
+            var dlg = _App.WindowHub["toolbox"] as FrmToolbox;
+            if (dlg.IsAdvancedTool(lvi))
             {
                 string type = lvi.Tag as string;
                 Node node = null;
@@ -142,11 +143,15 @@ namespace Vapula.Designer
             {
                 var entity = _Canvas.SelectedEntities[0];
                 if (entity != null)
-                    AppData.Instance.FormDebug.SelectObject(entity.SyncTarget);
+                {
+                    var dlg = _App.WindowHub["debug"] as FrmDebug;
+                    dlg.SelectObject(entity.SyncTarget);
+                }
             }
             else
             {
-                AppData.Instance.FormDebug.SelectObject(null);
+                var dlg = _App.WindowHub["debug"] as FrmDebug;
+                dlg.SelectObject(null);
             }
         }
 

@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Windows.Forms;
 using Vapula.Helper;
-using xDockPanel;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmLog : DockContent, ILogger
+    public partial class FrmLog : DockContent, ILogger, IWindow
     {
+        private WindowHub.State _State;
+
+        private AppData App
+        {
+            get { return AppData.Instance; }
+        }
+
         public FrmLog()
         {
             InitializeComponent();
@@ -48,6 +55,31 @@ namespace Vapula.Designer
                 = LsvLog.Width 
                 - ColhLevel.Width 
                 - ColhTime.Width - 20;
+        }
+
+        public string Id
+        {
+            get { return "logger"; }
+        }
+
+        public WindowHub.State State
+        {
+            get { return _State; }
+            set
+            {
+                if (_State == value)
+                    return;
+                if (value == WindowHub.State.Visible)
+                    App.MainWindow.UI_ShowWindow(this, DockState.DockBottomAutoHide);
+                else Hide();
+                _State = value;
+            }
+        }
+
+        private void FrmLog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            State = WindowHub.State.Hidden;
+            e.Cancel = true;
         }
     }
 }

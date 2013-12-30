@@ -102,6 +102,9 @@
     <ClInclude Include="include\vf_token.h">
       <Filter>头文件\utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_stack.h">
+      <Filter>头文件\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -155,10 +158,18 @@
     <ClCompile Include="src\vf_bridge_c.cpp">
       <Filter>源文件\sdk</Filter>
     </ClCompile>
+    <ClCompile Include="src\vf_stack.cpp">
+      <Filter>源文件\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReleaseNotes.txt">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

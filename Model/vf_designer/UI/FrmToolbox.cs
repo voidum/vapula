@@ -3,19 +3,26 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Irisecol;
-using xDockPanel;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmToolbox : DockContent
+    public partial class FrmToolbox : DockContent, IWindow
     {
+        private WindowHub.State _State;
+
+        private AppData App
+        {
+            get { return AppData.Instance; }
+        }
+
         private string AppResDir
         {
             get 
             {
                 string dir = Path.Combine(
                     Application.StartupPath,
-                    AppData.Instance.Config["PathResource"]);
+                    App.Config["PathResource"]);
                 return dir;
             }
         }
@@ -27,8 +34,8 @@ namespace Vapula.Designer
         {
             foreach (ListViewGroup lvg in LsvTools.Groups)
                 LsvTools.SetGroupState(lvg,
-                    (collapse ? ListViewGroupState.Collapsed : ListViewGroupState.Normal) |
-                    ListViewGroupState.Collapsible);
+                    (collapse ? IricListView.GroupState.Collapsed : IricListView.GroupState.Normal) |
+                    IricListView.GroupState.Collapsible);
         }
 
         private void FormLayout_LoadCommonRes()
@@ -82,6 +89,31 @@ namespace Vapula.Designer
                 LsvTools.View = View.SmallIcon;
             else
                 LsvTools.View = View.LargeIcon;
+        }
+
+        public string Id
+        {
+            get { return "toolbox"; }
+        }
+
+        public WindowHub.State State
+        {
+            get { return _State; }
+            set
+            {
+                if (_State == value)
+                    return;
+                if (value == WindowHub.State.Visible)
+                    App.MainWindow.UI_ShowWindow(this, DockState.DockLeft);
+                else Hide();
+                _State = value;
+            }
+        }
+
+        private void FrmToolbox_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            State = WindowHub.State.Hidden;
+            e.Cancel = true;
         }
     }
 }

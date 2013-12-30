@@ -114,7 +114,6 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(516, 346);
             this.Controls.Add(this.CtrlTab);
-            this.DockAreas = ((xDockPanel.DockAreas)((xDockPanel.DockAreas.Float | xDockPanel.DockAreas.Document)));
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmDocument";
             this.ctxmenu_doc.ResumeLayout(false);

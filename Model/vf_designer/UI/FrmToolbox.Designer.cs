@@ -31,7 +31,7 @@ namespace Vapula.Designer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.LsvTools = new Irisecol.GroupListView();
+            this.LsvTools = new Irisecol.IricListView();
             this.ctxmenubar = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MnuExpandGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuCollapseGroup = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,13 +110,10 @@ namespace Vapula.Designer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(254, 412);
             this.Controls.Add(this.LsvTools);
-            this.DockAreas = ((xDockPanel.DockAreas)(((((xDockPanel.DockAreas.Float | xDockPanel.DockAreas.Left) 
-            | xDockPanel.DockAreas.Right) 
-            | xDockPanel.DockAreas.Top) 
-            | xDockPanel.DockAreas.Bottom)));
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmToolbox";
             this.Text = "组件箱";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmToolbox_FormClosing);
             this.Load += new System.EventHandler(this.FrmToolbox_Load);
             this.ctxmenubar.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -125,7 +122,7 @@ namespace Vapula.Designer
 
         #endregion
 
-        private GroupListView LsvTools;
+        private IricListView LsvTools;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ContextMenuStrip ctxmenubar;
         private System.Windows.Forms.ToolStripMenuItem MnuCollapseGroup;

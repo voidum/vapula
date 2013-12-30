@@ -14,8 +14,8 @@ namespace Vapula.Designer
             var lvg = new ListViewGroup("!expert", "专家工具");
             LsvTools.Groups.Add(lvg);
             LsvTools.SetGroupState(lvg,
-                ListViewGroupState.Normal |
-                ListViewGroupState.Collapsible);
+                IricListView.GroupState.Normal |
+                IricListView.GroupState.Collapsible);
             
             string path = Path.Combine(
                 Application.StartupPath, "advtool.list");
@@ -39,8 +39,8 @@ namespace Vapula.Designer
 
         private void FormLayout_LoadLibraries()
         {
-            var mng = AppData.Instance.LibManager;
-            var libs = mng.Libs;
+            var hub = App.LibraryHub;
+            var libs = hub.Libs;
             foreach (var lib in libs)
             {
                 string lvg_header =
@@ -48,14 +48,14 @@ namespace Vapula.Designer
                 var lvg = new ListViewGroup(lib.Id, lvg_header);
                 LsvTools.Groups.Add(lvg);
                 LsvTools.SetGroupState(lvg,
-                    ListViewGroupState.Normal |
-                    ListViewGroupState.Collapsible);
+                    IricListView.GroupState.Normal |
+                    IricListView.GroupState.Collapsible);
 
                 foreach (var func in lib.Functions)
                 {
                     int idx = func.Id - 1;
                     string path_pre = Path.Combine(
-                        AppData.Instance.PathResource,
+                        App.PathResource,
                         func.Library.Id + "." + func.Id.ToString());
                     string path1 = path_pre + "_l.png";
                     string path2 = path_pre + "_s.png";

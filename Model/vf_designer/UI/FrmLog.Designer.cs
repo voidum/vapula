@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.toolbar = new System.Windows.Forms.ToolStrip();
+            this.BtClear = new System.Windows.Forms.ToolStripButton();
+            this.BtSave = new System.Windows.Forms.ToolStripButton();
             this.LsvLog = new System.Windows.Forms.ListView();
             this.ColhLevel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColhContent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.BtClear = new System.Windows.Forms.ToolStripButton();
-            this.BtSave = new System.Windows.Forms.ToolStripButton();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +50,25 @@
             this.toolbar.Name = "toolbar";
             this.toolbar.Size = new System.Drawing.Size(24, 262);
             this.toolbar.TabIndex = 1;
+            // 
+            // BtClear
+            // 
+            this.BtClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtClear.Image = global::Vapula.Designer.Properties.Resources.broom_s;
+            this.BtClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtClear.Name = "BtClear";
+            this.BtClear.Size = new System.Drawing.Size(21, 20);
+            this.BtClear.Text = "清理";
+            this.BtClear.Click += new System.EventHandler(this.BtClear_Click);
+            // 
+            // BtSave
+            // 
+            this.BtSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtSave.Image = global::Vapula.Designer.Properties.Resources.disk_s;
+            this.BtSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtSave.Name = "BtSave";
+            this.BtSave.Size = new System.Drawing.Size(21, 20);
+            this.BtSave.Text = "保存";
             // 
             // LsvLog
             // 
@@ -81,25 +100,6 @@
             this.ColhContent.Text = "内容";
             this.ColhContent.Width = 180;
             // 
-            // BtClear
-            // 
-            this.BtClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtClear.Image = global::Vapula.Designer.Properties.Resources.broom_s;
-            this.BtClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtClear.Name = "BtClear";
-            this.BtClear.Size = new System.Drawing.Size(29, 20);
-            this.BtClear.Text = "清理";
-            this.BtClear.Click += new System.EventHandler(this.BtClear_Click);
-            // 
-            // BtSave
-            // 
-            this.BtSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BtSave.Image = global::Vapula.Designer.Properties.Resources.disk_s;
-            this.BtSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtSave.Name = "BtSave";
-            this.BtSave.Size = new System.Drawing.Size(29, 20);
-            this.BtSave.Text = "保存";
-            // 
             // FrmLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -107,10 +107,10 @@
             this.ClientSize = new System.Drawing.Size(344, 262);
             this.Controls.Add(this.LsvLog);
             this.Controls.Add(this.toolbar);
-            this.DockAreas = ((xDockPanel.DockAreas)((xDockPanel.DockAreas.Top | xDockPanel.DockAreas.Bottom)));
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmLog";
             this.Text = "日志";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLog_FormClosing);
             this.Resize += new System.EventHandler(this.FrmLog_Resize);
             this.toolbar.ResumeLayout(false);
             this.toolbar.PerformLayout();
