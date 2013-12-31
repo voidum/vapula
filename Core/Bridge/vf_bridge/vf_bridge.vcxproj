@@ -102,13 +102,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\vf_aspect.h" />
     <ClInclude Include="include\vf_base.h" />
     <ClInclude Include="include\vf_bridge_c.h" />
-    <ClInclude Include="include\vf_candy.h" />
+    <ClInclude Include="include\vf_utility.h" />
     <ClInclude Include="include\vf_dev_lib.h" />
     <ClInclude Include="include\vf_const.h" />
     <ClInclude Include="include\vf_library.h" />
-    <ClInclude Include="include\vf_config.h" />
+    <ClInclude Include="include\vf_setting.h" />
     <ClInclude Include="include\vf_context.h" />
     <ClInclude Include="include\vf_dev_drv.h" />
     <ClInclude Include="include\vf_envelope.h" />
@@ -120,16 +121,15 @@
     <ClInclude Include="include\vf_string.h" />
     <ClInclude Include="include\vf_time.h" />
     <ClInclude Include="include\vf_token.h" />
-    <ClInclude Include="include\vf_translator.h" />
     <ClInclude Include="include\vf_xml.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\vf_base.cpp" />
     <ClCompile Include="src\vf_bridge_c.cpp" />
-    <ClCompile Include="src\vf_candy.cpp" />
+    <ClCompile Include="src\vf_utility.cpp" />
     <ClCompile Include="src\vf_library.cpp" />
-    <ClCompile Include="src\vf_config.cpp" />
+    <ClCompile Include="src\vf_setting.cpp" />
     <ClCompile Include="src\vf_context.cpp" />
     <ClCompile Include="src\vf_driver.cpp" />
     <ClCompile Include="src\vf_envelope.cpp" />
@@ -140,7 +140,6 @@
     <ClCompile Include="src\vf_string.cpp" />
     <ClCompile Include="src\vf_time.cpp" />
     <ClCompile Include="src\vf_token.cpp" />
-    <ClCompile Include="src\vf_translator.cpp" />
     <ClCompile Include="src\vf_xml.cpp" />
   </ItemGroup>
   <ItemGroup>

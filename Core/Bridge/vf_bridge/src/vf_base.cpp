@@ -1,8 +1,111 @@
 #include "vf_base.h"
-#include "vf_config.h"
 
 namespace vapula
 {
+	Uncopiable::Uncopiable() { }
+
+	Uncopiable::~Uncopiable() { }
+
+	Lock::Lock(uint16 a, uint16 b, uint16 c)
+	{
+		_A = a;
+		_B = b;
+		_C = c;
+		_Core = (uint64*)_aligned_malloc(1, sizeof(uint64));
+		InterlockedExchange(_Core, FALSE);
+	}
+
+	Lock::~Lock()
+	{
+		_aligned_free(_Core);
+	}
+
+	Lock* Lock::_CtorLock = new Lock();
+
+	Lock* Lock::GetCtorLock()
+	{
+		return _CtorLock;
+	}
+
+	bool Lock::Enter()
+	{
+		for(uint16 i=0; i<_B; i++)
+		{
+			//1T
+			for(uint16 j=0; j<_A; j++)
+				if(InterlockedExchange(_Core, TRUE) == FALSE)
+					return true;
+			//sleep more time
+			Sleep(_C);
+		}
+		return false;
+	}
+
+	void Lock::Leave()
+	{
+		InterlockedExchange(_Core, FALSE);
+	}
+
+	Once::Once()
+	{
+		_Seal = new byte[1];
+		_Value = null;
+	}
+
+	Once::~Once()
+	{
+		Clear(_Seal, true);
+		Clear(_Value);
+	}
+
+	bool Once::CanSet()
+	{
+		return (_Seal != null);
+	}
+
+	void Once::Set(object data, uint32 size)
+	{
+		if(!CanSet())
+			return;
+		_Value = new byte[size];
+		memcpy(_Value, data, size);
+		Clear(_Seal, true);
+	}
+
+	Flag::Flag()
+	{
+		_Lock = new Lock();
+		_Value = 0;
+	}
+
+	Flag::~Flag()
+	{
+		delete _Lock;
+	}
+
+	void Flag::Enable(int flag)
+	{
+		_Lock->Enter();
+		_Value |= flag;
+		_Lock->Leave();
+	}
+
+	void Flag::Disable(int flag)
+	{
+		int tmp = flag ^ 0xFFFFFFFF;
+		_Lock->Enter();
+		_Value &= tmp;
+		_Lock->Leave();
+	}
+
+	bool Flag::Valid(int flag)
+	{
+		_Lock->Enter();
+		int v = _Value;
+		_Lock->Leave();
+		return ((v & flag) == flag);
+	}
+
 	uint32 GetTypeUnit(int8 type)
 	{
 		switch(type)
@@ -29,14 +132,16 @@ namespace vapula
 		}
 	}
 
-	cstr8 GetLuid()
+	cstr8 GetLUID(bool logo)
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
 		const time_t t = time(null);
-		oss<<"VAPULA_"<<t<<"_";
+		if(logo)
+			oss<<"VAPULA_";
+		oss<<t<<"_";
 		srand((uint32)time(null));
-		for(int8 i=0; i<8; i++)
+		for(int8 i=0; i<16; i++)
 		{
 			int rnd = rand() % 10;
 			oss<<rnd;
@@ -44,90 +149,8 @@ namespace vapula
 		return str::Copy(oss.str().c_str());
 	}
 
-	void ShowMsgbox(cstr8 value, cstr8 caption)
+	cstr8 GetVersion()
 	{
-		Config* config = Config::GetInstance();
-		if(!config->IsSilent())
-			MessageBoxA(null, value, 
-			caption == null ? _vf_bridge : caption, 0);
-	}
-
-	void ShowMsgbox(cstr16 value, cstr16 caption)
-	{
-		Config* config = Config::GetInstance();
-		if(!config->IsSilent())
-			MessageBoxW(null, value,
-				caption == null ? str::ToCh16(_vf_bridge) : caption, 0);
-	}
-
-	cstr8 GetRuntimeDir()
-	{
-		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(mod, path, MAX_PATH);
-		cstr8 path8 = str::ToCh8(path);
-		string str_full = path8;
-		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
-		return ret;
-	}
-
-	cstr8 GetAppName()
-	{
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(null, path, MAX_PATH);
-		cstr8 path8 = str::ToCh8(path);
-		string str_full = path8;
-		string str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
-		return ret;
-	}
-
-	cstr8 GetAppDir()
-	{
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(null, path, MAX_PATH);
-		cstr8 path8 = str::ToCh8(path);
-		string str_full = path8;
-		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
-		return ret;
-	}
-
-	cstr8 GetDirPath(cstr8 path, bool isfile)
-	{
-		if(strlen(path) < 1) 
-			return str::Copy("\\");
-		cstr8 str_fix = str::Replace(path, "/", "\\");
-		string s = str_fix;
-		if(!isfile)
-			s += L'\\';
-		else
-		{
-			uint32 p = s.rfind('\\');
-			if(p == wstring::npos)
-				s = "\\";
-			else if(p != s.size() - 1) 
-				s = s.substr(0, p+1);
-		}
-		delete str_fix;
-		return str::Copy(s.c_str());
-	}
-
-	bool CanOpenRead(cstr8 file)
-	{
-		cstr16 file16 = str::ToCh16(file);
-		HANDLE handle = 
-			CreateFile(file16, 0, 
-				FILE_SHARE_READ, null, 
-				OPEN_EXISTING, null, null);
-		delete file16;
-		if(handle == INVALID_HANDLE_VALUE) 
-			return false;
-		CloseHandle(handle);
-		return true;
+		return "2.0.7.0";
 	}
 }

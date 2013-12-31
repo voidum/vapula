@@ -7,27 +7,37 @@ namespace vapula
 	class Library;
 	class Invoker;
 
-	//驱动基类
+	//driver {base}
 	class VAPULA_API Driver
 	{
 	public:
 		Driver();
 		virtual ~Driver();
 	public:
-		//获取运行环境标识
+		//get runtime id
 		virtual cstr8
 			GetRuntimeId() = 0;
 
-		//创建组件
+		//create library
 		virtual Library*
 			CreateLibrary() = 0;
 
-		//创建调用器
+		//create invoker
 		virtual Invoker*
 			CreateInvoker() = 0;
 	};
 
-	//驱动板
+	//info agent for driver
+	class VAPULA_API DriverInfo
+	{
+	private:
+		cstr8 _Id;
+		HMODULE _Handle;
+	private:
+		Driver* _Driver;
+	};
+
+	//hub for driver
 	class VAPULA_API DriverHub
 	{
 	private:
@@ -37,27 +47,24 @@ namespace vapula
 	private:
 		static DriverHub* _Instance;
 	public:
-		//获取驱动板实例
+		//get instance of DriverHub
 		static DriverHub* GetInstance();
 	private:
-		vector<Driver*> _Drivers;
-		vector<object> _Modules;
-	private:
-		int GetIndex(cstr8 id);
+		vector<DriverInfo*> _DriverInfos;
 	public:
-		//链接驱动
+		//link driver by id
 		bool Link(cstr8 id);
 
-		//踢出驱动
+		//kick out driver by id
 		bool Kick(cstr8 id);
 
-		//踢出所有驱动
+		//kick out all drivers
 		void KickAll();
 	public:
-		//获取驱动
+		//get driver by id
 		Driver* GetDriver(cstr8 id);
 
-		//获取已接驳驱动数量
+		//get count of linked drivers
 		int GetCount();
 	};
 }

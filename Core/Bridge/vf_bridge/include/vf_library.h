@@ -8,7 +8,7 @@ namespace vapula
 	class Invoker;
 	class Driver;
 
-	//组件基类
+	//library {base}
 	class VAPULA_API Library
 	{
 	protected:
@@ -16,42 +16,49 @@ namespace vapula
 	public:
 		virtual ~Library();
 	protected:
-		cstr8 _Dir; //组件目录
-		cstr8 _LibId; //组件标识
-		cstr8 _EntryDpt; //组件入口描述
-		cstr8 _FuncDpt; //组件功能描述
+		//library directory
+		cstr8 _Dir; 
+
+		//library id
+		cstr8 _LibId; 
+
+		//entry descriptor
+		cstr8 _EntryDpt; 
+
+		//function descriptor
+		cstr8 _FuncDpt; 
 	protected:
 		static int _Count;
 	public:
-		//加载指定组件
+		//load library by path
 		static Library* Load(cstr8 path);
 		
-		//获取已装载库数量
+		//get count of mounted libraries
 		static int GetCount();
 	public:
-		//获取当前库标识
+		//get library id
 		cstr8 GetLibraryId();
 
-		//获取入口描述符
+		//get entry descriptor
 		cstr8 GetEntryDpt();
 
-		//创建指定功能的参数信封
+		//create envelope
 		Envelope* CreateEnvelope(int fid);
 
-		//获取指定功能的调用器
+		//create invoker
 		Invoker* CreateInvoker(int fid);
 	public:
-		//获取环境标识
+		//get runtime id
 		virtual cstr8 GetRuntimeId() = 0;
 
-		//获取物理库扩展名
-		//以"."开始
+		//get library file extension name
+		//begin with "."
 		virtual cstr8 GetBinExt() = 0;
 
-		//装载库
+		//mount library
 		virtual bool Mount();
 
-		//卸载库
+		//unmount library
 		virtual void Unmount();
 	};
 }

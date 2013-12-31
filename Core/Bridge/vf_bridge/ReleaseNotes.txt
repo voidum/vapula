@@ -1,26 +1,26 @@
 vBEFORE(from:1)
 
-=)support context
-=)=)function state (return code, progress, state)
-=)=)thread safety
++)support context
++)=)function state (return code, progress, state)
++)=)thread safety
 
-=)support envelope
-=)=)value-type data in/out
++)support envelope
++)=)value-type data in/out
 
-=)support executor
-=)=)multi-thread invoke (start, stop)
++)support executor
++)=)multi-thread invoke (start, stop)
 
-=)support pipe
-=)=)cross-process data
++)support pipe
++)=)cross-process data exchange
 
 
 vBEFORE(from:2.0.6.2)
 
-=)support string encoding by ICU
-=)=)UTF-8 encoding for message
++)support string encoding by ICU
++)=)UTF-8 encoding for message
 
-=)support driver
-=)=)load any runtime during running
++)support driver
++)=)load any runtime during running
 
 +)improve pipe
 +)=)exact encoding
@@ -35,19 +35,32 @@ vBEFORE(from:2.0.6.2)
 *)=)storage all data in heap
 
 *)change executor
-=)=)use "invoker"
+*)=)rename Executor => Invoker
 =)=)support any entry name
 
 *)change namespace
-=)=)use "vapula", "vfe", "vf"
+*)=)use "vapula", "vfe", "vf"
+
+
+v2.0.7.0
+
+-)remove i18n
+*)adjust code structure
++)add Base=>GetVersion
+*)use en-US comment
+*)rename VarAO => Once
+*)rename Config => Settings
+*)fix lock
 
 
 v2.1.0.0 [PLAN]
 
-=)support stack
-=)=)global vapula object storage
-=)=)support AOP
-=)=)support AOP plugin
++)support smart pointer
 
-=)support logger
-=)support exception
++)support stack
++)=)global vapula object storage
++)=)support AOP
++)=)support AOP plugin
+
++)support logger
++)support exception

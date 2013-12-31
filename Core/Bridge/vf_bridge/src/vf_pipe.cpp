@@ -22,7 +22,7 @@ namespace vapula
 		{
 			Clear(_Id);
 			if(ntry++ > 10) return false;
-			_Id = GetLuid();
+			_Id = GetLUID(true);
 			cstr16 tmp = str::ToCh16(_Id);
 			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, vol, tmp);
 			delete tmp;

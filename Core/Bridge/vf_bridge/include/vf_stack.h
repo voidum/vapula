@@ -1,29 +1,45 @@
 #pragma once
 
-#include "vf_candy.h"
+#include "vf_utility.h"
 
 namespace vapula
 {
+	using std::map;
+
 	class Context;
 	class Envelope;
 
-	//∂‘œÛ’ª
+	//stack
 	class VAPULA_API Stack
 	{
 	private:
 		Stack();
 	public:
 		~Stack();
-	private:
-		static Stack* _Instance;
 	public:
 		static Stack* GetInstance();
 	private:
-		vector<cstr8> _Ids;
-		vector<object> _Contexts;
-		vector<object> _Envelopes;
+		Context* _Context;
+		Envelope* _Envelope;
+		vector<Aspect> _Aspects;
 	public:
 		Context* GetContext();
 		Envelope* GetEnvelope();
+	public:
+		Aspect* GetAspect(cstr8 key);
+	};
+
+	//stack hub
+	class VAPULA_API StackHub
+	{
+	private:
+		static StackHub* _Instance;
+	public:
+		static StackHub* GetInstance();
+	private:
+		vector<uint32> _Owners;
+		vector<Stack*> _Stacks;
+	public:
+		Stack* GetStack(uint32 owner);
 	};
 }

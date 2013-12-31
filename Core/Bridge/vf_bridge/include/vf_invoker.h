@@ -7,7 +7,7 @@ namespace vapula
 {
 	class Library;
 
-	//功能调用器
+	//invoker
 	class VAPULA_API Invoker
 	{
 	protected:
@@ -23,31 +23,31 @@ namespace vapula
 		bool _IsSuspend;
 		virtual uint32 WINAPI _ThreadProc();
 	public:
-		//获取功能标识
+		//get function id
 		int GetFunctionId();
 
-		//获取信封
+		//get envelope
 		Envelope* GetEnvelope();
 
-		//获取上下文
+		//get context
 		Context* GetContext();
 	public:
-		//启动
+		//start
 		bool Start();
 
-		//停止
+		//stop
 		void Stop(uint32 wait = 0);
 
-		//暂停
+		//pause
 		void Pause(uint32 wait = 0);
 
-		//恢复
+		//resume
 		void Resume();
 
-		//重启
+		//restart
 		void Restart(uint32 wait = 0);
 	public:
-		//初始化调用器
+		//initialize invoker
 		virtual bool Initialize(Library* lib, int fid); 
 	};
 }
