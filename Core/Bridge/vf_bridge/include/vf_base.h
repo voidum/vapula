@@ -80,12 +80,14 @@ namespace vapula
 
 	//clear target
 	template<typename T>
-	VAPULA_API void Clear(T target, bool isarr = false)
+	void Clear(T target, bool isarr = false)
 	{
 		if(target != null)
 		{
-			if(isarr) delete [] target;
-			else delete target;
+			if(isarr) 
+				delete [] target;
+			else 
+				delete target;
 			target = null;
 		}
 	}

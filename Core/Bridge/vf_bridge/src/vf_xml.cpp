@@ -80,7 +80,7 @@ namespace vapula
 		cstr16 ValueCh16(object src)
 		{
 			cstr8 s8 = ValueCh8(src);
-			cstr16 s16 = str::ToCh16(s8);
+			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
 			delete s8;
 			return s16;
 		}

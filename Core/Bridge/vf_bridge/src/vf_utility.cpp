@@ -58,22 +58,27 @@ namespace vapula
 
 	cstr8 GetDirPath(cstr8 path, bool isfile)
 	{
-		if(strlen(path) < 1) 
+		uint32 len = strlen(path);
+		if(len < 1) 
 			return str::Copy("\\");
-		cstr8 str_fix = str::Replace(path, "/", "\\");
-		string s = str_fix;
+		cstr8 s8_fix = str::Replace(path, "/", "\\");
+		string s = s8_fix;
+		uint32 pos = s.rfind('\\');
 		if(!isfile)
-			s += L'\\';
+		{
+			if(pos == string::npos || len != pos + 1)
+				s += L'\\';
+		}
 		else
 		{
-			uint32 p = s.rfind('\\');
-			if(p == wstring::npos)
+			if(pos == string::npos)
 				s = "\\";
-			else if(p != s.size() - 1) 
-				s = s.substr(0, p+1);
+			else if(pos != s.size() - 1) 
+				s = s.substr(0, pos + 1);
 		}
-		delete str_fix;
-		return str::Copy(s.c_str());
+		cstr8 s8_ret = str::Copy(s.c_str());
+		delete s8_fix;
+		return s8_ret;
 	}
 
 	bool CanOpenRead(cstr8 file)

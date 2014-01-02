@@ -20,10 +20,6 @@ namespace vapula
 			IsSingleton() = 0;
 	};
 
-	class VAPULA_API AspectInfo
-	{
-	};
-
 	//aspect hub
 	class VAPULA_API AspectHub
 	{
@@ -32,9 +28,23 @@ namespace vapula
 	public:
 		static AspectHub* GetInstance();
 	private:
-		vector<cstr8> _Owners;
-		vector<Aspect*> _Stacks;
+		vector<AspectDpt*> _AspectDpts;
+	private:
+		AspectDpt* GetAspectDpt(cstr8 id);
 	public:
-		Stack* GetStack(uint32 owner);
+		//link aspect by path
+		bool Link(cstr8 path);
+
+		//kick out aspect by id
+		void Kick(cstr8 id);
+
+		//kick out all aspects
+		void KickAll();
+	public:
+		//get aspect by id
+		Aspect* GetAspect(cstr8 id);
+
+		//get count of linked aspects
+		int GetCount();
 	};
 }

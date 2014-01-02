@@ -71,37 +71,24 @@ namespace vapula
 
 		cstr8 Replace(cstr8 src, cstr8 from, cstr8 to)
 		{
-			if(src == null || from == null)
-				return null;
-			int len = strlen(from);
-			if(len < 1) 
-				return Copy(src);
-			string str_src = src;
-			string str_dst = "";
-			for(;;)
-			{
-				uint32 pos = str_src.find(from);
-				if(pos != string::npos) 
-				{
-					str_dst += str_src.substr(0, pos);
-					str_dst += to;
-					str_src = str_src.substr(pos + len);
-				}
-				else
-				{
-					str_dst += str_src;
-					break;
-				}
-			}
-			return Copy(str_dst.c_str());
+			cstr16 src16 = ToCh16(src, _vf_msg_cp);
+			cstr16 from16 = ToCh16(from, _vf_msg_cp);
+			cstr16 to16 = ToCh16(to, _vf_msg_cp);
+			cstr16 ret16 = Replace(src16, from16, to16);
+			cstr8 ret = ToCh8(ret16, _vf_msg_cp);
+			delete src16;
+			delete from16;
+			delete to16;
+			delete ret16;
+			return ret;
 		}
 
 		cstr16 Replace(cstr16 src, cstr16 from, cstr16 to)
 		{
 			if(src == null || from == null)
 				return null;
-			int len = wcslen(from);
-			if(len < 1) 
+			int len_from = wcslen(from);
+			if(len_from < 1) 
 				return Copy(src);
 			wstring str_src = src;
 			wstring str_dst = L"";
@@ -112,7 +99,7 @@ namespace vapula
 				{
 					str_dst += str_src.substr(0, p1);
 					str_dst += to;
-					str_src = str_src.substr(p1 + len);
+					str_src = str_src.substr(p1 + len_from);
 				}
 				else
 				{

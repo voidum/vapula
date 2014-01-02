@@ -4,10 +4,9 @@
 
 namespace vapula
 {
-	using std::map;
-
 	class Context;
 	class Envelope;
+	class Aspect;
 
 	//stack
 	class VAPULA_API Stack
@@ -19,13 +18,21 @@ namespace vapula
 	public:
 		static Stack* GetInstance();
 	private:
+		uint32 _Owner;
 		Context* _Context;
 		Envelope* _Envelope;
 		vector<Aspect> _Aspects;
 	public:
+		//get owner of stack
+		uint32 GetOwner();
+
+		//get context in stack
 		Context* GetContext();
+
+		//get envelope in stack
 		Envelope* GetEnvelope();
-	public:
+
+		//get aspect in stack by key
 		Aspect* GetAspect(cstr8 key);
 	};
 
@@ -37,9 +44,8 @@ namespace vapula
 	public:
 		static StackHub* GetInstance();
 	private:
-		vector<uint32> _Owners;
 		vector<Stack*> _Stacks;
 	public:
-		Stack* GetStack(uint32 owner);
+		Stack* GetStack();
 	};
 }
