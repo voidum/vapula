@@ -5,6 +5,7 @@
 namespace vapula
 {
 	class Library;
+	class Aspect;
 	class Invoker;
 	class DriverDpt;
 
@@ -14,14 +15,27 @@ namespace vapula
 	public:
 		Driver();
 		virtual ~Driver();
+
+	protected:
+		object _Handle;
+
 	public:
 		//get runtime id
 		virtual cstr8
 			GetRuntimeId() = 0;
 
+		//get binary extension
+		//e.g. "dll"
+		virtual cstr8
+			GetBinExt() = 0;
+
 		//create library
 		virtual Library*
 			CreateLibrary() = 0;
+
+		//create aspect
+		virtual Aspect*
+			CreateAspect() = 0;
 
 		//create invoker
 		virtual Invoker*

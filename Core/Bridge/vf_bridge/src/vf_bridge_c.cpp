@@ -2,14 +2,17 @@
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
+#include "vf_context.h"
+#include "vf_envelope.h"
 #include "vf_pipe.h"
 
 using namespace vapula;
 
 //Base
 
-void vfeTestBridge()
+cstr8 vfeGetVersion()
 {
+	return GetVersion();
 }
 
 void vfeDeleteObject(object obj)
@@ -48,7 +51,8 @@ void vfeKickAllDrivers()
 
 int vfeGetLibraryCount()
 {
-	return Library::GetCount();
+	LibraryHub* obj = LibraryHub::GetInstance();
+	return obj->GetCount();
 }
 
 object vfeLoadLibrary(cstr8 path)

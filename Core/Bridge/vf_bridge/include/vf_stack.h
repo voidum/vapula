@@ -21,24 +21,34 @@ namespace vapula
 		uint32 _Owner;
 		Context* _Context;
 		Envelope* _Envelope;
-		vector<Aspect> _Aspects;
+		vector<Aspect*> _Aspects;
 	public:
-		//get owner of stack
+		//get owner
 		uint32 GetOwner();
 
-		//get context in stack
+		//get context
 		Context* GetContext();
 
-		//get envelope in stack
+		//set context
+		void SetContext(Context* ctx);
+
+		//get envelope
 		Envelope* GetEnvelope();
 
-		//get aspect in stack by key
-		Aspect* GetAspect(cstr8 key);
+		//set envelope
+		void SetEnvelope(Envelope* env);
+
+		//get aspect by id
+		Aspect* GetAspect(cstr8 id);
 	};
 
 	//stack hub
 	class VAPULA_API StackHub
 	{
+	private:
+		StackHub();
+	public:
+		~StackHub();
 	private:
 		static StackHub* _Instance;
 	public:

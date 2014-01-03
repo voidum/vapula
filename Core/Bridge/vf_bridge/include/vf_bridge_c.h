@@ -7,7 +7,7 @@ using namespace vapula;
 extern "C"
 {
 	//Base
-	VAPULA_API void vfeTestBridge();
+	VAPULA_API cstr8 vfeGetVersion();
 	VAPULA_API void vfeDeleteObject(object ptr);
 
 	//Driver

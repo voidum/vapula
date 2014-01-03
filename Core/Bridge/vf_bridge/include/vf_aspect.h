@@ -5,19 +5,43 @@
 namespace vapula
 {
 	//aspect {base}
-	class VAPULA_API Aspect
+	class VAPULA_API AspectDpt
 	{
 	public:
-		Aspect();
-		virtual ~Aspect();
-	public:
-		//get aspect id
-		virtual cstr8
-			GetAspectId() = 0;
+		AspectDpt();
+		virtual ~AspectDpt();
+	protected:
+		//driver
+		Driver* _Driver;
 
-		//if current aspect is singleton
-		virtual bool
-			IsSingleton() = 0;
+		//aspect directory
+		cstr8 _Dir; 
+
+		//aspect id
+		cstr8 _Id; 
+
+		//entry descriptor
+		cstr8 _EntryDpt;
+
+	public:
+		//get driver
+		Driver* GetDriver();
+
+		//get runtime id
+		cstr8 GetRuntimeId();
+
+		//get binary extension
+		cstr8 GetBinExt();
+
+		//get aspect id
+		cstr8 GetAspectId();
+
+	public:
+		//mount aspect
+		virtual bool Mount() = 0;
+
+		//unmount aspect
+		virtual void Unmount() = 0;
 	};
 
 	//aspect hub
@@ -32,19 +56,19 @@ namespace vapula
 	private:
 		AspectDpt* GetAspectDpt(cstr8 id);
 	public:
-		//link aspect by path
-		bool Link(cstr8 path);
+		//load aspect by path
+		bool Load(cstr8 path);
 
-		//kick out aspect by id
-		void Kick(cstr8 id);
+		//unload aspect by id
+		void Unload(cstr8 id);
 
-		//kick out all aspects
-		void KickAll();
+		//unload all aspects
+		void UnloadAll();
 	public:
 		//get aspect by id
 		Aspect* GetAspect(cstr8 id);
 
-		//get count of linked aspects
+		//get count of loaded aspects
 		int GetCount();
 	};
 }

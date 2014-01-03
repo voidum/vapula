@@ -115,12 +115,10 @@
     <ClInclude Include="include\vf_dev_drv.h" />
     <ClInclude Include="include\vf_envelope.h" />
     <ClInclude Include="include\vf_invoker.h" />
-    <ClInclude Include="include\vf_log.h" />
     <ClInclude Include="include\vf_driver.h" />
     <ClInclude Include="include\vf_pipe.h" />
     <ClInclude Include="include\vf_stack.h" />
     <ClInclude Include="include\vf_string.h" />
-    <ClInclude Include="include\vf_time.h" />
     <ClInclude Include="include\vf_token.h" />
     <ClInclude Include="include\vf_xml.h" />
   </ItemGroup>
@@ -137,11 +135,9 @@
     <ClCompile Include="src\vf_driver.cpp" />
     <ClCompile Include="src\vf_envelope.cpp" />
     <ClCompile Include="src\vf_invoker.cpp" />
-    <ClCompile Include="src\vf_log.cpp" />
     <ClCompile Include="src\vf_pipe.cpp" />
     <ClCompile Include="src\vf_stack.cpp" />
     <ClCompile Include="src\vf_string.cpp" />
-    <ClCompile Include="src\vf_time.cpp" />
     <ClCompile Include="src\vf_token.cpp" />
     <ClCompile Include="src\vf_xml.cpp" />
   </ItemGroup>

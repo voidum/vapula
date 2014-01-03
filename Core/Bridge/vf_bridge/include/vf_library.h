@@ -11,31 +11,38 @@ namespace vapula
 	//library {base}
 	class VAPULA_API Library
 	{
+	public:
+		friend class LibraryHub;
 	protected:
 		Library();
 	public:
 		virtual ~Library();
 	protected:
+		//driver
+		Driver* _Driver;
+
 		//library directory
 		cstr8 _Dir; 
 
 		//library id
-		cstr8 _LibId; 
+		cstr8 _Id; 
 
 		//entry descriptor
-		cstr8 _EntryDpt; 
+		cstr8 _EntryDpt;
 
 		//function descriptor
-		cstr8 _FuncDpt; 
-	protected:
-		static int _Count;
+		cstr8 _FuncDpt;
+
 	public:
-		//load library by path
-		static Library* Load(cstr8 path);
-		
-		//get count of mounted libraries
-		static int GetCount();
-	public:
+		//get driver
+		Driver* GetDriver();
+
+		//get runtime id
+		cstr8 GetRuntimeId();
+
+		//get binary extension
+		cstr8 GetBinExt();
+
 		//get library id
 		cstr8 GetLibraryId();
 
@@ -47,18 +54,43 @@ namespace vapula
 
 		//create invoker
 		Invoker* CreateInvoker(int fid);
+
 	public:
-		//get runtime id
-		virtual cstr8 GetRuntimeId() = 0;
-
-		//get library file extension name
-		//begin with "."
-		virtual cstr8 GetBinExt() = 0;
-
 		//mount library
-		virtual bool Mount();
+		virtual bool Mount() = 0;
 
 		//unmount library
-		virtual void Unmount();
+		virtual void Unmount() = 0;
+	};
+
+	//hub for library
+	class VAPULA_API LibraryHub
+	{
+	private:
+		LibraryHub();
+	public:
+		~LibraryHub();
+	private:
+		static LibraryHub* _Instance;
+	public:
+		static LibraryHub* GetInstance();
+	private:
+		int _Count;
+		vector<Library*> _Libraries;
+	public:
+		//get count of loaded libraries
+		int GetCount();
+
+		//get library by id
+		Library* GetLibrary(cstr8 id);
+
+		//load library by path
+		Library* Load(cstr8 path);
+
+		//unload library by id
+		void Unload(cstr8 id);
+
+		//unload all libraries
+		void UnloadAll();
 	};
 }

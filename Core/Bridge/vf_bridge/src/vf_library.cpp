@@ -1,6 +1,7 @@
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
+#include "vf_envelope.h"
 #include "vf_xml.h"
 #include "rapidxml/rapidxml.hpp"
 
@@ -10,60 +11,38 @@ namespace vapula
 	using rapidxml::xml_document;
 	using std::wstring;
 
-	int Library::_Count = 0;
-
 	Library::Library()
 	{
-		_LibId = null;
+		_Id = null;
 		_EntryDpt = null;
 		_FuncDpt = null;
 	}
 
 	Library::~Library()
 	{
-		Clear(_LibId);
+		Clear(_Id);
 		Clear(_EntryDpt);
 		Clear(_FuncDpt);
 	}
 
-	Library* Library::Load(cstr8 path)
+	Driver* Library::GetDriver()
 	{
-		cstr8 data = null;
-		xml_document<>* xdoc 
-			= (xml_document<>*)xml::Load(path, data);
-		if(xdoc == null) 
-			return null;
-
-		xml_node<>* xeroot = xdoc->first_node("library");
-
-		DriverHub* drv_hub = DriverHub::GetInstance();
-		cstr8 drv_id = xml::ValueCh8(xeroot->first_node("runtime"));
-		Driver* driver = drv_hub->GetDriver(drv_id);
-		delete drv_id;
-		if(driver == null)
-		{
-			Clear(data);
-			return null;
-		}
-		
-		Library* lib = driver->CreateLibrary();
-		lib->_Dir = GetDirPath(path, true);
-		lib->_LibId = xml::ValueCh8(xeroot->first_node("id"));
-		lib->_EntryDpt = xml::ValueCh8(xeroot->first_node("entry"));
-		lib->_FuncDpt = xml::Print(xeroot->first_node("functions"));
-
-		delete data;
-		return lib;
+		return _Driver;
 	}
 
-	int Library::GetCount()
+	cstr8 Library::GetRuntimeId()
 	{
-		return Library::_Count;
+		return _Driver->GetRuntimeId();
+	}
+
+	cstr8 Library::GetBinExt()
+	{
+		return _Driver->GetBinExt();
 	}
 
 	cstr8 Library::GetLibraryId()
 	{
-		return _LibId;
+		return _Id;
 	}
 
 	cstr8 Library::GetEntryDpt()
@@ -95,18 +74,106 @@ namespace vapula
 		if(driver == null) 
 			return null;
 		Invoker* inv = driver->CreateInvoker();
+
 		inv->Initialize(this, fid);
 		return inv;
 	}
 
-	bool Library::Mount()
+
+	LibraryHub* LibraryHub::_Instance = null;
+
+	LibraryHub* LibraryHub::GetInstance()
 	{
-		Library::_Count++;
-		return true;
+		Lock* lock = Lock::GetCtorLock();
+		if(lock->Enter())
+		{
+			if(LibraryHub::_Instance == null)
+				LibraryHub::_Instance = new LibraryHub();
+			lock->Leave();
+		}
+		return LibraryHub::_Instance;
 	}
 
-	void Library::Unmount()
+	LibraryHub::LibraryHub()
 	{
-		Library::_Count--;
+		_Count = 0;
+	}
+
+	LibraryHub::~LibraryHub()
+	{
+		UnloadAll();
+	}
+
+	int LibraryHub::GetCount()
+	{
+		return _Count;
+	}
+
+	Library* LibraryHub::GetLibrary(cstr8 id)
+	{
+		typedef vector<Library*>::iterator iter;
+		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
+		{
+			Library* lib = *i;
+			if(strcmp(id, lib->GetLibraryId()) == 0)
+				return lib;
+		}
+		return null;
+	}
+
+	Library* LibraryHub::Load(cstr8 path)
+	{
+		cstr8 data = null;
+		xml_document<>* xdoc 
+			= (xml_document<>*)xml::Load(path, data);
+		if(xdoc == null) 
+			return null;
+
+		xml_node<>* xeroot = xdoc->first_node("library");
+
+		DriverHub* drv_hub = DriverHub::GetInstance();
+		cstr8 runtime = xml::ValueCh8(xeroot->first_node("runtime"));
+		Driver* driver = drv_hub->GetDriver(runtime);
+		delete runtime;
+		if(driver == null)
+		{
+			delete data;
+			return null;
+		}
+		
+		Library* lib = driver->CreateLibrary();
+		lib->_Dir = GetDirPath(path, true);
+		lib->_Id = xml::ValueCh8(xeroot->first_node("id"));
+		lib->_EntryDpt = xml::ValueCh8(xeroot->first_node("entry"));
+		lib->_FuncDpt = xml::Print(xeroot->first_node("functions"));
+		lib->_Driver = driver;
+
+		_Count++;
+
+		delete data;
+		return lib;
+	}
+
+	void LibraryHub::Unload(cstr8 id)
+	{
+		typedef vector<Library*>::iterator iter;
+		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
+		{
+			Library* lib = *i;
+			if(strcmp(id, lib->GetLibraryId()) == 0)
+			{
+				_Libraries.erase(i);
+				Clear(lib);
+				break;
+			}
+		}
+	}
+
+	void LibraryHub::UnloadAll()
+	{
+		typedef vector<Library*>::iterator iter;
+		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
+			Clear(*i);
+		_Libraries.clear();
 	}
 }
