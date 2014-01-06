@@ -106,6 +106,7 @@
     <ClInclude Include="include\vf_base.h" />
     <ClInclude Include="include\vf_bridge_c.h" />
     <ClInclude Include="include\vf_driver_dpt.h" />
+    <ClInclude Include="include\vf_jointcut.h" />
     <ClInclude Include="include\vf_utility.h" />
     <ClInclude Include="include\vf_dev_lib.h" />
     <ClInclude Include="include\vf_const.h" />

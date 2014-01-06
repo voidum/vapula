@@ -3,29 +3,29 @@
 namespace Vapula.Runtime
 {
     /// <summary>
-    /// 驱动坞
+    /// 库坞
     /// </summary>
-    public class DriverHub
+    public class LibraryHub
     {
-        private static DriverHub _Instance = null;
+        private static LibraryHub _Instance = null;
 
-        public static DriverHub Instance
+        public static LibraryHub Instance
         {
             get
             {
                 if (_Instance == null)
-                    _Instance = new DriverHub();
+                    _Instance = new LibraryHub();
                 return _Instance;
             }
         }
 
-        private DriverHub()
+        private LibraryHub()
         {
         }
 
         public int Count
         {
-            get { return Bridge.GetDriverCount(); }
+            get { return Bridge.GetLibraryCount(); }
         }
 
         public bool Link(string id)

@@ -4,24 +4,26 @@
 
 namespace vapula
 {
+	class Driver;
+
 	//aspect {base}
-	class VAPULA_API AspectDpt
+	class VAPULA_API Aspect
 	{
 	public:
-		AspectDpt();
-		virtual ~AspectDpt();
+		Aspect();
+		virtual ~Aspect();
 	protected:
 		//driver
 		Driver* _Driver;
 
-		//aspect directory
-		cstr8 _Dir; 
+		//aspect path
+		cstr8 _Path; 
 
 		//aspect id
 		cstr8 _Id; 
 
-		//entry descriptor
-		cstr8 _EntryDpt;
+		//entry symbol
+		cstr8 _EntrySym;
 
 	public:
 		//get driver
@@ -29,9 +31,6 @@ namespace vapula
 
 		//get runtime id
 		cstr8 GetRuntimeId();
-
-		//get binary extension
-		cstr8 GetBinExt();
 
 		//get aspect id
 		cstr8 GetAspectId();
@@ -52,9 +51,7 @@ namespace vapula
 	public:
 		static AspectHub* GetInstance();
 	private:
-		vector<AspectDpt*> _AspectDpts;
-	private:
-		AspectDpt* GetAspectDpt(cstr8 id);
+		vector<Aspect*> _Aspects;
 	public:
 		//load aspect by path
 		bool Load(cstr8 path);

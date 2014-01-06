@@ -49,6 +49,9 @@ namespace vapula
 		uint32 GetLength(int id);
 
 	public:
+		Envelope* Copy();
+
+	public:
 		//读取内存块
 		//可选是否复制，默认不复制
 		object ReadObject(int id, uint32* size = null, bool copy = false);

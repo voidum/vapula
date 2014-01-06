@@ -3,6 +3,15 @@
 
 namespace vapula
 {
-	DriverDpt::DriverDpt() { }
-	DriverDpt::~DriverDpt() { }
+	DriverDpt::DriverDpt()
+	{
+		_Handle = null;
+		_Driver = null;
+	}
+
+	DriverDpt::~DriverDpt()
+	{
+		delete _Driver;
+		FreeLibrary(_Handle);
+	}
 }

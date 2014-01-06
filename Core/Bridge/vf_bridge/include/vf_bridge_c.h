@@ -12,8 +12,8 @@ extern "C"
 
 	//Driver
 	VAPULA_API int vfeGetDriverCount();
-	VAPULA_API int vfeLinkDriver(cstr8 id);
-	VAPULA_API int vfeKickDriver(cstr8 id);
+	VAPULA_API int vfeLinkDriver(cstr8 path);
+	VAPULA_API void vfeKickDriver(cstr8 id);
 	VAPULA_API void vfeKickAllDrivers();
 
 	//Library
@@ -22,7 +22,7 @@ extern "C"
 	VAPULA_API object vfeLoadLibraryW(cstr16 path);
 	VAPULA_API cstr8 vfeGetRuntime(object lib);
 	VAPULA_API cstr8 vfeGetLibraryId(object lib);
-	VAPULA_API cstr8 vfeGetEntryDpt(object lib);
+	VAPULA_API cstr8 vfeGetEntrySym(object lib);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
 

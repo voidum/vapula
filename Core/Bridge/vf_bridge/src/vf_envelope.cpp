@@ -164,6 +164,11 @@ namespace vapula
 		return _Lengths[id - 1];
 	}
 
+	Envelope* Envelope::Copy()
+	{
+		return null;
+	}
+
 	object Envelope::ReadObject(int id, uint32* size, bool copy)
 	{
 		if(!_AssertId(id))

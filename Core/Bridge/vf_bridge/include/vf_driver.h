@@ -16,18 +16,10 @@ namespace vapula
 		Driver();
 		virtual ~Driver();
 
-	protected:
-		object _Handle;
-
 	public:
 		//get runtime id
 		virtual cstr8
 			GetRuntimeId() = 0;
-
-		//get binary extension
-		//e.g. "dll"
-		virtual cstr8
-			GetBinExt() = 0;
 
 		//create library
 		virtual Library*
@@ -59,8 +51,8 @@ namespace vapula
 	private:
 		DriverDpt* GetDriverDpt(cstr8 id);
 	public:
-		//link driver by id
-		bool Link(cstr8 id);
+		//link driver by path
+		bool Link(cstr8 path);
 
 		//kick out driver by id
 		void Kick(cstr8 id);

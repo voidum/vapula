@@ -8,6 +8,8 @@ namespace vapula
 	class Invoker;
 	class Driver;
 
+	typedef Envelope* PtrEnvelope;
+
 	//library {base}
 	class VAPULA_API Library
 	{
@@ -17,21 +19,25 @@ namespace vapula
 		Library();
 	public:
 		virtual ~Library();
+
 	protected:
 		//driver
 		Driver* _Driver;
 
-		//library directory
-		cstr8 _Dir; 
+		//library bin path
+		cstr8 _Path;
 
 		//library id
 		cstr8 _Id; 
 
-		//entry descriptor
-		cstr8 _EntryDpt;
+		//entry symbol
+		cstr8 _EntrySym;
 
-		//function descriptor
-		cstr8 _FuncDpt;
+		//function total
+		int _Total;
+
+		//envelopes
+		PtrEnvelope* _Envelopes;
 
 	public:
 		//get driver
@@ -40,14 +46,11 @@ namespace vapula
 		//get runtime id
 		cstr8 GetRuntimeId();
 
-		//get binary extension
-		cstr8 GetBinExt();
-
 		//get library id
 		cstr8 GetLibraryId();
 
-		//get entry descriptor
-		cstr8 GetEntryDpt();
+		//get entry symbol
+		cstr8 GetEntrySym();
 
 		//create envelope
 		Envelope* CreateEnvelope(int fid);
@@ -73,9 +76,9 @@ namespace vapula
 	private:
 		static LibraryHub* _Instance;
 	public:
+		//get instance of LibraryHub
 		static LibraryHub* GetInstance();
 	private:
-		int _Count;
 		vector<Library*> _Libraries;
 	public:
 		//get count of loaded libraries

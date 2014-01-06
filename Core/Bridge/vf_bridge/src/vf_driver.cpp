@@ -53,35 +53,38 @@ namespace vapula
 		return _DriverDpts.size();
 	}
 
-	bool DriverHub::Link(cstr8 id)
+	bool DriverHub::Link(cstr8 path)
 	{
-		DriverDpt* dpt = GetDriverDpt(id);
-		if(dpt != null)
-			return true;
-
-		std::string s = id;
-		s += ".vapula.driver";
-		cstr16 path16 = str::ToCh16(s.c_str());
+		cstr16 path16 = str::ToCh16(path);
 		HMODULE module = LoadLibraryW(path16);
 		delete path16;
 
 		if(module == null) 
 			return false;
-		
+
 		typedef Driver* (*Delegate)();
 		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
 		Driver* driver = d();
-		DriverDpt* dpt_new = new DriverDpt();
-		dpt_new->_Driver = driver;
-		dpt_new->_Handle = module;
-		_DriverDpts.push_back(dpt_new);
+		cstr8 id = driver->GetRuntimeId();
+
+		DriverDpt* dpt = GetDriverDpt(id);
+		if(dpt != null)
+		{
+			delete driver;
+			FreeLibrary(module);
+			return true;
+		}
+
+		dpt = new DriverDpt();
+		dpt->_Driver = driver;
+		dpt->_Handle = module;
+		_DriverDpts.push_back(dpt);
 		return true;
 	}
 
 	void DriverHub::Kick(cstr8 id)
 	{
 		typedef vector<DriverDpt*>::iterator iter;
-		DriverDpt* dpt = null;
 		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
 		{
 			DriverDpt* dpt = *i;
@@ -89,24 +92,17 @@ namespace vapula
 			if(strcmp(driver->GetRuntimeId(), id) == 0)
 			{
 				_DriverDpts.erase(i);
+				Clear(dpt);
 				break;
 			}
 		}
-		FreeLibrary(dpt->_Handle);
-		Clear(dpt->_Driver);
-		Clear(dpt);
 	}
 
 	void DriverHub::KickAll()
 	{
 		typedef vector<DriverDpt*>::iterator iter;
 		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
-		{
-			DriverDpt* dpt = *i;
-			FreeLibrary(dpt->_Handle);
-			Clear(dpt->_Driver);
-			Clear(dpt);
-		}
+			Clear(*i);
 		_DriverDpts.clear();
 	}
 }

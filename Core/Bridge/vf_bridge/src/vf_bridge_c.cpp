@@ -12,7 +12,7 @@ using namespace vapula;
 
 cstr8 vfeGetVersion()
 {
-	return GetVersion();
+	return vapula::GetVersion();
 }
 
 void vfeDeleteObject(object obj)
@@ -29,16 +29,16 @@ int vfeGetDriverCount()
 	return obj->GetCount();
 }
 
-int vfeLinkDriver(cstr8 id)
+int vfeLinkDriver(cstr8 path)
 {
 	DriverHub* obj = DriverHub::GetInstance();
-	return obj->Link(id) ? 1 : 0;
+	return obj->Link(path) ? 1 : 0;
 }
 
-int vfeKickDriver(cstr8 id)
+void vfeKickDriver(cstr8 id)
 {
 	DriverHub* obj = DriverHub::GetInstance();
-	return obj->Kick(id) ? 1 : 0;
+	obj->Kick(id);
 }
 
 void vfeKickAllDrivers()
@@ -57,13 +57,15 @@ int vfeGetLibraryCount()
 
 object vfeLoadLibrary(cstr8 path)
 {
-	return Library::Load(path);
+	LibraryHub* obj = LibraryHub::GetInstance();
+	return obj->Load(path);
 }
 
 object vfeLoadLibraryW(cstr16 path)
 {
+	LibraryHub* obj = LibraryHub::GetInstance();
 	cstr8 path8 = str::ToCh8(path);
-	object lib = Library::Load(path8);
+	object lib = obj->Load(path8);
 	delete path8;
 	return lib;
 }
@@ -80,10 +82,10 @@ cstr8 vfeGetLibraryId(object lib)
 	return obj->GetLibraryId();
 }
 
-cstr8 vfeGetEntryDpt(object lib)
+cstr8 vfeGetEntrySym(object lib)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetEntryDpt();
+	return obj->GetEntrySym();
 }
 
 int vfeMountLibrary(object lib)
