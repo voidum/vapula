@@ -4,7 +4,7 @@
 
 namespace vapula
 {
-	//支持令牌封签特性
+	//interface: stampable
 	class VAPULA_API Stampable
 	{
 	public:
@@ -15,7 +15,7 @@ namespace vapula
 		virtual void Seal(uint16 key) = 0;
 	};
 
-	//操作令牌
+	//operation token
 	class VAPULA_API Token : Uncopiable
 	{
 	private:

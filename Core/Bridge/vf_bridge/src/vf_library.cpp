@@ -58,7 +58,6 @@ namespace vapula
 		if(driver == null) 
 			return null;
 		Invoker* inv = driver->CreateInvoker();
-
 		inv->Initialize(this, fid);
 		return inv;
 	}

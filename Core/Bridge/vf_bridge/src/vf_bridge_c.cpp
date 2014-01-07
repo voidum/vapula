@@ -108,10 +108,10 @@ object vfeCreateInvoker(object lib, int fid)
 	return obj->CreateInvoker(fid);
 }
 
-int vfeGetFunctionId(object inv)
+object vfeGetStack(object inv)
 {
 	Invoker* obj = (Invoker*)inv;
-	return obj->GetFunctionId();
+	return obj->GetStack();
 }
 
 int vfeStartInvoker(object inv)
@@ -145,12 +145,6 @@ void vfeRestartInvoker(object inv, uint32 wait)
 }
 
 //Context
-
-object vfeGetContext(object inv)
-{
-	Invoker* obj = (Invoker*)inv;
-	return obj->GetContext();
-}
 
 object vfeCreateContext()
 {
@@ -194,12 +188,6 @@ void vfeReplyCtrlCode(object ctx)
 }
 
 //Envelope
-
-object vfeGetEnvelope(object inv)
-{
-	Invoker* obj = (Invoker*)inv;
-	return obj->GetEnvelope();
-}
 
 object vfeParseEnvelope(cstr8 xml)
 {

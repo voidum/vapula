@@ -3,7 +3,6 @@
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
-#include "vf_aspect.h"
 #include "vf_driver.h"
 #include "process.h"
 
@@ -11,7 +10,6 @@ namespace vapula
 {
 	Invoker::Invoker()
 	{
-		_FuncId = -1;
 		_Stack = null;
 		_IsSuspend = false;
 	}
@@ -23,36 +21,42 @@ namespace vapula
 		Clear(_Stack);
 	}
 
-	uint32 WINAPI Invoker::_ThreadProc()
+	Stack* Invoker::GetStack()
+	{
+		return _Stack;
+	}
+
+	uint32 WINAPI Invoker::Entry()
+	{
+		StackHub* stackhub = StackHub::GetInstance();
+		stackhub->Link(_Stack);
+
+		Context* ctx = _Stack->GetContext();
+		ctx->SetState(VF_STATE_BUSY);
+		ctx->SetCtrlCode(VF_CTRL_NULL);
+		ctx->SetReturnCode(VF_RETURN_NULLTASK);
+
+		Envelope* env = _Stack->GetEnvelope();
+		env->Zero();
+
+		uint32 ret = _Entry();
+
+		stackhub->Kick(_Stack);
+		return ret;
+	}
+
+	uint32 WINAPI Invoker::_Entry()
 	{
 		return VF_RETURN_NULLTASK;
 	}
 
 	bool Invoker::Initialize(Library* lib, int fid)
 	{
+		_Stack = new Stack();
 		_Stack->SetEnvelope(lib->CreateEnvelope(fid));
-		_FuncId = fid;
+		_Stack->SetContext(new Context());
+		_Stack->SetFunctionId(fid);
 		return true;
-	}
-
-	int Invoker::GetFunctionId()
-	{
-		return _FuncId; 
-	}
-
-	Envelope* Invoker::GetEnvelope() 
-	{
-		return _Stack->GetEnvelope(); 
-	}
-
-	Context* Invoker::GetContext()
-	{
-		return _Stack->GetContext(); 
-	}
-
-	Aspect* Invoker::GetAspect(cstr8 id)
-	{
-		return _Stack->GetAspect(id);
 	}
 
 	bool Invoker::Start()
@@ -62,15 +66,14 @@ namespace vapula
 			uint32 (WINAPI *thread)(PVOID);
 			uint32 (WINAPI Invoker::*member)();
 		} func_addr;
-		func_addr.member = &Invoker::_ThreadProc;
+		func_addr.member = &Invoker::Entry;
 
-		Context* ctx = new Context();
-		ctx->SetState(VF_STATE_BUSY);
-		_Stack->SetContext(ctx);
 		if(_Thread != null)
 			CloseHandle(_Thread);
+
 		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
-		//if Assert [_Thread]
+		if(_Thread <= 0)
+			return false;
 		return true;
 	}
 

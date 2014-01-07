@@ -14,12 +14,14 @@ namespace vapula
 
 	Token::~Token()
 	{
-		if(_A != null) delete [] _A;
+		if(_A != null)
+			delete [] _A;
 	}
 	
 	Token* Token::Stamp(Stampable* target)
 	{
-		if(!target->CanSeal()) return null;
+		if(!target->CanSeal()) 
+			return null;
 		mt19937 rm_core;
 		rm_core.seed((uint32)time(0));
 		uniform_int<uint8>* rm = new uniform_int<uint8>(5, 7);
@@ -46,7 +48,8 @@ namespace vapula
 
 	bool Token::Match(uint16 key)
 	{
-		if(_A == null) return false;
+		if(_A == null)
+			return false;
 		byte* data = (byte*)_A;
 		int len = data[0];
 		uint16 tmp = key;

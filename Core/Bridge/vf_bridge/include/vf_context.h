@@ -8,8 +8,6 @@ namespace vapula
 	class VAPULA_API Context
 	{
 	public:
-		friend class Invoker;
-	public:
 		Context();
 		~Context();
 	private:

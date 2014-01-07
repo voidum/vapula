@@ -6,25 +6,23 @@ namespace vapula
 {
 	class Context;
 	class Envelope;
-	class Aspect;
 
 	//stack
 	class VAPULA_API Stack
 	{
-	private:
+	public:
 		Stack();
-	public:
 		~Stack();
-	public:
-		static Stack* GetInstance();
 	private:
-		uint32 _Owner;
+		int _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
-		vector<Aspect*> _Aspects;
 	public:
-		//get owner
-		uint32 GetOwner();
+		//get function id
+		int GetFunctionId();
+
+		//set function id
+		void SetFunctionId(int fid);
 
 		//get context
 		Context* GetContext();
@@ -37,9 +35,6 @@ namespace vapula
 
 		//set envelope
 		void SetEnvelope(Envelope* env);
-
-		//get aspect by id
-		Aspect* GetAspect(cstr8 id);
 	};
 
 	//stack hub
@@ -56,6 +51,16 @@ namespace vapula
 	private:
 		vector<Stack*> _Stacks;
 	public:
-		Stack* GetStack();
+		//link stack
+		bool Link(Stack* stack);
+
+		//kick stack by id
+		void Kick(Stack* stack);
+
+		//kick all stacks
+		void KickAll();
+
+		//get count of allocated stack
+		int GetCount();
 	};
 }

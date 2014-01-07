@@ -6,7 +6,7 @@
 
 namespace vapula
 {
-	//参数信封
+	//envelope for data
 	class VAPULA_API Envelope
 	{
 	private:
@@ -15,20 +15,20 @@ namespace vapula
 		~Envelope();
 
 	public:
-		//由XML字符串解析出信封对象
-		//要求输入params节点
+		//parse envelope from XML string
+		//need node <params>
 		static Envelope* Parse(cstr8 xml);
 
-		//由XML对象解析出信封对象
-		//要求输入params节点
+		//parse envelope from XML object
+		//need node <params> and RapidXML
 		static Envelope* Parse(object xml);
 
 	private:
-		int32 _Total; //参数总数
-		int8* _Types; //参数类型
-		int8* _Modes; //参数模式
-		uint32* _Addrs; //内存地址表
-		uint32* _Lengths; //参数长度表
+		int32 _Total; //param total
+		int8* _Types; //param type
+		int8* _Modes; //param mode
+		uint32* _Addrs; //memory address table
+		uint32* _Lengths; //param length table
 
 	private:
 		bool _AssertId(int id, Envelope* env = null);
@@ -36,33 +36,37 @@ namespace vapula
 		void _Write(int idx, object value, uint32 size, bool clear, bool copy);
 
 	public:
-		//获取参数总数
+		//get param total
 		int32 GetTotal();
 
-		//获取指定参数的模式
+		//get param mode
 		int8 GetMode(int id);
 
-		//获取指定参数的类型
+		//get param type
 		int8 GetType(int id);
 
-		//获取指定参数的长度
+		//get param length
 		uint32 GetLength(int id);
 
 	public:
+		//zero envelope
+		void Zero();
+
+		//copy envelope
 		Envelope* Copy();
 
 	public:
-		//读取内存块
-		//可选是否复制，默认不复制
+		//read object
+		//optional if copy, default non-copy
 		object ReadObject(int id, uint32* size = null, bool copy = false);
 
-		//写入内存块
-		//可选是否复制，默认不复制
+		//write object
+		//optional if copy, default non-copy
 		void WriteObject(int id, object value, uint32 size, bool copy = false);
 
 	public:
-		//读出参数数组
-		//可选是否复制，默认不复制
+		//read param array
+		//optional if copy, default non-copy
 		template<typename T>
 		T* ReadArray(int id, uint32* length = null, bool copy = false)
 		{
@@ -75,7 +79,7 @@ namespace vapula
 			return data;
 		}
 
-		//读出参数值
+		//read param value
 		template<typename T>
 		T ReadValue(int id)
 		{
@@ -83,7 +87,7 @@ namespace vapula
 			return data[0];
 		}
 
-		//写入参数数组
+		//write param array
 		template<typename T>
 		void WriteArray(int id, T* value, uint32 length, bool copy = false)
 		{
@@ -96,7 +100,7 @@ namespace vapula
 			_Lengths[idx] = length;
 		}
 
-		//写入参数值
+		//write param value
 		template<typename T>
 		void WriteValue(int id, T value)
 		{
@@ -105,29 +109,29 @@ namespace vapula
 		}
 
 	public:
-		//特化8位字节字符串，读出参数值
+		//read string as 8-bit
 		cstr8 ReadCh8(int id);
 
-		//特化16位字节字符串，读出参数值
+		//read string as 16-bit
 		cstr16 ReadCh16(int id);
 
-		//特化8位字节字符串，写入参数值
+		//write string as 8-bit
 		void WriteCh8(int id, cstr8 value);
 		
-		//特化16位字节字符串，写入参数值
+		//write string as 16-bit
 		void WriteCh16(int id, cstr16 value);
 
 	public:
-		//读出数值并自动转型到字符串
+		//read and cast value to string
 		cstr8 CastReadValue(int id);
 
-		//由字符串自动转型到数值并写入
+		//cast string to value and write
 		void CastWriteValue(int id, cstr8 value);
 
-		//投递当前信封到目标
+		//deliver envelope
 		void Deliver(Envelope* who, int from, int to);
 
-		//自适应转型投递当前信封到目标
+		//deliver envelope with auto-cast
 		void CastDeliver(Envelope* who, int from, int to);
 	};
 }

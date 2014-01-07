@@ -8,7 +8,7 @@ namespace vapula
 	class Stack;
 	class Context;
 	class Envelope;
-	class Aspect;
+	class Token;
 
 	//invoker
 	class VAPULA_API Invoker
@@ -17,30 +17,27 @@ namespace vapula
 		Invoker();
 	public:
 		virtual ~Invoker();
+
 	protected:
-		int _FuncId;
-		Stack* _Stack;
-	protected:
-		object _Thread;
+		HANDLE _Thread;
 		bool _IsSuspend;
+		Stack* _Stack;
+
 	protected:
 		//invoke routine
-		virtual uint32 WINAPI _ThreadProc();
+		uint32 WINAPI Entry();
+
+		//invoke custom core routine
+		virtual uint32 WINAPI _Entry();
+
 	public:
 		//initialize invoker
 		virtual bool Initialize(Library* lib, int fid); 
+
 	public:
-		//get function id
-		int GetFunctionId();
+		//get stack of task by invoker
+		Stack* GetStack();
 
-		//get envelope
-		Envelope* GetEnvelope();
-
-		//get context
-		Context* GetContext();
-
-		//get aspect
-		Aspect* GetAspect(cstr8 id);
 	public:
 		//start
 		bool Start();

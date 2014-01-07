@@ -13,9 +13,9 @@ namespace vapula
 	private:
 		void _Reach(cstr8 function, cstr8 symbol);
 	public:
-		void Reach(cstr8 function, cstr8 data = null);
-		void Reach(cstr8 function, int line, cstr8 data = null);
-		void Reach(cstr8 function, cstr8 label, cstr8 data = null);
+		void Reach(cstr8 function);
+		void Reach(cstr8 function, int line);
+		void Reach(cstr8 function, cstr8 label);
 	};
 
 	//pointcut

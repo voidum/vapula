@@ -25,13 +25,13 @@ namespace vapula
 		virtual Library*
 			CreateLibrary() = 0;
 
-		//create aspect
-		virtual Aspect*
-			CreateAspect() = 0;
-
 		//create invoker
 		virtual Invoker*
 			CreateInvoker() = 0;
+
+		//create aspect
+		virtual Aspect*
+			CreateAspect() = 0;
 	};
 
 	//driver hub

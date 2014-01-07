@@ -28,7 +28,7 @@ extern "C"
 
 	//Invoker
 	VAPULA_API object vfeCreateInvoker(object lib, int fid);
-	VAPULA_API int vfeGetFunctionId(object inv);
+	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API int vfeStartInvoker(object inv);
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
@@ -36,7 +36,6 @@ extern "C"
 	VAPULA_API void vfeRestartInvoker(object inv, uint32 wait);
 	
 	//Context
-	VAPULA_API object vfeGetContext(object inv);
 	VAPULA_API int vfeGetCtrlCode(object ctx);
 	VAPULA_API int vfeGetState(object ctx);
 	VAPULA_API int vfeGetReturnCode(object ctx);
@@ -45,7 +44,6 @@ extern "C"
 	VAPULA_API void vfeReplyCtrlCode(object ctx);
 
 	//Envelope
-	VAPULA_API object vfeGetEnvelope(object inv);
 	VAPULA_API object vfeParseEnvelope(cstr8 xml);
 	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
 	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, cstr8 value);

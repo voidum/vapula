@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <ctime>
 
-#include "windows.h" //#IFDEF
+#include "windows.h"
 
 #ifdef VAPULA_EXPORTS
 #define VAPULA_API __declspec(dllexport)

@@ -53,14 +53,21 @@ v2.0.7.0
 *)fix lock
 
 
-v2.1.0.0 [PLAN]
-
-+)support smart pointer
+v2.0.8.0 
 
 +)support stack
-+)=)global vapula object storage
-+)=)support AOP
-+)=)support AOP plugin
 
+*)improve envelope
+*)+)support copy
+*)+)support zero
+
+*)improve invoker
+*)*)support stack
+
+=)adjust interfaces
+
+vPLAN
++)support smart pointer
++)support AOP
 +)support logger
 +)support exception

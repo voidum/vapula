@@ -4,43 +4,25 @@
 
 namespace vapula
 {
-	class Driver;
-
-	//aspect {base}
+	//aspect
 	class VAPULA_API Aspect
 	{
 	public:
 		Aspect();
 		virtual ~Aspect();
 	protected:
-		//driver
-		Driver* _Driver;
-
 		//aspect path
 		cstr8 _Path; 
 
 		//aspect id
 		cstr8 _Id; 
 
-		//entry symbol
-		cstr8 _EntrySym;
+		//pointcut symbol
+		cstr8 _PointcutSym;
 
 	public:
-		//get driver
-		Driver* GetDriver();
-
-		//get runtime id
-		cstr8 GetRuntimeId();
-
 		//get aspect id
 		cstr8 GetAspectId();
-
-	public:
-		//mount aspect
-		virtual bool Mount() = 0;
-
-		//unmount aspect
-		virtual void Unmount() = 0;
 	};
 
 	//aspect hub

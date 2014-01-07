@@ -40,6 +40,21 @@
     <Filter Include="头文件\core\library">
       <UniqueIdentifier>{6553cd31-ea23-421c-8cee-cf1085676b89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\core\aspect">
+      <UniqueIdentifier>{5b203447-5fc6-46f1-9636-1b1748f31c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\core\driver">
+      <UniqueIdentifier>{67d9d434-4e3f-4ac1-aa68-0e2f2e072fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\core\library">
+      <UniqueIdentifier>{a6e715d3-9748-4909-a701-45a9955b72fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\core\data">
+      <UniqueIdentifier>{bf794e30-9655-4977-9f60-ec1adb7ec6f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\core\data">
+      <UniqueIdentifier>{f9db2d0b-7258-4a5a-849e-649d0d79b130}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_base.h">
@@ -69,15 +84,6 @@
     <ClInclude Include="include\vf_setting.h">
       <Filter>头文件\base</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_stack.h">
-      <Filter>头文件\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_pipe.h">
-      <Filter>头文件\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_token.h">
-      <Filter>头文件\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_aspect.h">
       <Filter>头文件\core\aspect</Filter>
     </ClInclude>
@@ -87,20 +93,29 @@
     <ClInclude Include="include\vf_driver_dpt.h">
       <Filter>头文件\core\driver</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_invoker.h">
-      <Filter>头文件\core\library</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_library.h">
-      <Filter>头文件\core\library</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_context.h">
-      <Filter>头文件\core\library</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_envelope.h">
       <Filter>头文件\core\library</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_jointcut.h">
       <Filter>头文件\core\aspect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_context.h">
+      <Filter>头文件\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_envelope.h">
+      <Filter>头文件\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_pipe.h">
+      <Filter>头文件\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_stack.h">
+      <Filter>头文件\core\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_invoker.h">
+      <Filter>头文件\core\library</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_token.h">
+      <Filter>头文件\core\library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,35 +140,35 @@
     <ClCompile Include="src\vf_setting.cpp">
       <Filter>源文件\base</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_pipe.cpp">
-      <Filter>源文件\base</Filter>
+    <ClCompile Include="src\vf_aspect.cpp">
+      <Filter>源文件\core\aspect</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_driver.cpp">
-      <Filter>源文件\core</Filter>
+      <Filter>源文件\core\driver</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_driver_dpt.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_token.cpp">
-      <Filter>源文件\base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_stack.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_aspect.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_context.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_envelope.cpp">
-      <Filter>源文件\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_invoker.cpp">
-      <Filter>源文件\core</Filter>
+      <Filter>源文件\core\driver</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_library.cpp">
-      <Filter>源文件\core</Filter>
+      <Filter>源文件\core\library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_context.cpp">
+      <Filter>源文件\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_stack.cpp">
+      <Filter>源文件\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_envelope.cpp">
+      <Filter>源文件\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_pipe.cpp">
+      <Filter>源文件\core\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_invoker.cpp">
+      <Filter>源文件\core\library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_token.cpp">
+      <Filter>源文件\core\library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

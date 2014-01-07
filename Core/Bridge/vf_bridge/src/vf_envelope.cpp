@@ -30,11 +30,7 @@ namespace vapula
 
 	Envelope::~Envelope()
 	{
-		for(int i=0; i<_Total; i++)
-		{
-			if(_Addrs[i] != null)
-				delete (object)(_Addrs[i]);
-		}
+		Zero();
 		Clear(_Types, true);
 		Clear(_Modes, true);
 		Clear(_Addrs, true);
@@ -62,24 +58,12 @@ namespace vapula
 			total++;
 		}
 
-		Envelope* env = null;
-		if(total > 0)
+		Envelope* env = new Envelope(total);
+		for(int i=0; i<total; i++)
 		{
-			int8* arr_type = new int8[total];
-			int8* arr_mode = new int8[total];
-			for(int i=0; i<total; i++)
-			{
-				int id = v_id[i] - 1;
-				arr_type[id] = v_type[i];
-				arr_mode[id] = v_mode[i];
-			}
-			env = new Envelope(total);
-			env->_Types = arr_type;
-			env->_Modes = arr_mode;
-		}
-		else
-		{
-			env = new Envelope(0);
+			int id = v_id[i] - 1;
+			env->_Types[id] = v_type[i];
+			env->_Modes[id] = v_mode[i];
 		}
 		return env;
 	}
@@ -115,16 +99,16 @@ namespace vapula
 
 	void Envelope::_Write(int idx, object value, uint32 size, bool clear, bool copy)
 	{
-		//内源数据不处理
+		//same address & do nothing
 		if((uint32)value == _Addrs[idx])
 			return;
 
-		//清理旧数据
+		//clear old data
 		if(clear)
 			if(_Addrs[idx] != null)
 				delete (object)(_Addrs[idx]);
 
-		//空数据不处理
+		//null data & do nothing
 		if(value == null)
 			return;
 
@@ -164,9 +148,24 @@ namespace vapula
 		return _Lengths[id - 1];
 	}
 
+	void Envelope::Zero()
+	{
+		for(int i=0; i<_Total; i++)
+		{
+			if(_Addrs[i] != null)
+				delete (object)(_Addrs[i]);
+		}
+	}
+
 	Envelope* Envelope::Copy()
 	{
-		return null;
+		Envelope* env = new Envelope(_Total);
+		for(int i=0; i<_Total; i++)
+		{
+			env->_Types[i] = _Types[i];
+			env->_Modes[i] = _Modes[i];
+		}
+		return env;
 	}
 
 	object Envelope::ReadObject(int id, uint32* size, bool copy)
