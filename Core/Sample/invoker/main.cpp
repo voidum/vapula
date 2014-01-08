@@ -1,9 +1,5 @@
+#include "vf_dev_inv.h"
 #include "windows.h"
-
-#include "vf_driver.h"
-#include "vf_library.h"
-#include "vf_invoker.h"
-#include "vf_config.h"
 
 using std::cin;
 using std::cout;
@@ -31,7 +27,8 @@ void Test1(Library* lib)
 	cout<<"[invoke function 5] ... ";
 	Assert(inv->Start());
 
-	Context* ctx = inv->GetContext();
+	Stack* stack = inv->GetStack();
+	Context* ctx = stack->GetContext();
 	while(ctx->GetState() != VF_STATE_IDLE)
 	{
 		float prog = ctx->GetProgress();
@@ -63,9 +60,10 @@ void Test2(Library* lib)
 	cout<<"[get invoker] ... ";
 	Invoker* inv = lib->CreateInvoker(1);
 	Assert(inv != NULL);
+	Stack* stack = inv->GetStack();
 
 	cout<<"[get envelope] ... ";
-	Envelope* env = inv->GetEnvelope();
+	Envelope* env = stack->GetEnvelope();
 	Assert(env != NULL);
 
 	cout<<"[set params]"<<endl;
@@ -75,7 +73,7 @@ void Test2(Library* lib)
 	cout<<"[Invoke function 0] ... ";
 	Assert(inv->Start());
 
-	Context* ctx = inv->GetContext();
+	Context* ctx = stack->GetContext();
 	while(ctx->GetState() != VF_STATE_IDLE) 
 		Sleep(50);
 	
@@ -90,7 +88,6 @@ void Test2(Library* lib)
 		env->WriteValue(1, 12);
 		env->WriteValue(2, 23);
 		inv->Start();
-		Context* ctx = inv->GetContext();
 		while(ctx->GetState() != VF_STATE_IDLE) 
 			Sleep(0);
 		int result = env->ReadValue<int>(3);
@@ -102,9 +99,11 @@ void Test2(Library* lib)
 void Test3(Library* lib)
 {
 	Invoker* inv = lib->CreateInvoker(2);
+	Stack* stack = inv->GetStack();
+	Context* ctx = stack->GetContext();
+	Envelope* env = stack->GetEnvelope();
+
 	inv->Start();
-	Context* ctx = inv->GetContext();
-	Envelope* env = inv->GetEnvelope();
 	while(ctx->GetState() != VF_STATE_IDLE)
 		Sleep(50);
 	ShowMsgbox(env->ReadCh16(1));
@@ -114,12 +113,13 @@ int main()
 {
 	DriverHub* drv_hub = DriverHub::GetInstance();
 	cout<<"[register driver crt] ... ";
-	Assert(drv_hub->Link("crt"));
+	Assert(drv_hub->Link("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\crt.vapula.driver"));
 	//cout<<"[register driver clr] ... ";
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
+	LibraryHub* lib_hub = LibraryHub::GetInstance();
+	Library* lib = lib_hub->Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";

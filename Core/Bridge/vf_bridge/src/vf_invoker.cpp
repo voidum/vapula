@@ -10,6 +10,7 @@ namespace vapula
 {
 	Invoker::Invoker()
 	{
+		_Thread = null;
 		_Stack = null;
 		_IsSuspend = false;
 	}
@@ -28,26 +29,16 @@ namespace vapula
 
 	uint32 WINAPI Invoker::Entry()
 	{
-		StackHub* stackhub = StackHub::GetInstance();
-		stackhub->Link(_Stack);
+		StackHub* stack_hub = StackHub::GetInstance();
+		_Stack->SetStackId(GetCurrentThreadId());
+
+		stack_hub->Link(_Stack);
+		_Entry();
+		stack_hub->Kick(_Stack);;
 
 		Context* ctx = _Stack->GetContext();
-		ctx->SetState(VF_STATE_BUSY);
-		ctx->SetCtrlCode(VF_CTRL_NULL);
-		ctx->SetReturnCode(VF_RETURN_NULLTASK);
-
-		Envelope* env = _Stack->GetEnvelope();
-		env->Zero();
-
-		uint32 ret = _Entry();
-
-		stackhub->Kick(_Stack);
-		return ret;
-	}
-
-	uint32 WINAPI Invoker::_Entry()
-	{
-		return VF_RETURN_NULLTASK;
+		ctx->SetState(VF_STATE_IDLE);
+		return 0;
 	}
 
 	bool Invoker::Initialize(Library* lib, int fid)
@@ -71,6 +62,10 @@ namespace vapula
 		if(_Thread != null)
 			CloseHandle(_Thread);
 
+		Context* ctx = _Stack->GetContext();
+		ctx->SetState(VF_STATE_BUSY);
+		ctx->SetCtrlCode(VF_CTRL_NULL);
+		ctx->SetReturnCode(VF_RETURN_NULLTASK);
 		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
 		if(_Thread <= 0)
 			return false;

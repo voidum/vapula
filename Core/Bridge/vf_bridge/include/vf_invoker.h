@@ -28,7 +28,7 @@ namespace vapula
 		uint32 WINAPI Entry();
 
 		//invoke custom core routine
-		virtual uint32 WINAPI _Entry();
+		virtual void _Entry() = 0;
 
 	public:
 		//initialize invoker

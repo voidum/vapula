@@ -34,6 +34,12 @@ extern "C"
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
 	VAPULA_API void vfeResumeInvoker(object inv);
 	VAPULA_API void vfeRestartInvoker(object inv, uint32 wait);
+
+	//Stack
+	VAPULA_API object vfeGetCurrentStack();
+	VAPULA_API int vfeGetFunctionId(object stack);
+	VAPULA_API object vfeGetContext(object stack);
+	VAPULA_API object vfeGetEnvelope(object stack);
 	
 	//Context
 	VAPULA_API int vfeGetCtrlCode(object ctx);

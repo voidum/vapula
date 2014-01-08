@@ -2,7 +2,7 @@
 
 #include "vf_crt.h"
 
-typedef int (*Delegate)(int, Envelope*, Context*);
+typedef int (*Delegate)();
 
 class InvokerCRT : public Invoker
 {
@@ -10,9 +10,10 @@ public:
 	InvokerCRT();
 	~InvokerCRT();
 private:
-	Delegate _Entry;
+	Delegate _PtrEntry;
+
 protected:
-	uint32 WINAPI _ThreadProc();
+	void _Entry();
 public:
 	bool Initialize(Library* lib, int fid);
 };

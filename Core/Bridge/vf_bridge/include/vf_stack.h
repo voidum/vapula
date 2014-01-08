@@ -14,10 +14,19 @@ namespace vapula
 		Stack();
 		~Stack();
 	private:
+		uint32 _StackId;
 		int _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
 	public:
+		static Stack* GetInstance();
+	public:
+		//get stack id
+		uint32 GetStackId();
+
+		//set stack id
+		void SetStackId(uint32 id);
+
 		//get function id
 		int GetFunctionId();
 
@@ -51,16 +60,19 @@ namespace vapula
 	private:
 		vector<Stack*> _Stacks;
 	public:
+		//get stack by id
+		Stack* GetStack(uint32 id);
+	public:
 		//link stack
 		bool Link(Stack* stack);
 
-		//kick stack by id
+		//kick stack
 		void Kick(Stack* stack);
 
 		//kick all stacks
 		void KickAll();
 
-		//get count of allocated stack
+		//get count of linked stack
 		int GetCount();
 	};
 }

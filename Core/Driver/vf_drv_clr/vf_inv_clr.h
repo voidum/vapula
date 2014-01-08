@@ -11,8 +11,9 @@ private:
 	cstr8 _Handle;
 public:
 	cstr8 GetHandle();
+
 protected:
-	uint32 WINAPI _ThreadProc();
+	void _Entry();
 public:
 	bool Initialize(Library* lib, int fid);
 };

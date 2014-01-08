@@ -38,13 +38,12 @@ bool InvokerCLR::Initialize(Library* lib, int fid)
 	return true;
 }
 
-uint32 InvokerCLR::_ThreadProc()
+void InvokerCLR::_Entry()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
 	cstr16 s16 = str::ToCh16(GetHandle());
 	int retcode = drv->CallBridge(L"CallEntry", s16);
 	delete s16;
-	_Context->SetReturnCode(retcode);
-	_Context->SetState(VF_STATE_IDLE);
-	return 0;
+	Context* ctx = _Stack->GetContext();
+	ctx->SetReturnCode(retcode);
 }

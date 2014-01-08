@@ -2,6 +2,7 @@
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
+#include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
 #include "vf_pipe.h"
@@ -142,6 +143,31 @@ void vfeRestartInvoker(object inv, uint32 wait)
 {
 	Invoker* obj = (Invoker*)inv;
 	obj->Restart(wait);
+}
+
+//Stack
+object vfeGetCurrentStack()
+{
+	Stack* stack = Stack::GetInstance();
+	return stack;
+}
+
+int vfeGetFunctionId(object stack)
+{
+	Stack* obj = (Stack*)stack;
+	return obj->GetFunctionId();
+}
+
+object vfeGetContext(object stack)
+{
+	Stack* obj = (Stack*)stack;
+	return obj->GetContext();
+}
+
+object vfeGetEnvelope(object stack)
+{
+	Stack* obj = (Stack*)stack;
+	return obj->GetEnvelope();
 }
 
 //Context

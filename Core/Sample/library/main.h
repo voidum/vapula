@@ -4,14 +4,13 @@
 
 using namespace vapula;
 
-extern "C" __declspec(dllexport)
-int Run(int function, Envelope* envelope, Context* context);
+extern "C" __declspec(dllexport) int Run();
 
-int Function_Math(Envelope* envelope,Context* context);
-int Function_Out(Envelope* envelope,Context* context);
-int Function_TestArray(Envelope* envelope,Context* context);
-int Function_TestObject(Envelope* envelope,Context* context);
-int Function_TestContext(Envelope* envelope,Context* context);
+int Function_Math();
+int Function_Out();
+int Function_TestArray();
+int Function_TestObject();
+int Function_TestContext();
 
 class TestClassA
 {

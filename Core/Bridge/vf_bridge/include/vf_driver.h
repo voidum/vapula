@@ -21,6 +21,11 @@ namespace vapula
 		virtual cstr8
 			GetRuntimeId() = 0;
 
+		//get bin extension
+		//e.g. "dll"
+		virtual cstr8
+			GetBinExt() = 0;
+
 		//create library
 		virtual Library*
 			CreateLibrary() = 0;

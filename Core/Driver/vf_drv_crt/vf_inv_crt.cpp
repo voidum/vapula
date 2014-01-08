@@ -4,7 +4,7 @@
 
 InvokerCRT::InvokerCRT()
 {
-	_Entry = null;
+	_PtrEntry = null;
 }
 
 InvokerCRT::~InvokerCRT()
@@ -17,14 +17,13 @@ bool InvokerCRT::Initialize(Library* lib, int fid)
 		return false;
 	Invoker::Initialize(lib, fid);
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
-	_Entry = (Delegate)lib_crt->GetEntry();
+	_PtrEntry = (Delegate)lib_crt->GetEntry();
 	return true;
 }
 
-uint32 InvokerCRT::_ThreadProc()
+void InvokerCRT::_Entry()
 {
-	int retcode = _Entry(_FuncId, _Envelope, _Context);
-	_Context->SetReturnCode(retcode);
-	_Context->SetState(VF_STATE_IDLE);
-	return 0;
+	int retcode = _PtrEntry();
+	Context* ctx = _Stack->GetContext();
+	ctx->SetReturnCode(retcode);
 }

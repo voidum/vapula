@@ -66,6 +66,21 @@ v2.0.8.0
 
 =)adjust interfaces
 
+
+v2.0.8.1
+
+*)improve stack
+*)*)bind stack with thread
+
+*)improve invoker
+*)=)fix bugs
+
+=)adjust interfaces
+=)+)static get stack
+
++)add header for invoker
+
+
 vPLAN
 +)support smart pointer
 +)support AOP

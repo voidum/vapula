@@ -20,12 +20,15 @@ private:
 	ICLRRuntimeInfo* _RuntimeInfo;
 	ICLRRuntimeHost* _RuntimeHost;
 public:
-	cstr8 GetRuntimeId();
-	Library* CreateLibrary();
-	Invoker* CreateInvoker();
-public:
 	static DriverCLR* GetInstance();
 	int CallBridge(cstr16 name, cstr16 arg);
+
+public:
+	cstr8 GetRuntimeId();
+	cstr8 GetBinExt();
+	Library* CreateLibrary();
+	Invoker* CreateInvoker();
+	Aspect* CreateAspect();
 };
 
 extern "C" __declspec(dllexport) Driver* GetDriverInstance();

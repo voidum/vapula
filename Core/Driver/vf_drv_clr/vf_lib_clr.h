@@ -11,12 +11,8 @@ private:
 	cstr8 _Handle;
 public:
 	cstr8 GetHandle();
+
 public:
-	cstr8 GetRuntimeId();
-
-	cstr8 GetBinExt();
-
 	bool Mount();
-
 	void Unmount();
 };

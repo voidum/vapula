@@ -124,9 +124,15 @@ namespace vapula
 		}
 		
 		Library* lib = driver->CreateLibrary();
-		lib->_Path = GetDirPath(path, true);
+		lib->_Driver = driver;
 		lib->_Id = xml::ValueCh8(xe_lib->first_node("id"));
 		lib->_EntrySym = xml::ValueCh8(xe_lib->first_node("entry"));
+
+		cstr8 path_dir = GetDirPath(path, true);
+		ostringstream oss;
+		oss<<path_dir<<lib->_Id<<"."<<driver->GetBinExt();
+		lib->_Path = str::Copy(oss.str().c_str());
+		delete path_dir;
 		
 		vector<Envelope*> func_envs;
 		vector<int> func_ids;
@@ -151,7 +157,6 @@ namespace vapula
 		func_ids.clear();
 
 		lib->_Total = total;
-		lib->_Driver = driver;
 
 		delete data;
 		return lib;

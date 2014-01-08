@@ -117,6 +117,9 @@
     <ClInclude Include="include\vf_token.h">
       <Filter>头文件\core\library</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_dev_inv.h">
+      <Filter>头文件\sdk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

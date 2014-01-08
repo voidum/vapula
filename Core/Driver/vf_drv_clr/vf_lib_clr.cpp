@@ -21,33 +21,18 @@ cstr8 LibraryCLR::GetHandle()
 	return _Handle;
 }
 
-cstr8 LibraryCLR::GetRuntimeId()
-{
-	return _vf_runtime_id;
-}
-
-cstr8 LibraryCLR::GetBinExt()
-{
-	return ".dll";
-}
-
 bool LibraryCLR::Mount()
 {
 	string arg = GetHandle();
 	arg += "|";
-	arg += _Dir;
-	arg += _LibId;
-	arg += GetBinExt();
+	arg += _Path;
 
 	cstr16 s16 = str::ToCh16(arg.c_str());
 	DriverCLR* drv = DriverCLR::GetInstance();
 	int ret = drv->CallBridge(L"Mount", s16);
 	delete s16;
 
-	if(ret > 0)
-		return false;
-	Library::Mount();
-	return true;
+	return ret > 0;
 }
 
 void LibraryCLR::Unmount()
@@ -56,5 +41,4 @@ void LibraryCLR::Unmount()
 	DriverCLR* drv = DriverCLR::GetInstance();
 	drv->CallBridge(L"Unmount", s16);
 	delete s16;
-	Library::Unmount();
 }

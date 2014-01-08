@@ -40,6 +40,11 @@ cstr8 DriverCLR::GetRuntimeId()
 	return _vf_runtime_id;
 }
 
+cstr8 DriverCLR::GetBinExt()
+{
+	return "dll";
+}
+
 Library* DriverCLR::CreateLibrary()
 {
 	LibraryCLR* lib = new LibraryCLR();
@@ -50,6 +55,11 @@ Invoker* DriverCLR::CreateInvoker()
 {
 	InvokerCLR* inv = new InvokerCLR();
 	return inv;
+}
+
+Aspect* DriverCLR::CreateAspect()
+{
+	return null;
 }
 
 DriverCLR* DriverCLR::GetInstance()
@@ -75,7 +85,7 @@ int DriverCLR::CallBridge(cstr16 name, cstr16 arg)
 		name, arg, &ret);
 	if(hr != S_OK)
 	{
-		if(Config::GetInstance()->IsSilent())
+		if(Settings::GetInstance()->IsSilent())
 		{
 			ostringstream oss;
 			oss<<"error occured at [CallBridge]\n";
