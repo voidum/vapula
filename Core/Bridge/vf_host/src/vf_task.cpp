@@ -1,29 +1,30 @@
 #include "vf_task.h"
 #include "vf_worker.h"
-#include "vf_candy.h"
+#include "vf_utility.h"
 #include "vf_xml.h"
 #include "vf_driver.h"
+#include "vf_stack.h"
+#include "vf_context.h"
+#include "vf_envelope.h"
 
 namespace vapula
 {
 	Task::Task()
 	{
-		_Lib = null;
-		_FuncId = -1;
+		_Library = null;
+		_FunctionId = -1;
 		_StageTime = new float[3];
 		for(int i=0; i<3; i++)
 			_StageTime[i] = 0;
 		_CtrlMode = VF_HOST_CJ_NULL;
-		_CtrlConfig = null;
-		_Tags = new Dict();
+		_CtrlSetting = null;
 	}
 
 	Task::~Task()
 	{
-		Clear(_Lib);
+		Clear(_Library);
 		Clear(_StageTime, true);
-		Clear(_CtrlConfig);
-		Clear(_Tags);
+		Clear(_CtrlSetting);
 	}
 
 	void Task::SetStageTime(int stage, float time)
@@ -38,12 +39,12 @@ namespace vapula
 
 	Library* Task::GetLibrary()
 	{
-		return _Lib;
+		return _Library;
 	}
 
 	int Task::GetFunctionId()
 	{
-		return _FuncId;
+		return _FunctionId;
 	}
 
 	Invoker* Task::GetInvoker()
@@ -56,14 +57,9 @@ namespace vapula
 		return _CtrlMode; 
 	}
 
-	cstr8 Task::GetCtrlConfig() 
+	cstr8 Task::GetCtrlSetting() 
 	{
-		return _CtrlConfig; 
-	}
-
-	Dict* Task::GetTags() 
-	{
-		return _Tags; 
+		return _CtrlSetting; 
 	}
 
 	Task* Task::Parse(cstr8 path)
@@ -90,33 +86,31 @@ namespace vapula
 		}
 		delete driver_id;
 
-		cstr8 dir_utf8 = xml::ValueCh8(xe_target->first_node("dir"));
-		cstr8 dir = str::EncodeCh8(dir_utf8, _vf_msg_cp, null);
-		delete dir_utf8;
+		cstr8 path_lib_utf8 = xml::ValueCh8(xe_target->first_node("path"));
+		cstr8 path_lib = str::EncodeCh8(path_lib_utf8, _vf_msg_cp, null);
+		delete path_lib_utf8;
 
-		cstr8 lib = xml::ValueCh8(xe_target->first_node("lib"));
-		string str_path = dir;
-		str_path += lib;
-		str_path += ".library";
-		task->_Lib = Library::Load(str_path.c_str());
-		delete lib;
+		LibraryHub* library_hub = LibraryHub::GetInstance();
+		task->_Library = library_hub->Load(path);
+		delete path_lib;
 
-		if(task->_Lib == null)
+		if(task->_Library == null)
 		{
 			ShowMsgbox("Fail to load library.", _vf_host);
 			return null;
 		}
 
-		if(!task->_Lib->Mount())
+		if(!task->_Library->Mount())
 		{
 			ShowMsgbox("Fail to mount library", _vf_host);
 			return null;
 		}
 
-		task->_FuncId = xml::ValueInt(xe_target->first_node("fid"));
-		task->_Invoker = task->_Lib->CreateInvoker(task->_FuncId);
+		task->_FunctionId = xml::ValueInt(xe_target->first_node("function"));
+		task->_Invoker = task->_Library->CreateInvoker(task->_FunctionId);
 
-		Envelope* env = task->_Invoker->GetEnvelope();
+		Stack* stack = task->_Invoker->GetStack();
+		Envelope* env = stack->GetEnvelope();
 		xml_node<>* xe_param = (xml_node<>*)xml::Path(xe_target, 2, "params", "param");
 		while (xe_param)
 		{
@@ -128,21 +122,10 @@ namespace vapula
 		}
 		//TODO: output params for validation?
 
-		xml_node<>* xe_tag = (xml_node<>*)xml::Path(xe_ext, 2, "tags", "tag");
-		while(xe_tag)
-		{
-			cstr8 key = xml::ValueCh8(xe_tag->first_attribute("key"));
-			cstr8 value = xml::ValueCh8(xe_tag);
-			task->_Tags->Add(key, value);
-			delete key;
-			delete value;
-			xe_tag = xe_tag->next_sibling();
-		}
-
 		xml_node<>* xe_ctrl_mode = (xml_node<>*)xml::Path(xe_ext, 2, "control", "mode");
-		xml_node<>* xe_ctrl_config = (xml_node<>*)xml::Path(xe_ext, 2, "control", "config");
+		xml_node<>* xe_ctrl_setting = (xml_node<>*)xml::Path(xe_ext, 2, "control", "setting");
 		task->_CtrlMode = xml::ValueInt(xe_ctrl_mode);
-		task->_CtrlConfig = xml::Print(xe_ctrl_config);
+		task->_CtrlSetting = xml::Print(xe_ctrl_setting);
 		return task;
 	}
 
@@ -157,10 +140,11 @@ namespace vapula
 		bool ret = false;
 		if(ret_worker == VF_HOST_RETURN_NORMAL)
 		{
-			int ret_task = worker->GetTask()->GetInvoker()->GetContext()->GetReturnCode();
+			Stack* stack = _Invoker->GetStack();
+			int ret_task = stack->GetContext()->GetReturnCode();
 			ostringstream oss;
 			oss<<"Vapula host has done with task:\n";
-			oss<<_Lib->GetLibraryId()<<"=>"<<_FuncId;
+			oss<<_Library->GetLibraryId()<<"=>"<<_FunctionId;
 			oss<<"\nReturn code:"<<ret_task;
 			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
 			ShowMsgbox(oss.str().c_str(), _vf_host);
@@ -170,7 +154,7 @@ namespace vapula
 		{
 			ostringstream oss;
 			oss<<"Vapula host has NOT done with task:\n";
-			oss<<_Lib->GetLibraryId()<<"=>"<<str::ValueTo(_FuncId);
+			oss<<_Library->GetLibraryId()<<"=>"<<str::ValueTo(_FunctionId);
 			oss<<"\nLast stage: "<<('A' + ret_worker - 1);
 			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
 			ShowMsgbox(oss.str().c_str(), _vf_host);

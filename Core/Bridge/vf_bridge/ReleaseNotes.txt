@@ -64,7 +64,7 @@ v2.0.8.0
 *)improve invoker
 *)*)support stack
 
-=)adjust interfaces
+=)adjust entries
 
 
 v2.0.8.1
@@ -75,11 +75,22 @@ v2.0.8.1
 *)improve invoker
 *)=)fix bugs
 
-=)adjust interfaces
-=)+)static get stack
+*)improve stack
+*)+)static get stack
 
 +)add header for invoker
 
+
+v2.0.8.2
+=)adjust const
+=)=)adjust context const
+
+*)improve context
+*)*)reduce memory used
+*)*)adjust method
+
+=)adjust entries
+*)rename Settings => Setting
 
 vPLAN
 +)support smart pointer

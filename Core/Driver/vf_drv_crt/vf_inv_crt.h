@@ -2,7 +2,7 @@
 
 #include "vf_crt.h"
 
-typedef int (*Delegate)();
+typedef void (*Action)();
 
 class InvokerCRT : public Invoker
 {
@@ -10,7 +10,7 @@ public:
 	InvokerCRT();
 	~InvokerCRT();
 private:
-	Delegate _PtrEntry;
+	Action _Action;
 
 protected:
 	void _Entry();

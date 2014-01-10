@@ -2,38 +2,43 @@
 
 namespace vapula
 {
-	Settings* Settings::_Instance = null;
+	Setting* Setting::_Instance = null;
 
-	Settings::Settings()
+	Setting::Setting()
 	{
 		_Flag = new Flag();
 	}
 
-	Settings::~Settings()
+	Setting::~Setting()
 	{
 		Clear(_Flag);
 	}
 
-	Settings* Settings::GetInstance()
+	Setting* Setting::GetInstance()
 	{
-		if(Settings::_Instance == null)
+		if(Setting::_Instance == null)
 		{
 			Lock* lock = Lock::GetCtorLock();
 			if(lock->Enter())
 			{
-				Settings::_Instance = new Settings();
+				Setting::_Instance = new Setting();
 				lock->Leave();
 			}
 		}
-		return Settings::_Instance;
+		return Setting::_Instance;
 	}
 
-	bool Settings::IsSilent()
+	Flag* Setting::GetFlag()
+	{
+		return _Flag;
+	}
+
+	bool Setting::IsSilent()
 	{
 		return _Flag->Valid(VF_SETTING_SILENT);
 	}
 
-	bool Settings::IsRealTimeMonitor()
+	bool Setting::IsRealTimeMonitor()
 	{
 		return _Flag->Valid(VF_SETTING_RTMON);
 	}

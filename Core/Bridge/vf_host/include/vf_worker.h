@@ -4,7 +4,7 @@ namespace vapula
 {
 	class Task;
 
-	//工作者基类
+	//worker {base}
 	class Worker
 	{
 	public:
@@ -13,19 +13,19 @@ namespace vapula
 	protected:
 		Task* _Task;
 	public:
-		//运行任务
+		//run task
 		int Run(Task* task);
 
-		//获取任务
+		//get task
 		Task* GetTask();
 	protected:
-		//运行任务阶段A
+		//run stage A
 		virtual bool RunStageA() = 0;
 
-		//运行任务阶段B
+		//run stage B
 		virtual bool RunStageB() = 0;
 
-		//运行任务阶段C
+		//run stage C
 		virtual bool RunStageC() = 0;
 	};
 }

@@ -1,6 +1,6 @@
 #include "vf_task.h"
 #include "vf_worker.h"
-#include "vf_config.h"
+#include "vf_setting.h"
 
 #include "worker_null.h"
 #include "worker_pipe.h"
@@ -66,18 +66,18 @@ int APIENTRY wWinMain(
 
 void CheckOption(int argc, LPWSTR* argv)
 {
-	Config* config = Config::GetInstance();
-	Flag* flag = config->GetFlag();
+	Setting* setting = Setting::GetInstance();
+	Flag* flag = setting->GetFlag();
 	for (int i=2; i<argc; i++)
 	{
 		if (wcscmp(argv[i], L"silent") == 0)
 		{
-			flag->Enable(VF_CONFIG_SILENT);
+			flag->Enable(VF_SETTING_SILENT);
 			continue;
 		}
 		if (wcscmp(argv[i], L"rtmon") == 0)
 		{
-			flag->Enable(VF_CONFIG_RTMON);
+			flag->Enable(VF_SETTING_RTMON);
 			continue;
 		}
 	}

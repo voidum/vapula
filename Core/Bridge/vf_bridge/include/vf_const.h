@@ -75,9 +75,9 @@ namespace vapula
 	enum State
 	{
 		VF_STATE_IDLE = 0,
-		VF_STATE_BUSY = 1,
-		VF_STATE_PAUSE = 2,
-		VF_STATE_UI = 3
+		VF_STATE_BUSY_BACK = 1,
+		VF_STATE_BUSY_FRONT = 2,
+		VF_STATE_PAUSE = 3
 	}; //context state
 
 	enum CtrlCode
@@ -93,8 +93,8 @@ namespace vapula
 	{
 		VF_RETURN_ERROR = 0,
 		VF_RETURN_NORMAL = 1,
-		VF_RETURN_CANCELBYMSG = 2,
-		VF_RETURN_CANCELBYFORCE = 3,
+		VF_RETURN_CANCEL = 2,
+		VF_RETURN_TERMINATE = 3,
 		VF_RETURN_NULLENTRY = 4,
 		VF_RETURN_NULLTASK = 5,
 	}; //context return code

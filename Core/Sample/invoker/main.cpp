@@ -29,7 +29,7 @@ void Test1(Library* lib)
 
 	Stack* stack = inv->GetStack();
 	Context* ctx = stack->GetContext();
-	while(ctx->GetState() != VF_STATE_IDLE)
+	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 	{
 		float prog = ctx->GetProgress();
 		if(prog > 10)
@@ -50,7 +50,7 @@ void Test1(Library* lib)
 	inv->Resume();
 	float prog = ctx->GetProgress();
 	cout<<"[resume] progress:"<<prog<<endl;
-	while(ctx->GetState() != VF_STATE_IDLE) 
+	while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 		Sleep(50);
 	cout<<"finished"<<endl;
 }
@@ -74,7 +74,7 @@ void Test2(Library* lib)
 	Assert(inv->Start());
 
 	Context* ctx = stack->GetContext();
-	while(ctx->GetState() != VF_STATE_IDLE) 
+	while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 		Sleep(50);
 	
 	int result = env->ReadValue<int>(3);
@@ -88,7 +88,7 @@ void Test2(Library* lib)
 		env->WriteValue(1, 12);
 		env->WriteValue(2, 23);
 		inv->Start();
-		while(ctx->GetState() != VF_STATE_IDLE) 
+		while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 			Sleep(0);
 		int result = env->ReadValue<int>(3);
 	}
@@ -104,7 +104,7 @@ void Test3(Library* lib)
 	Envelope* env = stack->GetEnvelope();
 
 	inv->Start();
-	while(ctx->GetState() != VF_STATE_IDLE)
+	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 	ShowMsgbox(env->ReadCh16(1));
 }

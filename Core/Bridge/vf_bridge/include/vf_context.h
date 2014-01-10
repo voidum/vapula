@@ -4,7 +4,7 @@
 
 namespace vapula
 {
-	//组件上下文
+	//routine context
 	class VAPULA_API Context
 	{
 	public:
@@ -13,36 +13,43 @@ namespace vapula
 	private:
 		Lock* _Lock;
 	private:
-		int	_State;
-		int _ReturnCode;
-		int _CtrlCode;
-		float _ProgValue; //0 - 100
+		uint8 _LastState;
+		uint8 _CurrentState;
+		uint8 _ReturnCode;
+		uint8 _CtrlCode;
+		float _Progress; //0 - 100
 	public:
-		//安全调用：设置状态
-		void SetState(int state);
+		//set state
+		void SetState(uint8 value);
 
-		//获取状态
-		int GetState();
+		//get current state
+		uint8 GetCurrentState();
 
-		//安全调用：设置返回值
-		void SetReturnCode(int return_code);
+		//get last state
+		uint8 GetLastState();
 
-		//获取返回值
-		int GetReturnCode();
+		//set return code
+		void SetReturnCode(uint8 value);
 
-		//安全调用：设置控制码
-		void SetCtrlCode(int ctrl_code);
+		//get return code
+		uint8 GetReturnCode();
 
-		//获取控制码
-		int GetCtrlCode();
+		//set control code
+		void SetCtrlCode(uint8 value);
 
-		//响应控制码
-		void ReplyCtrlCode();
+		//get control code
+		uint8 GetCtrlCode();
 
-		//设置进度
+		//switch hold state between pause and resume
+		void SwitchHold();
+
+		//switch busy state between front and back
+		void SwitchBusy();
+
+		//set progress
 		void SetProgress(float value);
 
-		//获取进度
+		//get progress
 		float GetProgress();
 	};
 }

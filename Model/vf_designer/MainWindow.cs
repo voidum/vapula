@@ -31,6 +31,9 @@ namespace Vapula.Designer
             App.WindowHub.Show("logger");
             App.WindowHub.Show("debug");
             App.WindowHub.Show("workspace");
+
+            doc = new FrmDocument();
+            doc.Show(paneldock, DockState.Document);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

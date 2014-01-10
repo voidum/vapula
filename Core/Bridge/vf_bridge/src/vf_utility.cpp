@@ -5,16 +5,16 @@ namespace vapula
 {
 	void ShowMsgbox(cstr8 value, cstr8 caption)
 	{
-		Settings* settings = Settings::GetInstance();
-		if(!settings->IsSilent())
+		Setting* setting = Setting::GetInstance();
+		if(!setting->IsSilent())
 			MessageBoxA(null, value, 
 			caption == null ? _vf_bridge : caption, 0);
 	}
 
 	void ShowMsgbox(cstr16 value, cstr16 caption)
 	{
-		Settings* settings = Settings::GetInstance();
-		if(!settings->IsSilent())
+		Setting* setting = Setting::GetInstance();
+		if(!setting->IsSilent())
 			MessageBoxW(null, value,
 			caption == null ? str::ToCh16(_vf_bridge) : caption, 0);
 	}

@@ -9,6 +9,7 @@
 
 using namespace vapula;
 
+
 //Base
 
 cstr8 vfeGetVersion()
@@ -21,6 +22,7 @@ void vfeDeleteObject(object obj)
 	if(obj != null)
 		delete obj;
 }
+
 
 //Driver
 
@@ -47,6 +49,7 @@ void vfeKickAllDrivers()
 	DriverHub* obj = DriverHub::GetInstance();
 	obj->KickAll();
 }
+
 
 //Library
 
@@ -101,13 +104,14 @@ void vfeUnmountLibrary(object lib)
 	obj->Unmount();
 }
 
-//Invoker
-
 object vfeCreateInvoker(object lib, int fid)
 {
 	Library* obj = (Library*)lib;
 	return obj->CreateInvoker(fid);
 }
+
+
+//Invoker
 
 object vfeGetStack(object inv)
 {
@@ -177,19 +181,25 @@ object vfeCreateContext()
 	return new Context();
 }
 
-int vfeGetCtrlCode(object ctx)
+uint8 vfeGetCtrlCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetCtrlCode();
 }
 
-int vfeGetState(object ctx)
+uint8 vfeGetCurrentState(object ctx)
 {
 	Context* obj = (Context*)ctx;
-	return obj->GetState();
+	return obj->GetCurrentState();
 }
 
-int vfeGetReturnCode(object ctx)
+uint8 vfeGetLastState(object ctx)
+{
+	Context* obj = (Context*)ctx;
+	return obj->GetLastState();
+}
+
+uint8 vfeGetReturnCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetReturnCode();
@@ -207,11 +217,18 @@ void vfeSetProgress(object ctx, float prog)
 	obj->SetProgress(prog);
 }
 
-void vfeReplyCtrlCode(object ctx)
+void vfeSwitchHold(object ctx)
 {
 	Context* obj = (Context*)ctx;
-	obj->ReplyCtrlCode();
+	obj->SwitchHold();
 }
+
+void vfeSwitchBusy(object ctx)
+{
+	Context* obj = (Context*)ctx;
+	obj->SwitchBusy();
+}
+
 
 //Envelope
 
@@ -226,6 +243,18 @@ object vfeParseEnvelopeW(cstr16 xml)
 	object env = Envelope::Parse(s8);
 	delete s8;
 	return env;
+}
+
+void vfeZeroEnvelope(object env)
+{
+	Envelope* obj = (Envelope*)env;
+	obj->Zero();
+}
+
+object vfeCopyEnvelope(object env)
+{
+	Envelope* obj = (Envelope*)env;
+	return obj->Copy();
 }
 
 void vfeWriteEnvelopeValue(object env, int id, cstr8 value)

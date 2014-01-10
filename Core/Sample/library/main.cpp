@@ -1,35 +1,24 @@
 #include "main.h"
 #include <iostream>
 
-int Run()
+void Run()
 {
 	Stack* stack = Stack::GetInstance();
-	int ret = 0;
 	switch(stack->GetFunctionId())
 	{
-	case 1:
-		ret = Function_Math();
+	case 1: Function_Math(); break;
+	case 2: Function_Out(); break;
+	case 3: Function_TestArray(); break;
+	case 4: Function_TestObject(); break;
+	case 5: Function_TestContext(); break;
+	default: 
+		stack->GetContext()->SetReturnCode(VF_RETURN_NULLENTRY);
 		break;
-	case 2:
-		ret = Function_Out();
-		break;
-	case 3:
-		ret = Function_TestArray();
-		break;
-	case 4:
-		ret = Function_TestObject();
-		break;
-	case 5:
-		ret = Function_TestContext();
-		break;
-	default:
-		ret = VF_RETURN_NULLENTRY;
 	}
-	return ret;
 }
 
 //1st
-int Function_Math()
+void Function_Math()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -40,26 +29,28 @@ int Function_Math()
 
 	int c = a + b;
 
-	ctx->SetProgress(100);
 	env->WriteValue(3, c);
-	return VF_RETURN_NORMAL;
+
+	ctx->SetProgress(100);
+	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //2nd
-int Function_Out()
+void Function_Out()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
 	cstr16 str = L"中文Engligh日本語テスト";
-	ctx->SetProgress(100);
 	env->WriteCh16(1, str);
-	return VF_RETURN_NORMAL;
+
+	ctx->SetProgress(100);
+	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //3rd
-int Function_TestArray()
+void Function_TestArray()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -72,13 +63,14 @@ int Function_TestArray()
 	for(int i=0;i<count;i++)
 		result += data[i];
 
-	ctx->SetProgress(100);
 	env->WriteValue(1, result);
-	return VF_RETURN_NORMAL;
+
+	ctx->SetProgress(100);
+	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //4th
-int Function_TestObject()
+void Function_TestObject()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -90,32 +82,36 @@ int Function_TestObject()
 	if(ifinc) obj->Inc();
 	else obj->Dec();
 
-	ctx->SetProgress(100);
 	env->WriteObject(3, obj, sizeof(TestClassA));
-	return VF_RETURN_NORMAL;
+
+	ctx->SetProgress(100);
+	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //5th
-int Function_TestContext()
+void Function_TestContext()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
 	for(int i=0;i<1000;i++)
 	{
 		int ctrl = ctx->GetCtrlCode();
 		if(ctrl == VF_CTRL_CANCEL)
-			return VF_RETURN_CANCELBYMSG;
+		{
+			ctx->SetProgress(100);
+			ctx->SetReturnCode(VF_RETURN_CANCEL);
+			return;
+		}
 		if(ctrl == VF_CTRL_PAUSE)
 		{
-			ctx->ReplyCtrlCode();
+			ctx->SwitchHold();
 			for(;;)
 			{
 				int ctrl = ctx->GetCtrlCode();
 				if(ctrl == VF_CTRL_RESUME)
 				{
-					ctx->ReplyCtrlCode();
+					ctx->SwitchHold();
 					break;
 				}
 				Sleep(25);
@@ -124,5 +120,7 @@ int Function_TestContext()
 		ctx->SetProgress(i / 10.0f);
 		Sleep(25);
 	}
-	return VF_RETURN_NORMAL;
+
+	ctx->SetProgress(100);
+	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }

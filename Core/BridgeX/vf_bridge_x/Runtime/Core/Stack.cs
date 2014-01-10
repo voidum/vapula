@@ -12,7 +12,7 @@ namespace Vapula.Runtime
             get
             {
                 if (_Handle == IntPtr.Zero)
-                    _Handle = Bridge.GetCurrentStack();
+                    _Handle = IntPtr.Zero;// Bridge.GetCurrentStack();
                 return _Handle;
             }
         }

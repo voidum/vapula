@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vf_base.h"
+#include "vf_utility.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
 
@@ -10,14 +10,14 @@ using namespace rapidxml;
 using namespace vapula;
 using std::ostringstream;
 
-//宿主控制注入模式
+//control injection mode
 enum CtrlInjectMode
 {
 	VF_HOST_CJ_NULL = 0,
 	VF_HOST_CJ_PIPE = 1
 };
 
-//宿主返回值
+//host return code
 enum HostReturnCode
 {
 	VF_HOST_RETURN_NORMAL = 0,

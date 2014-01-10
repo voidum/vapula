@@ -25,9 +25,9 @@ extern "C"
 	VAPULA_API cstr8 vfeGetEntrySym(object lib);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
+	VAPULA_API object vfeCreateInvoker(object lib, int fid);
 
 	//Invoker
-	VAPULA_API object vfeCreateInvoker(object lib, int fid);
 	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API int vfeStartInvoker(object inv);
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
@@ -42,24 +42,28 @@ extern "C"
 	VAPULA_API object vfeGetEnvelope(object stack);
 	
 	//Context
-	VAPULA_API int vfeGetCtrlCode(object ctx);
-	VAPULA_API int vfeGetState(object ctx);
-	VAPULA_API int vfeGetReturnCode(object ctx);
+	VAPULA_API uint8 vfeGetCtrlCode(object ctx);
+	VAPULA_API uint8 vfeGetCurrentState(object ctx);
+	VAPULA_API uint8 vfeGetLastState(object ctx);
+	VAPULA_API uint8 vfeGetReturnCode(object ctx);
 	VAPULA_API float vfeGetProgress(object ctx);
 	VAPULA_API void vfeSetProgress(object ctx, float prog);
-	VAPULA_API void vfeReplyCtrlCode(object ctx);
+	VAPULA_API void vfeSwitchHold(object ctx);
+	VAPULA_API void vfeSwitchBusy(object ctx);
 
 	//Envelope
 	VAPULA_API object vfeParseEnvelope(cstr8 xml);
 	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
+	VAPULA_API void vfeZeroEnvelope(object env);
+	VAPULA_API object vfeCopyEnvelope(object env);
 	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, cstr8 value);
 	VAPULA_API void vfeWriteEnvelopeValueW(object env, int id, cstr16 value);
 	VAPULA_API cstr8 vfeReadEnvelopeValue(object env, int id);
 	VAPULA_API cstr16 vfeReadEnvelopeValueW(object env, int id);
 	VAPULA_API void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length);
 	VAPULA_API object vfeReadEnvelopeObject(object env, int id, uint32* length);
-	VAPULA_API void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to);
-	VAPULA_API void vfeCastDeliverEnvelope(object src_env, object dst_env, int from, int to);
+	VAPULA_API void vfeDeliverEnvelope(object src, object dst, int from, int to);
+	VAPULA_API void vfeCastDeliverEnvelope(object src, object dst, int from, int to);
 
 	//Pipe
 	VAPULA_API object vfeCreatePipe();

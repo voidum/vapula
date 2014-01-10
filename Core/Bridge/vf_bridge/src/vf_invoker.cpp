@@ -63,7 +63,7 @@ namespace vapula
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
-		ctx->SetState(VF_STATE_BUSY);
+		ctx->SetState(VF_STATE_BUSY_BACK);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
 		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
@@ -75,26 +75,19 @@ namespace vapula
 	void Invoker::Stop(uint32 wait)
 	{
 		Context* ctx = _Stack->GetContext();
-		if(wait == 0)
-		{
-			TerminateThread(_Thread, 1);
-			WaitForSingleObject(_Thread, INFINITE);
-			ctx->SetReturnCode(VF_RETURN_CANCELBYFORCE);
-		}
-		else
+		bool finish = false;
+		if(wait != 0)
 		{
 			ctx->SetCtrlCode(VF_CTRL_CANCEL);
 			DWORD dw = WaitForSingleObject(_Thread, wait);
-			if(dw != WAIT_OBJECT_0)
-			{
-				TerminateThread(_Thread, 1);
-				WaitForSingleObject(_Thread, INFINITE);
-				ctx->SetReturnCode(VF_RETURN_CANCELBYFORCE);
-			}
-			else
-			{
-				ctx->SetReturnCode(VF_RETURN_CANCELBYMSG);
-			}
+			if(dw == WAIT_OBJECT_0)
+				finish = true;
+		}
+		if(!finish)
+		{
+			TerminateThread(_Thread, 1);
+			WaitForSingleObject(_Thread, INFINITE);
+			ctx->SetReturnCode(VF_RETURN_TERMINATE);
 		}
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetState(VF_STATE_IDLE);
@@ -105,7 +98,7 @@ namespace vapula
 	void Invoker::Pause(uint32 wait)
 	{
 		Context* ctx = _Stack->GetContext();
-		bool paused = false;
+		_IsSuspend = false;
 		if(wait != 0)
 		{
 			int times = wait / 25;
@@ -114,21 +107,15 @@ namespace vapula
 			ctx->SetCtrlCode(VF_CTRL_PAUSE);
 			for(int i=0; i<times; i++)
 			{
-				if(ctx->GetState() == VF_STATE_PAUSE)
-				{
-					paused = true;
-					break;
-				}
+				byte state = ctx->GetCurrentState();
+				if(state == VF_STATE_PAUSE)
+					return;
 				Sleep(25);
 			}
 		}
-		if(!paused)
-		{
-			_IsSuspend = true;
-			SuspendThread(_Thread);
-		}
-		ctx->SetCtrlCode(VF_CTRL_NULL);
-		ctx->SetState(VF_STATE_PAUSE);
+		_IsSuspend = true;
+		SuspendThread(_Thread);
+		ctx->SwitchHold();
 	}
 
 	void Invoker::Resume()
@@ -138,7 +125,7 @@ namespace vapula
 		{
 			_IsSuspend = false;
 			ResumeThread(_Thread);
-			ctx->SetState(VF_STATE_BUSY);
+			ctx->SwitchHold();
 		}
 		else
 		{

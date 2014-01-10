@@ -10,19 +10,21 @@ namespace vapula
 		VF_SETTING_RTMON = 2
 	};
 
-	//settings for Vapula
-	class VAPULA_API Settings : Uncopiable
+	//setting for Vapula
+	class VAPULA_API Setting : Uncopiable
 	{
 	private:
-		Settings();
+		Setting();
 	public:
-		~Settings();
+		~Setting();
 	private:
-		static Settings* _Instance;
+		static Setting* _Instance;
 	public:
-		static Settings* GetInstance();
+		static Setting* GetInstance();
 	private:
 		Flag* _Flag;
+	public:
+		Flag* GetFlag();
 	public:
 		bool IsSilent();
 		bool IsRealTimeMonitor();

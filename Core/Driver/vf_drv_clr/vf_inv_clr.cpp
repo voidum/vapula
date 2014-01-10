@@ -42,8 +42,6 @@ void InvokerCLR::_Entry()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
 	cstr16 s16 = str::ToCh16(GetHandle());
-	int retcode = drv->CallBridge(L"CallEntry", s16);
+	drv->CallBridge(L"CallEntry", s16);
 	delete s16;
-	Context* ctx = _Stack->GetContext();
-	ctx->SetReturnCode(retcode);
 }

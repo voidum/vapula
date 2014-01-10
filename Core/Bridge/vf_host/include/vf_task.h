@@ -6,7 +6,7 @@ namespace vapula
 {
 	class Worker;
 
-	//任务
+	//task
 	class Task
 	{
 	private:
@@ -15,49 +15,44 @@ namespace vapula
 		~Task();
 
 	private:
-		Library* _Lib;
-		int _FuncId;
+		Library* _Library;
+		int _FunctionId;
 		Invoker* _Invoker;
 		float* _StageTime;
 
 	private:
-		Dict* _Tags;
 		int _CtrlMode;
-		cstr8 _CtrlConfig;
+		cstr8 _CtrlSetting;
 
 	public:
-		//从指定XML文件解析任务
+		//parse task from XML file
 		static Task* Parse(cstr8 path);
 
 	public:
-		//设置阶段耗时，以秒为单位
+		//set stage elapsed time (s)
 		void SetStageTime(int stage, float time);
 
-		//获取阶段耗时，以秒为单位
+		//get stage elapsed time (s)
 		float GetStageTime(int stage);
 
-		//获取任务的指定功能库
+		//get library for task
 		Library* GetLibrary();
 
-		//获取任务的指定功能
+		//get function for task
 		int GetFunctionId();
 
-		//获取调用器
+		//get invoker
 		Invoker* GetInvoker();
 
 	public:
-		//获取扩展标签
-		Dict* GetTags();
-
-		//获取控制模式
+		//get control mode
 		int GetCtrlMode();
 
-		//获取控制配置
-		cstr8 GetCtrlConfig();
+		//get control setting
+		cstr8 GetCtrlSetting();
 
 	public:
-		//指定工作者运行任务
+		//run as specified worker
 		bool RunAs(Worker* worker);
 	};
-
 }

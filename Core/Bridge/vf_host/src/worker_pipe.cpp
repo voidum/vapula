@@ -1,9 +1,11 @@
 #include "worker_pipe.h"
-
 #include "vf_task.h"
 #include "vf_invoker.h"
+#include "vf_stack.h"
+#include "vf_context.h"
+#include "vf_envelope.h"
 #include "vf_xml.h"
-#include "vf_config.h"
+#include "vf_setting.h"
 
 using std::ostringstream;
 
@@ -20,7 +22,7 @@ Worker_PIPE::~Worker_PIPE()
 bool Worker_PIPE::RunStageA()
 {
 	Task* task = dynamic_cast<Task*>(_Task);
-	xml_node<>* cfg = (xml_node<>*)xml::Parse(task->GetCtrlConfig());
+	xml_node<>* cfg = (xml_node<>*)xml::Parse(task->GetCtrlSetting());
 	std::locale::global(std::locale(""));
 	cstr8 pid = xml::ValueCh8(cfg->first_node("pid"));
 	if(!_Pipe->Connect(pid))
@@ -32,22 +34,21 @@ bool Worker_PIPE::RunStageA()
 
 bool Worker_PIPE::RunStageB()
 {
-	Config* config = Config::GetInstance();
-	Flag* flag = config->GetFlag();
-
+	Setting* setting = Setting::GetInstance();
 	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();
 
 	_Pipe->Write("B");
 	//TODO: wait for permission
 
-	int freq_monitor = flag->Valid(VF_CONFIG_RTMON) ? 5 : 50;
+	int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
 	inv->Start();
-	Context* ctx = inv->GetContext();
-	while(ctx->GetState() != VF_STATE_IDLE)
+	Stack* stack = inv->GetStack();
+	Context* ctx = stack->GetContext();
+	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 	{
 		ostringstream oss;
-		oss<<ctx->GetState()<<",";
+		oss<<ctx->GetCurrentState()<<",";
 		oss<<ctx->GetProgress();
 		_Pipe->Write(oss.str().c_str());
 		cstr8 data = _Pipe->Read();
@@ -75,7 +76,8 @@ bool Worker_PIPE::RunStageC()
 {
 	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();
-	Envelope* env = inv->GetEnvelope();
+	Stack* stack = inv->GetStack();
+	Envelope* env = stack->GetEnvelope();
 
 	string resp = "C<response><params>";
 	for(int i=0;i<env->GetTotal();i++) 

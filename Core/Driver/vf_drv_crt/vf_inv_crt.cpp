@@ -4,7 +4,7 @@
 
 InvokerCRT::InvokerCRT()
 {
-	_PtrEntry = null;
+	_Action = null;
 }
 
 InvokerCRT::~InvokerCRT()
@@ -17,13 +17,11 @@ bool InvokerCRT::Initialize(Library* lib, int fid)
 		return false;
 	Invoker::Initialize(lib, fid);
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
-	_PtrEntry = (Delegate)lib_crt->GetEntry();
+	_Action = (Action)lib_crt->GetEntry();
 	return true;
 }
 
 void InvokerCRT::_Entry()
 {
-	int retcode = _PtrEntry();
-	Context* ctx = _Stack->GetContext();
-	ctx->SetReturnCode(retcode);
+	_Action();
 }

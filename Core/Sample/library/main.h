@@ -4,13 +4,13 @@
 
 using namespace vapula;
 
-extern "C" __declspec(dllexport) int Run();
+extern "C" __declspec(dllexport) void Run();
 
-int Function_Math();
-int Function_Out();
-int Function_TestArray();
-int Function_TestObject();
-int Function_TestContext();
+void Function_Math();
+void Function_Out();
+void Function_TestArray();
+void Function_TestObject();
+void Function_TestContext();
 
 class TestClassA
 {
