@@ -114,11 +114,11 @@
     <ClInclude Include="include\vf_invoker.h">
       <Filter>头文件\core\library</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_token.h">
-      <Filter>头文件\core\library</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_dev_inv.h">
       <Filter>头文件\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_token.h">
+      <Filter>头文件\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +171,7 @@
       <Filter>源文件\core\library</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_token.cpp">
-      <Filter>源文件\core\library</Filter>
+      <Filter>源文件\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

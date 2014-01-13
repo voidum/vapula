@@ -10,8 +10,7 @@ namespace Vapula.Runtime
     {
         #region 字段
         protected IntPtr _Handle;
-        protected Context _Context = null;
-        protected Envelope _Envelope = null;
+        protected Stack _Stack = null;
         #endregion
 
         #region 构造
@@ -24,41 +23,22 @@ namespace Vapula.Runtime
         #region 属性
         public int FunctionId
         {
-            get
-            {
-                return Bridge.GetFunctionId(_Handle);
-            }
+            get { return Bridge.GetFunctionId(_Handle); }
         }
 
         /// <summary>
-        /// 获取或设置调用器的上下文
+        /// 获取或设置当前私有栈
         /// </summary>
-        public Context Context
+        public Stack Stack
         {
             get
             {
-                if (_Context == null)
+                if (_Stack == null)
                 {
-                    IntPtr ptr = Bridge.GetContext(_Handle);
-                    _Context = new Context(ptr);
+                    IntPtr ptr = Bridge.GetStack(_Handle);
+                    _Stack = new Stack(ptr);
                 }
-                return _Context;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置信封
-        /// </summary>
-        public Envelope Envelope
-        {
-            get
-            {
-                if (_Envelope == null)
-                {
-                    IntPtr ptr = Bridge.GetEnvelope(_Handle);
-                    _Envelope = new Envelope(ptr);
-                }
-                return _Envelope;
+                return _Stack;
             }
         }
         #endregion

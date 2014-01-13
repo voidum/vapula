@@ -1,33 +1,26 @@
 #pragma once
 
-#include "vf_utility.h"
+#include "vf_base.h"
 
 namespace vapula
 {
-	//interface: stampable
-	class VAPULA_API Stampable
-	{
-	public:
-		Stampable();
-		virtual ~Stampable();
-	public:
-		virtual bool CanSeal() = 0;
-		virtual void Seal(uint16 key) = 0;
-	};
-
 	//operation token
 	class VAPULA_API Token : Uncopiable
 	{
-	private:
+	public:
 		Token();
-	public:
 		~Token();
-	public:
-		static Token* Stamp(Stampable* target);
 	private:
 		object _A;
-		uint16 _B;
+		uint8 _B;
 	public:
-		bool Match(uint16 key);
+		//check if token is lock
+		bool IsLock();
+
+		//lock token & get new key
+		uint8 Lock();
+
+		//unlock token by key
+		void Unlock(uint8 key);
 	};
 }

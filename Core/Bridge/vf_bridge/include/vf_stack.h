@@ -1,9 +1,10 @@
 #pragma once
 
-#include "vf_utility.h"
+#include "vf_base.h"
 
 namespace vapula
 {
+	class Token;
 	class Context;
 	class Envelope;
 
@@ -14,35 +15,40 @@ namespace vapula
 		Stack();
 		~Stack();
 	private:
+		Token* _Token;
+	private:
 		uint32 _StackId;
-		int _FunctionId;
+		int32 _MethodId;
 		Context* _Context;
 		Envelope* _Envelope;
 	public:
 		static Stack* GetInstance();
 	public:
+		//get token
+		Token* GetToken();
+
 		//get stack id
 		uint32 GetStackId();
 
-		//set stack id
+		//{TI2} set stack id
 		void SetStackId(uint32 id);
 
-		//get function id
-		int GetFunctionId();
+		//get method id
+		int32 GetMethodId();
 
-		//set function id
-		void SetFunctionId(int fid);
+		//{TI2} set method id
+		void SetMethodId(int32 id);
 
 		//get context
 		Context* GetContext();
 
-		//set context
+		//{TI2} set context
 		void SetContext(Context* ctx);
 
 		//get envelope
 		Envelope* GetEnvelope();
 
-		//set envelope
+		//{TI2} set envelope
 		void SetEnvelope(Envelope* env);
 	};
 

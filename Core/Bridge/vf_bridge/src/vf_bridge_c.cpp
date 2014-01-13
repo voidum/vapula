@@ -53,23 +53,15 @@ void vfeKickAllDrivers()
 
 //Library
 
-int vfeGetLibraryCount()
-{
-	LibraryHub* obj = LibraryHub::GetInstance();
-	return obj->GetCount();
-}
-
 object vfeLoadLibrary(cstr8 path)
 {
-	LibraryHub* obj = LibraryHub::GetInstance();
-	return obj->Load(path);
+	return Library::Load(path);
 }
 
 object vfeLoadLibraryW(cstr16 path)
 {
-	LibraryHub* obj = LibraryHub::GetInstance();
 	cstr8 path8 = str::ToCh8(path);
-	object lib = obj->Load(path8);
+	object lib = Library::Load(path8);
 	delete path8;
 	return lib;
 }
@@ -156,10 +148,10 @@ object vfeGetCurrentStack()
 	return stack;
 }
 
-int vfeGetFunctionId(object stack)
+int vfeGetMethodId(object stack)
 {
 	Stack* obj = (Stack*)stack;
-	return obj->GetFunctionId();
+	return obj->GetMethodId();
 }
 
 object vfeGetContext(object stack)

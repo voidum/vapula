@@ -5,12 +5,8 @@ namespace Vapula.Runtime
 {
     public class Library : IDisposable
     {
-        public static int Count
-        {
-            get { return Bridge.GetLibraryCount(); }
-        }
-
-        protected IntPtr _Handle;
+        protected IntPtr _Handle 
+            = IntPtr.Zero;
 
         /// <summary>
         /// 获取组件的标识
@@ -43,13 +39,13 @@ namespace Vapula.Runtime
         /// <summary>
         /// 获取组件的入口
         /// </summary>
-        public string EntryDpt
+        public string EntrySym
         {
             get 
             {
                 string value =
                     Bridge.MarshalString(
-                    Bridge.GetEntryDpt(_Handle), false);
+                    Bridge.GetEntrySym(_Handle), false);
                 return value;
             }
         }
@@ -65,7 +61,8 @@ namespace Vapula.Runtime
         public static Library Load(string path)
         {
             IntPtr ptr = Bridge.LoadLibrary(path);
-            if (ptr == IntPtr.Zero) return null;
+            if (ptr == IntPtr.Zero) 
+                return null;
             Library lib = null;
             string runtime = 
                 Bridge.MarshalString(

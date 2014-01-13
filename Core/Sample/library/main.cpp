@@ -4,7 +4,7 @@
 void Run()
 {
 	Stack* stack = Stack::GetInstance();
-	switch(stack->GetFunctionId())
+	switch(stack->GetMethodId())
 	{
 	case 1: Function_Math(); break;
 	case 2: Function_Out(); break;
@@ -41,6 +41,7 @@ void Function_Out()
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
+	stack->SetEnvelope(null);
 
 	cstr16 str = L"中文Engligh日本語テスト";
 	env->WriteCh16(1, str);

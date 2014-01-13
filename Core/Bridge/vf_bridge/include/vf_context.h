@@ -4,6 +4,8 @@
 
 namespace vapula
 {
+	class Token;
+	
 	//routine context
 	class VAPULA_API Context
 	{
@@ -12,6 +14,7 @@ namespace vapula
 		~Context();
 	private:
 		Lock* _Lock;
+		Token* _Token;
 	private:
 		uint8 _LastState;
 		uint8 _CurrentState;
@@ -19,7 +22,10 @@ namespace vapula
 		uint8 _CtrlCode;
 		float _Progress; //0 - 100
 	public:
-		//set state
+		//get token
+		Token* GetToken();
+
+		//{TI2} set state
 		void SetState(uint8 value);
 
 		//get current state
@@ -34,7 +40,7 @@ namespace vapula
 		//get return code
 		uint8 GetReturnCode();
 
-		//set control code
+		//{TI2} set control code
 		void SetCtrlCode(uint8 value);
 
 		//get control code

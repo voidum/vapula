@@ -13,10 +13,10 @@ namespace vapula
 	//library {base}
 	class VAPULA_API Library
 	{
-	public:
-		friend class LibraryHub;
 	protected:
 		Library();
+	public:
+		static Library* Load(cstr8 path);
 	public:
 		virtual ~Library();
 
@@ -52,11 +52,11 @@ namespace vapula
 		//get entry symbol
 		cstr8 GetEntrySym();
 
-		//create envelope
-		Envelope* CreateEnvelope(int fid);
+		//get envelope by id
+		Envelope* GetEnvelope(int id);
 
 		//create invoker
-		Invoker* CreateInvoker(int fid);
+		Invoker* CreateInvoker(int id);
 
 	public:
 		//mount library
@@ -64,36 +64,5 @@ namespace vapula
 
 		//unmount library
 		virtual void Unmount() = 0;
-	};
-
-	//hub for library
-	class VAPULA_API LibraryHub
-	{
-	private:
-		LibraryHub();
-	public:
-		~LibraryHub();
-	private:
-		static LibraryHub* _Instance;
-	public:
-		//get instance of LibraryHub
-		static LibraryHub* GetInstance();
-	private:
-		vector<Library*> _Libraries;
-	public:
-		//get count of loaded libraries
-		int GetCount();
-
-		//get library by id
-		Library* GetLibrary(cstr8 id);
-
-		//load library by path
-		Library* Load(cstr8 path);
-
-		//unload library by id
-		void Unload(cstr8 id);
-
-		//unload all libraries
-		void UnloadAll();
 	};
 }

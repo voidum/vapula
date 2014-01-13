@@ -97,3 +97,9 @@ vPLAN
 +)support AOP
 +)support logger
 +)support exception
+
+v2.0.8.3
++)Trusted Invoke v2
++)*)restore token
++)*)improve performance
++)*)adjust usage

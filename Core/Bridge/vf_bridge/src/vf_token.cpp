@@ -4,9 +4,6 @@ namespace vapula
 {
 	using namespace std::tr1;
 
-	Stampable::Stampable() { }
-	Stampable::~Stampable() { }
-
 	Token::Token()
 	{
 		_A = null;
@@ -14,50 +11,56 @@ namespace vapula
 
 	Token::~Token()
 	{
-		if(_A != null)
-			delete [] _A;
+		Clear(_A, true);
 	}
 	
-	Token* Token::Stamp(Stampable* target)
-	{
-		if(!target->CanSeal()) 
-			return null;
-		mt19937 rm_core;
-		rm_core.seed((uint32)time(0));
-		uniform_int<uint8>* rm = new uniform_int<uint8>(5, 7);
-		uint16 key = (*rm)(rm_core) * (*rm)(rm_core);
-		delete rm;
-		rm = new uniform_int<uint8>(0, 255);
-		uint8 len = (*rm)(rm_core);
-		byte* data = new byte[len + 1];
-		data[0] = len;
-		uint16 value = key;
-		for(int i=1; i < len + 1; i++)
-		{
-			data[i] = (uint8)(*rm)(rm_core);
-			value ^= data[i] > key ? data[i] : key;
-			value <<= 4;
-		}
-		delete rm;
-		Token* token = new Token();
-		token->_A = data;
-		token->_B = value;
-		target->Seal(key);
-		return token;
-	}
-
-	bool Token::Match(uint16 key)
+	bool Token::IsLock()
 	{
 		if(_A == null)
 			return false;
-		byte* data = (byte*)_A;
-		int len = data[0];
-		uint16 tmp = key;
-		for(int i=1; i < len + 1; i++)
+		uint8* data = (uint8*)_A;
+		return (data[data[0]] == 0);
+	}
+
+	uint8 Token::Lock()
+	{
+		if(IsLock())
+			return 0;
+		Clear(_A, true);
+		mt19937 rm_core;
+		rm_core.seed((uint32)time(0));
+		uniform_int<uint8> rm1(5, 8);
+		uint8 len = rm1(rm_core);
+		uint8* data = new uint8[len + 1];
+		data[0] = len;
+		//just a joke for 42
+		uniform_int<uint8> rm2(13, 42);
+		uint8 key = rm2(rm_core);
+		uint8 value = key;
+		for(int i=1; i<len+1; i++)
 		{
-			tmp ^= data[i] > key ? data[i] : key;
-			tmp <<= 4;
+			data[i] = rm2(rm_core);
+			value ^= data[i] > key ? data[i] : key;
+			value <<= 2;
 		}
-		return (tmp == _B);
+		_A = data;
+		_B = value;
+		return key;
+	}
+
+	void Token::Unlock(uint8 key)
+	{
+		if(!IsLock())
+			return;
+		uint8* data = (uint8*)_A;
+		uint8 len = data[0];
+		uint8 value = key;
+		for(int i=1; i<len+1; i++)
+		{
+			value ^= data[i] > key ? data[i] : key;
+			value <<= 2;
+		}
+		if(value == _B)
+			data[data[0]] = 0;
 	}
 }

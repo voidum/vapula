@@ -53,7 +53,6 @@
     <Compile Include="Model\Library.cs" />
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Runtime\Core\Base.cs" />
-    <Compile Include="Runtime\Core\LibraryHub.cs" />
     <Compile Include="Runtime\Core\Stack.cs" />
     <Compile Include="Runtime\Driver\DriverEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

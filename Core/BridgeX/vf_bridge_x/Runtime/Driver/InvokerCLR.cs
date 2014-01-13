@@ -31,36 +31,31 @@ namespace Vapula.Runtime
             base.Dispose();
         }
 
-        public int CallEntry()
+        public void CallEntry()
         {
             string clsid = "";
             string mtid = "";
-            if(string.IsNullOrWhiteSpace(_Library.EntryDpt))
+            if(string.IsNullOrWhiteSpace(_Library.EntrySym))
             {
                 clsid = "Program";
                 mtid = "Run";
             }
             else
             {
-                string[] ents = _Library.EntryDpt.Split(new char[] { '.' });
+                string[] ents = _Library.EntrySym.Split(new char[] { '.' });
                 clsid = ents[0];
                 mtid = ents[1];
             }
             Assembly assembly = _Library.Assembly;
             Type type = assembly.GetType(_Library.Id + "." + clsid);
-            if (type == null) 
-                return (int)ReturnCode.Error;
             try
             {
                 object instance = Activator.CreateInstance(type);
                 MethodInfo method = type.GetMethod(mtid);
-                ReturnCode ret = (ReturnCode)method.Invoke(instance,
-                    new object[] { FunctionId, Envelope, Context });
-                return (int)ret;
+                method.Invoke(instance, new object[] { Stack });
             }
             catch (Exception ex)
             {
-                return (int)ReturnCode.Error;
             }
         }
     }

@@ -22,6 +22,8 @@ namespace vapula
 		HANDLE _Thread;
 		bool _IsSuspend;
 		Stack* _Stack;
+		uint8 _StackKey;
+		uint8 _ContextKey;
 
 	protected:
 		//invoke routine
@@ -32,7 +34,7 @@ namespace vapula
 
 	public:
 		//initialize invoker
-		virtual bool Initialize(Library* lib, int fid); 
+		virtual bool Initialize(Library* lib, int id); 
 
 	public:
 		//get stack of task by invoker

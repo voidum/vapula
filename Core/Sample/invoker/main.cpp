@@ -70,7 +70,7 @@ void Test2(Library* lib)
 	env->WriteValue(1, 12);
 	env->WriteValue(2, 23);
 
-	cout<<"[Invoke function 0] ... ";
+	cout<<"[invoke function 0] ... ";
 	Assert(inv->Start());
 
 	Context* ctx = stack->GetContext();
@@ -118,8 +118,7 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	LibraryHub* lib_hub = LibraryHub::GetInstance();
-	Library* lib = lib_hub->Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
+	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";

@@ -1,18 +1,31 @@
 #include "vf_stack.h"
+#include "vf_token.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
 
 namespace vapula
 {
-	Stack::Stack() { }
-	Stack::~Stack() { }
+	Stack::Stack()
+	{
+		_Token = new Token();
+	}
+
+	Stack::~Stack()
+	{
+		Clear(_Token);
+	}
 
 	Stack* Stack::GetInstance()
 	{
-		uint32 id = GetCurrentThreadId();
 		StackHub* stackhub = StackHub::GetInstance();
+		uint32 id = GetCurrentThreadId();
 		Stack* stack = stackhub->GetStack(id);
 		return stack;
+	}
+
+	Token* Stack::GetToken()
+	{
+		return _Token;
 	}
 
 	uint32 Stack::GetStackId()
@@ -22,17 +35,21 @@ namespace vapula
 
 	void Stack::SetStackId(uint32 id)
 	{
+		if(_Token->IsLock())
+			return;
 		_StackId = id;
 	}
 
-	int Stack::GetFunctionId()
+	int32 Stack::GetMethodId()
 	{
-		return _FunctionId;
+		return _MethodId;
 	}
 
-	void Stack::SetFunctionId(int fid)
+	void Stack::SetMethodId(int32 id)
 	{
-		_FunctionId = fid;
+		if(_Token->IsLock())
+			return;
+		_MethodId = id;
 	}
 
 	Context* Stack::GetContext()
@@ -42,6 +59,8 @@ namespace vapula
 
 	void Stack::SetContext(Context* ctx)
 	{
+		if(_Token->IsLock())
+			return;
 		_Context = ctx;
 	}
 
@@ -52,6 +71,8 @@ namespace vapula
 
 	void Stack::SetEnvelope(Envelope* env)
 	{
+		if(_Token->IsLock())
+			return;
 		_Envelope = env;
 	}
 
