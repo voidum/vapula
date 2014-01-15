@@ -24,6 +24,9 @@ void Function_Math()
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
+	//TI2 will ignore invalid operation
+	stack->SetEnvelope(null);
+
 	int a = env->ReadValue<int>(1);
 	int b = env->ReadValue<int>(2);
 
@@ -41,7 +44,6 @@ void Function_Out()
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
-	stack->SetEnvelope(null);
 
 	cstr16 str = L"中文Engligh日本語テスト";
 	env->WriteCh16(1, str);

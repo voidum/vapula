@@ -1,7 +1,6 @@
 #include "vf_invoker.h"
 #include "vf_library.h"
 #include "vf_stack.h"
-#include "vf_token.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
 #include "vf_driver.h"
@@ -30,21 +29,19 @@ namespace vapula
 
 	uint32 WINAPI Invoker::Entry()
 	{
-		StackHub* stack_hub = StackHub::GetInstance();
-		Token* token_stk = _Stack->GetToken();
-		token_stk->Unlock(_StackKey);
+		_Stack->TokenOn(_StackKey);
 		_Stack->SetStackId(GetCurrentThreadId());
-		_StackKey = token_stk->Lock();
+		_Stack->TokenOff(_StackKey);
 
+		StackHub* stack_hub = StackHub::GetInstance();
 		stack_hub->Link(_Stack);
 		_Entry();
 		stack_hub->Kick(_Stack);
 
 		Context* ctx = _Stack->GetContext();
-		Token* token_ctx = ctx->GetToken();
-		token_ctx->Unlock(_ContextKey);
+		ctx->TokenOn(_ContextKey);
 		ctx->SetState(VF_STATE_IDLE);
-		_ContextKey = token_ctx->Lock();
+		ctx->TokenOff(_ContextKey);
 		return 0;
 	}
 
@@ -56,12 +53,9 @@ namespace vapula
 
 		Context* ctx = new Context();
 		_Stack->SetContext(ctx);
-		
-		Token* token_ctx = ctx->GetToken();
-		_ContextKey = token_ctx->Lock();
-		
-		Token* token_stk = _Stack->GetToken();
-		_StackKey = token_stk->Lock();
+		ctx->TokenOff(_ContextKey);
+
+		_Stack->TokenOff(_StackKey);
 		return true;
 	}
 
@@ -78,11 +72,10 @@ namespace vapula
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
-		Token* token = ctx->GetToken();
-		token->Unlock(_ContextKey);
+		ctx->TokenOn(_ContextKey);
 		ctx->SetState(VF_STATE_BUSY_BACK);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
-		_ContextKey = token->Lock();
+		ctx->TokenOff(_ContextKey);
 
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
 
@@ -95,13 +88,12 @@ namespace vapula
 	void Invoker::Stop(uint32 wait)
 	{
 		Context* ctx = _Stack->GetContext();
-		Token* token = ctx->GetToken();
 		bool finish = false;
 		if(wait != 0)
 		{
-			token->Unlock(_ContextKey);
+			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_CANCEL);
-			_ContextKey = token->Lock();
+			ctx->TokenOff(_ContextKey);
 
 			DWORD dw = WaitForSingleObject(_Thread, wait);
 			if(dw == WAIT_OBJECT_0)
@@ -113,10 +105,10 @@ namespace vapula
 			WaitForSingleObject(_Thread, INFINITE);
 			ctx->SetReturnCode(VF_RETURN_TERMINATE);
 		}
-		token->Unlock(_ContextKey);
+		ctx->TokenOn(_ContextKey);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetState(VF_STATE_IDLE);
-		_ContextKey = token->Lock();
+		ctx->TokenOff(_ContextKey);
 		
 		CloseHandle(_Thread);
 		_Thread = null;
@@ -125,7 +117,6 @@ namespace vapula
 	void Invoker::Pause(uint32 wait)
 	{
 		Context* ctx = _Stack->GetContext();
-		Token* token = ctx->GetToken();
 		_IsSuspend = false;
 		if(wait != 0)
 		{
@@ -133,9 +124,9 @@ namespace vapula
 			if(wait % 25 != 0) 
 				times++;
 
-			token->Unlock(_ContextKey);
+			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_PAUSE);
-			_ContextKey = token->Lock();
+			ctx->TokenOff(_ContextKey);
 
 			for(int i=0; i<times; i++)
 			{
@@ -153,7 +144,6 @@ namespace vapula
 	void Invoker::Resume()
 	{
 		Context* ctx = _Stack->GetContext();
-		Token* token = ctx->GetToken();
 		if(_IsSuspend)
 		{
 			_IsSuspend = false;
@@ -162,9 +152,9 @@ namespace vapula
 		}
 		else
 		{
-			token->Unlock(_ContextKey);
+			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_RESUME);
-			_ContextKey = token->Lock();
+			ctx->TokenOff(_ContextKey);
 		}
 	}
 

@@ -103,3 +103,7 @@ v2.0.8.3
 +)*)restore token
 +)*)improve performance
 +)*)adjust usage
+
+v2.0.8.4
+*)improve TI2
+*)+)add lock for token

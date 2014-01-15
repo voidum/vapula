@@ -2,6 +2,7 @@
 #pragma warning(disable:4275)
 
 #include "vf_base.h"
+#include "vf_token.h"
 
 namespace vapula
 {

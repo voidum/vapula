@@ -80,7 +80,7 @@ namespace vapula
 
 	//clear target
 	template<typename T>
-	void Clear(T target, bool isarr = false)
+	void Clear(T& target, bool isarr = false)
 	{
 		if(target != null)
 		{

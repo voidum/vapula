@@ -90,8 +90,7 @@ namespace vapula
 		cstr8 path_lib = str::EncodeCh8(path_lib_utf8, _vf_msg_cp, null);
 		delete path_lib_utf8;
 
-		LibraryHub* library_hub = LibraryHub::GetInstance();
-		task->_Library = library_hub->Load(path);
+		task->_Library = Library::Load(path);
 		delete path_lib;
 
 		if(task->_Library == null)

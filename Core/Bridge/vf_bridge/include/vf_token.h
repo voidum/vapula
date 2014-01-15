@@ -4,6 +4,22 @@
 
 namespace vapula
 {
+	class Token;
+
+	//require [TrustedInvoker v2]
+	class VAPULA_API RequireTI
+	{
+	public:
+		RequireTI();
+		virtual ~RequireTI();
+	protected:
+		Token* _Token;
+	public:
+		bool AssertOffTI();
+		void TokenOff(uint8& key);
+		void TokenOn(uint8 key);
+	};
+
 	//operation token
 	class VAPULA_API Token : Uncopiable
 	{
@@ -11,16 +27,17 @@ namespace vapula
 		Token();
 		~Token();
 	private:
+		Lock* _Lock;
 		object _A;
 		uint8 _B;
 	public:
-		//check if token is lock
-		bool IsLock();
+		//check if token is on
+		bool IsOff();
 
-		//lock token & get new key
-		uint8 Lock();
+		//turn off token & get new key
+		void Off(uint8& key);
 
-		//unlock token by key
-		void Unlock(uint8 key);
+		//turn on token by key
+		void On(uint8 key);
 	};
 }

@@ -1,5 +1,4 @@
 #include "vf_context.h"
-#include "vf_token.h"
 
 namespace vapula
 {
@@ -13,7 +12,6 @@ namespace vapula
 		_CtrlCode = VF_CTRL_NULL;
 		_Progress = 0;
 		_Lock = new Lock();
-		_Token = new Token();
 	}
 
 	Context::~Context()
@@ -21,14 +19,10 @@ namespace vapula
 		Clear(_Lock);
 	}
 
-	Token* Context::GetToken()
-	{
-		return _Token;
-	}
-
 	void Context::SetState(uint8 value)
 	{
-		if(_Token->IsLock())
+		if(AssertOffTI())
+			//throw new exception(_vf_err_3);
 			return;
 		_Lock->Enter();
 		_LastState = _CurrentState;
@@ -69,7 +63,8 @@ namespace vapula
 
 	void Context::SetCtrlCode(uint8 value)
 	{
-		if(_Token->IsLock())
+		if(AssertOffTI())
+			//throw new exception(_vf_err_3);
 			return;
 		_Lock->Enter();
 		_CtrlCode = value;

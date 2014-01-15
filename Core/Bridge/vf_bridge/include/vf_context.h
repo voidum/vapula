@@ -4,17 +4,14 @@
 
 namespace vapula
 {
-	class Token;
-	
 	//routine context
-	class VAPULA_API Context
+	class VAPULA_API Context : public RequireTI
 	{
 	public:
 		Context();
 		~Context();
 	private:
 		Lock* _Lock;
-		Token* _Token;
 	private:
 		uint8 _LastState;
 		uint8 _CurrentState;
@@ -22,9 +19,6 @@ namespace vapula
 		uint8 _CtrlCode;
 		float _Progress; //0 - 100
 	public:
-		//get token
-		Token* GetToken();
-
 		//{TI2} set state
 		void SetState(uint8 value);
 

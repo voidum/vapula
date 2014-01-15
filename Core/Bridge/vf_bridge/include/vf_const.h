@@ -103,6 +103,8 @@ namespace vapula
 	cstr8 const _vf_err_0 = "invalid data type";
 	cstr8 const _vf_err_1 = "access null param";
 	cstr8 const _vf_err_2 = "invalid invoke";
+	cstr8 const _vf_err_3 = "untrusted invoke";
+
 	cstr8 const _vf_bridge = "Vapula Bridge";
 	cstr8 const _vf_msg_cp = "utf8";
 }

@@ -1,21 +1,18 @@
 #pragma once
 
-#include "vf_base.h"
+#include "vf_utility.h"
 
 namespace vapula
 {
-	class Token;
 	class Context;
 	class Envelope;
 
 	//stack
-	class VAPULA_API Stack
+	class VAPULA_API Stack : public RequireTI
 	{
 	public:
 		Stack();
 		~Stack();
-	private:
-		Token* _Token;
 	private:
 		uint32 _StackId;
 		int32 _MethodId;
@@ -24,9 +21,6 @@ namespace vapula
 	public:
 		static Stack* GetInstance();
 	public:
-		//get token
-		Token* GetToken();
-
 		//get stack id
 		uint32 GetStackId();
 
