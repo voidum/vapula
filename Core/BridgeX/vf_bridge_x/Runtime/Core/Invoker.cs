@@ -21,11 +21,6 @@ namespace Vapula.Runtime
         #endregion
 
         #region 属性
-        public int FunctionId
-        {
-            get { return Bridge.GetFunctionId(_Handle); }
-        }
-
         /// <summary>
         /// 获取或设置当前私有栈
         /// </summary>

@@ -33,9 +33,9 @@ namespace Vapula.Runtime
             return Bridge.LinkDriver(id);
         }
 
-        public bool Kick(string id)
+        public void Kick(string id)
         {
-            return Bridge.KickDriver(id);
+            Bridge.KickDriver(id);
         }
 
         public void KickAll()

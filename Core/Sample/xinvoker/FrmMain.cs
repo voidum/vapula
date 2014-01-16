@@ -13,8 +13,10 @@ namespace sample_xinvoker
         {
             InitializeComponent();
             drv_hub = DriverHub.Instance;
-            if (!drv_hub.Link("crt")) return;
-            if (!drv_hub.Link("clr")) return;
+            if (!drv_hub.Link(@"E:\Projects\vapula\Core\Sample\xinvoker\bin\Debug\crt.vapula.driver")) 
+                return;
+            if (!drv_hub.Link(@"E:\Projects\vapula\Core\Sample\xinvoker\bin\Debug\clr.vapula.driver")) 
+                return;
         }
 
         private void UpdateLog(string log)
@@ -27,8 +29,9 @@ namespace sample_xinvoker
             Invoker inv = lib.CreateInvoker(5);
             if (inv == null) return;
             if (!inv.Start()) return;
-            Context ctx = inv.Context;
-            while (ctx.State != State.Idle)
+            Stack stk = inv.Stack;
+            Context ctx = stk.Context;
+            while (ctx.CurrentState != State.Idle)
             {
                 float prog = ctx.Progress;
                 if (prog > 10)
@@ -48,7 +51,8 @@ namespace sample_xinvoker
             }
             inv.Resume();
             UpdateLog("已恢复，进度：" + ctx.Progress.ToString() + "%");
-            while (ctx.State != State.Idle) Thread.Sleep(50);
+            while (ctx.CurrentState != State.Idle)
+                Thread.Sleep(50);
             UpdateLog("测试1完成");
             UpdateLog("-------------");
             inv.Dispose();
@@ -56,12 +60,12 @@ namespace sample_xinvoker
 
         void Test2(Library lib)
         {
-            UpdateLog("获取用于功能0的调用器对象");
+            UpdateLog("获取用于功能1的调用器对象");
             Invoker inv = lib.CreateInvoker(1);
-            if (inv == null) return;
+            Stack stk = inv.Stack;
 
             UpdateLog("获取信封对象");
-            Envelope env = inv.Envelope;
+            Envelope env = stk.Envelope;
             if (env == null) return;
 
             UpdateLog("设置参数");
@@ -71,8 +75,9 @@ namespace sample_xinvoker
             UpdateLog("执行功能");
             if (!inv.Start()) return;
 
-            Context ctx = inv.Context;
-            while (ctx.State != State.Idle) Thread.Sleep(50);
+            Context ctx = stk.Context;
+            while (ctx.CurrentState != State.Idle)
+                Thread.Sleep(50);
 
             UpdateLog("验证输出：" + env.Read(3));
 
@@ -82,9 +87,10 @@ namespace sample_xinvoker
                 env.Write(1, "12");
                 env.Write(2, "23");
                 inv.Start();
-                ctx = inv.Context;
+                ctx = stk.Context;
                 //sw = ctx.GetStopwatch();
-                while (ctx.State != State.Idle) Thread.Sleep(0);
+                while (ctx.CurrentState != State.Idle) 
+                    Thread.Sleep(0);
                 //td_time += sw.GetElapsedTime();
                 int.Parse(env.Read(3));
             }
@@ -93,8 +99,9 @@ namespace sample_xinvoker
 
         private void BtRun1_Click(object sender, EventArgs e)
         {
-            Library lib = Library.Load("...");
-            if (lib == null) return;
+            Library lib = Library.Load(@"E:\Projects\vapula\Core\Sample\xlibrary\bin\Debug\sample_xlib.library");
+            if (lib == null) 
+                return;
             lib.Mount();
             Test1(lib);
             Test2(lib);

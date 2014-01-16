@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vf_base.h"
+#include "vf_utility.h"
 
 using namespace vapula;
 

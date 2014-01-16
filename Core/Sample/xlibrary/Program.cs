@@ -5,50 +5,50 @@ namespace sample_xlib
 {
     public class Program
     {
-        public ReturnCode Run(int function, Envelope envelope, Context context)
+        public void Run()
         {
-            Sample sample = new Sample(envelope, context);
-            switch (function)
+            Stack stack = Stack.Instance;
+
+            Sample sample = new Sample();
+            switch (stack.FunctionId)
             {
-                case 1: return sample.Function_Math();
-                case 2: return sample.Function_Out();
-                case 3: return sample.Function_Array();
-                case 4: return sample.Function_Object();
-                case 5: return sample.Function_Context();
-                default: return ReturnCode.NullEntry;
+                case 1: sample.Function_Math(); break;
+                case 2: sample.Function_Out(); break;
+                case 3: sample.Function_Array(); break;
+                case 4: sample.Function_Object(); break;
+                case 5: sample.Function_Context(); break;
+                default: 
+                    stack.Context.ReturnCode = ReturnCode.NullEntry;
+                    break;
             }
         }
     }
 
     public class Sample
     {
-        private Envelope _Envelope;
-        private Context _Context;
-
-        public Sample(Envelope env, Context ctx)
+        public void Function_Math()
         {
-            _Envelope = env;
-            _Context = ctx;
-        }
-
-        public ReturnCode Function_Math()
-        {
-            int a = int.Parse(_Envelope.Read(1));
-            int b = int.Parse(_Envelope.Read(2));
+            Stack stack = Stack.Instance;
+            Envelope env = stack.Envelope;
+            int a = int.Parse(env.Read(1));
+            int b = int.Parse(env.Read(2));
             int c = a + b;
-            _Envelope.Write(3, c.ToString());
-            return ReturnCode.Normal;
+            env.Write(3, c.ToString());
+            stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
-        public ReturnCode Function_Out()
+        public void Function_Out()
         {
-            _Envelope.Write(1, "中文English日本語テスト");
-            return ReturnCode.Normal;
+            Stack stack = Stack.Instance;
+            Envelope env = stack.Envelope;
+            env.Write(1, "中文English日本語テスト");
+            stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
-        public ReturnCode Function_Array()
+        public void Function_Array()
         {
-            return ReturnCode.NullTask;
+            Stack stack = Stack.Instance;
+            stack.Context.ReturnCode = ReturnCode.NullTask;
             /*
             int count = int.Parse(_Envelope.Read(0));
             //TODO: 实现读取数组
@@ -63,8 +63,10 @@ namespace sample_xlib
         }
 
         //第四个任务
-        public ReturnCode Function_Object()
+        public void Function_Object()
         {
+            Stack stack = Stack.Instance;
+            stack.Context.ReturnCode = ReturnCode.NullTask;
             /*
             TestClassA* obj = (TestClassA*)envelope->Read<LPVOID>(0);
             bool ifinc = envelope->Read<bool>(1);
@@ -75,35 +77,36 @@ namespace sample_xlib
             envelope->Write(2, (LPVOID)obj);
              */
             //TODO: 实现结构探测
-            return ReturnCode.NullTask;
         }
 
         //第五个任务
-        public ReturnCode Function_Context()
+        public void Function_Context()
         {
+            Stack stack = Stack.Instance;
+            Context ctx = stack.Context;
             for (int i = 0; i < 1000; i++)
             {
-                CtrlCode ctrl = _Context.CtrlCode;
+                CtrlCode ctrl = ctx.CtrlCode;
                 if (ctrl == CtrlCode.Cancel)
-                    return ReturnCode.CancelByMsg;
+                    ctx.ReturnCode = ReturnCode.Cancel;
                 if (ctrl == CtrlCode.Pause)
                 {
-                    _Context.ReplyCtrlCode();
+                    ctx.SwitchHold();
                     while (true)
                     {
-                        ctrl = _Context.CtrlCode;
+                        ctrl = ctx.CtrlCode;
                         if (ctrl == CtrlCode.Resume)
                         {
-                            _Context.ReplyCtrlCode();
+                            ctx.SwitchHold();
                             break;
                         }
                         Thread.Sleep(25);
                     }
                 }
-                _Context.Progress = i / 10.0f;
+                ctx.Progress = i / 10.0f;
                 Thread.Sleep(25);
             }
-            return ReturnCode.Normal;
+            ctx.ReturnCode = ReturnCode.Normal;
         }
     }
 }

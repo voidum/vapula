@@ -18,9 +18,9 @@ namespace Vapula.API
         }
 
         #region Base
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeTestBridge",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetVersion",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TestBridge();
+        public static extern IntPtr GetVersion();
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteObject",
             CallingConvention = CallingConvention.Cdecl)]
@@ -40,7 +40,7 @@ namespace Vapula.API
         [DllImport("vf_bridge.dll", EntryPoint = "vfeKickDriver",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool KickDriver(string id);
+        public static extern void KickDriver(string id);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeKickAllDrivers",
             CallingConvention = CallingConvention.Cdecl)]
@@ -65,9 +65,9 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetLibraryId(IntPtr lib);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEntryDpt",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEntrySym",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetEntryDpt(IntPtr lib);
+        public static extern IntPtr GetEntrySym(IntPtr lib);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeMountLibrary",
             CallingConvention = CallingConvention.Cdecl)]
@@ -81,11 +81,7 @@ namespace Vapula.API
         #region Invoker
         [DllImport("vf_bridge.dll", EntryPoint = "vfeCreateInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CreateInvoker(IntPtr lib, int fid);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetFunctionId",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetFunctionId(IntPtr lib);
+        public static extern IntPtr CreateInvoker(IntPtr lib, int mt);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeStartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
@@ -108,22 +104,48 @@ namespace Vapula.API
         public static extern void RestartInvoker(IntPtr inv, uint wait);
         #endregion
 
-        #region Context
+        #region Stack
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetStack",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetStack(IntPtr inv);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetCurrentStack",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetCurrentStack();
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetFunctionId",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetFunctionId(IntPtr stk);
+
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetContext",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetContext(IntPtr inv);
+        public static extern IntPtr GetContext(IntPtr stk);
 
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEnvelope",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetEnvelope(IntPtr stk);
+        #endregion
+
+        #region Context
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetCtrlCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetCtrlCode(IntPtr ctx);
+        public static extern byte GetCtrlCode(IntPtr ctx);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetState",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetCurrentState",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetState(IntPtr ctx);
+        public static extern byte GetCurrentState(IntPtr ctx);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetLastState",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern byte GetLastState(IntPtr ctx);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetReturnCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetReturnCode(IntPtr ctx);
+        public static extern byte GetReturnCode(IntPtr ctx);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSetReturnCode",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetReturnCode(IntPtr ctx, byte ret);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetProgress",
             CallingConvention = CallingConvention.Cdecl)]
@@ -133,20 +155,28 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetProgress(IntPtr ctx, float prog);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReplyCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSwitchHold",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ReplyCtrlCode(IntPtr ctx);
+        public static extern void SwitchHold(IntPtr ctx);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeSwitchBusy",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SwitchBusy(IntPtr ctx);
         #endregion
 
         #region Envelope
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEnvelope",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetEnvelope(IntPtr inv);
-
         [DllImport("vf_bridge.dll", EntryPoint = "vfeParseEnvelopeW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ParseEnvelope(string xml);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeZeroEnvelope",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ZeroEnvelope(object env);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeCopyEnvelope",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr CopyEnvelope(object env);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeValueW",
             CharSet = CharSet.Unicode,

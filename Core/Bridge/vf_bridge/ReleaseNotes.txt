@@ -92,14 +92,8 @@ v2.0.8.2
 =)adjust entries
 *)rename Settings => Setting
 
-vPLAN
-+)support smart pointer
-+)support AOP
-+)support logger
-+)support exception
-
 v2.0.8.3
-+)Trusted Invoke v2
++)add TI v2
 +)*)restore token
 +)*)improve performance
 +)*)adjust usage
@@ -107,3 +101,20 @@ v2.0.8.3
 v2.0.8.4
 *)improve TI2
 *)+)add lock for token
+
+v2.0.8.5
+*)remove TI2
+*)*)for the stability and efficiency
+
+*)improve stack
+*)*)add lock for stackhub
+
+=)adjust entry
+
+
+vPLAN
++)support smart pointer
++)support AOP
++)support logger
++)support exception
++)support virtual thread

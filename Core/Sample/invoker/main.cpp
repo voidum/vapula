@@ -83,7 +83,7 @@ void Test2(Library* lib)
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
-	for (int i=0;i<2000;i++)
+	for (int i=0;i<5000;i++)
 	{
 		env->WriteValue(1, 12);
 		env->WriteValue(2, 23);

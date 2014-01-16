@@ -6,9 +6,9 @@
     public enum State
     {
         Idle = 0,
-        Busy = 1,
-        Pause = 2,
-        UI = 3
+        BusyBack = 1,
+        BusyFront = 2,
+        Pause = 3
     }
 
     //控制码
@@ -28,8 +28,8 @@
     {
         Error = 0,
         Normal = 1,
-        CancelByMsg = 2,
-        CancelByForce = 3,
+        Cancel = 2,
+        Terminate = 3,
         NullEntry = 4,
         NullTask = 5
     }

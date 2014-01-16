@@ -27,11 +27,19 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取运行状态
+        /// 获取当前状态
         /// </summary>
-        public State State
+        public State CurrentState
         {
-            get { return (State)Bridge.GetState(_Handle); }
+            get { return (State)Bridge.GetCurrentState(_Handle); }
+        }
+
+        /// <summary>
+        /// 获取上一个状态
+        /// </summary>
+        public State LastState
+        {
+            get { return (State)Bridge.GetLastState(_Handle); }
         }
 
         /// <summary>
@@ -49,6 +57,7 @@ namespace Vapula.Runtime
         public ReturnCode ReturnCode
         {
             get { return (ReturnCode)Bridge.GetReturnCode(_Handle); }
+            set { Bridge.SetReturnCode(_Handle, (byte)value); }
         }
 
         /// <summary>
@@ -60,11 +69,19 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 应答控制码
+        /// 切换暂停/恢复
         /// </summary>
-        public void ReplyCtrlCode()
+        public void SwitchHold()
         {
-            Bridge.ReplyCtrlCode(_Handle);
+            Bridge.SwitchHold(_Handle);
+        }
+
+        /// <summary>
+        /// 切换占用状态的后端/前端标记
+        /// </summary>
+        public void SwitchBusy()
+        {
+            Bridge.SwitchBusy(_Handle);
         }
     }
 }

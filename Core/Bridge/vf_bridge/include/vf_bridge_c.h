@@ -25,10 +25,9 @@ extern "C"
 	VAPULA_API cstr8 vfeGetEntrySym(object lib);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
-	VAPULA_API object vfeCreateInvoker(object lib, int fid);
 
 	//Invoker
-	VAPULA_API object vfeGetStack(object inv);
+	VAPULA_API object vfeCreateInvoker(object lib, int mt);
 	VAPULA_API int vfeStartInvoker(object inv);
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
@@ -36,16 +35,18 @@ extern "C"
 	VAPULA_API void vfeRestartInvoker(object inv, uint32 wait);
 
 	//Stack
+	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API object vfeGetCurrentStack();
-	VAPULA_API int vfeGetFunctionId(object stack);
-	VAPULA_API object vfeGetContext(object stack);
-	VAPULA_API object vfeGetEnvelope(object stack);
+	VAPULA_API int vfeGetFunctionId(object stk);
+	VAPULA_API object vfeGetContext(object stk);
+	VAPULA_API object vfeGetEnvelope(object stk);
 	
 	//Context
 	VAPULA_API uint8 vfeGetCtrlCode(object ctx);
 	VAPULA_API uint8 vfeGetCurrentState(object ctx);
 	VAPULA_API uint8 vfeGetLastState(object ctx);
 	VAPULA_API uint8 vfeGetReturnCode(object ctx);
+	VAPULA_API void vfeSetReturnCode(object ctx, uint8 ret);
 	VAPULA_API float vfeGetProgress(object ctx);
 	VAPULA_API void vfeSetProgress(object ctx, float prog);
 	VAPULA_API void vfeSwitchHold(object ctx);

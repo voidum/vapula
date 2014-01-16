@@ -29,33 +29,23 @@ namespace vapula
 
 	uint32 WINAPI Invoker::Entry()
 	{
-		_Stack->TokenOn(_StackKey);
 		_Stack->SetStackId(GetCurrentThreadId());
-		_Stack->TokenOff(_StackKey);
 
 		StackHub* stack_hub = StackHub::GetInstance();
 		stack_hub->Link(_Stack);
 		_Entry();
 		stack_hub->Kick(_Stack);
 
-		Context* ctx = _Stack->GetContext();
-		ctx->TokenOn(_ContextKey);
-		ctx->SetState(VF_STATE_IDLE);
-		ctx->TokenOff(_ContextKey);
+		_Stack->GetContext()->SetState(VF_STATE_IDLE);
 		return 0;
 	}
 
 	bool Invoker::Initialize(Library* lib, int id)
 	{
 		_Stack = new Stack();
-		_Stack->SetMethodId(id);
+		_Stack->SetFunctionId(id);
 		_Stack->SetEnvelope(lib->GetEnvelope(id)->Copy());
-
-		Context* ctx = new Context();
-		_Stack->SetContext(ctx);
-		ctx->TokenOff(_ContextKey);
-
-		_Stack->TokenOff(_StackKey);
+		_Stack->SetContext(new Context());
 		return true;
 	}
 
@@ -72,11 +62,8 @@ namespace vapula
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
-		ctx->TokenOn(_ContextKey);
 		ctx->SetState(VF_STATE_BUSY_BACK);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
-		ctx->TokenOff(_ContextKey);
-
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
 
 		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
@@ -91,10 +78,7 @@ namespace vapula
 		bool finish = false;
 		if(wait != 0)
 		{
-			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_CANCEL);
-			ctx->TokenOff(_ContextKey);
-
 			DWORD dw = WaitForSingleObject(_Thread, wait);
 			if(dw == WAIT_OBJECT_0)
 				finish = true;
@@ -105,10 +89,8 @@ namespace vapula
 			WaitForSingleObject(_Thread, INFINITE);
 			ctx->SetReturnCode(VF_RETURN_TERMINATE);
 		}
-		ctx->TokenOn(_ContextKey);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetState(VF_STATE_IDLE);
-		ctx->TokenOff(_ContextKey);
 		
 		CloseHandle(_Thread);
 		_Thread = null;
@@ -124,10 +106,7 @@ namespace vapula
 			if(wait % 25 != 0) 
 				times++;
 
-			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_PAUSE);
-			ctx->TokenOff(_ContextKey);
-
 			for(int i=0; i<times; i++)
 			{
 				byte state = ctx->GetCurrentState();
@@ -152,9 +131,7 @@ namespace vapula
 		}
 		else
 		{
-			ctx->TokenOn(_ContextKey);
 			ctx->SetCtrlCode(VF_CTRL_RESUME);
-			ctx->TokenOff(_ContextKey);
 		}
 	}
 

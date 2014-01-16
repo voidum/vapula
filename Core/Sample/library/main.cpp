@@ -4,7 +4,7 @@
 void Run()
 {
 	Stack* stack = Stack::GetInstance();
-	switch(stack->GetMethodId())
+	switch(stack->GetFunctionId())
 	{
 	case 1: Function_Math(); break;
 	case 2: Function_Out(); break;
@@ -25,7 +25,7 @@ void Function_Math()
 	Context* ctx = stack->GetContext();
 
 	//TI2 will ignore invalid operation
-	stack->SetEnvelope(null);
+	//stack->SetEnvelope(null);
 
 	int a = env->ReadValue<int>(1);
 	int b = env->ReadValue<int>(2);

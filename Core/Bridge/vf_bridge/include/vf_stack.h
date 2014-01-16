@@ -8,14 +8,14 @@ namespace vapula
 	class Envelope;
 
 	//stack
-	class VAPULA_API Stack : public RequireTI
+	class VAPULA_API Stack
 	{
 	public:
 		Stack();
 		~Stack();
 	private:
 		uint32 _StackId;
-		int32 _MethodId;
+		int32 _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
 	public:
@@ -27,11 +27,11 @@ namespace vapula
 		//{TI2} set stack id
 		void SetStackId(uint32 id);
 
-		//get method id
-		int32 GetMethodId();
+		//get function id
+		int32 GetFunctionId();
 
-		//{TI2} set method id
-		void SetMethodId(int32 id);
+		//{TI2} set function id
+		void SetFunctionId(int32 id);
 
 		//get context
 		Context* GetContext();
@@ -58,6 +58,7 @@ namespace vapula
 	public:
 		static StackHub* GetInstance();
 	private:
+		Lock* _Lock;
 		vector<Stack*> _Stacks;
 	public:
 		//get stack by id

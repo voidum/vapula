@@ -47,7 +47,6 @@
     <Compile Include="Helper\Logger\FileLogger.cs" />
     <Compile Include="Helper\Logger\ILogger.cs" />
     <Compile Include="Helper\Logger\LoggerHub.cs" />
-    <Compile Include="I18N\Translator.cs" />
     <Compile Include="Model\ISyncable.cs" />
     <Compile Include="Model\Function.cs" />
     <Compile Include="Model\Library.cs" />
@@ -65,7 +64,6 @@
     <Compile Include="Runtime\Core\Library.cs" />
     <Compile Include="Runtime\Core\DriverHub.cs" />
     <Compile Include="Runtime\Core\Pipe.cs" />
-    <Compile Include="Security\Hash.cs" />
     <Compile Include="TagList.cs" />
   </ItemGroup>
   <ItemGroup>

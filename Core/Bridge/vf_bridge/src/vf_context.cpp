@@ -2,8 +2,6 @@
 
 namespace vapula
 {
-	using std::exception;
-
 	Context::Context() 
 	{
 		_LastState = VF_STATE_IDLE;
@@ -21,9 +19,6 @@ namespace vapula
 
 	void Context::SetState(uint8 value)
 	{
-		if(AssertOffTI())
-			//throw new exception(_vf_err_3);
-			return;
 		_Lock->Enter();
 		_LastState = _CurrentState;
 		_CurrentState = value;
@@ -63,9 +58,6 @@ namespace vapula
 
 	void Context::SetCtrlCode(uint8 value)
 	{
-		if(AssertOffTI())
-			//throw new exception(_vf_err_3);
-			return;
 		_Lock->Enter();
 		_CtrlCode = value;
 		_Lock->Leave();

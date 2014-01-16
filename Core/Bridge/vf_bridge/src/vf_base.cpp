@@ -151,6 +151,6 @@ namespace vapula
 
 	cstr8 GetVersion()
 	{
-		return "2.0.8.2";
+		return "2.0.8.5";
 	}
 }

@@ -2,10 +2,25 @@
 #pragma warning(disable:4275)
 
 #include "vf_base.h"
-#include "vf_token.h"
 
 namespace vapula
 {
+	class Token;
+
+	//require [TrustedInvoker v2]
+	class VAPULA_API RequireTI
+	{
+	public:
+		RequireTI();
+		virtual ~RequireTI();
+	protected:
+		Token* _Token;
+	public:
+		bool AssertOffTI();
+		void TokenOff(uint8& key);
+		void TokenOn(uint8 key);
+	};
+
 	//show value by simple message box
 	template<typename T>
 	VAPULA_API void ShowMsgbox(T value)

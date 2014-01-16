@@ -4,7 +4,10 @@
 
 namespace vapula
 {
-	Stack::Stack() { }
+	Stack::Stack() 
+	{
+		_StackId = 0;
+	}
 
 	Stack::~Stack() { }
 
@@ -23,21 +26,17 @@ namespace vapula
 
 	void Stack::SetStackId(uint32 id)
 	{
-		if(AssertOffTI())
-			return;
 		_StackId = id;
 	}
 
-	int32 Stack::GetMethodId()
+	int32 Stack::GetFunctionId()
 	{
-		return _MethodId;
+		return _FunctionId;
 	}
 
-	void Stack::SetMethodId(int32 id)
+	void Stack::SetFunctionId(int32 id)
 	{
-		if(AssertOffTI())
-			return;
-		_MethodId = id;
+		_FunctionId = id;
 	}
 
 	Context* Stack::GetContext()
@@ -47,8 +46,6 @@ namespace vapula
 
 	void Stack::SetContext(Context* ctx)
 	{
-		if(AssertOffTI())
-			return;
 		_Context = ctx;
 	}
 
@@ -59,8 +56,6 @@ namespace vapula
 
 	void Stack::SetEnvelope(Envelope* env)
 	{
-		if(AssertOffTI())
-			return;
 		_Envelope = env;
 	}
 
@@ -78,10 +73,15 @@ namespace vapula
 		return StackHub::_Instance;
 	}
 
-	StackHub::StackHub() { }
+	StackHub::StackHub()
+	{
+		_Lock = new Lock();
+	}
+
 	StackHub::~StackHub()
 	{
 		KickAll();
+		delete _Lock;
 	}
 
 	Stack* StackHub::GetStack(uint32 id)
@@ -104,32 +104,39 @@ namespace vapula
 	bool StackHub::Link(Stack* stack)
 	{
 		typedef vector<Stack*>::iterator iter;
+		_Lock->Enter();
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{
-			Stack* stack_old = *i;
-			if(stack_old == stack)
+			if(*i == stack)
+			{
+				_Lock->Leave();
 				return false;
+			}
 		}
 		_Stacks.push_back(stack);
+		_Lock->Leave();
 		return true;
 	}
 
 	void StackHub::Kick(Stack* stack)
 	{
 		typedef vector<Stack*>::iterator iter;
+		_Lock->Enter();
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{
-			Stack* stack_old = *i;
-			if(stack_old == stack)
+			if(*i == stack)
 			{
 				_Stacks.erase(i);
 				break;
 			}
 		}
+		_Lock->Leave();
 	}
 
 	void StackHub::KickAll()
 	{
+		_Lock->Enter();
 		_Stacks.clear();
+		_Lock->Leave();
 	}
 }

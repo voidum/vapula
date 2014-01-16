@@ -5,7 +5,7 @@
 namespace vapula
 {
 	//routine context
-	class VAPULA_API Context : public RequireTI
+	class VAPULA_API Context
 	{
 	public:
 		Context();

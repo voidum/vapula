@@ -96,14 +96,14 @@ void vfeUnmountLibrary(object lib)
 	obj->Unmount();
 }
 
-object vfeCreateInvoker(object lib, int fid)
-{
-	Library* obj = (Library*)lib;
-	return obj->CreateInvoker(fid);
-}
-
 
 //Invoker
+
+object vfeCreateInvoker(object lib, int mt)
+{
+	Library* obj = (Library*)lib;
+	return obj->CreateInvoker(mt);
+}
 
 object vfeGetStack(object inv)
 {
@@ -141,30 +141,33 @@ void vfeRestartInvoker(object inv, uint32 wait)
 	obj->Restart(wait);
 }
 
+
 //Stack
+
 object vfeGetCurrentStack()
 {
 	Stack* stack = Stack::GetInstance();
 	return stack;
 }
 
-int vfeGetMethodId(object stack)
+int vfeGetFunctionId(object stk)
 {
-	Stack* obj = (Stack*)stack;
-	return obj->GetMethodId();
+	Stack* obj = (Stack*)stk;
+	return obj->GetFunctionId();
 }
 
-object vfeGetContext(object stack)
+object vfeGetContext(object stk)
 {
-	Stack* obj = (Stack*)stack;
+	Stack* obj = (Stack*)stk;
 	return obj->GetContext();
 }
 
-object vfeGetEnvelope(object stack)
+object vfeGetEnvelope(object stk)
 {
-	Stack* obj = (Stack*)stack;
+	Stack* obj = (Stack*)stk;
 	return obj->GetEnvelope();
 }
+
 
 //Context
 
@@ -195,6 +198,12 @@ uint8 vfeGetReturnCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetReturnCode();
+}
+
+void vfeSetReturnCode(object ctx, uint8 ret)
+{
+	Context* obj = (Context*)ctx;
+	obj->SetReturnCode(ret);
 }
 
 float vfeGetProgress(object ctx)
