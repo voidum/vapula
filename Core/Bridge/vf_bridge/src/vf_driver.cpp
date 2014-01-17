@@ -53,9 +53,13 @@ namespace vapula
 		return _DriverDpts.size();
 	}
 
-	bool DriverHub::Link(cstr8 path)
+	bool DriverHub::Link(cstr8 id)
 	{
-		cstr16 path16 = str::ToCh16(path);
+		cstr8 dir = GetRuntimeDir();
+		ostringstream oss;
+		oss<<dir<<id<<".driver";
+		cstr16 path16 = str::ToCh16(oss.str().c_str());
+		delete dir;
 		HMODULE module = LoadLibraryW(path16);
 		delete path16;
 
@@ -65,8 +69,6 @@ namespace vapula
 		typedef Driver* (*Delegate)();
 		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
 		Driver* driver = d();
-		cstr8 id = driver->GetRuntimeId();
-
 		DriverDpt* dpt = GetDriverDpt(id);
 		if(dpt != null)
 		{

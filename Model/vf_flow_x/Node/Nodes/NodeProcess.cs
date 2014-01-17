@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using Vapula.Helper;
 using Vapula.Model;
 using Vapula.Runtime;
 
@@ -71,20 +71,18 @@ namespace Vapula.Flow
                 {
                     if (!stub.HasValue)
                     {
-                        Logger.WriteLog(LogType.Error,
+                        throw new Exception(
                             string.Format("节点{0}的参数{1}没有指定数值",
                             _Id, param.Id));
-                        return false;
                     }
                 }
                 else
                 {
                     if (stub.Supply == ParamPoint.Null)
                     {
-                        Logger.WriteLog(LogType.Error,
+                        throw new Exception(
                             string.Format("节点{0}的参数{1}没有关联参数供给",
                             _Id, param.Id));
-                        return false;
                     }
                 }
             }
@@ -97,7 +95,8 @@ namespace Vapula.Flow
             library.Mount();
             var invoker = library.CreateInvoker(_Function.Id);
             Attach["Invoker"] = invoker;
-            var envelope = invoker.Envelope;
+            var stack = invoker.Stack;
+            var env = stack.Envelope;
             foreach(var stub in ParamStubs)
             {
                 var param = stub.Prototype;
@@ -108,46 +107,21 @@ namespace Vapula.Flow
                     var stub_supply = Parent.FindParamStub(stub.Supply);
                     stub.Value = stub_supply.Value;
                 }
-                envelope.Write(stub.Prototype.Id, stub.Value);
+                env.Write(stub.Prototype.Id, stub.Value);
             }
             bool ret = invoker.Start();
-            Logger.WriteLog(LogType.Event,
-                string.Format("节点{0}的功能{1}启动",
-                    _Id, _Function.Name,
-                    ret ? "成功" : "失败"));
+            if(!ret)
+                throw new Exception(
+                    string.Format("节点{0}的功能{1}启动失败", _Id, _Function.Name));
         }
 
         public override void Wait()
         {
             var invoker = Attach["Invoker"] as Invoker;
-            while (invoker.Context.State != State.Idle)
+            var stack = invoker.Stack;
+            var ctx = stack.Context;
+            while (ctx.CurrentState != State.Idle)
                 Thread.Sleep(50);
-            var ret = invoker.Context.ReturnCode;
-            if (ret == ReturnCode.Normal) 
-            {
-                foreach (var stub in ParamStubs)
-                {
-                    var param = stub.Prototype;
-                    if (param.Mode != ParamMode.In)
-                    {
-                        stub.Value = invoker.Envelope.Read(param.Id);
-                        Logger.WriteLog(LogType.Debug,
-                            string.Format("节点{0}的参数{1}的值为{2}",
-                                Id, param.Name,
-                                invoker.Envelope.Read(param.Id)));
-                    }
-                }
-            }
-            else if (ret == ReturnCode.Error)
-            {
-                Logger.WriteLog(LogType.Debug,
-                    string.Format("节点{0}执行错误", Id));
-            }
-            else if (ret == ReturnCode.NullTask) 
-            {
-                Logger.WriteLog(LogType.Debug,
-                    string.Format("节点{0}调用具体功能前返回", Id));
-            }
         }
     }
 }

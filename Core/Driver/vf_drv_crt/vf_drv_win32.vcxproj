@@ -42,14 +42,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
-    <TargetName>crt.vapula</TargetName>
+    <TargetName>crt</TargetName>
     <TargetExt>.driver</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
-    <TargetName>crt.vapula</TargetName>
+    <TargetName>crt</TargetName>
     <TargetExt>.driver</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -72,13 +72,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;TCM_DRV_WIN32_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Bridge\vf_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

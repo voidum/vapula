@@ -5,151 +5,197 @@
     <dst>~</dst>
   </context>
   <commands>
-    <command type="0">
-      <dir>Publish\Core\cpp\include</dir>
-    </command>
     <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_base.h</src>
-      <dst>Publish\Core\cpp\include\tcm_base.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_bridge_c.h</src>
-      <dst>Publish\Core\cpp\include\tcm_bridge_c.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_candy.h</src>
-      <dst>Publish\Core\cpp\include\tcm_candy.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_config.h</src>
-      <dst>Publish\Core\cpp\include\tcm_config.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_const.h</src>
-      <dst>Publish\Core\cpp\include\tcm_const.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_context.h</src>
-      <dst>Publish\Core\cpp\include\tcm_context.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_dev_drv.h</src>
-      <dst>Publish\Core\cpp\include\tcm_dev_drv.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_dev_lib.h</src>
-      <dst>Publish\Core\cpp\include\tcm_dev_lib.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_driver.h</src>
-      <dst>Publish\Core\cpp\include\tcm_driver.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_envelope.h</src>
-      <dst>Publish\Core\cpp\include\tcm_envelope.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_invoker.h</src>
-      <dst>Publish\Core\cpp\include\tcm_invoker.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_library.h</src>
-      <dst>Publish\Core\cpp\include\tcm_library.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_log.h</src>
-      <dst>Publish\Core\cpp\include\tcm_log.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_pipe.h</src>
-      <dst>Publish\Core\cpp\include\tcm_pipe.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_time.h</src>
-      <dst>Publish\Core\cpp\include\tcm_time.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_token.h</src>
-      <dst>Publish\Core\cpp\include\tcm_token.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_translator.h</src>
-      <dst>Publish\Core\cpp\include\tcm_translator.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\tcm_bridge\include\tcm_xml.h</src>
-      <dst>Publish\Core\cpp\include\tcm_xml.h</dst>
-    </command>
-
-    <command type="0">
-      <dir>Publish\Core\cpp\lib\debug</dir>
-    </command>
-    <command type="0">
-      <dir>Publish\Core\cpp\lib\release</dir>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\tcm_bridge.lib</src>
-      <dst>Publish\Core\cpp\lib\debug\tcm_bridge.lib</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\tcm_bridge.lib</src>
-      <dst>Publish\Core\cpp\lib\release\tcm_bridge.lib</dst>
-    </command>
-
-    <command type="0">
-      <dir>Publish\Core\bin\debug</dir>
-    </command>
-    <command type="0">
-      <dir>Publish\Core\bin\release</dir>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\tcm_bridge.dll</src>
-      <dst>Publish\Core\bin\debug\tcm_bridge.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\tcm_host.exe</src>
-      <dst>Publish\Core\bin\debug\tcm_host.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\clr.tcm.driver</src>
-      <dst>Publish\Core\bin\debug\clr.tcm.driver</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\crt.tcm.driver</src>
-      <dst>Publish\Core\bin\debug\crt.tcm.driver</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\sample_lib.dll</src>
-      <dst>Publish\Core\bin\debug\sample_lib.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Debug\sample_invoker.exe</src>
-      <dst>Publish\Core\bin\debug\sample_invoker.exe</dst>
+      <src>LICENSE</src>
+      <dst>Publish\LICENSE</dst>
     </command>
 
     <command type="1">
-      <src>Core\OutDir\Release\tcm_bridge.dll</src>
-      <dst>Publish\Core\bin\release\tcm_bridge.dll</dst>
+      <src>3rdparty\icu\bin\icudt52.dll</src>
+      <dst>Publish\core\bin\icudt52.dll</dst>
     </command>
     <command type="1">
-      <src>Core\OutDir\Release\tcm_host.exe</src>
-      <dst>Publish\Core\bin\release\tcm_host.exe</dst>
+      <src>3rdparty\icu\bin\icuuc52.dll</src>
+      <dst>Publish\core\bin\icuuc52.dll</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\core</dir>
     </command>
     <command type="1">
-      <src>Core\OutDir\Release\clr.tcm.driver</src>
-      <dst>Publish\Core\bin\release\clr.tcm.driver</dst>
+      <src>Core\ReleaseNotes.txt</src>
+      <dst>Publish\core\ReleaseNotes.txt</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\core\include</dir>
     </command>
     <command type="1">
-      <src>Core\OutDir\Release\crt.tcm.driver</src>
-      <dst>Publish\Core\bin\release\crt.tcm.driver</dst>
+      <src>Core\Bridge\vf_bridge\include\vf_bridge_c.h</src>
+      <dst>Publish\core\include\vf_bridge_c.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_dev_drv.h</src>
+      <dst>Publish\core\include\vf_dev_drv.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_dev_lib.h</src>
+      <dst>Publish\core\include\vf_dev_lib.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_dev_inv.h</src>
+      <dst>Publish\core\include\vf_dev_inv.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_const.h</src>
+      <dst>Publish\core\include\vf_const.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_string.h</src>
+      <dst>Publish\core\include\vf_string.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_base.h</src>
+      <dst>Publish\core\include\vf_base.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_utility.h</src>
+      <dst>Publish\core\include\vf_utility.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_setting.h</src>
+      <dst>Publish\core\include\vf_setting.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_xml.h</src>
+      <dst>Publish\core\include\vf_xml.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_pipe.h</src>
+      <dst>Publish\core\include\vf_pipe.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_stack.h</src>
+      <dst>Publish\core\include\vf_stack.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_context.h</src>
+      <dst>Publish\core\include\vf_context.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_envelope.h</src>
+      <dst>Publish\core\include\vf_envelope.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_driver.h</src>
+      <dst>Publish\core\include\vf_driver.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_invoker.h</src>
+      <dst>Publish\core\include\vf_invoker.h</dst>
+    </command>
+    <command type="1">
+      <src>Core\Bridge\vf_bridge\include\vf_library.h</src>
+      <dst>Publish\core\include\vf_library.h</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\core\lib</dir>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\vf_bridge.lib</src>
+      <dst>Publish\core\lib\vf_bridge.lib</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\core\bin</dir>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\vf_bridge.dll</src>
+      <dst>Publish\core\bin\vf_bridge.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\vf_host.exe</src>
+      <dst>Publish\core\bin\vf_host.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\clr.driver</src>
+      <dst>Publish\core\bin\clr.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\BridgeX\vf_bridge_x\bin\Release\vf_bridge_x.dll</src>
+      <dst>Publish\core\bin\vf_bridge_x.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\BridgeX\vf_bridge_x\XSD\library.xsd</src>
+      <dst>Publish\core\bin\library.xsd</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\crt.driver</src>
+      <dst>Publish\core\bin\crt.driver</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\vfe_bridge_idl.dll</src>
+      <dst>Publish\core\bin\vfe_bridge_idl.dll</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\sample</dir>
     </command>
     <command type="1">
       <src>Core\OutDir\Release\sample_lib.dll</src>
-      <dst>Publish\Core\bin\release\sample_lib.dll</dst>
+      <dst>Publish\sample\sample_lib.dll</dst>
+    </command>
+    <command type="1">
+      <src>Core\Sample\library\sample_lib.library</src>
+      <dst>Publish\sample\sample_lib.library</dst>
     </command>
     <command type="1">
       <src>Core\OutDir\Release\sample_invoker.exe</src>
-      <dst>Publish\Core\bin\release\sample_invoker.exe</dst>
+      <dst>Publish\sample\sample_invoker.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\OutDir\Release\sample_pipe.exe</src>
+      <dst>Publish\sample\sample_pipe.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\Sample\sample_xpipe\bin\Release\sample_xpipe.exe</src>
+      <dst>Publish\sample\sample_xpipe.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\Sample\sample_xinvoker\bin\Release\sample_xinvoker.exe</src>
+      <dst>Publish\sample\sample_xinvoker.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\Sample\sample_xlib\bin\Release\sample_xlib.exe</src>
+      <dst>Publish\sample\sample_xlib.exe</dst>
+    </command>
+    <command type="1">
+      <src>Core\Sample\sample_xlib\sample_xlib.library</src>
+      <dst>Publish\sample\sample_xlib.library</dst>
+    </command>
+
+    <command type="0">
+      <dir>Publish\toolkit</dir>
+    </command>
+    <command type="0">
+      <dir>Publish\toolkit\LibraryPublisher</dir>
+    </command>
+    <command type="1">
+      <src>Toolkit\LibraryPublisher\bin\Release\vf_libpub.exe</src>
+      <dst>Publish\toolkit\LibraryPublisher\vf_libpub.exe</dst>
+    </command>
+    <command type="1">
+      <src>Docs\out\manual_LibraryPublisher.pdf</src>
+      <dst>Publish\toolkit\LibraryPublisher\manual.pdf</dst>
+    </command>
+    <command type="1">
+      <src>Publish\core\bin\vf_bridge_x.dll</src>
+      <dst>Publish\toolkit\LibraryPublisher\vf_bridge_x.dll</dst>
+    </command>
+    <command type="1">
+      <src>Publish\core\bin\library.xsd</src>
+      <dst>Publish\toolkit\LibraryPublisher\library.xsd</dst>
     </command>
   </commands>
 </script>

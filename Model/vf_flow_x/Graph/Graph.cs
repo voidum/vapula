@@ -14,6 +14,21 @@ namespace Vapula.Flow
             = new List<Link>();
         #endregion
 
+        #region 构造
+        public Graph() 
+        {
+        }
+
+        /// <summary>
+        /// 加载模型图
+        /// </summary>
+        public static Graph Load(string path) 
+        {
+            var graph = new Graph();
+            return graph;
+        }
+        #endregion
+
         #region 索引器
         /// <summary>
         /// 根据指定标识获取节点

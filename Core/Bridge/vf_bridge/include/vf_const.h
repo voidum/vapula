@@ -107,4 +107,6 @@ namespace vapula
 
 	cstr8 const _vf_bridge = "Vapula Bridge";
 	cstr8 const _vf_msg_cp = "utf8";
+
+	const uint32 _vf_path_len = 1024;
 }

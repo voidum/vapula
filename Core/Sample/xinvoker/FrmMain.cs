@@ -13,15 +13,23 @@ namespace sample_xinvoker
         {
             InitializeComponent();
             drv_hub = DriverHub.Instance;
-            if (!drv_hub.Link(@"E:\Projects\vapula\Core\Sample\xinvoker\bin\Debug\crt.vapula.driver")) 
+            if (!drv_hub.Link("crt")) 
                 return;
-            if (!drv_hub.Link(@"E:\Projects\vapula\Core\Sample\xinvoker\bin\Debug\clr.vapula.driver")) 
+            if (!drv_hub.Link("clr")) 
                 return;
         }
 
         private void UpdateLog(string log)
         {
-            TbxLog.Text += log + Environment.NewLine;
+            if (InvokeRequired)
+            {
+                var action = new Action<string>(UpdateLog);
+                action.Invoke(log);
+            }
+            else
+            {
+                TbxLog.Text += log + Environment.NewLine;
+            }
         }
 
         void Test1(Library lib)

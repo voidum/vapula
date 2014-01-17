@@ -1,11 +1,10 @@
 #pragma once
 
-#include "vf_base.h"
+#include "vf_utility.h"
 
 namespace vapula
 {
 	class Library;
-	class Aspect;
 	class Invoker;
 	class DriverDpt;
 
@@ -33,10 +32,6 @@ namespace vapula
 		//create invoker
 		virtual Invoker*
 			CreateInvoker() = 0;
-
-		//create aspect
-		virtual Aspect*
-			CreateAspect() = 0;
 	};
 
 	//driver hub
@@ -56,8 +51,8 @@ namespace vapula
 	private:
 		DriverDpt* GetDriverDpt(cstr8 id);
 	public:
-		//link driver by path
-		bool Link(cstr8 path);
+		//link driver by id
+		bool Link(cstr8 id);
 
 		//kick out driver by id
 		void Kick(cstr8 id);

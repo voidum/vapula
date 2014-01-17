@@ -113,7 +113,7 @@ int main()
 {
 	DriverHub* drv_hub = DriverHub::GetInstance();
 	cout<<"[register driver crt] ... ";
-	Assert(drv_hub->Link("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\crt.vapula.driver"));
+	Assert(drv_hub->Link("crt"));
 	//cout<<"[register driver clr] ... ";
 	//Assert(drv_hub->Link("clr"));
 

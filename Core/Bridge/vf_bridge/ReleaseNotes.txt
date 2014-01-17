@@ -111,6 +111,9 @@ v2.0.8.5
 
 =)adjust entry
 
+v2.0.8.6
+=)adjust driver path
+
 
 vPLAN
 +)support smart pointer

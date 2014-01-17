@@ -15,7 +15,6 @@ public:
 	cstr8 GetBinExt();
 	Library* CreateLibrary();
 	Invoker* CreateInvoker();
-	Aspect* CreateAspect();
 };
 
 extern "C" __declspec(dllexport) Driver* GetDriverInstance();

@@ -42,14 +42,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
-    <TargetName>clr.vapula</TargetName>
+    <TargetName>clr</TargetName>
     <TargetExt>.driver</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)OutDir\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)IntDir\$(ProjectName)\$(Configuration)\</IntDir>
-    <TargetName>clr.vapula</TargetName>
+    <TargetName>clr</TargetName>
     <TargetExt>.driver</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -28,11 +28,6 @@ Invoker* DriverCRT::CreateInvoker()
 	return inv;
 }
 
-Aspect* DriverCRT::CreateAspect()
-{
-	return null;
-}
-
 Driver* GetDriverInstance()
 {
 	DriverCRT* driver = new DriverCRT();

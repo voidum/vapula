@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using Vapula.Helper;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
@@ -31,9 +30,6 @@ namespace Vapula.Designer
             App.WindowHub.Show("logger");
             App.WindowHub.Show("debug");
             App.WindowHub.Show("workspace");
-
-            doc = new FrmDocument();
-            doc.Show(paneldock, DockState.Document);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -64,12 +60,7 @@ namespace Vapula.Designer
         {
             var thread = new Thread(
                 new ThreadStart(
-                    () =>
-                    {
-                        doc.Model.Logger = App.WindowHub["logger"] as ILogger;
-                        doc.Model.Logger.WriteLog(LogType.Event, "开始执行模型");
-                        doc.Model.Start();
-                    }));
+                    () => { doc.Model.Start(); }));
             thread.Start();
         }
 
@@ -102,6 +93,12 @@ namespace Vapula.Designer
         private void MnuView_Log_Click(object sender, EventArgs e)
         {
             App.WindowHub.Show("logger");
+        }
+
+        private void MnuFile_New_Click(object sender, EventArgs e)
+        {
+            doc = new FrmDocument();
+            doc.Show(paneldock, DockState.Document);
         }
     }
 }

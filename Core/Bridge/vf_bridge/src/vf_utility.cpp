@@ -48,9 +48,10 @@ namespace vapula
 	cstr8 GetRuntimeDir()
 	{
 		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(mod, path, MAX_PATH);
+		str16 path = new wchar_t[_vf_path_len];
+		GetModuleFileName(mod, path, _vf_path_len);
 		cstr8 path8 = str::ToCh8(path);
+		delete path;
 		string str_full = path8;
 		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());
@@ -60,9 +61,10 @@ namespace vapula
 
 	cstr8 GetAppName()
 	{
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(null, path, MAX_PATH);
+		str16 path = new wchar_t[_vf_path_len];
+		GetModuleFileName(null, path, _vf_path_len);
 		cstr8 path8 = str::ToCh8(path);
+		delete path;
 		string str_full = path8;
 		string str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());
@@ -72,9 +74,10 @@ namespace vapula
 
 	cstr8 GetAppDir()
 	{
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(null, path, MAX_PATH);
+		str16 path = new wchar_t[_vf_path_len];
+		GetModuleFileName(null, path, _vf_path_len);
 		cstr8 path8 = str::ToCh8(path);
+		delete path;
 		string str_full = path8;
 		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());

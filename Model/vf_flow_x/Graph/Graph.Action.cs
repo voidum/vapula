@@ -1,4 +1,5 @@
-﻿using Vapula.API;
+﻿using System;
+using Vapula.API;
 using Vapula.Helper;
 using Vapula.Runtime;
 
@@ -6,17 +7,6 @@ namespace Vapula.Flow
 {
     public partial class Graph
     {
-        private ILogger _Logger = null;
-
-        /// <summary>
-        /// 获取或设置图模型的公共日志器
-        /// </summary>
-        public ILogger Logger
-        {
-            get { return _Logger; }
-            set { _Logger = value; }
-        }
-
         public bool LoadAllDrivers()
         {
             var driver_hub = DriverHub.Instance;
@@ -27,12 +17,7 @@ namespace Vapula.Flow
                     var n = (node as NodeProcess);
                     string runtime = n.Function.Library.Runtime;
                     if (!driver_hub.Link(runtime))
-                    {
-                        Logger.WriteLog(
-                            LogType.Error, 
-                            "没有成功加载驱动：" + runtime);
-                        return false;
-                    }
+                        throw new Exception("无法加载驱动" + runtime);
                 }
             }
             return true;
@@ -41,15 +26,12 @@ namespace Vapula.Flow
         public bool Valid()
         {
             if (Nodes.Count == 0) 
-            {
-                Logger.WriteLog(LogType.Error, "模型没有节点");
-                return false;
-            }
+                throw new Exception("模型没有节点");
             foreach (var link in Links)
             {
                 if (!link.IsReady)
                 {
-                    Logger.WriteLog(LogType.Warning,
+                    throw new Exception(
                         string.Format("存在不完备的关联 [{0}] -> [{1}]",
                             link.From == null ? "空" : link.From.Id.ToString(),
                             link.To == null ? "空" : link.To.Id.ToString()));
@@ -72,26 +54,20 @@ namespace Vapula.Flow
             //测试Vapula Bridge可用
             try 
             {
-                Bridge.TestBridge(); 
+                string ver = Bridge.MarshalString(
+                    Bridge.GetVersion(), false); 
             }
             catch
             {
-                Logger.WriteLog(LogType.Critical, "框架损坏，不能加载 Vapula Bridge");
-                return false;
+                throw new Exception("框架损坏");
             }
 
             if (!LoadAllDrivers()) 
-            {
-                Logger.WriteLog(LogType.Error, "驱动加载失败");
-                return false;
-            }
+                throw new Exception("驱动加载失败");
 
             //校验模型
             if (!Valid())
-            {
-                Logger.WriteLog(LogType.Error, "模型没有通过有效性验证");
-                return false;
-            }
+                throw new Exception("模型没有通过有效性验证");
 
             //复位模型
             Reset();
@@ -102,11 +78,10 @@ namespace Vapula.Flow
             {
                 stage.Start();
                 stage.Wait();
-                Logger.WriteLog(LogType.Event,
-                    string.Format("阶段{0}执行完成", stage.Id));
+                //throw new Exception(string.Format("阶段{0}执行完成", stage.Id));
                 stage = stage.NextStage;
             }
-            Logger.WriteLog(LogType.Event, "模型执行完成");
+            //throw new Exception("模型执行完成");
             return true;
         }
 

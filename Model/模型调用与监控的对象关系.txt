@@ -1,0 +1,8 @@
+1. 通过Graph.Load静态方法加载Graph对象（仅接口，暂未实现）
+2. 通过graph.Nodes方法获取节点集合
+3. 通过graph.Start方法执行模型（需要参数预置，这是一个同步方法）
+4. 每一个Node的Attach是一个字典
+5. 直接访问node.Attach["Invoker"]获取Invoker对象，需要强制转换
+6. Invoker是功能执行器，通过invoker.Stack获取节点私有栈
+7. 通过stack.Context获取节点上下文
+8. context.CurrentState是节点当前状态，context.Progress是进度，context.ReturnCode是返回值

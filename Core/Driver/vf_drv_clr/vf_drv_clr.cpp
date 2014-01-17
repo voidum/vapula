@@ -57,11 +57,6 @@ Invoker* DriverCLR::CreateInvoker()
 	return inv;
 }
 
-Aspect* DriverCLR::CreateAspect()
-{
-	return null;
-}
-
 DriverCLR* DriverCLR::GetInstance()
 {
 	DriverHub* drv_hub = DriverHub::GetInstance();
