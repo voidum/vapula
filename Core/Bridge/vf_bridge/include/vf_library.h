@@ -4,11 +4,10 @@
 
 namespace vapula
 {
-	class Envelope;
 	class Invoker;
 	class Driver;
 
-	typedef Envelope* PtrEnvelope;
+	class Function;
 
 	//library {base}
 	class VAPULA_API Library
@@ -30,33 +29,24 @@ namespace vapula
 		//library id
 		cstr8 _Id; 
 
-		//entry symbol
-		cstr8 _EntrySym;
+		//functions
+		vector<Function*> _Functions;
 
-		//function total
-		int _Total;
-
-		//envelopes
-		PtrEnvelope* _Envelopes;
+	protected:
+		void ClearAll();
 
 	public:
 		//get driver
 		Driver* GetDriver();
 
-		//get runtime id
-		cstr8 GetRuntimeId();
-
 		//get library id
 		cstr8 GetLibraryId();
 
-		//get entry symbol
-		cstr8 GetEntrySym();
+		//get function by id
+		Function* GetFunction(cstr8 id);
 
-		//get envelope by id
-		Envelope* GetEnvelope(int id);
-
-		//create invoker
-		Invoker* CreateInvoker(int id);
+		//create invoker by function id
+		Invoker* CreateInvoker(cstr8 id);
 
 	public:
 		//mount library

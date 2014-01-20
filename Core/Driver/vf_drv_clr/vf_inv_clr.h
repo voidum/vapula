@@ -15,5 +15,5 @@ public:
 protected:
 	void _Entry();
 public:
-	bool Initialize(Library* lib, int fid);
+	bool Initialize(Function* func);
 };

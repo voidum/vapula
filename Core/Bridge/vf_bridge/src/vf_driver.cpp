@@ -55,6 +55,10 @@ namespace vapula
 
 	bool DriverHub::Link(cstr8 id)
 	{
+		DriverDpt* dpt = GetDriverDpt(id);
+		if(dpt != null)
+			return true;
+
 		cstr8 dir = GetRuntimeDir();
 		ostringstream oss;
 		oss<<dir<<id<<".driver";
@@ -68,15 +72,13 @@ namespace vapula
 
 		typedef Driver* (*Delegate)();
 		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
-		Driver* driver = d();
-		DriverDpt* dpt = GetDriverDpt(id);
-		if(dpt != null)
+		if(d == null)
 		{
-			delete driver;
 			FreeLibrary(module);
-			return true;
+			return false;
 		}
 
+		Driver* driver = d();
 		dpt = new DriverDpt();
 		dpt->_Driver = driver;
 		dpt->_Handle = module;

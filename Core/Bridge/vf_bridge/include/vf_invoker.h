@@ -4,11 +4,8 @@
 
 namespace vapula
 {
-	class Library;
 	class Stack;
-	class Context;
-	class Envelope;
-	class Token;
+	class Function;
 
 	//invoker
 	class VAPULA_API Invoker
@@ -22,8 +19,6 @@ namespace vapula
 		HANDLE _Thread;
 		bool _IsSuspend;
 		Stack* _Stack;
-		uint8 _StackKey;
-		uint8 _ContextKey;
 
 	protected:
 		//invoke routine
@@ -34,7 +29,7 @@ namespace vapula
 
 	public:
 		//initialize invoker
-		virtual bool Initialize(Library* lib, int id); 
+		virtual bool Initialize(Function* func); 
 
 	public:
 		//get stack of task by invoker

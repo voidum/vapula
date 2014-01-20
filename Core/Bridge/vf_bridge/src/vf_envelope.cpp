@@ -37,24 +37,22 @@ namespace vapula
 		Clear(_Lengths, true);
 	}
 
-	Envelope* Envelope::Parse(object xml)
+	Envelope* Envelope::Parse(cstr8 xml)
 	{
-		if(xml == null)
-			return null;
+		xml_node<>* xdoc = (xml_node<>*)xml::Parse(xml);
 
-		vector<int> v_id;
+		vector<int32> v_id;
 		vector<int8> v_type;
 		vector<int8> v_mode;
 
-		xml_node<>* node = (xml_node<>*)xml;
-		node = node->first_node();
+		xml_node<>* xe = (xml_node<>*)xml::Path(xdoc, 2, "params", "param");
 		int total = 0;
-		while(node)
+		while(xe != null)
 		{
-			v_id.push_back(xml::ValueInt(node->first_attribute("id")));
-			v_type.push_back(xml::ValueInt(node->first_node("type")));
-			v_mode.push_back(xml::ValueInt(node->first_node("mode")));
-			node = node->next_sibling();
+			v_id.push_back(xml::ValueInt(xe->first_attribute("id")));
+			v_type.push_back(xml::ValueInt(xe->first_node("type")));
+			v_mode.push_back(xml::ValueInt(xe->first_node("mode")));
+			xe = xe->next_sibling();
 			total++;
 		}
 
@@ -65,13 +63,7 @@ namespace vapula
 			env->_Types[id] = v_type[i];
 			env->_Modes[id] = v_mode[i];
 		}
-		return env;
-	}
 
-	Envelope* Envelope::Parse(cstr8 xml)
-	{
-		xml_document<>* xdoc = (xml_document<>*)xml::Parse(xml);
-		Envelope* env = Parse(xdoc->first_node());
 		delete xdoc;
 		return env;
 	}

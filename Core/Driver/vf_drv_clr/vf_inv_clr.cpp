@@ -22,14 +22,13 @@ cstr8 InvokerCLR::GetHandle()
 	return _Handle;
 }
 
-bool InvokerCLR::Initialize(Library* lib, int fid)
+bool InvokerCLR::Initialize(Function* func)
 {
-	if(strcmp(lib->GetRuntimeId(), _vf_runtime_id) != 0)
-		return false;
-	Invoker::Initialize(lib, fid);
+	Invoker::Initialize(func);
 	DriverCLR* drv = DriverCLR::GetInstance();
 	string arg = GetHandle();
 	arg += "|";
+	Library* lib = func->GetLibrary();
 	LibraryCLR* lib_clr = dynamic_cast<LibraryCLR*>(lib);
 	arg += lib_clr->GetHandle();
 	cstr16 s16 = str::ToCh16(arg.c_str());

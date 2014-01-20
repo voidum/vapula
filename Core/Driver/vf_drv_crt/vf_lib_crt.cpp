@@ -3,7 +3,6 @@
 LibraryCRT::LibraryCRT() 
 {
 	_Module = null;
-	_Entry = null;
 }
 
 LibraryCRT::~LibraryCRT() { }
@@ -13,11 +12,7 @@ bool LibraryCRT::Mount()
 	cstr16 s16 = str::ToCh16(_Path);
 	_Module = LoadLibrary(s16);
 	delete s16;
-	if(_Module == null)
-		return false;
-	_Entry = GetProcAddress(
-		_Module, _EntrySym == null ? "Run" : _EntrySym);
-	return true;
+	return (_Module != null);
 }
 
 void LibraryCRT::Unmount()
@@ -25,7 +20,12 @@ void LibraryCRT::Unmount()
 	FreeLibrary(_Module);
 }
 
-object LibraryCRT::GetEntry()
+object LibraryCRT::GetEntry(cstr8 id)
 {
-	return _Entry;
+	object entry = GetProcAddress(
+		_Module, 
+		id == null ? "Run" : id);
+	if(entry == null)
+		std::cout<<GetLastError()<<std::endl;
+	return entry;
 }

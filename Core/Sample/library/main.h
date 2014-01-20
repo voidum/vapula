@@ -4,13 +4,16 @@
 
 using namespace vapula;
 
-extern "C" __declspec(dllexport) void Run();
+#define EXPORT __declspec(dllexport)
 
-void Function_Math();
-void Function_Out();
-void Function_TestArray();
-void Function_TestObject();
-void Function_TestContext();
+extern "C" 
+{
+	EXPORT void Function_Math();
+	EXPORT void Function_Out();
+	EXPORT void Function_TestArray();
+	EXPORT void Function_TestObject();
+	EXPORT void Function_TestContext();
+}
 
 class TestClassA
 {

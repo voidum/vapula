@@ -1,22 +1,6 @@
 #include "main.h"
 #include <iostream>
 
-void Run()
-{
-	Stack* stack = Stack::GetInstance();
-	switch(stack->GetFunctionId())
-	{
-	case 1: Function_Math(); break;
-	case 2: Function_Out(); break;
-	case 3: Function_TestArray(); break;
-	case 4: Function_TestObject(); break;
-	case 5: Function_TestContext(); break;
-	default: 
-		stack->GetContext()->SetReturnCode(VF_RETURN_NULLENTRY);
-		break;
-	}
-}
-
 //1st
 void Function_Math()
 {

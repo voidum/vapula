@@ -1,8 +1,7 @@
 #include "vf_driver.h"
 #include "vf_library.h"
-#include "vf_stack.h"
+#include "vf_function.h"
 #include "vf_invoker.h"
-#include "vf_envelope.h"
 #include "vf_xml.h"
 #include "rapidxml/rapidxml.hpp"
 
@@ -15,16 +14,12 @@ namespace vapula
 	Library::Library()
 	{
 		_Id = null;
-		_EntrySym = null;
 	}
 
 	Library::~Library()
 	{
 		Clear(_Id);
-		Clear(_EntrySym);
-		for(int i = 0; i < _Total; i++)
-			Clear(_Envelopes[i]);
-		Clear(_Envelopes, true);
+		ClearAll();
 	}
 
 	Library* Library::Load(cstr8 path)
@@ -39,18 +34,18 @@ namespace vapula
 
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		cstr8 runtime = xml::ValueCh8(xe_lib->first_node("runtime"));
-		Driver* driver = drv_hub->GetDriver(runtime);
-		delete runtime;
-		if(driver == null)
+		if(!drv_hub->Link(runtime))
 		{
+			delete runtime;
 			delete data;
 			return null;
 		}
+		Driver* driver = drv_hub->GetDriver(runtime);
+		delete runtime;
 
 		Library* lib = driver->CreateLibrary();
 		lib->_Driver = driver;
 		lib->_Id = xml::ValueCh8(xe_lib->first_node("id"));
-		lib->_EntrySym = xml::ValueCh8(xe_lib->first_node("entry"));
 
 		cstr8 path_dir = GetDirPath(path, true);
 		ostringstream oss;
@@ -58,32 +53,28 @@ namespace vapula
 		lib->_Path = str::Copy(oss.str().c_str());
 		delete path_dir;
 
-		vector<Envelope*> func_envs;
-		vector<int> func_ids;
 		xml_node<>* xe_func = 
-			xe_lib->first_node("functions")->first_node("function");
+			(xml_node<>*)xml::Path(xe_lib, 2, "functions", "function");
 		while(xe_func != null)
 		{
-			xml_node<>* xe_params = xe_func->first_node("params");
-			Envelope* envelope = Envelope::Parse(xe_params);
-			func_ids.push_back(xml::ValueInt(xe_func->first_attribute("id")));
-			func_envs.push_back(envelope);
+			cstr8 s8_func = xml::Print(xe_func);
+			Function* func = Function::Parse(s8_func);
+			func->SetLibrary(lib);
+			lib->_Functions.push_back(func);
+			delete s8_func;
 			xe_func = xe_func->next_sibling();
 		}
-		int total = func_ids.size();
-		lib->_Envelopes = new PtrEnvelope[total];
-		for(int i = 0; i < total; i++)
-		{
-			int id = func_ids[i];
-			lib->_Envelopes[id] = func_envs[i];
-		}
-		func_envs.clear();
-		func_ids.clear();
-
-		lib->_Total = total;
 
 		delete data;
 		return lib;
+	}
+
+	void Library::ClearAll()
+	{
+		typedef vector<Function*>::iterator iter;
+		for(iter i=_Functions.begin(); i!=_Functions.end(); i++)
+			Clear(*i);
+		_Functions.clear();
 	}
 
 	Driver* Library::GetDriver()
@@ -91,30 +82,27 @@ namespace vapula
 		return _Driver;
 	}
 
-	cstr8 Library::GetRuntimeId()
-	{
-		return _Driver->GetRuntimeId();
-	}
-
 	cstr8 Library::GetLibraryId()
 	{
 		return _Id;
 	}
 
-	cstr8 Library::GetEntrySym()
+	Function* Library::GetFunction(cstr8 id)
 	{
-		return _EntrySym;
+		typedef vector<Function*>::iterator iter;
+		for(iter i=_Functions.begin(); i!=_Functions.end(); i++)
+		{
+			Function* func = *i;
+			if(strcmp(func->GetFunctionId(), id) == 0)
+				return func;
+		}
+		return null;
 	}
 
-	Envelope* Library::GetEnvelope(int id)
+	Invoker* Library::CreateInvoker(cstr8 id)
 	{
-		return _Envelopes[id];
-	}
-
-	Invoker* Library::CreateInvoker(int id)
-	{
-		Invoker* inv = _Driver->CreateInvoker();
-		inv->Initialize(this, id);
+		Function* func = GetFunction(id);
+		Invoker* inv = func->CreateInvoker();
 		return inv;
 	}
 }

@@ -9,9 +9,8 @@ public:
 	~LibraryCRT();
 private:
 	HMODULE _Module;
-	object _Entry;
 public:
-	object GetEntry();
+	object GetEntry(cstr8 id);
 
 public:
 	bool Mount();

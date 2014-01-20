@@ -1,5 +1,5 @@
 #include "vf_invoker.h"
-#include "vf_library.h"
+#include "vf_function.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
@@ -40,11 +40,11 @@ namespace vapula
 		return 0;
 	}
 
-	bool Invoker::Initialize(Library* lib, int id)
+	bool Invoker::Initialize(Function* func)
 	{
 		_Stack = new Stack();
-		_Stack->SetFunctionId(id);
-		_Stack->SetEnvelope(lib->GetEnvelope(id)->Copy());
+		_Stack->SetFunction(func);
+		_Stack->SetEnvelope(func->GetEnvelope()->Copy());
 		_Stack->SetContext(new Context());
 		return true;
 	}

@@ -23,7 +23,7 @@
       <dir>Publish\core</dir>
     </command>
     <command type="1">
-      <src>Core\ReleaseNotes.txt</src>
+      <src>Core\Bridge\vf_bridge\ReleaseNotes.txt</src>
       <dst>Publish\core\ReleaseNotes.txt</dst>
     </command>
 

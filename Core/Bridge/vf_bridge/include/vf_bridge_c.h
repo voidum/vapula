@@ -22,12 +22,12 @@ extern "C"
 	VAPULA_API object vfeLoadLibraryW(cstr16 path);
 	VAPULA_API cstr8 vfeGetRuntime(object lib);
 	VAPULA_API cstr8 vfeGetLibraryId(object lib);
-	VAPULA_API cstr8 vfeGetEntrySym(object lib);
+	VAPULA_API cstr8 vfeGetEntrySym(object lib, cstr8 id);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
 
 	//Invoker
-	VAPULA_API object vfeCreateInvoker(object lib, int mt);
+	VAPULA_API object vfeCreateInvoker(object lib, cstr8 id);
 	VAPULA_API int vfeStartInvoker(object inv);
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
@@ -37,7 +37,7 @@ extern "C"
 	//Stack
 	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API object vfeGetCurrentStack();
-	VAPULA_API int vfeGetFunctionId(object stk);
+	VAPULA_API object vfeGetFunction(object stk);
 	VAPULA_API object vfeGetContext(object stk);
 	VAPULA_API object vfeGetEnvelope(object stk);
 	

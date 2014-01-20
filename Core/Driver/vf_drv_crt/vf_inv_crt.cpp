@@ -11,13 +11,12 @@ InvokerCRT::~InvokerCRT()
 {
 }
 
-bool InvokerCRT::Initialize(Library* lib, int fid)
+bool InvokerCRT::Initialize(Function* func)
 {
-	if(strcmp(lib->GetRuntimeId(), _vf_runtime_id) != 0)
-		return false;
-	Invoker::Initialize(lib, fid);
+	Invoker::Initialize(func);
+	Library* lib = func->GetLibrary();
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
-	_Action = (Action)lib_crt->GetEntry();
+	_Action = (Action)lib_crt->GetEntry(func->GetEntrySym());
 	return true;
 }
 

@@ -19,10 +19,6 @@ namespace vapula
 		//need node <params>
 		static Envelope* Parse(cstr8 xml);
 
-		//parse envelope from XML object
-		//need node <params> and RapidXML
-		static Envelope* Parse(object xml);
-
 	private:
 		int32 _Total; //param total
 		int8* _Types; //param type

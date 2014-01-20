@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Vapula.Flow
 {
@@ -18,14 +19,30 @@ namespace Vapula.Flow
         public Graph() 
         {
         }
+        #endregion
 
+        #region 序列化
         /// <summary>
         /// 加载模型图
         /// </summary>
-        public static Graph Load(string path) 
+        public static Graph Load(string path)
         {
             var graph = new Graph();
             return graph;
+        }
+
+        public XElement ToXML()
+        {
+            var xml_graph = new XElement("graph");
+            var xml_nodes = new XElement("nodes");
+            var xml_links = new XElement("nodes");
+            foreach (var node in _Nodes)
+                xml_nodes.Add(node.ToXML());
+            foreach (var link in _Links)
+                xml_links.Add(link.ToXML());
+            xml_graph.Add(xml_nodes);
+            xml_graph.Add(xml_links);
+            return xml_graph;
         }
         #endregion
 

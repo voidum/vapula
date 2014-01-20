@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using Vapula.Model;
 
 namespace Vapula.Flow
@@ -8,8 +9,15 @@ namespace Vapula.Flow
     /// </summary>
     public class Link : IDisposable, ISyncable
     {
-        private Node _From;
-        private Node _To;
+        private Node _From = null;
+        private Node _To = null;
+
+        public Link() { }
+
+        public XElement ToXML()
+        {
+            return null;
+        }
 
         public Node From
         {

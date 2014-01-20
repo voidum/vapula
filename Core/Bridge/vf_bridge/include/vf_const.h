@@ -95,8 +95,7 @@ namespace vapula
 		VF_RETURN_NORMAL = 1,
 		VF_RETURN_CANCEL = 2,
 		VF_RETURN_TERMINATE = 3,
-		VF_RETURN_NULLENTRY = 4,
-		VF_RETURN_NULLTASK = 5,
+		VF_RETURN_NULLTASK = 4
 	}; //context return code
 
 	//define error
@@ -106,6 +105,7 @@ namespace vapula
 	cstr8 const _vf_err_3 = "untrusted invoke";
 
 	cstr8 const _vf_bridge = "Vapula Bridge";
+	cstr8 const _vf_version = "2.0.9.0";
 	cstr8 const _vf_msg_cp = "utf8";
 
 	const uint32 _vf_path_len = 1024;

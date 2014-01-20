@@ -21,10 +21,10 @@ void Assert(bool condition)
 void Test1(Library* lib)
 {
 	cout<<"[get invoker] ... ";
-	Invoker* inv = lib->CreateInvoker(5);
+	Invoker* inv = lib->CreateInvoker("context");
 	Assert(inv != NULL);
 
-	cout<<"[invoke function 5] ... ";
+	cout<<"[invoke function context] ... ";
 	Assert(inv->Start());
 
 	Stack* stack = inv->GetStack();
@@ -58,7 +58,7 @@ void Test1(Library* lib)
 void Test2(Library* lib)
 {
 	cout<<"[get invoker] ... ";
-	Invoker* inv = lib->CreateInvoker(1);
+	Invoker* inv = lib->CreateInvoker("math");
 	Assert(inv != NULL);
 	Stack* stack = inv->GetStack();
 
@@ -98,7 +98,7 @@ void Test2(Library* lib)
 
 void Test3(Library* lib)
 {
-	Invoker* inv = lib->CreateInvoker(2);
+	Invoker* inv = lib->CreateInvoker("output");
 	Stack* stack = inv->GetStack();
 	Context* ctx = stack->GetContext();
 	Envelope* env = stack->GetEnvelope();
@@ -111,6 +111,8 @@ void Test3(Library* lib)
 
 int main()
 {
+	//link driver manually
+	//actually you can load library directly
 	DriverHub* drv_hub = DriverHub::GetInstance();
 	cout<<"[register driver crt] ... ";
 	Assert(drv_hub->Link("crt"));

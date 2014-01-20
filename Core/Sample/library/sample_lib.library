@@ -2,7 +2,6 @@
 <library>
   <id>sample_lib</id>
   <runtime>crt</runtime>
-  <entry>Run</entry>
   <tags>
     <tag key="name">Vapula C++示例组件</tag>
     <tag key="description"></tag>
@@ -10,7 +9,9 @@
     <tag key="publisher"></tag>
   </tags>
   <functions>
-    <function id="1">
+    <function>
+      <id>math</id>
+      <entry>Function_Math</entry>
       <params>
         <param id="1">
           <type>3</type>
@@ -42,7 +43,9 @@
         <tag key="description"></tag>
       </tags>
     </function>
-    <function id="2">
+    <function>
+      <id>output</id>
+      <entry>Function_Out</entry>
       <params>
         <param id="1">
           <type>21</type>
@@ -58,21 +61,27 @@
         <tag key="description">输出一个字符串</tag>
       </tags>
     </function>
-    <function id="3">
+    <function>
+      <id>array</id>
+      <entry>Function_TestArray</entry>
       <params />
       <tags>
         <tag key="name">数组操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
     </function>
-    <function id="4">
+    <function>
+      <id>object</id>
+      <entry>Function_TestObject</entry>
       <params />
       <tags>
         <tag key="name">对象操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
     </function>
-    <function id="5">
+    <function>
+      <id>context</id>
+      <entry>Function_TestContext</entry>
       <params />
       <tags>
         <tag key="name">上下文示例</tag>

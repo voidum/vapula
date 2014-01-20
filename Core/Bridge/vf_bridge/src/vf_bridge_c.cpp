@@ -1,6 +1,7 @@
 #include "vf_bridge_c.h"
 #include "vf_driver.h"
 #include "vf_library.h"
+#include "vf_function.h"
 #include "vf_invoker.h"
 #include "vf_stack.h"
 #include "vf_context.h"
@@ -69,7 +70,7 @@ object vfeLoadLibraryW(cstr16 path)
 cstr8 vfeGetRuntime(object lib)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetRuntimeId();
+	return obj->GetDriver()->GetRuntimeId();
 }
 
 cstr8 vfeGetLibraryId(object lib)
@@ -78,10 +79,10 @@ cstr8 vfeGetLibraryId(object lib)
 	return obj->GetLibraryId();
 }
 
-cstr8 vfeGetEntrySym(object lib)
+cstr8 vfeGetEntrySym(object lib, cstr8 id)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetEntrySym();
+	return obj->GetFunction(id)->GetEntrySym();
 }
 
 int vfeMountLibrary(object lib)
@@ -99,10 +100,10 @@ void vfeUnmountLibrary(object lib)
 
 //Invoker
 
-object vfeCreateInvoker(object lib, int mt)
+object vfeCreateInvoker(object lib, cstr8 id)
 {
 	Library* obj = (Library*)lib;
-	return obj->CreateInvoker(mt);
+	return obj->CreateInvoker(id);
 }
 
 object vfeGetStack(object inv)
@@ -150,10 +151,10 @@ object vfeGetCurrentStack()
 	return stack;
 }
 
-int vfeGetFunctionId(object stk)
+object vfeGetFunction(object stk)
 {
 	Stack* obj = (Stack*)stk;
-	return obj->GetFunctionId();
+	return obj->GetFunction();
 }
 
 object vfeGetContext(object stk)

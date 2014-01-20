@@ -1,34 +1,8 @@
 #include "vf_utility.h"
 #include "vf_setting.h"
-#include "vf_token.h"
 
 namespace vapula
 {
-	RequireTI::RequireTI()
-	{
-		_Token = new Token();
-	}
-
-	RequireTI::~RequireTI()
-	{
-		delete _Token;
-	}
-
-	bool RequireTI::AssertOffTI()
-	{
-		return _Token->IsOff();
-	}
-
-	void RequireTI::TokenOff(uint8& key)
-	{
-		_Token->Off(key);
-	}
-
-	void RequireTI::TokenOn(uint8 key)
-	{
-		_Token->On(key);
-	}
-
 	void ShowMsgbox(cstr8 value, cstr8 caption)
 	{
 		Setting* setting = Setting::GetInstance();

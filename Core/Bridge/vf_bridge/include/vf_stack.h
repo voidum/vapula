@@ -4,6 +4,7 @@
 
 namespace vapula
 {
+	class Function;
 	class Context;
 	class Envelope;
 
@@ -15,7 +16,7 @@ namespace vapula
 		~Stack();
 	private:
 		uint32 _StackId;
-		int32 _FunctionId;
+		Function* _Function;
 		Context* _Context;
 		Envelope* _Envelope;
 	public:
@@ -24,19 +25,19 @@ namespace vapula
 		//get stack id
 		uint32 GetStackId();
 
-		//{TI2} set stack id
+		//set stack id
 		void SetStackId(uint32 id);
 
-		//get function id
-		int32 GetFunctionId();
+		//get function
+		Function* GetFunction();
 
-		//{TI2} set function id
-		void SetFunctionId(int32 id);
+		//set function
+		void SetFunction(Function* func);
 
 		//get context
 		Context* GetContext();
 
-		//{TI2} set context
+		//set context
 		void SetContext(Context* ctx);
 
 		//get envelope

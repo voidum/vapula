@@ -114,6 +114,10 @@ v2.0.8.5
 v2.0.8.6
 =)adjust driver path
 
+v2.0.9.0
++)add function
+=)one entry for one function
+
 
 vPLAN
 +)support smart pointer
