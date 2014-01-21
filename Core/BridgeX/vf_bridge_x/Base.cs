@@ -43,7 +43,7 @@ namespace Vapula
         /// <summary>
         /// 当前运行时的目录
         /// </summary>
-        public static string AppDir
+        public static string RuntimeDir
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
         }

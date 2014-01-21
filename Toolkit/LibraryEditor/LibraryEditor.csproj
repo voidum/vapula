@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vapula.Toolkit</RootNamespace>
-    <AssemblyName>vf_libpub</AssemblyName>
+    <AssemblyName>vf_libedt</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -182,9 +182,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\attach_s.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\detail_s.png" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +197,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\open_lib_s.png" />
+    <None Include="Resources\library_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\parameter_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

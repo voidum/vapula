@@ -15,7 +15,7 @@ namespace Vapula.Helper
             {
                 if (_LogPath == null)
                     _LogPath = 
-                        Base.AppDir + "\\vapula.log";
+                        Base.RuntimeDir + "\\vapula.log";
                 return _LogPath;
             }
             set

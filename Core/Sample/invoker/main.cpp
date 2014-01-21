@@ -60,17 +60,14 @@ void Test2(Library* lib)
 	cout<<"[get invoker] ... ";
 	Invoker* inv = lib->CreateInvoker("math");
 	Assert(inv != NULL);
+
 	Stack* stack = inv->GetStack();
-
-	cout<<"[get envelope] ... ";
 	Envelope* env = stack->GetEnvelope();
-	Assert(env != NULL);
 
-	cout<<"[set params]"<<endl;
 	env->WriteValue(1, 12);
 	env->WriteValue(2, 23);
 
-	cout<<"[invoke function 0] ... ";
+	cout<<"[invoke function math] ... ";
 	Assert(inv->Start());
 
 	Context* ctx = stack->GetContext();
@@ -93,17 +90,21 @@ void Test2(Library* lib)
 		int result = env->ReadValue<int>(3);
 	}
 	QueryPerformanceCounter(&t2);
-	cout<<"PerfC time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
+	cout<<"adv time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
 }
 
 void Test3(Library* lib)
 {
+	cout<<"[get invoker] ... ";
 	Invoker* inv = lib->CreateInvoker("output");
+	Assert(inv != NULL);
 	Stack* stack = inv->GetStack();
+
 	Context* ctx = stack->GetContext();
 	Envelope* env = stack->GetEnvelope();
 
-	inv->Start();
+	cout<<"[invoke function output] ... ";
+	Assert(inv->Start());
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 	ShowMsgbox(env->ReadCh16(1));
@@ -120,13 +121,17 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	Library* lib = Library::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\sample_lib.library");
+	cstr8 dir = GetAppDir();
+	string path = dir;
+	path += "sample_lib.library";
+	Library* lib = Library::Load(path.c_str());
+	delete dir;
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";
 	Assert(lib->Mount());
 
-	//Test1(lib);
+	Test1(lib);
 	Test2(lib);
 	Test3(lib);
 

@@ -28,8 +28,8 @@ namespace vapula
 		virtual void _Entry() = 0;
 
 	public:
-		//initialize invoker
-		virtual bool Initialize(Function* func); 
+		//init invoker
+		virtual bool Initialize(Function* func);
 
 	public:
 		//get stack of task by invoker

@@ -4,6 +4,8 @@
 #include "vf_xml.h"
 #include "vf_driver.h"
 #include "vf_stack.h"
+#include "vf_library.h"
+#include "vf_function.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
 
@@ -12,7 +14,7 @@ namespace vapula
 	Task::Task()
 	{
 		_Library = null;
-		_FunctionId = -1;
+		_FunctionId = null;
 		_StageTime = new float[3];
 		for(int i=0; i<3; i++)
 			_StageTime[i] = 0;
@@ -42,7 +44,7 @@ namespace vapula
 		return _Library;
 	}
 
-	int Task::GetFunctionId()
+	cstr8 Task::GetFunctionId()
 	{
 		return _FunctionId;
 	}
@@ -105,9 +107,9 @@ namespace vapula
 			return null;
 		}
 
-		task->_FunctionId = xml::ValueInt(xe_target->first_node("function"));
+		task->_FunctionId = xml::ValueCh8(xe_target->first_node("function"));
 		task->_Invoker = task->_Library->CreateInvoker(task->_FunctionId);
-
+		
 		Stack* stack = task->_Invoker->GetStack();
 		Envelope* env = stack->GetEnvelope();
 		xml_node<>* xe_param = (xml_node<>*)xml::Path(xe_target, 2, "params", "param");

@@ -29,14 +29,14 @@ namespace vapula
 		_StackId = id;
 	}
 
-	Function* Stack::GetFunction()
+	cstr8 Stack::GetFunctionId()
 	{
-		return _Function;
+		return _FunctionId;
 	}
 
-	void Stack::SetFunction(Function* func)
+	void Stack::SetFunctionId(cstr8 id)
 	{
-		_Function = func;
+		_FunctionId = id;
 	}
 
 	Context* Stack::GetContext()

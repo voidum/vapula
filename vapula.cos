@@ -163,15 +163,15 @@
       <dst>Publish\sample\sample_xpipe.exe</dst>
     </command>
     <command type="1">
-      <src>Core\Sample\sample_xinvoker\bin\Release\sample_xinvoker.exe</src>
+      <src>Core\Sample\xinvoker\bin\Release\sample_xinvoker.exe</src>
       <dst>Publish\sample\sample_xinvoker.exe</dst>
     </command>
     <command type="1">
-      <src>Core\Sample\sample_xlib\bin\Release\sample_xlib.exe</src>
-      <dst>Publish\sample\sample_xlib.exe</dst>
+      <src>Core\Sample\xlibrary\bin\Release\sample_xlib.dll</src>
+      <dst>Publish\sample\sample_xlib.dll</dst>
     </command>
     <command type="1">
-      <src>Core\Sample\sample_xlib\sample_xlib.library</src>
+      <src>Core\Sample\xlibrary\sample_xlib.library</src>
       <dst>Publish\sample\sample_xlib.library</dst>
     </command>
 
@@ -179,23 +179,23 @@
       <dir>Publish\toolkit</dir>
     </command>
     <command type="0">
-      <dir>Publish\toolkit\LibraryPublisher</dir>
+      <dir>Publish\toolkit\LibraryEditor</dir>
     </command>
     <command type="1">
-      <src>Toolkit\LibraryPublisher\bin\Release\vf_libpub.exe</src>
-      <dst>Publish\toolkit\LibraryPublisher\vf_libpub.exe</dst>
+      <src>Toolkit\LibraryEditor\bin\Release\vf_libedt.exe</src>
+      <dst>Publish\toolkit\LibraryEditor\vf_libedt.exe</dst>
     </command>
     <command type="1">
-      <src>Docs\out\manual_LibraryPublisher.pdf</src>
-      <dst>Publish\toolkit\LibraryPublisher\manual.pdf</dst>
+      <src>Docs\out\manual_LibraryEditor.pdf</src>
+      <dst>Publish\toolkit\LibraryEditor\manual.pdf</dst>
     </command>
     <command type="1">
       <src>Publish\core\bin\vf_bridge_x.dll</src>
-      <dst>Publish\toolkit\LibraryPublisher\vf_bridge_x.dll</dst>
+      <dst>Publish\toolkit\LibraryEditor\vf_bridge_x.dll</dst>
     </command>
     <command type="1">
       <src>Publish\core\bin\library.xsd</src>
-      <dst>Publish\toolkit\LibraryPublisher\library.xsd</dst>
+      <dst>Publish\toolkit\LibraryEditor\library.xsd</dst>
     </command>
   </commands>
 </script>

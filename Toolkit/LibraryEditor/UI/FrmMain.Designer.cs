@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.menubar = new System.Windows.Forms.MenuStrip();
-            this.MnuLib = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuLib_New = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuLib_Open = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuSplit1 = new System.Windows.Forms.ToolStripSeparator();
-            this.MnuLib_Publish = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuSplit2 = new System.Windows.Forms.ToolStripSeparator();
-            this.MnuLib_Config = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuSplit3 = new System.Windows.Forms.ToolStripSeparator();
-            this.MnuLib_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_New = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_Split1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuFile_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_Split2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuFile_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuFile_Split3 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuTool = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuTool_Option = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuHelp_Guide = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuHelp_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +56,8 @@
             // menubar
             // 
             this.menubar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MnuLib,
+            this.MnuFile,
+            this.MnuTool,
             this.MnuHelp});
             this.menubar.Location = new System.Drawing.Point(0, 0);
             this.menubar.Name = "menubar";
@@ -61,69 +65,92 @@
             this.menubar.TabIndex = 9;
             this.menubar.Text = "menuStrip1";
             // 
-            // MnuLib
+            // MnuFile
             // 
-            this.MnuLib.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MnuLib_New,
-            this.MnuLib_Open,
-            this.MnuSplit1,
-            this.MnuLib_Publish,
-            this.MnuSplit2,
-            this.MnuLib_Config,
-            this.MnuSplit3,
-            this.MnuLib_Exit});
-            this.MnuLib.Name = "MnuLib";
-            this.MnuLib.Size = new System.Drawing.Size(58, 21);
-            this.MnuLib.Text = "组件(&L)";
+            this.MnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuFile_New,
+            this.MnuFile_Open,
+            this.MnuFile_Split1,
+            this.MnuFile_Save,
+            this.MnuFile_SaveAs,
+            this.MnuFile_Split2,
+            this.MnuFile_Close,
+            this.MnuFile_Split3,
+            this.MnuFile_Exit});
+            this.MnuFile.Name = "MnuFile";
+            this.MnuFile.Size = new System.Drawing.Size(58, 21);
+            this.MnuFile.Text = "文件(&F)";
             // 
-            // MnuLib_New
+            // MnuFile_New
             // 
-            this.MnuLib_New.Name = "MnuLib_New";
-            this.MnuLib_New.Size = new System.Drawing.Size(175, 22);
-            this.MnuLib_New.Text = "新建发布(&N)";
-            this.MnuLib_New.Click += new System.EventHandler(this.MnuLib_New_Click);
+            this.MnuFile_New.Name = "MnuFile_New";
+            this.MnuFile_New.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_New.Text = "新建组件(&N)";
+            this.MnuFile_New.Click += new System.EventHandler(this.MnuFile_New_Click);
             // 
-            // MnuLib_Open
+            // MnuFile_Open
             // 
-            this.MnuLib_Open.Name = "MnuLib_Open";
-            this.MnuLib_Open.Size = new System.Drawing.Size(152, 22);
-            this.MnuLib_Open.Text = "打开发布(&O)...";
-            this.MnuLib_Open.Click += new System.EventHandler(this.MnuLib_Open_Click);
+            this.MnuFile_Open.Name = "MnuFile_Open";
+            this.MnuFile_Open.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Open.Text = "打开组件(&O)...";
+            this.MnuFile_Open.Click += new System.EventHandler(this.MnuFile_Open_Click);
             // 
-            // MnuSplit1
+            // MnuFile_Split1
             // 
-            this.MnuSplit1.Name = "MnuSplit1";
-            this.MnuSplit1.Size = new System.Drawing.Size(172, 6);
+            this.MnuFile_Split1.Name = "MnuFile_Split1";
+            this.MnuFile_Split1.Size = new System.Drawing.Size(149, 6);
             // 
-            // MnuLib_Publish
+            // MnuFile_Save
             // 
-            this.MnuLib_Publish.Name = "MnuLib_Publish";
-            this.MnuLib_Publish.Size = new System.Drawing.Size(175, 22);
-            this.MnuLib_Publish.Text = "发布(&P)...";
-            this.MnuLib_Publish.Click += new System.EventHandler(this.MnuLib_Publish_Click);
+            this.MnuFile_Save.Name = "MnuFile_Save";
+            this.MnuFile_Save.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Save.Text = "保存(&S)...";
+            this.MnuFile_Save.Click += new System.EventHandler(this.MnuFile_Save_Click);
             // 
-            // MnuSplit2
+            // MnuFile_SaveAs
             // 
-            this.MnuSplit2.Name = "MnuSplit2";
-            this.MnuSplit2.Size = new System.Drawing.Size(172, 6);
+            this.MnuFile_SaveAs.Name = "MnuFile_SaveAs";
+            this.MnuFile_SaveAs.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_SaveAs.Text = "另存为(&A)...";
+            this.MnuFile_SaveAs.Click += new System.EventHandler(this.MnuFile_SaveAs_Click);
             // 
-            // MnuLib_Config
+            // MnuFile_Split2
             // 
-            this.MnuLib_Config.Name = "MnuLib_Config";
-            this.MnuLib_Config.Size = new System.Drawing.Size(175, 22);
-            this.MnuLib_Config.Text = "配置(&C)...";
+            this.MnuFile_Split2.Name = "MnuFile_Split2";
+            this.MnuFile_Split2.Size = new System.Drawing.Size(149, 6);
             // 
-            // MnuSplit3
+            // MnuFile_Close
             // 
-            this.MnuSplit3.Name = "MnuSplit3";
-            this.MnuSplit3.Size = new System.Drawing.Size(172, 6);
+            this.MnuFile_Close.Name = "MnuFile_Close";
+            this.MnuFile_Close.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Close.Text = "关闭组件(&C)";
+            this.MnuFile_Close.Click += new System.EventHandler(this.MnuFile_Close_Click);
             // 
-            // MnuLib_Exit
+            // MnuFile_Split3
             // 
-            this.MnuLib_Exit.Name = "MnuLib_Exit";
-            this.MnuLib_Exit.Size = new System.Drawing.Size(175, 22);
-            this.MnuLib_Exit.Text = "退出(&X)";
-            this.MnuLib_Exit.Click += new System.EventHandler(this.MnuLib_Exit_Click);
+            this.MnuFile_Split3.Name = "MnuFile_Split3";
+            this.MnuFile_Split3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // MnuFile_Exit
+            // 
+            this.MnuFile_Exit.Name = "MnuFile_Exit";
+            this.MnuFile_Exit.Size = new System.Drawing.Size(152, 22);
+            this.MnuFile_Exit.Text = "退出(&X)";
+            this.MnuFile_Exit.Click += new System.EventHandler(this.MnuFile_Exit_Click);
+            // 
+            // MnuTool
+            // 
+            this.MnuTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuTool_Option});
+            this.MnuTool.Name = "MnuTool";
+            this.MnuTool.Size = new System.Drawing.Size(59, 21);
+            this.MnuTool.Text = "工具(&T)";
+            // 
+            // MnuTool_Option
+            // 
+            this.MnuTool_Option.Name = "MnuTool_Option";
+            this.MnuTool_Option.Size = new System.Drawing.Size(127, 22);
+            this.MnuTool_Option.Text = "选项(&O)...";
             // 
             // MnuHelp
             // 
@@ -145,7 +172,7 @@
             // 
             this.MnuHelp_About.Name = "MnuHelp_About";
             this.MnuHelp_About.Size = new System.Drawing.Size(176, 22);
-            this.MnuHelp_About.Text = "关于组件发布器(&A)";
+            this.MnuHelp_About.Text = "关于组件编辑器(&A)";
             this.MnuHelp_About.Click += new System.EventHandler(this.MnuHelp_About_Click);
             // 
             // statusbar
@@ -206,7 +233,8 @@
             this.Controls.Add(this.menubar);
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "组件发布器";
+            this.Text = "组件编辑器";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.menubar.ResumeLayout(false);
             this.menubar.PerformLayout();
@@ -219,23 +247,26 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menubar;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib_New;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib_Open;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib_Publish;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_New;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_Open;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_Save;
         private System.Windows.Forms.ToolStripMenuItem MnuHelp;
         private System.Windows.Forms.ToolStripMenuItem MnuHelp_Guide;
-        private System.Windows.Forms.ToolStripSeparator MnuSplit1;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib_Exit;
-        private System.Windows.Forms.ToolStripSeparator MnuSplit2;
-        private System.Windows.Forms.ToolStripMenuItem MnuLib_Config;
+        private System.Windows.Forms.ToolStripSeparator MnuFile_Split1;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_Exit;
+        private System.Windows.Forms.ToolStripSeparator MnuFile_Split3;
         private System.Windows.Forms.StatusStrip statusbar;
         private System.Windows.Forms.ToolStripMenuItem MnuHelp_About;
-        private System.Windows.Forms.ToolStripSeparator MnuSplit3;
         private System.Windows.Forms.TabControl CtrlTab;
         private System.Windows.Forms.TabPage TabCore;
         private System.Windows.Forms.TabPage TabUI;
         private System.Windows.Forms.TabPage TabLic;
+        private System.Windows.Forms.ToolStripMenuItem MnuTool;
+        private System.Windows.Forms.ToolStripMenuItem MnuTool_Option;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_SaveAs;
+        private System.Windows.Forms.ToolStripSeparator MnuFile_Split2;
+        private System.Windows.Forms.ToolStripMenuItem MnuFile_Close;
 
     }
 }

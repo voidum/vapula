@@ -30,7 +30,6 @@
         Normal = 1,
         Cancel = 2,
         Terminate = 3,
-        NullEntry = 4,
-        NullTask = 5
+        NullTask = 4
     }
 }

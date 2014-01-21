@@ -151,10 +151,10 @@ object vfeGetCurrentStack()
 	return stack;
 }
 
-object vfeGetFunction(object stk)
+cstr8 vfeGetFunctionId(object stk)
 {
 	Stack* obj = (Stack*)stk;
-	return obj->GetFunction();
+	return obj->GetFunctionId();
 }
 
 object vfeGetContext(object stk)

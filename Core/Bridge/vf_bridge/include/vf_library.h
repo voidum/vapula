@@ -45,7 +45,7 @@ namespace vapula
 		//get function by id
 		Function* GetFunction(cstr8 id);
 
-		//create invoker by function id
+		//create invoker by id
 		Invoker* CreateInvoker(cstr8 id);
 
 	public:

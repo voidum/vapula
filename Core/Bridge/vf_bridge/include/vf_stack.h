@@ -4,7 +4,6 @@
 
 namespace vapula
 {
-	class Function;
 	class Context;
 	class Envelope;
 
@@ -14,37 +13,41 @@ namespace vapula
 	public:
 		Stack();
 		~Stack();
+
 	private:
 		uint32 _StackId;
-		Function* _Function;
+		cstr8 _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
+
 	public:
 		static Stack* GetInstance();
-	public:
-		//get stack id
-		uint32 GetStackId();
 
+	public:
 		//set stack id
 		void SetStackId(uint32 id);
 
-		//get function
-		Function* GetFunction();
-
-		//set function
-		void SetFunction(Function* func);
-
-		//get context
-		Context* GetContext();
+		//set function id
+		void SetFunctionId(cstr8 id);
 
 		//set context
 		void SetContext(Context* ctx);
 
+		//set envelope
+		void SetEnvelope(Envelope* env);
+
+	public:
+		//get stack id
+		uint32 GetStackId();
+
+		//get function id
+		cstr8 GetFunctionId();
+
+		//get context
+		Context* GetContext();
+
 		//get envelope
 		Envelope* GetEnvelope();
-
-		//{TI2} set envelope
-		void SetEnvelope(Envelope* env);
 	};
 
 	//stack hub
@@ -54,16 +57,19 @@ namespace vapula
 		StackHub();
 	public:
 		~StackHub();
+
 	private:
 		static StackHub* _Instance;
 	public:
 		static StackHub* GetInstance();
+
 	private:
 		Lock* _Lock;
 		vector<Stack*> _Stacks;
 	public:
 		//get stack by id
 		Stack* GetStack(uint32 id);
+
 	public:
 		//link stack
 		bool Link(Stack* stack);

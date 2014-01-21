@@ -16,7 +16,7 @@ namespace vapula
 
 	private:
 		Library* _Library;
-		int _FunctionId;
+		cstr8 _FunctionId;
 		Invoker* _Invoker;
 		float* _StageTime;
 
@@ -39,7 +39,7 @@ namespace vapula
 		Library* GetLibrary();
 
 		//get function for task
-		int GetFunctionId();
+		cstr8 GetFunctionId();
 
 		//get invoker
 		Invoker* GetInvoker();

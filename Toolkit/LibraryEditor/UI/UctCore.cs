@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Vapula.Model;
 using System.Xml.Linq;
+using Vapula.Model;
 
 namespace Vapula.Toolkit
 {
     public partial class UctCore : UserControl
     {
-        private void UpdateID<T>(List<T> source, Action<T, int> setter)
+        private void UpdateParamID(List<Parameter> param_arr)
         {
             int i = 1;
-            foreach (T e in source)
-            {
-                setter(e, i);
-                i++;
-            }
+            foreach (var param in param_arr)
+                param.Id = i++;
+        }
+
+        private bool ValidId(string id)
+        {
+            return Regex.IsMatch(id, "[^A-Za-z0-9._]");
         }
 
         public void Publish()
@@ -40,33 +42,35 @@ namespace Vapula.Toolkit
 
         public void UI_UpdateLibrary()
         {
+            if(!UI_ValidNonNull()) 
+                return;
+            Library lib = AppData.Instance.Library;
             treeview.BeginUpdate();
             treeview.Nodes.Clear();
-            Library lib = AppData.Instance.Library;
-            if (lib != null)
+            string title = string.Format("[{1}] {0}",
+                !string.IsNullOrWhiteSpace(lib.Name) ? lib.Name : "（未命名）",
+                !string.IsNullOrWhiteSpace(lib.Id) ? lib.Id : "（未选择库）");
+            TreeNode tn_lib = new TreeNode(title);
+            tn_lib.ImageKey = "lib";
+            foreach (var model_func in lib.Functions)
             {
-                string title = string.Format("{0}[{1}]",
-                    !string.IsNullOrWhiteSpace(lib.Name) ? lib.Name : "（未命名）",
-                    !string.IsNullOrWhiteSpace(lib.Id) ? lib.Id : "（未选择库）" );
-                TreeNode tn_lib = new TreeNode(title);
-                foreach (var model_func in lib.Functions)
+                title = string.Format("[{1}] {0}",
+                    !string.IsNullOrWhiteSpace(model_func.Name) ? model_func.Name : "（未命名）",
+                    !string.IsNullOrWhiteSpace(model_func.Id) ? model_func.Id : "（未指定标识）");
+                TreeNode tn_func = new TreeNode(title);
+                tn_func.ImageKey = "func";
+                foreach (Parameter model_param in model_func.Parameters)
                 {
-                    title = string.Format("功能{1}：{0}",
-                        model_func.Name != "" ? model_func.Name : "（未命名）",
-                        model_func.Id);
-                    TreeNode tn_func = new TreeNode(title);
-                    foreach (Parameter model_param in model_func.Parameters)
-                    {
-                        title = string.Format("参数{1}：{0}",
-                            model_param.Name != "" ? model_param.Name : "（未命名）",
-                            model_param.Id);
-                        TreeNode tn_param = new TreeNode(title);
-                        tn_func.Nodes.Add(tn_param);
-                    }
-                    tn_lib.Nodes.Add(tn_func);
+                    title = string.Format("[{1}] {0}",
+                        model_param.Name != "" ? model_param.Name : "（未命名）",
+                        model_param.Id);
+                    TreeNode tn_param = new TreeNode(title);
+                    tn_param.ImageKey = "param";
+                    tn_func.Nodes.Add(tn_param);
                 }
-                treeview.Nodes.Add(tn_lib);
+                tn_lib.Nodes.Add(tn_func);
             }
+            treeview.Nodes.Add(tn_lib);
             treeview.ExpandAll();
             treeview.EndUpdate();
         }
@@ -76,12 +80,15 @@ namespace Vapula.Toolkit
             Library lib = AppData.Instance.Library;
             if (lib == null)
             {
-                MessageBox.Show(
-                    "没有打开的发布任务。\n" + 
-                    "请新建或打开发布任务。", "提示");
+                toolbar.Enabled = false;
+                treeview.Nodes.Clear();
                 return false;
             }
-            return true;
+            else 
+            {
+                toolbar.Enabled = true;
+                return true;
+            }
         }
 
         public void UI_Clear()
@@ -92,6 +99,10 @@ namespace Vapula.Toolkit
         public UctCore()
         {
             InitializeComponent();
+            treeview.ImageList = new ImageList();
+            treeview.ImageList.Images.Add("lib", Properties.Resources.library_s);
+            treeview.ImageList.Images.Add("func", Properties.Resources.function_s);
+            treeview.ImageList.Images.Add("param", Properties.Resources.parameter_s);
         }
 
         private void BtLoadLibrary_Click(object sender, EventArgs e)
@@ -105,11 +116,11 @@ namespace Vapula.Toolkit
                 return;
 
             string id = Path.GetFileNameWithoutExtension(dlg.SafeFileName);
-            if (Regex.IsMatch(id, "[^A-Za-z0-9._]"))
+            if (ValidId(id))
             {
                 MessageBox.Show(
                     "目标名称中包含不符合规范的字符。\n" + 
-                    "请依据字符集正则约束[a-zA-Z0-9._]自行重命名。", 
+                    "请依据命名规范自行重命名。", 
                     "注意");
                 return;
             }
@@ -134,15 +145,11 @@ namespace Vapula.Toolkit
             {
                 case 1:
                     lib.Functions[tn.Index].Parameters.Add(model_param);
-                    UpdateID(
-                        lib.Functions[tn.Index].Parameters,
-                        (d, v) => { d.Id = v; });
+                    UpdateParamID(lib.Functions[tn.Index].Parameters);
                     break;
                 case 2:
                     lib.Functions[tn.Parent.Index].Parameters.Insert(tn.Index, model_param);
-                    UpdateID(
-                        lib.Functions[tn.Parent.Index].Parameters,
-                        (d, v) => { d.Id = v; });
+                    UpdateParamID(lib.Functions[tn.Parent.Index].Parameters);
                     break;
             }
             UI_UpdateLibrary();
@@ -168,9 +175,6 @@ namespace Vapula.Toolkit
                     lib.Functions.Insert(tn.Index, model_func);
                     break;
             }
-            UpdateID(
-                lib.Functions,
-                (d, v) => { d.Id = v; });
             UI_UpdateLibrary();
         }
 
@@ -196,15 +200,9 @@ namespace Vapula.Toolkit
                     case 1:
                         lib.Functions[tn.Index].Clear();
                         lib.Functions.RemoveAt(tn.Index);
-                        UpdateID(
-                            lib.Functions,
-                            (d, v) => { d.Id = v; });
                         break;
                     case 2:
                         lib.Functions[tn.Parent.Index].Parameters.RemoveAt(tn.Index);
-                        UpdateID(
-                            lib.Functions[tn.Parent.Index].Parameters,
-                            (d, v) => { d.Id = v; });
                         break;
                 }
                 UI_UpdateLibrary();
@@ -240,5 +238,12 @@ namespace Vapula.Toolkit
             UI_UpdateLibrary();
         }
 
+        private void treeview_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode tn = treeview.SelectedNode;
+            if (tn == null)
+                return;
+            tn.SelectedImageIndex = tn.Level;
+        }
     }
 }

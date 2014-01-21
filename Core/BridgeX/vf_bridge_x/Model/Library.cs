@@ -13,7 +13,6 @@ namespace Vapula.Model
         #region 字段
         private string _Id;
         private string _Runtime;
-        private string _Entry;
         private TagList _Tags
             = new TagList();
         private List<Function> _Functions 
@@ -32,7 +31,7 @@ namespace Vapula.Model
         /// <summary>
         /// 根据指定标识获取功能
         /// </summary>
-        public Function this[int id]
+        public Function this[string id]
         {
             get
             {
@@ -54,7 +53,7 @@ namespace Vapula.Model
             var xrs = new XmlReaderSettings();
             xrs.ValidationType = ValidationType.Schema;
             xrs.Schemas.Add(null,
-                System.IO.Path.Combine(Base.AppDir, "library.xsd"));
+                System.IO.Path.Combine(Base.RuntimeDir, "library.xsd"));
             try
             {
                 XmlReader xr = XmlReader.Create(path, xrs);
@@ -84,7 +83,6 @@ namespace Vapula.Model
             Library lib = new Library();
             lib.Id = xml.Element("id").Value;
             lib.Runtime = xml.Element("runtime").Value;
-            lib.Entry = xml.Element("entry").Value;
             var xml_tags = xml.Element("tags");
             lib._Tags = TagList.Parse(xml_tags);
             var xmls_func = xml.Element("functions").Elements("function");
@@ -105,7 +103,6 @@ namespace Vapula.Model
             XElement xml = new XElement("library",
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
-                new XElement("entry", Entry),
                 new XElement("functions"),
                 _Tags.ToXML());
             foreach (var func in _Functions)
@@ -168,25 +165,6 @@ namespace Vapula.Model
                 if (string.IsNullOrWhiteSpace(value))
                     _Runtime = null;
                 else _Runtime = value;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置库的入口点
-        /// </summary>
-        public string Entry 
-        {
-            get
-            {
-                if (_Entry == null)
-                    return "";
-                return _Entry;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    _Entry = null;
-                else _Entry = value;
             }
         }
 

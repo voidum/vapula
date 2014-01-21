@@ -9,7 +9,8 @@ namespace Vapula.Model
     public class Function
     {
         #region 字段
-        private int _Id;
+        private string _Id;
+        private string _Entry;
         private Library _Library;
         private TagList _Tags
             = new TagList();
@@ -46,7 +47,8 @@ namespace Vapula.Model
         public static Function Parse(XElement xml)
         {
             Function func = new Function();
-            func.Id = int.Parse(xml.Attribute("id").Value);
+            func._Id = xml.Element("id").Value;
+            func._Entry = xml.Element("entry").Value;
             var xml_tags = xml.Element("tags");
             func._Tags = TagList.Parse(xml_tags);
             var xml_params = xml.Element("params").Elements("param");
@@ -66,8 +68,9 @@ namespace Vapula.Model
         {
             XElement xml = new XElement("function",
                 new XElement("params"),
-                _Tags.ToXML(),
-                new XAttribute("id", Id));
+                new XElement("id", Id),
+                new XElement("entry", Entry),
+                _Tags.ToXML());
             foreach (var param in Parameters)
             {
                 var xml_param = param.ToXML();
@@ -92,12 +95,41 @@ namespace Vapula.Model
 
         #region 属性
         /// <summary>
-        /// 获取功能的标识
+        /// 获取或设置功能的标识
         /// </summary>
-        public int Id
+        public string Id
         {
-            get { return _Id; }
-            set { _Id = value; }
+            get
+            {
+                if (_Id == null)
+                    return "";
+                return _Id;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _Id = null;
+                else _Id = value;
+            }
+        }
+
+        /// <summary>
+        /// 获取或设置功能的入口
+        /// </summary>
+        public string Entry
+        {
+            get
+            {
+                if (_Entry == null)
+                    return "";
+                return _Entry;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _Entry = null;
+                else _Entry = value;
+            }
         }
 
         /// <summary>

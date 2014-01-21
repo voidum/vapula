@@ -10,7 +10,6 @@
     <xs:all>
       <xs:element name="id" maxOccurs="1" type="ascii_string" />
       <xs:element name="runtime" maxOccurs="1" type="ascii_string" />
-      <xs:element name="entry" maxOccurs="1" type="ascii_string" />
       <xs:element name="functions" maxOccurs="1">
         <xs:complexType>
           <xs:sequence>
@@ -24,6 +23,8 @@
   
   <xs:complexType name="function">
     <xs:all>
+      <xs:element name="id" maxOccurs="1" type="ascii_string" />
+      <xs:element name="entry" maxOccurs="1" type="ascii_string" />
       <xs:element name="params">
         <xs:complexType>
           <xs:sequence>
@@ -33,13 +34,6 @@
       </xs:element>
       <xs:element name="tags" type="tags" />
     </xs:all>
-    <xs:attribute name="id" use="required">
-      <xs:simpleType>
-        <xs:restriction base="xs:int">
-          <xs:minInclusive value="1" />
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
   </xs:complexType>
   
   <xs:complexType name="param">

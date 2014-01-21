@@ -38,6 +38,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Grp1 = new System.Windows.Forms.GroupBox();
             this.Grp2 = new System.Windows.Forms.GroupBox();
+            this.TbxEntry = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.Grp1.SuspendLayout();
             this.Grp2.SuspendLayout();
             this.SuspendLayout();
@@ -49,14 +51,13 @@
             this.TbxId.Location = new System.Drawing.Point(65, 20);
             this.TbxId.MaxLength = 500;
             this.TbxId.Name = "TbxId";
-            this.TbxId.ReadOnly = true;
             this.TbxId.Size = new System.Drawing.Size(275, 23);
             this.TbxId.TabIndex = 4;
             // 
             // BtCancel
             // 
             this.BtCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtCancel.Location = new System.Drawing.Point(282, 200);
+            this.BtCancel.Location = new System.Drawing.Point(282, 235);
             this.BtCancel.Name = "BtCancel";
             this.BtCancel.Size = new System.Drawing.Size(90, 30);
             this.BtCancel.TabIndex = 1;
@@ -65,7 +66,7 @@
             // 
             // BtOK
             // 
-            this.BtOK.Location = new System.Drawing.Point(186, 200);
+            this.BtOK.Location = new System.Drawing.Point(186, 235);
             this.BtOK.Name = "BtOK";
             this.BtOK.Size = new System.Drawing.Size(90, 30);
             this.BtOK.TabIndex = 0;
@@ -123,11 +124,13 @@
             // 
             // Grp1
             // 
+            this.Grp1.Controls.Add(this.TbxEntry);
             this.Grp1.Controls.Add(this.TbxId);
+            this.Grp1.Controls.Add(this.label7);
             this.Grp1.Controls.Add(this.label1);
             this.Grp1.Location = new System.Drawing.Point(12, 12);
             this.Grp1.Name = "Grp1";
-            this.Grp1.Size = new System.Drawing.Size(360, 60);
+            this.Grp1.Size = new System.Drawing.Size(360, 90);
             this.Grp1.TabIndex = 15;
             this.Grp1.TabStop = false;
             this.Grp1.Text = "基本";
@@ -138,12 +141,31 @@
             this.Grp2.Controls.Add(this.TbxName);
             this.Grp2.Controls.Add(this.label5);
             this.Grp2.Controls.Add(this.TbxDescription);
-            this.Grp2.Location = new System.Drawing.Point(12, 78);
+            this.Grp2.Location = new System.Drawing.Point(12, 108);
             this.Grp2.Name = "Grp2";
             this.Grp2.Size = new System.Drawing.Size(360, 116);
             this.Grp2.TabIndex = 16;
             this.Grp2.TabStop = false;
             this.Grp2.Text = "标签";
+            // 
+            // TbxEntry
+            // 
+            this.TbxEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TbxEntry.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TbxEntry.Location = new System.Drawing.Point(65, 49);
+            this.TbxEntry.MaxLength = 500;
+            this.TbxEntry.Name = "TbxEntry";
+            this.TbxEntry.Size = new System.Drawing.Size(275, 23);
+            this.TbxEntry.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(18, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 12);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "入口：";
             // 
             // FrmFunction
             // 
@@ -151,14 +173,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtCancel;
-            this.ClientSize = new System.Drawing.Size(384, 242);
+            this.ClientSize = new System.Drawing.Size(384, 277);
             this.ControlBox = false;
             this.Controls.Add(this.Grp2);
             this.Controls.Add(this.Grp1);
             this.Controls.Add(this.BtCancel);
             this.Controls.Add(this.BtOK);
-            this.MaximumSize = new System.Drawing.Size(400, 280);
-            this.MinimumSize = new System.Drawing.Size(400, 280);
             this.Name = "FrmFunction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "功能属性";
@@ -182,5 +202,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox Grp1;
         private System.Windows.Forms.GroupBox Grp2;
+        private System.Windows.Forms.TextBox TbxEntry;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -67,7 +67,7 @@ namespace Vapula.API
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetEntrySym",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetEntrySym(IntPtr lib);
+        public static extern IntPtr GetEntrySym(IntPtr lib, string id);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeMountLibrary",
             CallingConvention = CallingConvention.Cdecl)]
@@ -81,7 +81,7 @@ namespace Vapula.API
         #region Invoker
         [DllImport("vf_bridge.dll", EntryPoint = "vfeCreateInvoker",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CreateInvoker(IntPtr lib, int mt);
+        public static extern IntPtr CreateInvoker(IntPtr lib, string id);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeStartInvoker",
             CallingConvention = CallingConvention.Cdecl)]
@@ -115,7 +115,7 @@ namespace Vapula.API
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetFunctionId",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetFunctionId(IntPtr stk);
+        public static extern IntPtr GetFunctionId(IntPtr stk);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetContext",
             CallingConvention = CallingConvention.Cdecl)]

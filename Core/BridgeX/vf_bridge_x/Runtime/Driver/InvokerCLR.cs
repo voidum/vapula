@@ -33,29 +33,32 @@ namespace Vapula.Runtime
 
         public void CallEntry()
         {
+            string entry_sym = 
+                _Library.GetEntrySym(Stack.FunctionId);
             string clsid = "";
-            string funcid = "";
-            if(string.IsNullOrWhiteSpace(_Library.EntrySym))
+            string mtid = "";
+            if(string.IsNullOrWhiteSpace(entry_sym))
             {
                 clsid = "Program";
-                funcid = "Run";
+                mtid = "Run";
             }
             else
             {
-                string[] ents = _Library.EntrySym.Split(new char[] { '.' });
-                clsid = ents[0];
-                funcid = ents[1];
+                string[] strs = entry_sym.Split(new char[] { '.' });
+                clsid = strs[0];
+                mtid = strs[1];
             }
             Assembly assembly = _Library.Assembly;
             Type type = assembly.GetType(_Library.Id + "." + clsid);
             try
             {
                 object instance = Activator.CreateInstance(type);
-                MethodInfo method = type.GetMethod(funcid);
+                MethodInfo method = type.GetMethod(mtid);
                 method.Invoke(instance, null);
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
         }
     }

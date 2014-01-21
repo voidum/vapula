@@ -34,9 +34,13 @@ namespace Vapula.Runtime
         /// <summary>
         /// 获取功能标识
         /// </summary>
-        public int FunctionId
+        public string FunctionId
         {
-            get { return Bridge.GetFunctionId(Handle); }
+            get 
+            { 
+                return Bridge.MarshalString(
+                    Bridge.GetFunctionId(Handle), false); 
+            }
         }
 
         /// <summary>

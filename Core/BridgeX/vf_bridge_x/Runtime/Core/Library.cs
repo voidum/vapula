@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Vapula.API;
 
 namespace Vapula.Runtime
@@ -36,20 +37,6 @@ namespace Vapula.Runtime
             }
         }
 
-        /// <summary>
-        /// 获取组件的入口
-        /// </summary>
-        public string EntrySym
-        {
-            get 
-            {
-                string value =
-                    Bridge.MarshalString(
-                    Bridge.GetEntrySym(_Handle), false);
-                return value;
-            }
-        }
-
         public Library(IntPtr handle)
         {
             _Handle = handle;
@@ -74,12 +61,24 @@ namespace Vapula.Runtime
             return lib;
         }
 
+
+        /// <summary>
+        /// 获取组件的入口
+        /// </summary>
+        public string GetEntrySym(string id)
+        {
+            string value =
+                Bridge.MarshalString(
+                Bridge.GetEntrySym(_Handle, id), false);
+            return value;
+        }
+
 		/// <summary>
         /// 获取指定功能的调用器
 		/// </summary>
-        public Invoker CreateInvoker(int fid)
+        public Invoker CreateInvoker(string id)
         {
-            IntPtr ptr = Bridge.CreateInvoker(_Handle, fid);
+            IntPtr ptr = Bridge.CreateInvoker(_Handle, id);
             Invoker inv = null;
             if (RuntimeId == Base.RuntimeId)
                 inv = InvokerCLR.GetInvoker(ptr);
@@ -93,6 +92,11 @@ namespace Vapula.Runtime
 		/// </summary>
         public virtual bool Mount()
         {
+            if (!File.Exists(Path.Combine(Base.RuntimeDir, "vf_bridge.dll")))
+            {
+                Console.WriteLine("bridge does NOT exist");
+                return false;
+            }
             return Bridge.MountLibrary(_Handle);
         }
 

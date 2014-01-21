@@ -3,27 +3,6 @@ using Vapula.Runtime;
 
 namespace sample_xlib
 {
-    public class Program
-    {
-        public void Run()
-        {
-            Stack stack = Stack.Instance;
-
-            Sample sample = new Sample();
-            switch (stack.FunctionId)
-            {
-                case 1: sample.Function_Math(); break;
-                case 2: sample.Function_Out(); break;
-                case 3: sample.Function_Array(); break;
-                case 4: sample.Function_Object(); break;
-                case 5: sample.Function_Context(); break;
-                default: 
-                    stack.Context.ReturnCode = ReturnCode.NullEntry;
-                    break;
-            }
-        }
-    }
-
     public class Sample
     {
         public void Function_Math()

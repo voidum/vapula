@@ -45,8 +45,5 @@ namespace vapula
 
 		//get envelope
 		Envelope* GetEnvelope();
-
-		//create invoker
-		Invoker* CreateInvoker();
 	};
 }

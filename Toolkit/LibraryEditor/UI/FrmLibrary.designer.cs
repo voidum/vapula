@@ -44,15 +44,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TbxName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.TbxEntry = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.Grp1.SuspendLayout();
             this.Grp2.SuspendLayout();
             this.SuspendLayout();
             // 
             // BtOK
             // 
-            this.BtOK.Location = new System.Drawing.Point(186, 320);
+            this.BtOK.Location = new System.Drawing.Point(186, 295);
             this.BtOK.Name = "BtOK";
             this.BtOK.Size = new System.Drawing.Size(90, 30);
             this.BtOK.TabIndex = 0;
@@ -63,7 +61,7 @@
             // BtCancel
             // 
             this.BtCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtCancel.Location = new System.Drawing.Point(282, 320);
+            this.BtCancel.Location = new System.Drawing.Point(282, 295);
             this.BtCancel.Name = "BtCancel";
             this.BtCancel.Size = new System.Drawing.Size(90, 30);
             this.BtCancel.TabIndex = 1;
@@ -73,15 +71,13 @@
             // 
             // Grp1
             // 
-            this.Grp1.Controls.Add(this.TbxEntry);
             this.Grp1.Controls.Add(this.label6);
-            this.Grp1.Controls.Add(this.label7);
             this.Grp1.Controls.Add(this.CobxRuntime);
             this.Grp1.Controls.Add(this.TbxId);
             this.Grp1.Controls.Add(this.label1);
             this.Grp1.Location = new System.Drawing.Point(12, 12);
             this.Grp1.Name = "Grp1";
-            this.Grp1.Size = new System.Drawing.Size(360, 121);
+            this.Grp1.Size = new System.Drawing.Size(360, 90);
             this.Grp1.TabIndex = 14;
             this.Grp1.TabStop = false;
             this.Grp1.Text = "基本";
@@ -135,7 +131,7 @@
             this.Grp2.Controls.Add(this.label3);
             this.Grp2.Controls.Add(this.TbxName);
             this.Grp2.Controls.Add(this.label2);
-            this.Grp2.Location = new System.Drawing.Point(12, 139);
+            this.Grp2.Location = new System.Drawing.Point(12, 108);
             this.Grp2.Name = "Grp2";
             this.Grp2.Size = new System.Drawing.Size(360, 175);
             this.Grp2.TabIndex = 15;
@@ -218,32 +214,13 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "名称：";
             // 
-            // TbxEntry
-            // 
-            this.TbxEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TbxEntry.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TbxEntry.Location = new System.Drawing.Point(65, 81);
-            this.TbxEntry.MaxLength = 500;
-            this.TbxEntry.Name = "TbxEntry";
-            this.TbxEntry.Size = new System.Drawing.Size(275, 23);
-            this.TbxEntry.TabIndex = 20;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 86);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 12);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "入口：";
-            // 
             // FrmLibrary
             // 
             this.AcceptButton = this.BtOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BtCancel;
-            this.ClientSize = new System.Drawing.Size(384, 362);
+            this.ClientSize = new System.Drawing.Size(384, 337);
             this.ControlBox = false;
             this.Controls.Add(this.Grp2);
             this.Controls.Add(this.Grp1);
@@ -278,7 +255,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TbxName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox TbxEntry;
-        private System.Windows.Forms.Label label7;
     }
 }

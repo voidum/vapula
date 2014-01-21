@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using Vapula.Runtime;
+using System.IO;
 
 namespace sample_xinvoker
 {
@@ -24,7 +25,7 @@ namespace sample_xinvoker
             if (InvokeRequired)
             {
                 var action = new Action<string>(UpdateLog);
-                action.Invoke(log);
+                this.Invoke(action, new object[] { log });
             }
             else
             {
@@ -34,8 +35,9 @@ namespace sample_xinvoker
 
         void Test1(Library lib)
         {
-            Invoker inv = lib.CreateInvoker(5);
-            if (inv == null) return;
+            Invoker inv = lib.CreateInvoker("context");
+            if (inv == null) 
+                return;
             if (!inv.Start()) return;
             Stack stk = inv.Stack;
             Context ctx = stk.Context;
@@ -69,19 +71,23 @@ namespace sample_xinvoker
         void Test2(Library lib)
         {
             UpdateLog("获取用于功能1的调用器对象");
-            Invoker inv = lib.CreateInvoker(1);
+            Invoker inv = lib.CreateInvoker("math");
+            if (inv == null)
+                return;
             Stack stk = inv.Stack;
 
             UpdateLog("获取信封对象");
             Envelope env = stk.Envelope;
-            if (env == null) return;
+            if (env == null) 
+                return;
 
             UpdateLog("设置参数");
             env.Write(1, "12");
             env.Write(2, "23");
 
             UpdateLog("执行功能");
-            if (!inv.Start()) return;
+            if (!inv.Start())
+                return;
 
             Context ctx = stk.Context;
             while (ctx.CurrentState != State.Idle)
@@ -107,13 +113,23 @@ namespace sample_xinvoker
 
         private void BtRun1_Click(object sender, EventArgs e)
         {
-            Library lib = Library.Load(@"E:\Projects\vapula\Core\Sample\xlibrary\bin\Debug\sample_xlib.library");
+            string path = Path.Combine(Application.StartupPath, @"sample_xlib.library");
+            Library lib = Library.Load(path);
             if (lib == null) 
                 return;
-            lib.Mount();
-            Test1(lib);
-            Test2(lib);
-            lib.Unmount();
+            Thread thread = new Thread(
+                new ThreadStart(() => 
+                {
+                    if (!lib.Mount())
+                    {
+                        UpdateLog("加载库发生问题");
+                        return;
+                    }
+                    Test1(lib);
+                    Test2(lib);
+                    lib.Unmount();
+                }));
+            thread.Start();
         }
     }
 }

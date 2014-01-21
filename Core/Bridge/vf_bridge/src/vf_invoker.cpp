@@ -43,7 +43,7 @@ namespace vapula
 	bool Invoker::Initialize(Function* func)
 	{
 		_Stack = new Stack();
-		_Stack->SetFunction(func);
+		_Stack->SetFunctionId(func->GetFunctionId());
 		_Stack->SetEnvelope(func->GetEnvelope()->Copy());
 		_Stack->SetContext(new Context());
 		return true;

@@ -69,12 +69,4 @@ namespace vapula
 	{
 		return _Envelope;
 	}
-
-	Invoker* Function::CreateInvoker()
-	{
-		Driver* drv = _Library->GetDriver();
-		Invoker* inv = drv->CreateInvoker();
-		inv->Initialize(this);
-		return inv;
-	}
 }

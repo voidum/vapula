@@ -101,8 +101,9 @@ namespace vapula
 
 	Invoker* Library::CreateInvoker(cstr8 id)
 	{
+		Invoker* inv = _Driver->CreateInvoker();
 		Function* func = GetFunction(id);
-		Invoker* inv = func->CreateInvoker();
+		inv->Initialize(func);
 		return inv;
 	}
 }

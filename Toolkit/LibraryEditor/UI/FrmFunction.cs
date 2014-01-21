@@ -13,7 +13,8 @@ namespace Vapula.Toolkit
             set
             {
                 _Function = value;
-                TbxId.Text = value.Id.ToString();
+                TbxId.Text = value.Id;
+                TbxEntry.Text = value.Entry;
                 TbxName.Text = value.Name;
                 TbxDescription.Text = value.Description;
             }
@@ -31,6 +32,8 @@ namespace Vapula.Toolkit
 
         private void BtOK_Click(object sender, EventArgs e)
         {
+            _Function.Id = TbxId.Text;
+            _Function.Entry = TbxEntry.Text;
             _Function.Name = TbxName.Text;
             _Function.Description = TbxDescription.Text;
             DialogResult = DialogResult.OK;

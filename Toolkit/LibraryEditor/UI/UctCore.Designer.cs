@@ -30,11 +30,11 @@
         {
             this.treeview = new System.Windows.Forms.TreeView();
             this.toolbar = new System.Windows.Forms.ToolStrip();
+            this.BtLoadLibrary = new System.Windows.Forms.ToolStripButton();
             this.BtAddFunction = new System.Windows.Forms.ToolStripButton();
             this.BtAddParam = new System.Windows.Forms.ToolStripButton();
             this.BtRemove = new System.Windows.Forms.ToolStripButton();
             this.BtProperty = new System.Windows.Forms.ToolStripButton();
-            this.BtLoadLibrary = new System.Windows.Forms.ToolStripButton();
             this.toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,7 @@
             this.treeview.Name = "treeview";
             this.treeview.Size = new System.Drawing.Size(450, 275);
             this.treeview.TabIndex = 15;
+            this.treeview.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeview_AfterSelect);
             // 
             // toolbar
             // 
@@ -61,6 +62,15 @@
             this.toolbar.Size = new System.Drawing.Size(450, 25);
             this.toolbar.TabIndex = 14;
             // 
+            // BtLoadLibrary
+            // 
+            this.BtLoadLibrary.Image = global::Vapula.Toolkit.Properties.Resources.open_s;
+            this.BtLoadLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtLoadLibrary.Name = "BtLoadLibrary";
+            this.BtLoadLibrary.Size = new System.Drawing.Size(64, 22);
+            this.BtLoadLibrary.Text = "选择库";
+            this.BtLoadLibrary.Click += new System.EventHandler(this.BtLoadLibrary_Click);
+            // 
             // BtAddFunction
             // 
             this.BtAddFunction.Image = global::Vapula.Toolkit.Properties.Resources.function_s;
@@ -72,7 +82,7 @@
             // 
             // BtAddParam
             // 
-            this.BtAddParam.Image = global::Vapula.Toolkit.Properties.Resources.attach_s;
+            this.BtAddParam.Image = global::Vapula.Toolkit.Properties.Resources.parameter_s;
             this.BtAddParam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BtAddParam.Name = "BtAddParam";
             this.BtAddParam.Size = new System.Drawing.Size(76, 22);
@@ -96,15 +106,6 @@
             this.BtProperty.Size = new System.Drawing.Size(61, 22);
             this.BtProperty.Text = "属性...";
             this.BtProperty.Click += new System.EventHandler(this.BtProperty_Click);
-            // 
-            // BtLoadLibrary
-            // 
-            this.BtLoadLibrary.Image = global::Vapula.Toolkit.Properties.Resources.open_lib_s;
-            this.BtLoadLibrary.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BtLoadLibrary.Name = "BtLoadLibrary";
-            this.BtLoadLibrary.Size = new System.Drawing.Size(64, 22);
-            this.BtLoadLibrary.Text = "选择库";
-            this.BtLoadLibrary.Click += new System.EventHandler(this.BtLoadLibrary_Click);
             // 
             // UctCore
             // 
