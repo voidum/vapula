@@ -7,14 +7,10 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmToolbox : DockContent, IWindow
+    public partial class FrmToolbox : Window
     {
-        private WindowHub.State _State;
-
-        private AppData App
-        {
-            get { return AppData.Instance; }
-        }
+        private ImageList _LargeIcons = new ImageList();
+        private ImageList _SmallIcons = new ImageList();
 
         private string AppResDir
         {
@@ -27,10 +23,7 @@ namespace Vapula.Designer
             }
         }
 
-        private ImageList _LargeIcons = new ImageList();
-        private ImageList _SmallIcons = new ImageList();
-
-        private void FormLayout_SwitchCollapse(bool collapse = false)
+        private void UI_SwitchCollapse(bool collapse = false)
         {
             foreach (ListViewGroup lvg in LsvTools.Groups)
                 LsvTools.SetGroupState(lvg,
@@ -38,7 +31,7 @@ namespace Vapula.Designer
                     IricListView.GroupState.Collapsible);
         }
 
-        private void FormLayout_LoadCommonRes()
+        private void UI_LoadCommonRes()
         {
             var mng = 
                 Properties.Resources.ResourceManager;
@@ -50,6 +43,8 @@ namespace Vapula.Designer
 
         public FrmToolbox()
         {
+            Id = "toolbox";
+            DefaultDock = DockState.DockLeft;
             InitializeComponent();
             _LargeIcons.ImageSize = new Size(32, 32);
             _SmallIcons.ImageSize = new Size(16, 16);
@@ -60,10 +55,10 @@ namespace Vapula.Designer
         private void FrmToolbox_Load(object sender, EventArgs e)
         {
             LsvTools.View = View.LargeIcon;
-            FormLayout_LoadCommonRes();
+            UI_LoadCommonRes();
             FormLayout_LoadAdvancedTools();
             FormLayout_LoadLibraries();
-            FormLayout_SwitchCollapse();
+            UI_SwitchCollapse();
         }
 
         private void LsvTools_ItemDrag(object sender, ItemDragEventArgs e)
@@ -75,12 +70,12 @@ namespace Vapula.Designer
 
         private void MnuCollapseGroup_Click(object sender, EventArgs e)
         {
-            FormLayout_SwitchCollapse(true);
+            UI_SwitchCollapse(true);
         }
 
         private void MnuExpandGroup_Click(object sender, EventArgs e)
         {
-            FormLayout_SwitchCollapse(false);
+            UI_SwitchCollapse(false);
         }
 
         private void MnuSwitchView_Click(object sender, EventArgs e)
@@ -91,29 +86,9 @@ namespace Vapula.Designer
                 LsvTools.View = View.LargeIcon;
         }
 
-        public string Id
+        public override object Sync(string cmd, object attach)
         {
-            get { return "toolbox"; }
-        }
-
-        public WindowHub.State State
-        {
-            get { return _State; }
-            set
-            {
-                if (_State == value)
-                    return;
-                if (value == WindowHub.State.Visible)
-                    App.MainWindow.UI_ShowWindow(this, DockState.DockLeft);
-                else Hide();
-                _State = value;
-            }
-        }
-
-        private void FrmToolbox_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            State = WindowHub.State.Hidden;
-            e.Cancel = true;
+            throw new NotImplementedException();
         }
     }
 }

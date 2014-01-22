@@ -37,9 +37,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Grp1 = new System.Windows.Forms.GroupBox();
-            this.Grp2 = new System.Windows.Forms.GroupBox();
             this.TbxEntry = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.Grp2 = new System.Windows.Forms.GroupBox();
             this.Grp1.SuspendLayout();
             this.Grp2.SuspendLayout();
             this.SuspendLayout();
@@ -135,19 +135,6 @@
             this.Grp1.TabStop = false;
             this.Grp1.Text = "基本";
             // 
-            // Grp2
-            // 
-            this.Grp2.Controls.Add(this.label2);
-            this.Grp2.Controls.Add(this.TbxName);
-            this.Grp2.Controls.Add(this.label5);
-            this.Grp2.Controls.Add(this.TbxDescription);
-            this.Grp2.Location = new System.Drawing.Point(12, 108);
-            this.Grp2.Name = "Grp2";
-            this.Grp2.Size = new System.Drawing.Size(360, 116);
-            this.Grp2.TabIndex = 16;
-            this.Grp2.TabStop = false;
-            this.Grp2.Text = "标签";
-            // 
             // TbxEntry
             // 
             this.TbxEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -167,6 +154,19 @@
             this.label7.TabIndex = 23;
             this.label7.Text = "入口：";
             // 
+            // Grp2
+            // 
+            this.Grp2.Controls.Add(this.label2);
+            this.Grp2.Controls.Add(this.TbxName);
+            this.Grp2.Controls.Add(this.label5);
+            this.Grp2.Controls.Add(this.TbxDescription);
+            this.Grp2.Location = new System.Drawing.Point(12, 108);
+            this.Grp2.Name = "Grp2";
+            this.Grp2.Size = new System.Drawing.Size(360, 116);
+            this.Grp2.TabIndex = 16;
+            this.Grp2.TabStop = false;
+            this.Grp2.Text = "标签";
+            // 
             // FrmFunction
             // 
             this.AcceptButton = this.BtOK;
@@ -179,6 +179,8 @@
             this.Controls.Add(this.Grp1);
             this.Controls.Add(this.BtCancel);
             this.Controls.Add(this.BtOK);
+            this.MaximumSize = new System.Drawing.Size(400, 315);
+            this.MinimumSize = new System.Drawing.Size(400, 315);
             this.Name = "FrmFunction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "功能属性";

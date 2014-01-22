@@ -110,7 +110,6 @@
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmLog";
             this.Text = "日志";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLog_FormClosing);
             this.Resize += new System.EventHandler(this.FrmLog_Resize);
             this.toolbar.ResumeLayout(false);
             this.toolbar.PerformLayout();

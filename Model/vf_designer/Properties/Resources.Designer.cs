@@ -67,9 +67,23 @@ namespace Vapula.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap design_s {
+            get {
+                object obj = ResourceManager.GetObject("design_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap disk_s {
             get {
                 object obj = ResourceManager.GetObject("disk_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap function_add_s {
+            get {
+                object obj = ResourceManager.GetObject("function_add_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -81,9 +95,37 @@ namespace Vapula.Designer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap function_remove_s {
+            get {
+                object obj = ResourceManager.GetObject("function_remove_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap function_s {
             get {
                 object obj = ResourceManager.GetObject("function_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap library_s {
+            get {
+                object obj = ResourceManager.GetObject("library_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap parameter_s {
+            get {
+                object obj = ResourceManager.GetObject("parameter_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_s {
+            get {
+                object obj = ResourceManager.GetObject("refresh_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

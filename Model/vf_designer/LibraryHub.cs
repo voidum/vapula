@@ -35,16 +35,16 @@ namespace Vapula.Designer
 
         public bool Load(string path)
         {
-            XDocument xdoc = XDocument.Load(path);
+            var xdoc = XDocument.Load(path);
             var xml_libs = xdoc.Element("root").Elements("library");
-            foreach(XElement xml_lib in xml_libs)
+            foreach(var xml_lib in xml_libs)
             {
                 string id = xml_lib.Attribute("id").Value;
                 var lib = LoadLibrary(id);
 
                 if (lib != null) 
                 {
-                    State state = (State)int.Parse(
+                    var state = (State)int.Parse(
                         xml_lib.Attribute("state").Value);
                     lib.Attach["state"] = state;
                 }
@@ -61,10 +61,10 @@ namespace Vapula.Designer
 
         public Library LoadLibrary(string id)
         {
-            var lib = Library.Load(
-                Path.Combine(
+            var path = Path.Combine(
                 AppData.Instance.PathLibrary,
-                id + "\\" + id + ".library"));
+                id + "\\" + id + ".library");
+            var lib = Library.Load(path);
             if (lib != null)
                 _Libs.Add(lib);
             return lib;

@@ -95,11 +95,17 @@
     <Compile Include="UI\FrmModel.Designer.cs">
       <DependentUpon>FrmModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FrmWorkspace.cs">
+    <Compile Include="UI\FrmStartup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FrmWorkspace.Designer.cs">
-      <DependentUpon>FrmWorkspace.cs</DependentUpon>
+    <Compile Include="UI\FrmStartup.Designer.cs">
+      <DependentUpon>FrmStartup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmExplorer.Designer.cs">
+      <DependentUpon>FrmExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FrmStage.cs">
       <SubType>Form</SubType>
@@ -128,7 +134,9 @@
     <Compile Include="UI\Document\UctGraph.Designer.cs">
       <DependentUpon>UctGraph.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\IWindow.cs" />
+    <Compile Include="Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WindowHub.cs" />
     <EmbeddedResource Include="UI\Document\FrmParamValue.resx">
       <DependentUpon>FrmParamValue.cs</DependentUpon>
@@ -156,6 +164,9 @@
     <EmbeddedResource Include="UI\FrmStage.resx">
       <DependentUpon>FrmStage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmStartup.resx">
+      <DependentUpon>FrmStartup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmToolbox.resx">
       <DependentUpon>FrmToolbox.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,8 +176,8 @@
     <EmbeddedResource Include="UI\Document\UctGraph.resx">
       <DependentUpon>UctGraph.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FrmWorkspace.resx">
-      <DependentUpon>FrmWorkspace.cs</DependentUpon>
+    <EmbeddedResource Include="UI\FrmExplorer.resx">
+      <DependentUpon>FrmExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\advtool.list" />
     <None Include="Config\designer.config" />
@@ -212,6 +223,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\function_l.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_add_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_remove_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\design_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LangPack\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_add_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\function_remove_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\parameter_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\library_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

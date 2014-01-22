@@ -5,17 +5,12 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmStage : DockContent, IWindow
+    public partial class FrmStage : Window
     {
-        private WindowHub.State _State;
-
-        private AppData App
-        {
-            get { return AppData.Instance; }
-        }
-
         public FrmStage()
         {
+            Id = "stage";
+            DefaultDock = DockState.DockRight;
             InitializeComponent();
         }
 
@@ -50,29 +45,9 @@ namespace Vapula.Designer
             }
         }
 
-        public string Id
+        public override object Sync(string cmd, object attach)
         {
-            get { return "stage"; }
-        }
-
-        public WindowHub.State State
-        {
-            get { return _State; }
-            set
-            {
-                if (_State == value)
-                    return;
-                if (value == WindowHub.State.Visible)
-                    App.MainWindow.UI_ShowWindow(this, DockState.DockRight);
-                else Hide();
-                _State = value;
-            }
-        }
-
-        private void FrmStage_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            State = WindowHub.State.Hidden;
-            e.Cancel = true;
+            throw new NotImplementedException();
         }
     }
 }

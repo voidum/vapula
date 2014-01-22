@@ -5,10 +5,8 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmDocument : DockContent
+    public partial class FrmDocument : Window
     {
-        private AppData _App = AppData.Instance;
-
         UctGraph _UctGraph = new UctGraph();
         UctData _UctData = new UctData();
 
@@ -17,8 +15,11 @@ namespace Vapula.Designer
             get { return _UctGraph.Graph; }
         }
 
-        public FrmDocument()
+        public FrmDocument() 
         {
+            Id = "document";
+            DefaultDock = DockState.Document;
+            DockState = DockState.Document;
             InitializeComponent();
             _UctGraph.Dock = DockStyle.Fill;
             _UctData.Dock = DockStyle.Fill;
@@ -28,13 +29,13 @@ namespace Vapula.Designer
 
         private void MnuDebugCanvas_Click(object sender, EventArgs e)
         {
-            var dlg = _App.WindowHub["debug"] as FrmDebug;
+            var dlg = App.WindowHub["debug"] as FrmDebug;
             dlg.SelectObject(_UctGraph.Canvas);
         }
 
         private void MnuDebugGraph_Click(object sender, EventArgs e)
         {
-            var dlg = _App.WindowHub["debug"] as FrmDebug;
+            var dlg = App.WindowHub["debug"] as FrmDebug;
             dlg.SelectObject(_UctGraph.Graph);
         }
 
@@ -43,6 +44,11 @@ namespace Vapula.Designer
             int index = CtrlTab.SelectedIndex;
             if (index == 1)
                 _UctData.UI_UpdateData(_UctGraph.Graph);
+        }
+
+        public override object Sync(string cmd, object attach)
+        {
+            throw new NotImplementedException();
         }
     }
 }

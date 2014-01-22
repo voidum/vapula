@@ -92,11 +92,6 @@ namespace Vapula.Runtime
 		/// </summary>
         public virtual bool Mount()
         {
-            if (!File.Exists(Path.Combine(Base.RuntimeDir, "vf_bridge.dll")))
-            {
-                Console.WriteLine("bridge does NOT exist");
-                return false;
-            }
             return Bridge.MountLibrary(_Handle);
         }
 

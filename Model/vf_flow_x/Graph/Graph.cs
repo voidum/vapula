@@ -25,7 +25,7 @@ namespace Vapula.Flow
         /// <summary>
         /// 加载模型图
         /// </summary>
-        public static Graph Load(string path)
+        public static Graph Parse(XElement xml)
         {
             var graph = new Graph();
             return graph;
@@ -34,13 +34,15 @@ namespace Vapula.Flow
         public XElement ToXML()
         {
             var xml_graph = new XElement("graph");
+            
             var xml_nodes = new XElement("nodes");
-            var xml_links = new XElement("nodes");
             foreach (var node in _Nodes)
                 xml_nodes.Add(node.ToXML());
+            xml_graph.Add(xml_nodes);
+
+            var xml_links = new XElement("links");
             foreach (var link in _Links)
                 xml_links.Add(link.ToXML());
-            xml_graph.Add(xml_nodes);
             xml_graph.Add(xml_links);
             return xml_graph;
         }

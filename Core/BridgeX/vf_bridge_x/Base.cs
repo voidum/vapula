@@ -4,23 +4,56 @@ using System.IO;
 namespace Vapula
 {
     /// <summary>
+    /// 运行期状态
+    /// </summary>
+    public enum State
+    {
+        Idle = 0,
+        BusyBack = 1,
+        BusyFront = 2,
+        Pause = 3
+    }
+
+    //控制码
+    public enum CtrlCode
+    {
+        Null = 0,
+        Pause = 1,
+        Resume = 2,
+        Cancel = 3,
+        Restart = 4
+    }
+
+    /// <summary>
+    /// 返回值
+    /// </summary>
+    public enum ReturnCode
+    {
+        Error = 0,
+        Normal = 1,
+        Cancel = 2,
+        Terminate = 3,
+        NullTask = 4
+    }
+
+    /// <summary>
     /// Vapula支持的数据类型
     /// </summary>
     public enum DataType
     {
         Object = 0,
-	    Int8 = 1,
-	    Int16 = 2,
-	    Int32 = 3,
-	    Int64 = 4,
-	    UInt8 = 5,
-	    UInt16 = 6,
-	    UInt32 = 7,
-	    UInt64 = 8,
-	    Real32 = 10,
-	    Real64 = 11,
-	    Bool = 20,
-	    String = 21
+        Int8 = 1,
+        Int16 = 2,
+        Int32 = 3,
+        Int64 = 4,
+        UInt8 = 5,
+        UInt16 = 6,
+        UInt32 = 7,
+        UInt64 = 8,
+        Real32 = 10,
+        Real64 = 11,
+        Bool = 20,
+        String = 21
     };
 
     /// <summary>
@@ -41,19 +74,19 @@ namespace Vapula
         public const string RuntimeId = "clr";
 
         /// <summary>
-        /// 当前运行时的目录
-        /// </summary>
-        public static string RuntimeDir
-        {
-            get { return AppDomain.CurrentDomain.BaseDirectory; }
-        }
-
-        /// <summary>
         /// 获取类型所在程序集的加载目录
         /// </summary>
         public static string GetTypeDir(Type type)
         {
             return Path.GetDirectoryName(type.Assembly.Location);
+        }
+
+        /// <summary>
+        /// 当前运行时的目录
+        /// </summary>
+        public static string RuntimeDir
+        {
+            get { return GetTypeDir(typeof(Base)); }
         }
 
         /// <summary>

@@ -5,24 +5,19 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Vapula.Designer
 {
-    public partial class FrmLog : DockContent, ILogger, IWindow
+    public partial class FrmLog : Window, ILogger
     {
-        private WindowHub.State _State;
-
-        private AppData App
-        {
-            get { return AppData.Instance; }
-        }
-
         public FrmLog()
         {
+            Id = "logger";
+            DefaultDock = DockState.DockBottomAutoHide;
             InitializeComponent();
         }
 
-        private void FormLayout_AddItem(ListViewItem lvi)
+        private void UI_AddItem(ListViewItem lvi)
         {
             if (InvokeRequired)
-                Invoke(new Action<ListViewItem>(FormLayout_AddItem), lvi);
+                Invoke(new Action<ListViewItem>(UI_AddItem), lvi);
             else
                 LsvLog.Items.Add(lvi);
         }
@@ -36,7 +31,7 @@ namespace Vapula.Designer
                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     (string)values[0]
                 });
-            FormLayout_AddItem(lvi);
+            UI_AddItem(lvi);
         }
 
         public void ClearLog()
@@ -57,29 +52,9 @@ namespace Vapula.Designer
                 - ColhTime.Width - 20;
         }
 
-        public string Id
+        public override object Sync(string cmd, object attach)
         {
-            get { return "logger"; }
-        }
-
-        public WindowHub.State State
-        {
-            get { return _State; }
-            set
-            {
-                if (_State == value)
-                    return;
-                if (value == WindowHub.State.Visible)
-                    App.MainWindow.UI_ShowWindow(this, DockState.DockBottomAutoHide);
-                else Hide();
-                _State = value;
-            }
-        }
-
-        private void FrmLog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            State = WindowHub.State.Hidden;
-            e.Cancel = true;
+            throw new NotImplementedException();
         }
     }
 }

@@ -113,7 +113,6 @@ namespace Vapula.Designer
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmToolbox";
             this.Text = "组件箱";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmToolbox_FormClosing);
             this.Load += new System.EventHandler(this.FrmToolbox_Load);
             this.ctxmenubar.ResumeLayout(false);
             this.ResumeLayout(false);

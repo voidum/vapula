@@ -220,6 +220,8 @@
             this.Controls.Add(this.Grp1);
             this.Controls.Add(this.BtCancel);
             this.Controls.Add(this.BtOK);
+            this.MaximumSize = new System.Drawing.Size(400, 350);
+            this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "FrmParameter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "参数属性";

@@ -15,7 +15,7 @@ namespace Vapula.Model
         private string _Runtime;
         private TagList _Tags
             = new TagList();
-        private List<Function> _Functions 
+        private List<Function> _Functions
             = new List<Function>();
 
         private string _Path;
@@ -68,7 +68,7 @@ namespace Vapula.Model
                     return library;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -135,13 +135,13 @@ namespace Vapula.Model
         /// </summary>
         public string Id
         {
-            get 
+            get
             {
                 if (_Id == null)
                     return "";
                 return _Id;
             }
-            set 
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     _Id = null;
@@ -198,18 +198,18 @@ namespace Vapula.Model
         /// </summary>
         public TagList Attach
         {
-            get 
+            get
             {
                 if (_Attach == null)
                     _Attach = new TagList();
-                return _Attach; 
+                return _Attach;
             }
         }
 
         /// <summary>
         /// 获取或设置库的名称
         /// </summary>
-        public string Name 
+        public string Name
         {
             get
             {
@@ -229,7 +229,7 @@ namespace Vapula.Model
         /// <summary>
         /// 获取或设置库的发布方
         /// </summary>
-        public string Publisher 
+        public string Publisher
         {
             get
             {
@@ -249,7 +249,7 @@ namespace Vapula.Model
         /// <summary>
         /// 获取或设置库的描述
         /// </summary>
-        public string Description 
+        public string Description
         {
             get
             {

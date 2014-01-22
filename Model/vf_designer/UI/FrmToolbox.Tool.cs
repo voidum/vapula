@@ -53,7 +53,7 @@ namespace Vapula.Designer
 
                 foreach (var func in lib.Functions)
                 {
-                    int idx = func.Id - 1;
+                    //int idx = func.Id - 1;
                     string path_pre = Path.Combine(
                         App.PathResource,
                         func.Library.Id + "." + func.Id.ToString());

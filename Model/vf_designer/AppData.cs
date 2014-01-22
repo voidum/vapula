@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Windows.Forms;
+using Vapula.Flow;
 using Vapula.Helper;
+using Vapula.Model;
 
 namespace Vapula.Designer
 {
@@ -24,6 +26,7 @@ namespace Vapula.Designer
         private LibraryHub _LibraryHub = null;
         private WindowHub _WindowHub = null;
         private MainWindow _MainWindow = null;
+        private Library _CurrentLibrary = null;
         #endregion
 
         #region 属性
@@ -87,6 +90,18 @@ namespace Vapula.Designer
                     _MainWindow = new MainWindow();
                 return _MainWindow;
             }
+        }
+
+        public Library CurrentLibrary
+        {
+            get { return _CurrentLibrary; }
+            set { _CurrentLibrary = value; }
+        }
+
+        public Graph CurrentGraph
+        {
+            get { return null; }
+            set { }
         }
         #endregion
     }

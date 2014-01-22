@@ -30,13 +30,21 @@ namespace Vapula.Designer
                 MessageBox.Show("加载组件库清单失败。");
                 return;
             }
+
+            InitWindow();
+            Application.Run();
+        }
+
+        static void InitWindow()
+        {
+            AppData app = AppData.Instance;
+            app.WindowHub.Add(new FrmStartup());
             app.WindowHub.Add(new FrmToolbox());
             app.WindowHub.Add(new FrmLog());
             app.WindowHub.Add(new FrmDebug());
-            app.WindowHub.Add(new FrmWorkspace());
+            app.WindowHub.Add(new FrmExplorer());
             app.WindowHub.Add(new FrmStage());
             app.MainWindow.Show();
-            Application.Run();
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

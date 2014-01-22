@@ -44,27 +44,27 @@ namespace Vapula.Toolkit
         {
             if(!UI_ValidNonNull()) 
                 return;
-            Library lib = AppData.Instance.Library;
+            var lib = AppData.Instance.Library;
             treeview.BeginUpdate();
             treeview.Nodes.Clear();
             string title = string.Format("[{1}] {0}",
                 !string.IsNullOrWhiteSpace(lib.Name) ? lib.Name : "（未命名）",
                 !string.IsNullOrWhiteSpace(lib.Id) ? lib.Id : "（未选择库）");
-            TreeNode tn_lib = new TreeNode(title);
+            var tn_lib = new TreeNode(title);
             tn_lib.ImageKey = "lib";
-            foreach (var model_func in lib.Functions)
+            foreach (var func in lib.Functions)
             {
                 title = string.Format("[{1}] {0}",
-                    !string.IsNullOrWhiteSpace(model_func.Name) ? model_func.Name : "（未命名）",
-                    !string.IsNullOrWhiteSpace(model_func.Id) ? model_func.Id : "（未指定标识）");
-                TreeNode tn_func = new TreeNode(title);
+                    !string.IsNullOrWhiteSpace(func.Name) ? func.Name : "（未命名）",
+                    !string.IsNullOrWhiteSpace(func.Id) ? func.Id : "（未指定标识）");
+                var tn_func = new TreeNode(title);
                 tn_func.ImageKey = "func";
-                foreach (Parameter model_param in model_func.Parameters)
+                foreach (var param in func.Parameters)
                 {
                     title = string.Format("[{1}] {0}",
-                        model_param.Name != "" ? model_param.Name : "（未命名）",
-                        model_param.Id);
-                    TreeNode tn_param = new TreeNode(title);
+                        param.Name != "" ? param.Name : "（未命名）",
+                        param.Id);
+                    var tn_param = new TreeNode(title);
                     tn_param.ImageKey = "param";
                     tn_func.Nodes.Add(tn_param);
                 }

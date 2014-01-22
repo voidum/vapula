@@ -11,10 +11,10 @@ namespace Vapula.Designer
             Hidden = 1
         }
 
-        private List<IWindow> _Windows
-            = new List<IWindow>();
+        private List<Window> _Windows
+            = new List<Window>();
 
-        public IWindow this[string id]
+        public Window this[string id]
         {
             get
             {
@@ -25,12 +25,12 @@ namespace Vapula.Designer
             }
         }
 
-        public List<IWindow> Windows
+        public List<Window> Windows
         {
             get { return _Windows; }
         }
 
-        public void Add(IWindow window)
+        public void Add(Window window)
         {
             var w = this[window.Id];
             if (w == null)
@@ -50,7 +50,7 @@ namespace Vapula.Designer
             }
         }
 
-        public IWindow Show(string id)
+        public Window Show(string id)
         {
             var w = this[id];
             if (w == null)

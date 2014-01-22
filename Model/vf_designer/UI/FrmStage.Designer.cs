@@ -68,7 +68,6 @@
             this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "FrmStage";
             this.Text = "阶段";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmStage_FormClosing);
             this.ResumeLayout(false);
 
         }
