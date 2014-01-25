@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Vapula.Model;
 
 namespace Vapula.Flow
@@ -40,6 +41,13 @@ namespace Vapula.Flow
         public override void Wait()
         {
             throw new System.NotImplementedException();
+        }
+
+        public static NodeStart Parse(XElement xml)
+        {
+            var node = new NodeStart();
+            node._Id = int.Parse(xml.Attribute("id").Value);
+            return node;
         }
     }
 }

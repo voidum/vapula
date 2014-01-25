@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Linq;
 using Vapula.Model;
 using Vapula.Runtime;
 
@@ -13,6 +14,9 @@ namespace Vapula.Flow
     {
         private Function _Function 
             = null;
+        
+        private string _LibraryId = null;
+        private string _FunctionId = null;
 
         public override NodeType Type
         {
@@ -45,7 +49,19 @@ namespace Vapula.Flow
                     _ParamStubs.Add(stub);
                 }
                 _Function = value;
+                _LibraryId = _Function.Library.Id;
+                _FunctionId = _Function.Id;
             }
+        }
+
+        public string LibraryId
+        {
+            get { return _LibraryId; }
+        }
+
+        public string FunctionId
+        {
+            get { return _FunctionId; }
         }
 
         public override object Sync(string cmd, object attach)
@@ -122,6 +138,23 @@ namespace Vapula.Flow
             var ctx = stack.Context;
             while (ctx.CurrentState != State.Idle)
                 Thread.Sleep(50);
+        }
+
+        public static NodeProcess Parse(XElement xml)
+        {
+            var node = new NodeProcess();
+            node._Id = int.Parse(xml.Attribute("id").Value);
+            node._LibraryId = xml.Element("library").Value;
+            node._FunctionId = xml.Element("function").Value;
+            return node;
+        }
+
+        public override XElement ToXML()
+        {
+            var xml = base.ToXML();
+            xml.Add(new XElement("library", _LibraryId));
+            xml.Add(new XElement("function", _FunctionId));
+            return xml;
         }
     }
 }

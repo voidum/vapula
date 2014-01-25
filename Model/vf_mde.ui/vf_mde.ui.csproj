@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vapula.MDE.UI</RootNamespace>
+    <AssemblyName>vf_mde.ui</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Canvas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GDIHelper.cs" />
+    <Compile Include="GDICache.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="GraphCanvas\Connection.cs" />
+    <Compile Include="GraphCanvas\Connector.cs" />
+    <Compile Include="GraphCanvas\GraphCanvas.Action.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphCanvas\GraphCanvas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GraphCanvas\Shape.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeDecision.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeProcess.cs" />
+    <Compile Include="GraphCanvas\Shape\ShapeStart.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vf_flow_x\vf_flow_x.csproj">
+      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
+      <Name>vf_flow_x</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

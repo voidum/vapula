@@ -1,7 +1,7 @@
 ﻿using System;
 using Vapula.API;
-using Vapula.Helper;
 using Vapula.Runtime;
+using System.IO;
 
 namespace Vapula.Flow
 {
@@ -45,6 +45,24 @@ namespace Vapula.Flow
             return true; 
         }
 
+        public void Temp()
+        {
+            foreach (var node in Nodes)
+            {
+                if (node.Type == NodeType.Process)
+                {
+                    var n = (node as NodeProcess);
+                    if (n.Function == null) 
+                    {
+                        var path = Path.Combine(Base.RuntimeDir, "library", n.LibraryId, n.LibraryId + ".library");
+                        var lib = Model.Library.Load(path);
+                        var func = lib[n.FunctionId];
+                        n.Function = func;
+                    }
+                }
+            }
+        }
+
         private void Reset() 
         {
         }
@@ -61,6 +79,8 @@ namespace Vapula.Flow
             {
                 throw new Exception("框架损坏");
             }
+
+            Temp();
 
             if (!LoadAllDrivers()) 
                 throw new Exception("驱动加载失败");

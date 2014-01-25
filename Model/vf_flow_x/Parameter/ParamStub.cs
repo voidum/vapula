@@ -1,4 +1,5 @@
-﻿using Vapula.Model;
+﻿using System.Xml.Linq;
+using Vapula.Model;
 
 namespace Vapula.Flow
 {
@@ -104,6 +105,33 @@ namespace Vapula.Flow
                 _Self.ParamId =
                     (value == null ? -1 : value.Id);
             }
+        }
+
+        /// <summary>
+        /// 暂时，从XML解析
+        /// </summary>
+        public static ParamStub Parse(XElement xml)
+        {
+            var stub = new ParamStub();
+            stub._IsExport = (xml.Element("export").Value == "true");
+            stub._IsOptional = (xml.Element("optional").Value == "true");
+            stub._Self = ParamPoint.Parse(xml.Element("self").Value);
+            stub._Supply = ParamPoint.Parse(xml.Element("supply").Value);
+            return stub;
+        }
+
+        /// <summary>
+        /// 暂时，转换到XML
+        /// </summary>
+        public XElement ToXML()
+        {
+            var xml = new XElement("param",
+                new XElement("export", _IsExport ? "true" : "false"),
+                new XElement("optional", _IsOptional ? "true" : "false"),
+                new XElement("self", _Self.ToString()),
+                new XElement("supply", _Supply.ToString()),
+                new XElement("value", _Value));
+            return xml;
         }
         #endregion
     }

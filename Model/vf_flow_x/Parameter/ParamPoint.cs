@@ -53,5 +53,19 @@ namespace Vapula.Flow
         {
             return !(left == right);
         }
+
+        public static ParamPoint Parse(string s)
+        {
+            string[] ss = s.Split(new char[] { ',' });
+            int node = int.Parse(ss[0]);
+            int param = int.Parse(ss[1]);
+            var p = new ParamPoint(node, param);
+            return p;
+        }
+
+        public override string ToString()
+        {
+            return _NodeId.ToString() + "," + _ParamId.ToString();
+        }
     }
 }

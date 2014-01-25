@@ -24,7 +24,7 @@ namespace Vapula.Toolkit
 
         public void Publish()
         {
-            AppData app = AppData.Instance;
+            var app = AppData.Instance;
             try
             {
                 var xdoc = new XDocument(
@@ -52,12 +52,14 @@ namespace Vapula.Toolkit
                 !string.IsNullOrWhiteSpace(lib.Id) ? lib.Id : "（未选择库）");
             var tn_lib = new TreeNode(title);
             tn_lib.ImageKey = "lib";
+            tn_lib.Tag = lib;
             foreach (var func in lib.Functions)
             {
                 title = string.Format("[{1}] {0}",
                     !string.IsNullOrWhiteSpace(func.Name) ? func.Name : "（未命名）",
                     !string.IsNullOrWhiteSpace(func.Id) ? func.Id : "（未指定标识）");
                 var tn_func = new TreeNode(title);
+                tn_func.Tag = func;
                 tn_func.ImageKey = "func";
                 foreach (var param in func.Parameters)
                 {
@@ -66,6 +68,7 @@ namespace Vapula.Toolkit
                         param.Id);
                     var tn_param = new TreeNode(title);
                     tn_param.ImageKey = "param";
+                    tn_param.Tag = param;
                     tn_func.Nodes.Add(tn_param);
                 }
                 tn_lib.Nodes.Add(tn_func);
@@ -77,7 +80,7 @@ namespace Vapula.Toolkit
 
         public bool UI_ValidNonNull()
         {
-            Library lib = AppData.Instance.Library;
+            var lib = AppData.Instance.Library;
             if (lib == null)
             {
                 toolbar.Enabled = false;
@@ -109,7 +112,7 @@ namespace Vapula.Toolkit
         {
             if (!UI_ValidNonNull())
                 return;
-            OpenFileDialog dlg = new OpenFileDialog();
+            var dlg = new OpenFileDialog();
             dlg.Title = "选择组件的库主体文件";
             dlg.Filter = "任意文件|*.*";
             if (dlg.ShowDialog() != DialogResult.OK)
@@ -124,7 +127,7 @@ namespace Vapula.Toolkit
                     "注意");
                 return;
             }
-            AppData app = AppData.Instance;
+            var app = AppData.Instance;
             app.PathBin = dlg.FileName;
             app.Library.Id = id;
             UI_UpdateLibrary();
@@ -134,22 +137,25 @@ namespace Vapula.Toolkit
         {
             if (!UI_ValidNonNull())
                 return;
-            Library lib = AppData.Instance.Library;
-            TreeNode tn = treeview.SelectedNode;
+            var lib = AppData.Instance.Library;
+            var tn = treeview.SelectedNode;
             if (tn == null) 
                 return;
-            Parameter model_param = new Parameter();
-            model_param.Type = DataType.Int32;
-            model_param.Mode = ParamMode.In;
+            var param = new Parameter();
+            param.Type = DataType.Int32;
+            param.Mode = ParamMode.In;
+            Function func = null;
             switch (tn.Level)
             {
                 case 1:
-                    lib.Functions[tn.Index].Parameters.Add(model_param);
-                    UpdateParamID(lib.Functions[tn.Index].Parameters);
+                    func = (tn.Tag as Function);
+                    func.Parameters.Add(param);
+                    UpdateParamID(func.Parameters);
                     break;
                 case 2:
-                    lib.Functions[tn.Parent.Index].Parameters.Insert(tn.Index, model_param);
-                    UpdateParamID(lib.Functions[tn.Parent.Index].Parameters);
+                    func = lib.Functions[tn.Parent.Index];
+                    func.Parameters.Insert(tn.Index, param);
+                    UpdateParamID(func.Parameters);
                     break;
             }
             UI_UpdateLibrary();
@@ -159,20 +165,20 @@ namespace Vapula.Toolkit
         {
             if (!UI_ValidNonNull())
                 return;
-            Library lib = AppData.Instance.Library;
-            TreeNode tn = treeview.SelectedNode;
+            var lib = AppData.Instance.Library;
+            var tn = treeview.SelectedNode;
             if (tn == null)
                 return;
-            Function model_func = null;
+            Function func = null;
             switch (tn.Level)
             {
                 case 0:
-                    model_func = new Function();
-                    lib.Functions.Add(model_func);
+                    func = new Function();
+                    lib.Functions.Add(func);
                     break;
                 case 1:
-                    model_func = new Function();
-                    lib.Functions.Insert(tn.Index, model_func);
+                    func = new Function();
+                    lib.Functions.Insert(tn.Index, func);
                     break;
             }
             UI_UpdateLibrary();
@@ -213,25 +219,24 @@ namespace Vapula.Toolkit
         {
             if (!UI_ValidNonNull())
                 return;
-            Library lib = AppData.Instance.Library;
-            TreeNode tn = treeview.SelectedNode;
+            var tn = treeview.SelectedNode;
             if (tn == null) 
                 return;
             switch (tn.Level)
             {
                 case 0:
-                    FrmLibrary dlgcom = new FrmLibrary();
-                    dlgcom.Library = lib;
+                    var dlgcom = new FrmLibrary();
+                    dlgcom.Library = tn.Tag as Library;
                     dlgcom.ShowDialog();
                     break;
                 case 1:
-                    FrmFunction dlgfunc = new FrmFunction();
-                    dlgfunc.Function = lib.Functions[tn.Index];
+                    var dlgfunc = new FrmFunction();
+                    dlgfunc.Function = tn.Tag as Function;
                     dlgfunc.ShowDialog();
                     break;
                 case 2:
-                    FrmParameter dlgparam = new FrmParameter();
-                    dlgparam.Parameter = lib.Functions[tn.Parent.Index].Parameters[tn.Index];
+                    var dlgparam = new FrmParameter();
+                    dlgparam.Parameter = tn.Tag as Parameter;
                     dlgparam.ShowDialog();
                     break;
             }
@@ -240,7 +245,7 @@ namespace Vapula.Toolkit
 
         private void treeview_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            TreeNode tn = treeview.SelectedNode;
+            var tn = treeview.SelectedNode;
             if (tn == null)
                 return;
             tn.SelectedImageIndex = tn.Level;

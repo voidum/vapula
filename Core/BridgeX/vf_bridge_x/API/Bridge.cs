@@ -17,7 +17,7 @@ namespace Vapula.API
             return ret;
         }
 
-        #region Base
+         #region Base
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetVersion",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetVersion();

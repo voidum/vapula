@@ -7,7 +7,6 @@ namespace Vapula.Flow
 {
     public enum NodeType
     {
-        Unknown = -1,
         Process = 0,
         Decision = 1,
         Start = 2,
@@ -149,7 +148,16 @@ namespace Vapula.Flow
         /// </summary>
         public static Node Parse(XElement xml)
         {
-            return null;
+            var type = (NodeType)int.Parse(xml.Element("type").Value);
+            switch (type)
+            {
+                case NodeType.Process:
+                    return NodeProcess.Parse(xml);
+                case NodeType.Start:
+                    return NodeStart.Parse(xml);
+                default:
+                    return null;
+            }
         }
 
         /// <summary>
@@ -158,7 +166,12 @@ namespace Vapula.Flow
         public virtual XElement ToXML()
         {
             var xml = new XElement("node", 
-                new XAttribute("id", _Id));
+                new XAttribute("id", _Id),
+                new XElement("type", (int)Type));
+            var xe_params = new XElement("params");
+            foreach (var stub in _ParamStubs)
+                xe_params.Add(stub.ToXML());
+            xml.Add(xe_params);
             return xml;
         }
         #endregion
@@ -166,10 +179,10 @@ namespace Vapula.Flow
         #region 方法
         public virtual void Dispose()
         {
-            foreach (Node node in _InNodes)
+            foreach (var node in _InNodes)
                 node.OutNodes.Remove(this);
             _InNodes.Clear();
-            foreach (Node node in _OutNodes)
+            foreach (var node in _OutNodes)
                 node.InNodes.Remove(this);
             _OutNodes.Clear();
             _SyncTarget = null;

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base.cs" />
+    <Compile Include="Core\Base.cs" />
     <Compile Include="Helper\AppHelper.cs" />
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />

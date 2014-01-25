@@ -14,9 +14,20 @@ namespace Vapula.Flow
 
         public Link() { }
 
+        public static Link Parse(XElement xml, Graph graph)
+        {
+            var link = new Link();
+            link.From = graph[int.Parse(xml.Element("from").Value)];
+            link.To = graph[int.Parse(xml.Element("to").Value)];
+            return link;
+        }
+
         public XElement ToXML()
         {
-            return null;
+            var xml = new XElement("link",
+                new XElement("from", _From != null ? _From.Id : -1),
+                new XElement("to", _To != null ? _To.Id : -1));
+            return xml;
         }
 
         public Node From

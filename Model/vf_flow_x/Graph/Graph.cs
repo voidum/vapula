@@ -25,9 +25,24 @@ namespace Vapula.Flow
         /// <summary>
         /// 加载模型图
         /// </summary>
-        public static Graph Parse(XElement xml)
+        public static Graph Load(string path)
         {
+            var xml = XDocument.Load(path);
+            var xe_root = xml.Element("graph");
+
             var graph = new Graph();
+            var xes_node = xe_root.Element("nodes").Elements("node");
+            foreach (var xe in xes_node)
+            {
+                var node = Node.Parse(xe);
+                graph.Nodes.Add(node);
+            }
+            var xes_link = xe_root.Element("links").Elements("link");
+            foreach (var xe in xes_link)
+            {
+                var link = Link.Parse(xe, graph);
+                graph.Links.Add(link);
+            }
             return graph;
         }
 
