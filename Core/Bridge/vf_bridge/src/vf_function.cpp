@@ -4,14 +4,9 @@
 #include "vf_envelope.h"
 #include "vf_invoker.h"
 #include "vf_xml.h"
-#include "rapidxml/rapidxml.hpp"
 
 namespace vapula
 {
-	using rapidxml::xml_node;
-	using rapidxml::xml_document;
-	using std::wstring;
-
 	Function::Function()
 	{
 		_Id = null;
@@ -28,20 +23,20 @@ namespace vapula
 
 	Function* Function::Parse(cstr8 xml)
 	{
-		xml_node<>* xdoc
-			= (xml_node<>*)xml::Parse(xml);
-		if(xdoc == null) 
+		XML* obj = XML::Parse(xml);
+		if(obj == null) 
 			return null;
-		xml_node<>* xe = xdoc->first_node("function");
+		object xdoc = obj->GetEntity();
+		object xe = XML::XElem(xdoc, "function");
+		object xe_id = XML::XElem(xe, "id");
+		object xe_entry = XML::XElem(xe, "entry");
+		object xe_params = XML::XElem(xe, "params");
 
 		Function* func = new Function();
-		func->_Id = xml::ValueCh8(xe->first_node("id"));
-		func->_EntrySym = xml::ValueCh8(xe->first_node("entry"));
-
-		cstr8 s8_params = xml::Print(xe->first_node("params"));
-		func->_Envelope = Envelope::Parse(s8_params);
-		delete s8_params;
-
+		func->_Id = XML::ValCh8(xe_id);
+		func->_EntrySym = XML::ValCh8(xe_entry);
+		astr8 s8_params(XML::Print(xe_params));
+		func->_Envelope = Envelope::Parse(s8_params.get());
 		return func;
 	}
 

@@ -115,6 +115,12 @@
     <ClInclude Include="include\vf_envelope.h">
       <Filter>.core\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_smartptr.hpp">
+      <Filter>.base\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_uncopiable.hpp">
+      <Filter>.base\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

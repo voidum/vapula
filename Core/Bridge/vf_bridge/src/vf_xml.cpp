@@ -5,114 +5,135 @@
 
 namespace vapula
 {
-	namespace xml
+	using namespace rapidxml;
+
+	XML::XML()
 	{
-		using namespace rapidxml;
+		_Data = null;
+		_Entity = null;
+	}
 
-		object Load(cstr8 path, cstr8& data)
-		{
-			data = null;
-			try
-			{
-				file<> xfile(path);
-				data = str::Copy(xfile.data());
-			}
-			catch (std::exception e)
-			{
-				return null;
-			}
-			xml_document<>* xdoc = new xml_document<>();
-			xdoc->parse<0>(const_cast<char*>(data));
-			return xdoc;
-		}
+	XML::~XML()
+	{
+		Clear(_Entity);
+		Clear(_Data);
+	}
 
-		object Parse(cstr8 xml)
-		{
-			xml_document<>* xdoc = new xml_document<>();
-			xdoc->parse<0>(const_cast<char*>(xml));
-			return xdoc;
-		}
+	object XML::GetEntity()
+	{
+		return _Entity;
+	}
 
-		cstr8 Print(object src)
-		{
-			xml_node<>* xml = (xml_node<>*)src;
-			string s;
-			print(std::back_inserter(s), *xml, 0);
-			return str::Copy(s.c_str());
-		}
-
-		object Path(object src, int count, ...)
-		{
-			va_list arg_ptr;
-			va_start(arg_ptr,count);
-			xml_node<>* xe = (xml_node<>*)src;
-			for (int i = 0; i < count; i++)
-			{
-				if(xe != null) 
-					xe = xe->first_node(va_arg(arg_ptr, cstr8));
-				else break;
-			}
-			va_end(arg_ptr);
-			return xe;
-		}
-
-		cstr8 ValueCh8(object src)
-		{
-			if(src == null) 
-				return null;
-			xml_base<>* xbase = (xml_base<>*)src;
-			cstr8 tmp = xbase->value();
-			if(strlen(tmp) > 0)
-				return str::Copy(tmp);
-			else
-			{
-				xml_node<>* xe = (xml_node<>*)src;
-				xml_node<>* xec = xe->first_node();
-				if(xec != null && xec->type() == node_cdata)
-				{
-					tmp = xec->value();
-					return str::Copy(tmp);
-				}
-			}
+	XML* XML::Load(cstr8 path)
+	{
+		try {
+			file<> xf(path);
+			return XML::Parse(xf.data());
+		} catch (std::exception e) {
 			return null;
 		}
+	}
 
-		cstr16 ValueCh16(object src)
-		{
-			cstr8 s8 = ValueCh8(src);
-			cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
-			delete s8;
-			return s16;
-		}
+	XML* XML::Parse(cstr8 src)
+	{
+		XML* xml = new XML();
+		xml->_Data = str::Copy(src);
+		xml_document<>* xdoc = new xml_document<>();
+		xdoc->parse<0>(const_cast<str8>(xml->_Data));
+		xml->_Entity = xdoc;
+		return xml;
+	}
 
-		int ValueInt(object src)
-		{
-			if(src == null) 
-				return 0;
-			cstr8 s8 = ValueCh8(src);
-			int ret = atoi(s8);
-			delete s8;
-			return ret;
-		}
+	cstr8 XML::Print(object xml)
+	{
+		xml_node<>* obj = (xml_node<>*)xml;
+		string s;
+		print(std::back_inserter(s), *obj, 0);
+		return str::Copy(s.c_str());
+	}
 
-		double ValueReal(object src)
-		{
-			if(src == null) 
-				return 0;
-			cstr8 s8 = ValueCh8(src);
-			double ret = atof(s8);
-			delete s8;
-			return ret;
-		}
+	object XML::Next(object xml)
+	{
+		xml_node<>* xe = (xml_node<>*)xml;
+		return xe->next_sibling();
+	}
 
-		bool ValueBool(object src, cstr8 value)
+	object XML::XElem(object xml, cstr8 name)
+	{
+		xml_node<>* xe = (xml_node<>*)xml;
+		return xe->first_node(name);
+	}
+
+	object XML::XAttr(object xml, cstr8 name)
+	{
+		xml_node<>* xe = (xml_node<>*)xml;
+		return xe->first_attribute(name);
+	}
+
+	object XML::XPath(object xml, int count, ...)
+	{
+		va_list arg_ptr;
+		va_start(arg_ptr, count);
+		xml_node<>* xe = (xml_node<>*)xml;
+		int idx = 0;
+		while(idx < count && xe != null)
 		{
-			if(src == null || value == null) 
-				return 0;
-			cstr8 s8 = ValueCh8(src);
-			bool ret = (strcmp(s8, value) == 0);
-			delete s8;
-			return ret;
+			xe = xe->first_node(va_arg(arg_ptr, cstr8));
+			idx++;
 		}
+		va_end(arg_ptr);
+		return xe;
+	}
+
+	cstr8 XML::ValCh8(object xml)
+	{
+		if(xml == null) 
+			return null;
+		xml_base<>* xbase = (xml_base<>*)xml;
+		cstr8 v = xbase->value();
+		if(strlen(v) > 0)
+			return str::Copy(v);
+		else
+		{
+			xml_node<>* xe = (xml_node<>*)xml;
+			xml_node<>* xec = xe->first_node();
+			if(xec != null && xec->type() == node_cdata)
+				return str::Copy(xec->value());
+		}
+		return null;
+	}
+
+	cstr16 XML::ValCh16(object xml)
+	{
+		astr8 s8(ValCh8(xml));
+		cstr16 s16 = str::ToCh16(s8.get(), _vf_msg_cp);
+		return s16;
+	}
+
+	int XML::ValInt(object xml)
+	{
+		if(xml == null) 
+			return 0;
+		astr8 s8(ValCh8(xml));
+		int ret = atoi(s8.get());
+		return ret;
+	}
+
+	double XML::ValReal(object xml)
+	{
+		if(xml == null) 
+			return 0;
+		astr8 s8(ValCh8(xml));
+		double ret = atof(s8.get());
+		return ret;
+	}
+
+	bool XML::ValBool(object xml, cstr8 judge)
+	{
+		if(xml == null || judge == null) 
+			return 0;
+		astr8 s8(ValCh8(xml));
+		bool ret = (strcmp(s8.get(), judge) == 0);
+		return ret;
 	}
 }

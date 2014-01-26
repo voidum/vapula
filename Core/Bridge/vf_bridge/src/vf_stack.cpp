@@ -124,11 +124,10 @@ namespace vapula
 		_Lock->Enter();
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{
-			if(*i == stack)
-			{
-				_Stacks.erase(i);
-				break;
-			}
+			if(*i != stack)
+				continue;
+			_Stacks.erase(i);
+			break;
 		}
 		_Lock->Leave();
 	}

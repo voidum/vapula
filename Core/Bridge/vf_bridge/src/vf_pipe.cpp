@@ -17,15 +17,17 @@ namespace vapula
 
 	bool Pipe::_CreateMapping(uint32 vol)
 	{
-		int ntry = 0;
+		int tried = 0;
 		do
 		{
 			Clear(_Id);
-			if(ntry++ > 10) return false;
+			if(tried++ > 10)
+				return false;
 			_Id = GetLUID(true);
-			cstr16 tmp = str::ToCh16(_Id);
-			_Mapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, vol, tmp);
-			delete tmp;
+			astr16 s16_id(str::ToCh16(_Id));
+			_Mapping = CreateFileMapping(
+				INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 
+				0, vol, s16_id.get());
 		} while (GetLastError() != ERROR_SUCCESS);
 		return true;
 	}
@@ -160,9 +162,9 @@ namespace vapula
 		Close();
 		_IsServer = false;
 		_Id = str::Copy(pid);
-		cstr16 tmp = str::ToCh16(_Id);
-		_Mapping = OpenFileMapping(FILE_MAP_READ|FILE_MAP_WRITE, FALSE, tmp);
-		delete tmp;
+		astr16 s16_id(str::ToCh16(_Id));
+		_Mapping = OpenFileMapping(
+			FILE_MAP_READ|FILE_MAP_WRITE, FALSE, s16_id.get());
 		if(GetLastError() != ERROR_SUCCESS)
 			return false;
 		if(!_BeginUpdate()) 

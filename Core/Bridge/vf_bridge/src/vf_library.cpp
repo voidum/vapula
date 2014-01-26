@@ -3,14 +3,9 @@
 #include "vf_function.h"
 #include "vf_invoker.h"
 #include "vf_xml.h"
-#include "rapidxml/rapidxml.hpp"
 
 namespace vapula
 {
-	using rapidxml::xml_node;
-	using rapidxml::xml_document;
-	using std::wstring;
-
 	Library::Library()
 	{
 		_Id = null;
@@ -24,48 +19,38 @@ namespace vapula
 
 	Library* Library::Load(cstr8 path)
 	{
-		cstr8 data = null;
-		xml_document<>* xdoc 
-			= (xml_document<>*)xml::Load(path, data);
-		if(xdoc == null) 
+		Scoped<XML> xml(XML::Load(path));
+		if(xml.empty())
 			return null;
-
-		xml_node<>* xe_lib = xdoc->first_node("library");
+		object xdoc = xml->GetEntity();
+		object xe_lib = XML::XElem(xdoc, "library");
 
 		DriverHub* drv_hub = DriverHub::GetInstance();
-		cstr8 runtime = xml::ValueCh8(xe_lib->first_node("runtime"));
-		if(!drv_hub->Link(runtime))
-		{
-			delete runtime;
-			delete data;
+		astr8 s8_rt(XML::ValCh8(XML::XElem(xe_lib, "runtime")));
+		if(!drv_hub->Link(s8_rt.get()))
 			return null;
-		}
-		Driver* driver = drv_hub->GetDriver(runtime);
-		delete runtime;
+		Driver* driver = drv_hub->GetDriver(s8_rt.get());
 
 		Library* lib = driver->CreateLibrary();
 		lib->_Driver = driver;
-		lib->_Id = xml::ValueCh8(xe_lib->first_node("id"));
 
-		cstr8 path_dir = GetDirPath(path, true);
+		object xe_lib_id = XML::XElem(xe_lib, "id");
+		lib->_Id = XML::ValCh8(xe_lib_id);
+
+		astr8 path_dir(GetDirPath(path, true));
 		ostringstream oss;
-		oss<<path_dir<<lib->_Id<<"."<<driver->GetBinExt();
+		oss<<path_dir.get()<<lib->_Id<<"."<<driver->GetBinExt();
 		lib->_Path = str::Copy(oss.str().c_str());
-		delete path_dir;
 
-		xml_node<>* xe_func = 
-			(xml_node<>*)xml::Path(xe_lib, 2, "functions", "function");
+		object xe_func = XML::XPath(xe_lib, 2, "functions", "function");
 		while(xe_func != null)
 		{
-			cstr8 s8_func = xml::Print(xe_func);
-			Function* func = Function::Parse(s8_func);
+			astr8 s8_func(XML::Print(xe_func));
+			Function* func = Function::Parse(s8_func.get());
 			func->SetLibrary(lib);
 			lib->_Functions.push_back(func);
-			delete s8_func;
-			xe_func = xe_func->next_sibling();
+			xe_func = XML::Next(xe_func);
 		}
-
-		delete data;
 		return lib;
 	}
 

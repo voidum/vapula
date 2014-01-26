@@ -22,40 +22,34 @@ namespace vapula
 	cstr8 GetRuntimeDir()
 	{
 		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		str16 path = new wchar_t[_vf_path_len];
-		GetModuleFileName(mod, path, _vf_path_len);
-		cstr8 path8 = str::ToCh8(path);
-		delete path;
-		string str_full = path8;
+		astr16 path(new wchar_t[_vf_path_len]);
+		GetModuleFileName(mod, path.get(), _vf_path_len);
+		astr8 path8(str::ToCh8(path.get()));
+		string str_full = path8.get();
 		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
 		return ret;
 	}
 
 	cstr8 GetAppName()
 	{
-		str16 path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, path, _vf_path_len);
-		cstr8 path8 = str::ToCh8(path);
-		delete path;
-		string str_full = path8;
+		astr16 path(new wchar_t[_vf_path_len]);
+		GetModuleFileName(null, path.get(), _vf_path_len);
+		astr8 path8(str::ToCh8(path.get()));
+		string str_full = path8.get();
 		string str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
 		return ret;
 	}
 
 	cstr8 GetAppDir()
 	{
-		str16 path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, path, _vf_path_len);
-		cstr8 path8 = str::ToCh8(path);
-		delete path;
-		string str_full = path8;
+		astr16 path(new wchar_t[_vf_path_len]);
+		GetModuleFileName(null, path.get(), _vf_path_len);
+		astr8 path8(str::ToCh8(path.get()));
+		string str_full = path8.get();
 		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		cstr8 ret = str::Copy(str_ret.c_str());
-		delete path8;
 		return ret;
 	}
 
@@ -64,8 +58,8 @@ namespace vapula
 		uint32 len = strlen(path);
 		if(len < 1) 
 			return str::Copy("\\");
-		cstr8 s8_fix = str::Replace(path, "/", "\\");
-		string s = s8_fix;
+		astr8 s8_fix(str::Replace(path, "/", "\\"));
+		string s = s8_fix.get();
 		uint32 pos = s.rfind('\\');
 		if(!isfile)
 		{
@@ -80,18 +74,16 @@ namespace vapula
 				s = s.substr(0, pos + 1);
 		}
 		cstr8 s8_ret = str::Copy(s.c_str());
-		delete s8_fix;
 		return s8_ret;
 	}
 
 	bool CanOpenRead(cstr8 file)
 	{
-		cstr16 file16 = str::ToCh16(file);
+		astr16 file16(str::ToCh16(file));
 		HANDLE handle = 
-			CreateFile(file16, 0, 
+			CreateFile(file16.get(), 0, 
 			FILE_SHARE_READ, null, 
 			OPEN_EXISTING, null, null);
-		delete file16;
 		if(handle == INVALID_HANDLE_VALUE) 
 			return false;
 		CloseHandle(handle);

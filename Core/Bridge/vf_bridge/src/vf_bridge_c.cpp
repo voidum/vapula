@@ -20,8 +20,7 @@ cstr8 vfeGetVersion()
 
 void vfeDeleteObject(object obj)
 {
-	if(obj != null)
-		delete obj;
+	Clear(obj);
 }
 
 

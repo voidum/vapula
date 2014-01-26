@@ -2,10 +2,6 @@
 
 namespace vapula
 {
-	Uncopiable::Uncopiable() { }
-
-	Uncopiable::~Uncopiable() { }
-
 	Lock::Lock(uint16 a, uint16 b, uint16 c)
 	{
 		_A = a;

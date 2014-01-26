@@ -1,9 +1,13 @@
 #pragma once
 
 #include "vf_const.h"
+#include "vf_smartptr.hpp"
 
 namespace vapula
 {
+	typedef Scoped<char> astr8;
+	typedef Scoped<wchar_t> astr16;
+
 	namespace str
 	{
 		//convert value to string

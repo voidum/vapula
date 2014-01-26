@@ -1,6 +1,11 @@
 #include "vf_dev_inv.h"
 #include "windows.h"
 
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 using std::cin;
 using std::cout;
 using std::endl;
@@ -121,11 +126,10 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	cstr8 dir = GetAppDir();
-	string path = dir;
+	astr8 dir(GetAppDir());
+	string path = dir.get();
 	path += "sample_lib.library";
 	Library* lib = Library::Load(path.c_str());
-	delete dir;
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";
@@ -141,6 +145,7 @@ int main()
 	cout<<"[kick all driver]"<<endl;
 	drv_hub->KickAll();
 
+	_CrtDumpMemoryLeaks();
 	system("pause");
 	return 0;
 }

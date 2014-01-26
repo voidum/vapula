@@ -5,36 +5,58 @@
 
 namespace vapula
 {
-	//XML utilities (need: RapidXML)
-	namespace xml
+	//XML wrapper
+	class VAPULA_API XML
 	{
-		//load XML
-		//data should be deleted manually after XML process
-		VAPULA_API object Load(cstr8 path, cstr8& data);
+	private:
+		XML();
+	public:
+		~XML();
 
-		//parse XML from char string
-		VAPULA_API object Parse(cstr8 xml);
+	private:
+		cstr8 _Data;
+		object _Entity;
+
+	public:
+		object GetEntity();
+
+	public:
+		//load XML
+		static XML* Load(cstr8 path);
+
+		//parse XML from UTF8 char string
+		static XML* Parse(cstr8 src);
 
 		//print XML to char string
-		VAPULA_API cstr8 Print(object src);
+		static cstr8 Print(object xml);
 
-		//query child node as XPath
-		VAPULA_API object Path(object src, int count, ...);
+	public:
+		//get next sibling
+		static object Next(object xml);
 
-		//read node value as char string
-		//encoding must be UTF8
-		VAPULA_API cstr8 ValueCh8(object src);
+		//get element by name
+		static object XElem(object xml, cstr8 name);
+
+		//get attribute by name
+		static object XAttr(object xml, cstr8 name);
+
+		//query child node by XPath-like method
+		static object XPath(object xml, int count, ...);
+
+	public:
+		//read node value as UTF8 char string
+		static cstr8 ValCh8(object xml);
 
 		//read node value as wide char string
-		VAPULA_API cstr16 ValueCh16(object src);
+		static cstr16 ValCh16(object xml);
 
 		//read node value as integer
-		VAPULA_API int ValueInt(object src);
+		static int ValInt(object xml);
 
 		//read node value as real
-		VAPULA_API double ValueReal(object src);
+		static double ValReal(object xml);
 
 		//real node value as bool judged by specified string
-		VAPULA_API bool ValueBool(object src, cstr8 value);
-	}
+		static bool ValBool(object xml, cstr8 judge);
+	};
 }

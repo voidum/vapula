@@ -1,12 +1,8 @@
 #include "vf_envelope.h"
 #include "vf_xml.h"
-#include "rapidxml/rapidxml.hpp"
 
 namespace vapula
 {
-	using rapidxml::xml_document;
-	using rapidxml::xml_node;
-
 	Envelope::Envelope(int32 total)
 	{
 		_Total = total;
@@ -39,20 +35,23 @@ namespace vapula
 
 	Envelope* Envelope::Parse(cstr8 xml)
 	{
-		xml_node<>* xdoc = (xml_node<>*)xml::Parse(xml);
+		XML* obj = XML::Parse(xml);
+		if(obj == null)
+			return null;
+		object xdoc = obj->GetEntity();
 
 		vector<int32> v_id;
 		vector<int8> v_type;
 		vector<int8> v_mode;
 
-		xml_node<>* xe = (xml_node<>*)xml::Path(xdoc, 2, "params", "param");
+		object xe = XML::XPath(xdoc, 2, "params", "param");
 		int total = 0;
 		while(xe != null)
 		{
-			v_id.push_back(xml::ValueInt(xe->first_attribute("id")));
-			v_type.push_back(xml::ValueInt(xe->first_node("type")));
-			v_mode.push_back(xml::ValueInt(xe->first_node("mode")));
-			xe = xe->next_sibling();
+			v_id.push_back(XML::ValInt(XML::XAttr(xe, "id")));
+			v_type.push_back((int8)XML::ValInt(XML::XElem(xe, "type")));
+			v_mode.push_back((int8)XML::ValInt(XML::XElem(xe, "mode")));
+			xe = XML::Next(xe);
 			total++;
 		}
 
@@ -63,8 +62,6 @@ namespace vapula
 			env->_Types[id] = v_type[i];
 			env->_Modes[id] = v_mode[i];
 		}
-
-		delete xdoc;
 		return env;
 	}
 

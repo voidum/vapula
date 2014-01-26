@@ -105,8 +105,8 @@ namespace vapula
 	cstr8 const _vf_err_3 = "untrusted invoke";
 
 	cstr8 const _vf_bridge = "Vapula Bridge";
-	cstr8 const _vf_version = "2.0.9.0";
+	cstr8 const _vf_version = "2.0.9.1";
 	cstr8 const _vf_msg_cp = "utf8";
 
-	const uint32 _vf_path_len = 1024;
+	uint32 const _vf_path_len = 1024;
 }

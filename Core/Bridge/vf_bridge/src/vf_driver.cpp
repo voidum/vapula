@@ -59,13 +59,11 @@ namespace vapula
 		if(dpt != null)
 			return true;
 
-		cstr8 dir = GetRuntimeDir();
+		astr8 dir(GetRuntimeDir());
 		ostringstream oss;
-		oss<<dir<<id<<".driver";
-		cstr16 path16 = str::ToCh16(oss.str().c_str());
-		delete dir;
-		HMODULE module = LoadLibraryW(path16);
-		delete path16;
+		oss<<dir.get()<<id<<".driver";
+		astr16 path16(str::ToCh16(oss.str().c_str()));
+		HMODULE module = LoadLibraryW(path16.get());
 
 		if(module == null) 
 			return false;

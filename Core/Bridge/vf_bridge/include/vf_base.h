@@ -5,25 +5,31 @@
 
 #include "vf_const.h"
 #include "vf_string.h"
+#include "vf_uncopiable.hpp"
 
 namespace vapula
 {
-	//restrict copy
-	class Uncopiable
+	//clear target
+	template<typename T>
+	void Clear(T& target, bool isarr = false)
 	{
-	protected:
-		Uncopiable();
-		~Uncopiable();
-	private:
-		Uncopiable(const Uncopiable&);
-		Uncopiable& operator=(const Uncopiable&);
-	};
+		typedef char need_complete_type[sizeof(T) ? 1 : -1];
+		(void) sizeof(need_complete_type);
+		if(target != null)
+		{
+			if(isarr)
+				delete [] target;
+			else 
+				delete target;
+			target = null;
+		}
+	}
 
 	//spin lock
 	class VAPULA_API Lock : Uncopiable
 	{
 	public:
-		Lock(uint16 a = 10, uint16 b = 400, uint16 c = 150);
+		Lock(uint16 a = 10, uint16 b = 500, uint16 c = 100);
 		~Lock();
 	private:
 		static Lock* _CtorLock;
@@ -41,7 +47,6 @@ namespace vapula
 		//release lock
 		void Leave();
 	};
-
 
 	//assign only once
 	class VAPULA_API Once : Uncopiable
@@ -77,20 +82,6 @@ namespace vapula
 
 	//get type unit
 	VAPULA_API uint32 GetTypeUnit(int8 type);
-
-	//clear target
-	template<typename T>
-	void Clear(T& target, bool isarr = false)
-	{
-		if(target != null)
-		{
-			if(isarr) 
-				delete [] target;
-			else 
-				delete target;
-			target = null;
-		}
-	}
 
 	//generate local unique id
 	VAPULA_API cstr8 GetLUID(bool logo = false);
