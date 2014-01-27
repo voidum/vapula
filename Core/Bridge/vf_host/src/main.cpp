@@ -15,14 +15,10 @@
 void CheckOption(int argc, str16* argv);
 void ShowHelp();
 
-int APIENTRY wWinMain(
-	HINSTANCE hInstance, 
-	HINSTANCE hPrevInstance, 
-	LPWSTR lpCmdLine, 
-	int nCmdShow)
+int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
 	int argc = 0;
-	str16* argv = CommandLineToArgvW(GetCommandLineW(),&argc);
+	str16* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
 	if(argc < 2)
 	{
@@ -31,35 +27,31 @@ int APIENTRY wWinMain(
 	}
 
 	CheckOption(argc, argv);
-	cstr8 path = str::ToCh8(argv[1]);
+	astr8 path(str::ToCh8(argv[1]));
 
-	if(!CanOpenRead(path))
+	if(!CanOpenRead(path.get()))
 	{
 		ShowMsgbox("Fail to open task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 
-	Task* task = dynamic_cast<Task*>(Task::Parse(path));
-	if(task == null)
+	Scoped<Task> task(Task::Parse(path.get()));
+	if(task.empty())
 	{
 		ShowMsgbox("Fail to parse task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 	
-	Worker* worker = null;
-	int mode = task->GetCtrlMode();
-	switch(mode)
+	Worker* wk = null;
+	switch(task->GetCtrlMode())
 	{
 		case VF_HOST_CJ_NULL:
-			worker = new Worker_NULL(); break;
+			wk = new Worker_NULL(); break;
 		case VF_HOST_CJ_PIPE:
-			worker = new Worker_PIPE(); break;
+			wk = new Worker_PIPE(); break;
 	}
-	bool ret = task->RunAs(worker);
-	
-	delete worker;
-	delete task;
-	
+	Scoped<Worker> worker(wk);
+	bool ret = task->RunAs(wk);
 	if(ret) return VF_HOST_RETURN_NORMAL;
 	else return VF_HOST_RETURN_FAILEXEC;
 }

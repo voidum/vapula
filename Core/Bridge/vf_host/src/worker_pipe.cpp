@@ -22,9 +22,9 @@ Worker_PIPE::~Worker_PIPE()
 bool Worker_PIPE::RunStageA()
 {
 	Task* task = dynamic_cast<Task*>(_Task);
-	xml_node<>* cfg = (xml_node<>*)xml::Parse(task->GetCtrlSetting());
+	XML* xml_cfg = XML::Parse(task->GetCtrlSetting());
 	std::locale::global(std::locale(""));
-	cstr8 pid = xml::ValueCh8(cfg->first_node("pid"));
+	cstr8 pid = XML::ValCh8(XML::XElem(xml_cfg, "pid"));
 	if(!_Pipe->Connect(pid))
 		return false;
 	_Pipe->Write("A");

@@ -11,12 +11,10 @@ namespace vapula
 	DriverHub* DriverHub::GetInstance()
 	{
 		Lock* lock = Lock::GetCtorLock();
-		if(lock->Enter())
-		{
-			if(DriverHub::_Instance == null)
-				DriverHub::_Instance = new DriverHub();
-			lock->Leave();
-		}
+		lock->Enter();
+		if(DriverHub::_Instance == null)
+			DriverHub::_Instance = new DriverHub();
+		lock->Leave();
 		return DriverHub::_Instance;
 	}
 

@@ -2,17 +2,15 @@
 
 namespace vapula
 {
-	Lock::Lock(uint16 a, uint16 b, uint16 c)
+	Lock::Lock()
 	{
-		_A = a;
-		_B = b;
-		_C = c;
 		_Core = (uint64*)_aligned_malloc(1, sizeof(uint64));
 		InterlockedExchange(_Core, FALSE);
 	}
 
 	Lock::~Lock()
 	{
+		InterlockedExchange(_Core, FALSE);
 		_aligned_free(_Core);
 	}
 
@@ -23,18 +21,10 @@ namespace vapula
 		return _CtorLock;
 	}
 
-	bool Lock::Enter()
+	void Lock::Enter()
 	{
-		for(uint16 i=0; i<_B; i++)
-		{
-			//1T
-			for(uint16 j=0; j<_A; j++)
-				if(InterlockedExchange(_Core, TRUE) == FALSE)
-					return true;
-			//sleep more time
-			Sleep(_C);
-		}
-		return false;
+		while(InterlockedExchange(_Core, TRUE) == TRUE)
+			Sleep(0);
 	}
 
 	void Lock::Leave()

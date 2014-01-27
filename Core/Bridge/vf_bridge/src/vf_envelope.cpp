@@ -35,8 +35,8 @@ namespace vapula
 
 	Envelope* Envelope::Parse(cstr8 xml)
 	{
-		XML* obj = XML::Parse(xml);
-		if(obj == null)
+		Scoped<XML> obj(XML::Parse(xml));
+		if(obj.empty())
 			return null;
 		object xdoc = obj->GetEntity();
 
@@ -142,8 +142,9 @@ namespace vapula
 		for(int i=0; i<_Total; i++)
 		{
 			if(_Addrs[i] != null)
-				delete (object)(_Addrs[i]);
+				delete (object)_Addrs[i];
 		}
+		memset(_Addrs, 0, 4 * _Total);
 	}
 
 	Envelope* Envelope::Copy()

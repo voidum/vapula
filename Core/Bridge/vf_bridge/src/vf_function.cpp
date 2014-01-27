@@ -23,8 +23,8 @@ namespace vapula
 
 	Function* Function::Parse(cstr8 xml)
 	{
-		XML* obj = XML::Parse(xml);
-		if(obj == null) 
+		Scoped<XML> obj(XML::Parse(xml));
+		if(obj.empty())
 			return null;
 		object xdoc = obj->GetEntity();
 		object xe = XML::XElem(xdoc, "function");

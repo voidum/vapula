@@ -1,10 +1,7 @@
 #include "vf_dev_inv.h"
+#include "vf_debug.h"
+
 #include "windows.h"
-
-
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
 
 using std::cin;
 using std::cout;
@@ -62,6 +59,7 @@ void Test1(Library* lib)
 
 void Test2(Library* lib)
 {
+	DbgMemleak dbg;
 	cout<<"[get invoker] ... ";
 	Invoker* inv = lib->CreateInvoker("math");
 	Assert(inv != NULL);
@@ -72,12 +70,14 @@ void Test2(Library* lib)
 	env->WriteValue(1, 12);
 	env->WriteValue(2, 23);
 
+	//dbg.Begin();
 	cout<<"[invoke function math] ... ";
 	Assert(inv->Start());
 
 	Context* ctx = stack->GetContext();
 	while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 		Sleep(50);
+	//dbg.End();
 	
 	int result = env->ReadValue<int>(3);
 	cout<<"<valid> - out:"<<result<<endl;
@@ -85,7 +85,7 @@ void Test2(Library* lib)
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
-	for (int i=0;i<5000;i++)
+	for (int i=0;i<10000;i++)
 	{
 		env->WriteValue(1, 12);
 		env->WriteValue(2, 23);
@@ -96,6 +96,7 @@ void Test2(Library* lib)
 	}
 	QueryPerformanceCounter(&t2);
 	cout<<"adv time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
+	Clear(inv);
 }
 
 void Test3(Library* lib)
@@ -113,6 +114,16 @@ void Test3(Library* lib)
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 	ShowMsgbox(env->ReadCh16(1));
+	Clear(inv);
+}
+
+void Test4()
+{
+	vector<int*> vec;
+	int* d = new int[100];
+	vec.push_back(d);
+	vec.clear();
+	Scoped<int> data(d);
 }
 
 int main()
@@ -129,13 +140,14 @@ int main()
 	astr8 dir(GetAppDir());
 	string path = dir.get();
 	path += "sample_lib.library";
+	
 	Library* lib = Library::Load(path.c_str());
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";
 	Assert(lib->Mount());
 
-	Test1(lib);
+	//Test1(lib);
 	Test2(lib);
 	Test3(lib);
 
@@ -145,7 +157,7 @@ int main()
 	cout<<"[kick all driver]"<<endl;
 	drv_hub->KickAll();
 
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 	system("pause");
 	return 0;
 }

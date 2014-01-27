@@ -6,6 +6,7 @@
 #include "vf_const.h"
 #include "vf_string.h"
 #include "vf_uncopiable.hpp"
+#include "vf_debug.h"
 
 namespace vapula
 {
@@ -29,7 +30,7 @@ namespace vapula
 	class VAPULA_API Lock : Uncopiable
 	{
 	public:
-		Lock(uint16 a = 10, uint16 b = 500, uint16 c = 100);
+		Lock();
 		~Lock();
 	private:
 		static Lock* _CtorLock;
@@ -37,12 +38,9 @@ namespace vapula
 		static Lock* GetCtorLock();
 	private:
 		uint64* _Core; //TRUE - Lock , FALSE - Unlock
-		uint16 _A; //1T retry times
-		uint16 _B; //max blank times
-		uint16 _C; //max blank time
 	public:
 		//capture lock
-		bool Enter();
+		void Enter();
 
 		//release lock
 		void Leave();

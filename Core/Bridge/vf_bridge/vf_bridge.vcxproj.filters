@@ -121,6 +121,9 @@
     <ClInclude Include="include\vf_uncopiable.hpp">
       <Filter>.base\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_debug.h">
+      <Filter>.base\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -173,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="src\vf_pipe.cpp">
       <Filter>.core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_debug.cpp">
+      <Filter>.base\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

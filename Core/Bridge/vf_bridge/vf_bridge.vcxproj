@@ -105,6 +105,7 @@
     <ClInclude Include="include\vf_advice.h" />
     <ClInclude Include="include\vf_base.h" />
     <ClInclude Include="include\vf_bridge_c.h" />
+    <ClInclude Include="include\vf_debug.h" />
     <ClInclude Include="include\vf_dev_inv.h" />
     <ClInclude Include="include\vf_driver_dpt.h" />
     <ClInclude Include="include\vf_function.h" />
@@ -131,6 +132,7 @@
     <ClCompile Include="src\vf_advice.cpp" />
     <ClCompile Include="src\vf_base.cpp" />
     <ClCompile Include="src\vf_bridge_c.cpp" />
+    <ClCompile Include="src\vf_debug.cpp" />
     <ClCompile Include="src\vf_driver_dpt.cpp" />
     <ClCompile Include="src\vf_function.cpp" />
     <ClCompile Include="src\vf_utility.cpp" />

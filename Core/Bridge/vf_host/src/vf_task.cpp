@@ -66,35 +66,30 @@ namespace vapula
 
 	Task* Task::Parse(cstr8 path)
 	{
-		cstr8 data = null;
-		xml_node<>* xdoc = (xml_node<>*)xml::Load(path, data);
-		if(xdoc == null)
+		Scoped<XML> xml(XML::Load(path));
+		if(xml.empty())
 		{
 			ShowMsgbox("Fail to load task file.", _vf_host);
 			return null;
 		}
-
+		object xdoc = xml->GetEntity();
+		
 		Task* task = new Task();
-		xml_node<>* xe_root = xdoc->first_node("task");
-		xml_node<>* xe_target = xe_root->first_node("target");
-		xml_node<>* xe_ext = xe_root->first_node("extension");
+		object xe_root = XML::XElem(xdoc, "task");
+		object xe_target = XML::XElem(xe_root, "target");
+		object xe_ext = XML::XElem(xe_root, "extension");
 
 		DriverHub* driver_hub = DriverHub::GetInstance();
-		cstr8 driver_id = xml::ValueCh8(xe_target->first_node("runtime"));
-		if(!driver_hub->Link(driver_id))
+		astr8 driver_id(XML::ValCh8(XML::XElem(xe_target, "runtime")));
+		if(!driver_hub->Link(driver_id.get()))
 		{
 			ShowMsgbox("Fail to link driver.", _vf_host);
 			return null;
 		}
-		delete driver_id;
 
-		cstr8 path_lib_utf8 = xml::ValueCh8(xe_target->first_node("path"));
-		cstr8 path_lib = str::EncodeCh8(path_lib_utf8, _vf_msg_cp, null);
-		delete path_lib_utf8;
-
+		astr8 path_lib_utf8(XML::ValCh8(XML::XElem(xe_target, "path")));
+		astr8 path_lib(str::EncodeCh8(path_lib_utf8.get(), _vf_msg_cp, null));
 		task->_Library = Library::Load(path);
-		delete path_lib;
-
 		if(task->_Library == null)
 		{
 			ShowMsgbox("Fail to load library.", _vf_host);
@@ -107,26 +102,26 @@ namespace vapula
 			return null;
 		}
 
-		task->_FunctionId = xml::ValueCh8(xe_target->first_node("function"));
+		task->_FunctionId = XML::ValCh8(XML::XElem(xe_target, "function"));
 		task->_Invoker = task->_Library->CreateInvoker(task->_FunctionId);
 		
 		Stack* stack = task->_Invoker->GetStack();
 		Envelope* env = stack->GetEnvelope();
-		xml_node<>* xe_param = (xml_node<>*)xml::Path(xe_target, 2, "params", "param");
+		object xe_param = XML::XPath(xe_target, 2, "params", "param");
 		while (xe_param)
 		{
-			int pid = xml::ValueInt(xe_param->first_attribute("id"));
-			cstr8 pv = xml::ValueCh8(xe_param);
+			int pid = XML::ValInt(XML::XAttr(xe_param, "id"));
+			cstr8 pv = XML::ValCh8(xe_param);
 			env->CastWriteValue(pid, pv);
 			delete pv;
-			xe_param = xe_param->next_sibling();
+			xe_param = XML::Next(xe_param);
 		}
 		//TODO: output params for validation?
 
-		xml_node<>* xe_ctrl_mode = (xml_node<>*)xml::Path(xe_ext, 2, "control", "mode");
-		xml_node<>* xe_ctrl_setting = (xml_node<>*)xml::Path(xe_ext, 2, "control", "setting");
-		task->_CtrlMode = xml::ValueInt(xe_ctrl_mode);
-		task->_CtrlSetting = xml::Print(xe_ctrl_setting);
+		object xe_ctrl_mode = XML::XPath(xe_ext, 2, "control", "mode");
+		object xe_ctrl_setting = XML::XPath(xe_ext, 2, "control", "setting");
+		task->_CtrlMode = XML::ValInt(xe_ctrl_mode);
+		task->_CtrlSetting = XML::Print(xe_ctrl_setting);
 		return task;
 	}
 

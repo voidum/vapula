@@ -5,7 +5,11 @@ LibraryCRT::LibraryCRT()
 	_Module = null;
 }
 
-LibraryCRT::~LibraryCRT() { }
+LibraryCRT::~LibraryCRT()
+{
+	if(_Module != null)
+		FreeLibrary(_Module);
+}
 
 bool LibraryCRT::Mount()
 {
@@ -18,6 +22,7 @@ bool LibraryCRT::Mount()
 void LibraryCRT::Unmount()
 {
 	FreeLibrary(_Module);
+	_Module = null;
 }
 
 object LibraryCRT::GetEntry(cstr8 id)

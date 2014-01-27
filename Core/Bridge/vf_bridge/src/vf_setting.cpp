@@ -19,11 +19,9 @@ namespace vapula
 		if(Setting::_Instance == null)
 		{
 			Lock* lock = Lock::GetCtorLock();
-			if(lock->Enter())
-			{
-				Setting::_Instance = new Setting();
-				lock->Leave();
-			}
+			lock->Enter();
+			Setting::_Instance = new Setting();
+			lock->Leave();
 		}
 		return Setting::_Instance;
 	}

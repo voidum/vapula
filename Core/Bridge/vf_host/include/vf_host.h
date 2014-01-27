@@ -4,11 +4,7 @@
 #include "vf_library.h"
 #include "vf_invoker.h"
 
-#include "rapidxml/rapidxml.hpp"
-
-using namespace rapidxml;
 using namespace vapula;
-using std::ostringstream;
 
 //control injection mode
 enum CtrlInjectMode

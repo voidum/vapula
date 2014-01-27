@@ -9,7 +9,11 @@ namespace vapula
 		_StackId = 0;
 	}
 
-	Stack::~Stack() { }
+	Stack::~Stack()
+	{
+		Clear(_Context);
+		Clear(_Envelope);
+	}
 
 	Stack* Stack::GetInstance()
 	{
@@ -64,12 +68,10 @@ namespace vapula
 	StackHub* StackHub::GetInstance()
 	{
 		Lock* lock = Lock::GetCtorLock();
-		if(lock->Enter())
-		{
-			if(StackHub::_Instance == null)
-				StackHub::_Instance = new StackHub();
-			lock->Leave();
-		}
+		lock->Enter();
+		if(StackHub::_Instance == null)
+			StackHub::_Instance = new StackHub();
+		lock->Leave();
 		return StackHub::_Instance;
 	}
 
@@ -101,21 +103,20 @@ namespace vapula
 		return _Stacks.size();
 	}
 
-	bool StackHub::Link(Stack* stack)
+	void StackHub::Link(Stack* stack)
 	{
 		typedef vector<Stack*>::iterator iter;
 		_Lock->Enter();
-		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
+		iter i = _Stacks.begin();
+		while(i != _Stacks.end())
 		{
 			if(*i == stack)
-			{
-				_Lock->Leave();
-				return false;
-			}
+				break;
+			i++;
 		}
-		_Stacks.push_back(stack);
+		if(i == _Stacks.end())
+			_Stacks.push_back(stack);
 		_Lock->Leave();
-		return true;
 	}
 
 	void StackHub::Kick(Stack* stack)
@@ -124,10 +125,11 @@ namespace vapula
 		_Lock->Enter();
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{
-			if(*i != stack)
-				continue;
-			_Stacks.erase(i);
-			break;
+			if(*i == stack)
+			{
+				_Stacks.erase(i);
+				break;
+			}
 		}
 		_Lock->Leave();
 	}

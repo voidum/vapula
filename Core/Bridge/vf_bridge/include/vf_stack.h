@@ -72,7 +72,7 @@ namespace vapula
 
 	public:
 		//link stack
-		bool Link(Stack* stack);
+		void Link(Stack* stack);
 
 		//kick stack
 		void Kick(Stack* stack);

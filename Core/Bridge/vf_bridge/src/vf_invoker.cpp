@@ -30,12 +30,10 @@ namespace vapula
 	uint32 WINAPI Invoker::Entry()
 	{
 		_Stack->SetStackId(GetCurrentThreadId());
-
 		StackHub* stack_hub = StackHub::GetInstance();
 		stack_hub->Link(_Stack);
 		_Entry();
 		stack_hub->Kick(_Stack);
-
 		_Stack->GetContext()->SetState(VF_STATE_IDLE);
 		return 0;
 	}

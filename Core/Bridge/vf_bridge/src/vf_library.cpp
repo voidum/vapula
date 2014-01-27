@@ -22,6 +22,7 @@ namespace vapula
 		Scoped<XML> xml(XML::Load(path));
 		if(xml.empty())
 			return null;
+
 		object xdoc = xml->GetEntity();
 		object xe_lib = XML::XElem(xdoc, "library");
 
@@ -38,6 +39,7 @@ namespace vapula
 		lib->_Id = XML::ValCh8(xe_lib_id);
 
 		astr8 path_dir(GetDirPath(path, true));
+
 		ostringstream oss;
 		oss<<path_dir.get()<<lib->_Id<<"."<<driver->GetBinExt();
 		lib->_Path = str::Copy(oss.str().c_str());
