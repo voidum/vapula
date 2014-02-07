@@ -40,10 +40,10 @@ namespace vapula
 	typedef float real32;
 	typedef double real64;
 
-	typedef char* str8;
-	typedef wchar_t* str16;
-	typedef const char* cstr8;
-	typedef const wchar_t* cstr16;
+	typedef char* pstr;
+	typedef wchar_t* pwstr;
+	typedef const char* pcstr;
+	typedef const wchar_t* pcwstr;
 
 	#define null 0
 
@@ -99,14 +99,14 @@ namespace vapula
 	}; //context return code
 
 	//define error
-	cstr8 const _vf_err_0 = "invalid data type";
-	cstr8 const _vf_err_1 = "access null param";
-	cstr8 const _vf_err_2 = "invalid invoke";
-	cstr8 const _vf_err_3 = "untrusted invoke";
+	pcstr const _vf_err_0 = "invalid data type";
+	pcstr const _vf_err_1 = "access null param";
+	pcstr const _vf_err_2 = "invalid invoke";
+	pcstr const _vf_err_3 = "untrusted invoke";
 
-	cstr8 const _vf_bridge = "Vapula Bridge";
-	cstr8 const _vf_version = "2.0.9.1";
-	cstr8 const _vf_msg_cp = "utf8";
+	pcstr const _vf_bridge = "Vapula Bridge";
+	pcstr const _vf_version = "2.1.0.0";
+	pcstr const _vf_msg_cp = "utf8";
 
 	uint32 const _vf_path_len = 1024;
 }

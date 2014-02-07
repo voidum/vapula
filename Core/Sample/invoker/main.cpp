@@ -59,7 +59,6 @@ void Test1(Library* lib)
 
 void Test2(Library* lib)
 {
-	DbgMemleak dbg;
 	cout<<"[get invoker] ... ";
 	Invoker* inv = lib->CreateInvoker("math");
 	Assert(inv != NULL);
@@ -70,14 +69,12 @@ void Test2(Library* lib)
 	env->WriteValue(1, 12);
 	env->WriteValue(2, 23);
 
-	//dbg.Begin();
 	cout<<"[invoke function math] ... ";
 	Assert(inv->Start());
 
 	Context* ctx = stack->GetContext();
 	while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 		Sleep(50);
-	//dbg.End();
 	
 	int result = env->ReadValue<int>(3);
 	cout<<"<valid> - out:"<<result<<endl;
@@ -113,7 +110,7 @@ void Test3(Library* lib)
 	Assert(inv->Start());
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
-	ShowMsgbox(env->ReadCh16(1));
+	ShowMsgbox(env->ReadStrW(1));
 	Clear(inv);
 }
 
@@ -123,7 +120,7 @@ void Test4()
 	int* d = new int[100];
 	vec.push_back(d);
 	vec.clear();
-	Scoped<int> data(d);
+	Handle autop(d);
 }
 
 int main()
@@ -137,8 +134,8 @@ int main()
 	//Assert(drv_hub->Link("clr"));
 
 	cout<<"[load library] ... ";
-	astr8 dir(GetAppDir());
-	string path = dir.get();
+	pcstr cs8_dir = GetProcessDir();
+	string path = cs8_dir;
 	path += "sample_lib.library";
 	
 	Library* lib = Library::Load(path.c_str());

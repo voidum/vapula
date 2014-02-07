@@ -6,12 +6,12 @@ DriverCRT::DriverCRT() { }
 
 DriverCRT::~DriverCRT() { }
 
-cstr8 DriverCRT::GetRuntimeId() 
+pcstr DriverCRT::GetRuntimeId() 
 {
 	return _vf_runtime_id;
 }
 
-cstr8 DriverCRT::GetBinExt()
+pcstr DriverCRT::GetBinExt()
 {
 	return "dll";
 }

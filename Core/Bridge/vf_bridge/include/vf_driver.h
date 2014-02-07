@@ -17,12 +17,12 @@ namespace vapula
 
 	public:
 		//get runtime id
-		virtual cstr8
+		virtual pcstr
 			GetRuntimeId() = 0;
 
 		//get bin extension
 		//e.g. "dll"
-		virtual cstr8
+		virtual pcstr
 			GetBinExt() = 0;
 
 		//create library
@@ -49,19 +49,19 @@ namespace vapula
 	private:
 		vector<DriverDpt*> _DriverDpts;
 	private:
-		DriverDpt* GetDriverDpt(cstr8 id);
+		DriverDpt* GetDriverDpt(pcstr id);
 	public:
 		//link driver by id
-		bool Link(cstr8 id);
+		bool Link(pcstr id);
 
 		//kick out driver by id
-		void Kick(cstr8 id);
+		void Kick(pcstr id);
 
 		//kick out all drivers
 		void KickAll();
 	public:
 		//get driver by id
-		Driver* GetDriver(cstr8 id);
+		Driver* GetDriver(pcstr id);
 
 		//get count of linked drivers
 		int GetCount();

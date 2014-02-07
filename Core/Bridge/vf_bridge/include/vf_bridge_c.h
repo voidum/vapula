@@ -7,27 +7,27 @@ using namespace vapula;
 extern "C"
 {
 	//Base
-	VAPULA_API cstr8 vfeGetVersion();
+	VAPULA_API pcstr vfeGetVersion();
 	VAPULA_API void vfeDeleteObject(object ptr);
 
 	//Driver
 	VAPULA_API int vfeGetDriverCount();
-	VAPULA_API int vfeLinkDriver(cstr8 path);
-	VAPULA_API void vfeKickDriver(cstr8 id);
+	VAPULA_API int vfeLinkDriver(pcstr path);
+	VAPULA_API void vfeKickDriver(pcstr id);
 	VAPULA_API void vfeKickAllDrivers();
 
 	//Library
 	VAPULA_API int vfeGetLibraryCount();
-	VAPULA_API object vfeLoadLibrary(cstr8 path);
-	VAPULA_API object vfeLoadLibraryW(cstr16 path);
-	VAPULA_API cstr8 vfeGetRuntime(object lib);
-	VAPULA_API cstr8 vfeGetLibraryId(object lib);
-	VAPULA_API cstr8 vfeGetEntrySym(object lib, cstr8 id);
+	VAPULA_API object vfeLoadLibrary(pcstr path);
+	VAPULA_API object vfeLoadLibraryW(pcwstr path);
+	VAPULA_API pcstr vfeGetRuntime(object lib);
+	VAPULA_API pcstr vfeGetLibraryId(object lib);
+	VAPULA_API pcstr vfeGetEntrySym(object lib, pcstr id);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
 
 	//Invoker
-	VAPULA_API object vfeCreateInvoker(object lib, cstr8 id);
+	VAPULA_API object vfeCreateInvoker(object lib, pcstr id);
 	VAPULA_API int vfeStartInvoker(object inv);
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
@@ -37,7 +37,7 @@ extern "C"
 	//Stack
 	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API object vfeGetCurrentStack();
-	VAPULA_API cstr8 vfeGetFunctionId(object stk);
+	VAPULA_API pcstr vfeGetFunctionId(object stk);
 	VAPULA_API object vfeGetContext(object stk);
 	VAPULA_API object vfeGetEnvelope(object stk);
 	
@@ -53,14 +53,14 @@ extern "C"
 	VAPULA_API void vfeSwitchBusy(object ctx);
 
 	//Envelope
-	VAPULA_API object vfeParseEnvelope(cstr8 xml);
-	VAPULA_API object vfeParseEnvelopeW(cstr16 xml);
+	VAPULA_API object vfeParseEnvelope(pcstr xml);
+	VAPULA_API object vfeParseEnvelopeW(pcwstr xml);
 	VAPULA_API void vfeZeroEnvelope(object env);
 	VAPULA_API object vfeCopyEnvelope(object env);
-	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, cstr8 value);
-	VAPULA_API void vfeWriteEnvelopeValueW(object env, int id, cstr16 value);
-	VAPULA_API cstr8 vfeReadEnvelopeValue(object env, int id);
-	VAPULA_API cstr16 vfeReadEnvelopeValueW(object env, int id);
+	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, pcstr value);
+	VAPULA_API void vfeWriteEnvelopeValueW(object env, int id, pcwstr value);
+	VAPULA_API pcstr vfeReadEnvelopeValue(object env, int id);
+	VAPULA_API pcwstr vfeReadEnvelopeValueW(object env, int id);
 	VAPULA_API void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length);
 	VAPULA_API object vfeReadEnvelopeObject(object env, int id, uint32* length);
 	VAPULA_API void vfeDeliverEnvelope(object src, object dst, int from, int to);
@@ -70,11 +70,11 @@ extern "C"
 	VAPULA_API object vfeCreatePipe();
 	VAPULA_API int vfePipeIsClose(object pipe);
 	VAPULA_API int vfePipeHasNewData(object pipe);
-	VAPULA_API cstr8 vfeListenPipe(object pipe);
-	VAPULA_API int vfeConnectPipe(object pipe, cstr8 id);
+	VAPULA_API pcstr vfeListenPipe(object pipe);
+	VAPULA_API int vfeConnectPipe(object pipe, pcstr id);
 	VAPULA_API void vfeClosePipe(object pipe);
-	VAPULA_API void vfeWritePipe(object pipe, cstr8 value);
-	VAPULA_API void vfeWritePipeW(object pipe, cstr16 value);
-	VAPULA_API cstr8 vfeReadPipe(object pipe);
-	VAPULA_API cstr16 vfeReadPipeW(object pipe);
+	VAPULA_API void vfeWritePipe(object pipe, pcstr value);
+	VAPULA_API void vfeWritePipeW(object pipe, pcwstr value);
+	VAPULA_API pcstr vfeReadPipe(object pipe);
+	VAPULA_API pcwstr vfeReadPipeW(object pipe);
 }

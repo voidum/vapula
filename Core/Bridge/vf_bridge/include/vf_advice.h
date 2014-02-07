@@ -12,14 +12,14 @@ namespace vapula
 		virtual ~Advice();
 	protected:
 		//advice path
-		cstr8 _Path; 
+		pcstr _Path; 
 
 		//advice id
-		cstr8 _Id; 
+		pcstr _Id; 
 
 	public:
 		//get advice id
-		cstr8 GetAdviceId();
+		pcstr GetAdviceId();
 	};
 
 	//advice hub
@@ -33,16 +33,16 @@ namespace vapula
 		vector<Advice*> _Advices;
 	public:
 		//load advice by path
-		bool Load(cstr8 path);
+		bool Load(pcstr path);
 
 		//unload advice by id
-		void Unload(cstr8 id);
+		void Unload(pcstr id);
 
 		//unload all advices
 		void UnloadAll();
 	public:
 		//get advice by id
-		Advice* GetAdvice(cstr8 id);
+		Advice* GetAdvice(pcstr id);
 
 		//get count of loaded advices
 		int GetCount();

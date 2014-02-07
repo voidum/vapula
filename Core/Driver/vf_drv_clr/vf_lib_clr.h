@@ -8,9 +8,9 @@ public:
 	LibraryCLR();
 	~LibraryCLR();
 private:
-	cstr8 _Handle;
+	pcstr _Handle;
 public:
-	cstr8 GetHandle();
+	pcstr GetHandle();
 
 public:
 	bool Mount();

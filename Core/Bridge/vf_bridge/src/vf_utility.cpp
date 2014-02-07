@@ -3,7 +3,7 @@
 
 namespace vapula
 {
-	void ShowMsgbox(cstr8 value, cstr8 caption)
+	void ShowMsgbox(pcstr value, pcstr caption)
 	{
 		Setting* setting = Setting::GetInstance();
 		if(!setting->IsSilent())
@@ -11,77 +11,83 @@ namespace vapula
 			caption == null ? _vf_bridge : caption, 0);
 	}
 
-	void ShowMsgbox(cstr16 value, cstr16 caption)
+	void ShowMsgbox(pcwstr value, pcwstr caption)
 	{
 		Setting* setting = Setting::GetInstance();
 		if(!setting->IsSilent())
 			MessageBoxW(null, value,
-			caption == null ? str::ToCh16(_vf_bridge) : caption, 0);
+			caption == null ? str::ToStrW(_vf_bridge) : caption, 0);
 	}
 
-	cstr8 GetRuntimeDir()
+	pcstr GetRuntimeDir()
 	{
 		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		astr16 path(new wchar_t[_vf_path_len]);
-		GetModuleFileName(mod, path.get(), _vf_path_len);
-		astr8 path8(str::ToCh8(path.get()));
-		string str_full = path8.get();
-		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
+		pwstr s16_path = new wchar_t[_vf_path_len];
+		GetModuleFileName(mod, s16_path, _vf_path_len);
+		pcstr cs8_path = str::ToStr(s16_path);
+		delete s16_path;
+		Handle autop1((object)cs8_path);
+		string str_full = cs8_path;
+		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
+		pcstr ret = str::Copy(str_fix.c_str());
 		return ret;
 	}
 
-	cstr8 GetAppName()
+	pcstr GetProcessDir()
 	{
-		astr16 path(new wchar_t[_vf_path_len]);
-		GetModuleFileName(null, path.get(), _vf_path_len);
-		astr8 path8(str::ToCh8(path.get()));
-		string str_full = path8.get();
-		string str_ret = str_full.substr(str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
+		pwstr s16_path = new wchar_t[_vf_path_len];
+		GetModuleFileName(null, s16_path, _vf_path_len);
+		pcstr cs8_path = str::ToStr(s16_path);
+		delete s16_path;
+		Handle autop1((object)cs8_path);
+		string str_full = cs8_path;
+		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
+		pcstr ret = str::Copy(str_fix.c_str());
 		return ret;
 	}
 
-	cstr8 GetAppDir()
+	pcstr GetProcessName()
 	{
-		astr16 path(new wchar_t[_vf_path_len]);
-		GetModuleFileName(null, path.get(), _vf_path_len);
-		astr8 path8(str::ToCh8(path.get()));
-		string str_full = path8.get();
-		string str_ret = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		cstr8 ret = str::Copy(str_ret.c_str());
+		pwstr s16_path = new wchar_t[_vf_path_len];
+		GetModuleFileName(null, s16_path, _vf_path_len);
+		pcstr cs8_path = str::ToStr(s16_path);
+		delete s16_path;
+		Handle autop1((object)cs8_path);
+		string str_full = cs8_path;
+		string str_fix = str_full.substr(str_full.rfind(L'\\') + 1);
+		pcstr ret = str::Copy(str_fix.c_str());
 		return ret;
 	}
 
-	cstr8 GetDirPath(cstr8 path, bool isfile)
+	pcstr GetDirPath(pcstr path, bool isfile)
 	{
 		uint32 len = strlen(path);
 		if(len < 1) 
 			return str::Copy("\\");
-		astr8 s8_fix(str::Replace(path, "/", "\\"));
-		string s = s8_fix.get();
-		uint32 pos = s.rfind('\\');
+		pcstr s8_fix = str::Replace(path, "/", "\\");
+		string str = s8_fix;
+		uint32 pos = str.rfind('\\');
 		if(!isfile)
 		{
 			if(pos == string::npos || len != pos + 1)
-				s += L'\\';
+				str += L'\\';
 		}
 		else
 		{
 			if(pos == string::npos)
-				s = "\\";
-			else if(pos != s.size() - 1) 
-				s = s.substr(0, pos + 1);
+				str = "\\";
+			else if(pos != str.size() - 1) 
+				str = str.substr(0, pos + 1);
 		}
-		cstr8 s8_ret = str::Copy(s.c_str());
+		pcstr s8_ret = str::Copy(str.c_str());
 		return s8_ret;
 	}
 
-	bool CanOpenRead(cstr8 file)
+	bool CanOpenRead(pcstr file)
 	{
-		astr16 file16(str::ToCh16(file));
+		pcwstr cs16_file(str::ToStrW(file));
 		HANDLE handle = 
-			CreateFile(file16.get(), 0, 
+			CreateFile(cs16_file, null, 
 			FILE_SHARE_READ, null, 
 			OPEN_EXISTING, null, null);
 		if(handle == INVALID_HANDLE_VALUE) 

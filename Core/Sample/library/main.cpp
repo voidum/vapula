@@ -29,8 +29,8 @@ void Function_Out()
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
-	cstr16 str = L"中文Engligh日本語テスト";
-	env->WriteCh16(1, str);
+	pcwstr str = L"中文Engligh日本語テスト";
+	env->WriteStrW(1, str);
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);

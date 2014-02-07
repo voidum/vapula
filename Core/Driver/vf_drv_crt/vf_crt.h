@@ -4,5 +4,5 @@
 
 using namespace vapula;
 
-cstr8 const _vf_runtime_id = "crt";
-cstr8 const _vf_crt = "Vapula CRT Driver";
+pcstr const _vf_runtime_id = "crt";
+pcstr const _vf_crt = "Vapula CRT Driver";

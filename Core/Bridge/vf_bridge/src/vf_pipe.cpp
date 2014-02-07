@@ -24,10 +24,11 @@ namespace vapula
 			if(tried++ > 10)
 				return false;
 			_Id = GetLUID(true);
-			astr16 s16_id(str::ToCh16(_Id));
+			pcwstr cs16_id = str::ToStrW(_Id);
 			_Mapping = CreateFileMapping(
 				INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 
-				0, vol, s16_id.get());
+				0, vol, cs16_id);
+			delete cs16_id;
 		} while (GetLastError() != ERROR_SUCCESS);
 		return true;
 	}
@@ -126,7 +127,7 @@ namespace vapula
 		return data;
 	}
 
-	cstr8 Pipe::GetPipeId()
+	pcstr Pipe::GetPipeId()
 	{
 		return _Id;
 	}
@@ -157,14 +158,14 @@ namespace vapula
 		return true;
 	}
 
-	bool Pipe::Connect(cstr8 pid)
+	bool Pipe::Connect(pcstr pid)
 	{
 		Close();
 		_IsServer = false;
 		_Id = str::Copy(pid);
-		astr16 s16_id(str::ToCh16(_Id));
+		pcwstr cs16_id = str::ToStrW(_Id);
 		_Mapping = OpenFileMapping(
-			FILE_MAP_READ|FILE_MAP_WRITE, FALSE, s16_id.get());
+			FILE_MAP_READ|FILE_MAP_WRITE, FALSE, cs16_id);
 		if(GetLastError() != ERROR_SUCCESS)
 			return false;
 		if(!_BeginUpdate()) 
@@ -193,15 +194,15 @@ namespace vapula
 		return size;
 	}
 
-	void Pipe::Write(cstr8 data)
+	void Pipe::Write(pcstr data)
 	{
 		uint32 len = strlen(data) + 1;
 		_Write((object)data, len);
 	}
 
-	cstr8 Pipe::Read()
+	pcstr Pipe::Read()
 	{
-		cstr8 data = (cstr8)_Read();
+		pcstr data = (pcstr)_Read();
 		return data;
 	}
 }

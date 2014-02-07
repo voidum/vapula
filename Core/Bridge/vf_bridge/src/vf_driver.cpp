@@ -24,7 +24,7 @@ namespace vapula
 		KickAll();
 	}
 
-	DriverDpt* DriverHub::GetDriverDpt(cstr8 id)
+	DriverDpt* DriverHub::GetDriverDpt(pcstr id)
 	{
 		typedef vector<DriverDpt*>::iterator iter;
 		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
@@ -37,7 +37,7 @@ namespace vapula
 		return null;
 	}
 
-	Driver* DriverHub::GetDriver(cstr8 id)
+	Driver* DriverHub::GetDriver(pcstr id)
 	{
 		DriverDpt* dpt = GetDriverDpt(id);
 		if(dpt == null)
@@ -51,17 +51,19 @@ namespace vapula
 		return _DriverDpts.size();
 	}
 
-	bool DriverHub::Link(cstr8 id)
+	bool DriverHub::Link(pcstr id)
 	{
 		DriverDpt* dpt = GetDriverDpt(id);
 		if(dpt != null)
 			return true;
 
-		astr8 dir(GetRuntimeDir());
+		pcstr cs8_dir = GetRuntimeDir();
 		ostringstream oss;
-		oss<<dir.get()<<id<<".driver";
-		astr16 path16(str::ToCh16(oss.str().c_str()));
-		HMODULE module = LoadLibraryW(path16.get());
+		oss<<cs8_dir<<id<<".driver";
+		pcwstr cs16_path = str::ToStrW(oss.str().c_str());
+		delete cs8_dir;
+		Handle autop1((object)cs16_path);
+		HMODULE module = LoadLibraryW(cs16_path);
 
 		if(module == null) 
 			return false;
@@ -82,7 +84,7 @@ namespace vapula
 		return true;
 	}
 
-	void DriverHub::Kick(cstr8 id)
+	void DriverHub::Kick(pcstr id)
 	{
 		typedef vector<DriverDpt*>::iterator iter;
 		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)

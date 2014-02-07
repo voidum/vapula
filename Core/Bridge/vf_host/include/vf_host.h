@@ -22,5 +22,5 @@ enum HostReturnCode
 	VF_HOST_RETURN_FAILEXEC = 3
 };
 
-cstr8 const _vf_host = "Vapula Host";
-cstr8 const _vf_host_err_0 = "invalid invoke";
+pcstr const _vf_host = "Vapula Host";
+pcstr const _vf_host_err_0 = "invalid invoke";

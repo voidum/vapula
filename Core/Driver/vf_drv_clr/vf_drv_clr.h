@@ -15,17 +15,17 @@ public:
 	DriverCLR();
 	~DriverCLR();
 private:
-	cstr16 _BridgePath;
+	pcwstr _BridgePath;
 	ICLRMetaHost* _MetaHost;
 	ICLRRuntimeInfo* _RuntimeInfo;
 	ICLRRuntimeHost* _RuntimeHost;
 public:
 	static DriverCLR* GetInstance();
-	int CallBridge(cstr16 name, cstr16 arg);
+	int CallBridge(pcwstr name, pcwstr arg);
 
 public:
-	cstr8 GetRuntimeId();
-	cstr8 GetBinExt();
+	pcstr GetRuntimeId();
+	pcstr GetBinExt();
 	Library* CreateLibrary();
 	Invoker* CreateInvoker();
 };

@@ -3,29 +3,12 @@
 #pragma warning(disable:4251)
 #pragma warning(disable:4275)
 
-#include "vf_const.h"
+#include "vf_assist.h"
 #include "vf_string.h"
-#include "vf_uncopiable.hpp"
 #include "vf_debug.h"
 
 namespace vapula
 {
-	//clear target
-	template<typename T>
-	void Clear(T& target, bool isarr = false)
-	{
-		typedef char need_complete_type[sizeof(T) ? 1 : -1];
-		(void) sizeof(need_complete_type);
-		if(target != null)
-		{
-			if(isarr)
-				delete [] target;
-			else 
-				delete target;
-			target = null;
-		}
-	}
-
 	//spin lock
 	class VAPULA_API Lock : Uncopiable
 	{
@@ -46,19 +29,19 @@ namespace vapula
 		void Leave();
 	};
 
-	//assign only once
+	//can be set only once
 	class VAPULA_API Once : Uncopiable
 	{
 	public:
 		Once();
 		~Once();
 	private:
-		object _Value;
+		object _Data;
 		object _Seal;
 	public:
 		bool CanSet();
 
-		void Set(object value, uint32 size);
+		void Set(object data, uint32 size);
 
 		object Get();
 	};
@@ -82,8 +65,8 @@ namespace vapula
 	VAPULA_API uint32 GetTypeUnit(int8 type);
 
 	//generate local unique id
-	VAPULA_API cstr8 GetLUID(bool logo = false);
+	VAPULA_API pcstr GetLUID(bool logo = false);
 
 	//get Vapula core version
-	VAPULA_API cstr8 GetVersion();
+	VAPULA_API pcstr GetVersion();
 }

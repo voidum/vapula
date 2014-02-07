@@ -17,7 +17,7 @@ namespace vapula
 	public:
 		//parse envelope from XML string
 		//need node <params>
-		static Envelope* Parse(cstr8 xml);
+		static Envelope* Parse(pcstr xml);
 
 	private:
 		int32 _Total; //param total
@@ -106,23 +106,23 @@ namespace vapula
 
 	public:
 		//read string as 8-bit
-		cstr8 ReadCh8(int id);
+		pcstr ReadStr(int id);
 
 		//read string as 16-bit
-		cstr16 ReadCh16(int id);
+		pcwstr ReadStrW(int id);
 
 		//write string as 8-bit
-		void WriteCh8(int id, cstr8 value);
+		void WriteStr(int id, pcstr value);
 		
 		//write string as 16-bit
-		void WriteCh16(int id, cstr16 value);
+		void WriteStrW(int id, pcwstr value);
 
 	public:
 		//read and cast value to string
-		cstr8 CastReadValue(int id);
+		pcstr CastReadValue(int id);
 
 		//cast string to value and write
-		void CastWriteValue(int id, cstr8 value);
+		void CastWriteValue(int id, pcstr value);
 
 		//deliver envelope
 		void Deliver(Envelope* who, int from, int to);

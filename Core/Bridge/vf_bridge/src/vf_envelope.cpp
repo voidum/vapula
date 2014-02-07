@@ -33,12 +33,13 @@ namespace vapula
 		Clear(_Lengths, true);
 	}
 
-	Envelope* Envelope::Parse(cstr8 xml)
+	Envelope* Envelope::Parse(pcstr xml)
 	{
-		Scoped<XML> obj(XML::Parse(xml));
-		if(obj.empty())
+		XML* xobj = XML::Parse(xml);
+		Handle autop_xml(xobj);
+		if(xobj == null)
 			return null;
-		object xdoc = obj->GetEntity();
+		object xdoc = xobj->GetEntity();
 
 		vector<int32> v_id;
 		vector<int8> v_type;
@@ -179,32 +180,32 @@ namespace vapula
 		_Lengths[idx] = size;
 	}
 
-	cstr8 Envelope::ReadCh8(int id)
+	pcstr Envelope::ReadStr(int id)
 	{
 		uint32 size = 0;
-		cstr8 s8 = (cstr8)ReadObject(id, &size, true);
+		pcstr s8 = (pcstr)ReadObject(id, &size, true);
 		return s8;
 	}
 
-	cstr16 Envelope::ReadCh16(int id)
+	pcwstr Envelope::ReadStrW(int id)
 	{
-		cstr8 s8 = (cstr8)ReadObject(id, null, false);
-		cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
+		pcstr s8 = (pcstr)ReadObject(id, null, false);
+		pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
 		return s16;
 	}
 
-	void Envelope::WriteCh8(int id, cstr8 value)
+	void Envelope::WriteStr(int id, pcstr value)
 	{
-		WriteObject(id, const_cast<str8>(value), strlen(value) + 1, true);
+		WriteObject(id, const_cast<pstr>(value), strlen(value) + 1, true);
 	}
 
-	void Envelope::WriteCh16(int id, cstr16 value)
+	void Envelope::WriteStrW(int id, pcwstr value)
 	{
-		cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
-		WriteObject(id, const_cast<str8>(s8), wcslen(value) * 2 + 2, false);
+		pcstr s8 = str::ToStr(value, _vf_msg_cp);
+		WriteObject(id, const_cast<pstr>(s8), wcslen(value) * 2 + 2, false);
 	}
 
-	cstr8 Envelope::CastReadValue(int id)
+	pcstr Envelope::CastReadValue(int id)
 	{
 		if(!_AssertId(id))
 			throw invalid_argument(_vf_err_1);
@@ -212,35 +213,35 @@ namespace vapula
 		switch(type)
 		{
 		case VF_DATA_INT8:	
-			return str::ValueTo(ReadValue<int8>(id));
+			return str::Value(ReadValue<int8>(id));
 		case VF_DATA_UINT8:
-			return str::ValueTo(ReadValue<uint8>(id));
+			return str::Value(ReadValue<uint8>(id));
 		case VF_DATA_INT16:
-			return str::ValueTo(ReadValue<int16>(id));
+			return str::Value(ReadValue<int16>(id));
 		case VF_DATA_UINT16:
-			return str::ValueTo(ReadValue<uint16>(id));
+			return str::Value(ReadValue<uint16>(id));
 		case VF_DATA_INT32:
-			return str::ValueTo(ReadValue<int32>(id));
+			return str::Value(ReadValue<int32>(id));
 		case VF_DATA_UINT32:
-			return str::ValueTo(ReadValue<uint32>(id));
+			return str::Value(ReadValue<uint32>(id));
 		case VF_DATA_INT64:
-			return str::ValueTo(ReadValue<int64>(id));
+			return str::Value(ReadValue<int64>(id));
 		case VF_DATA_UINT64:
-			return str::ValueTo(ReadValue<uint64>(id));
+			return str::Value(ReadValue<uint64>(id));
 		case VF_DATA_REAL32:
-			return str::ValueTo(ReadValue<real32>(id));
+			return str::Value(ReadValue<real32>(id));
 		case VF_DATA_REAL64:
-			return str::ValueTo(ReadValue<real64>(id));
+			return str::Value(ReadValue<real64>(id));
 		case VF_DATA_BOOL:	
 			return ReadValue<bool>(id) ? "true" : "false";
 		case VF_DATA_STRING:
-			return ReadCh8(id);
+			return ReadStr(id);
 		default:
 			return null;
 		}
 	}
 
-	void Envelope::CastWriteValue(int id, cstr8 value)
+	void Envelope::CastWriteValue(int id, pcstr value)
 	{
 		if(value == null)
 			throw invalid_argument(_vf_err_2);
@@ -272,7 +273,7 @@ namespace vapula
 		case VF_DATA_BOOL:	
 			WriteValue(id, (strcmp(value,"true") == 0) ? 1 : 0); break;
 		case VF_DATA_STRING:
-			WriteCh8(id, value); break;
+			WriteStr(id, value); break;
 		default:
 			break;
 		}
@@ -359,7 +360,7 @@ namespace vapula
 		}
 		else
 		{
-			cstr8 value = CastReadValue(from);
+			pcstr value = CastReadValue(from);
 			return who->CastWriteValue(to, value);
 		}
 	}

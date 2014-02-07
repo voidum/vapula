@@ -35,13 +35,13 @@ namespace vapula
 	Once::Once()
 	{
 		_Seal = new byte[1];
-		_Value = null;
+		_Data = null;
 	}
 
 	Once::~Once()
 	{
-		Clear(_Seal, true);
-		Clear(_Value);
+		Clear(_Seal);
+		Clear(_Data);
 	}
 
 	bool Once::CanSet()
@@ -51,11 +51,14 @@ namespace vapula
 
 	void Once::Set(object data, uint32 size)
 	{
+		Lock* lock = Lock::GetCtorLock();
+		lock->Enter();
 		if(!CanSet())
 			return;
-		_Value = new byte[size];
-		memcpy(_Value, data, size);
-		Clear(_Seal, true);
+		_Data = new byte[size];
+		lock->Leave();
+		memcpy(_Data, data, size);
+		delete _Seal;
 	}
 
 	Flag::Flag()
@@ -118,7 +121,7 @@ namespace vapula
 		}
 	}
 
-	cstr8 GetLUID(bool logo)
+	pcstr GetLUID(bool logo)
 	{
 		std::ostringstream oss;
 		oss.imbue(std::locale("C"));
@@ -135,7 +138,7 @@ namespace vapula
 		return str::Copy(oss.str().c_str());
 	}
 
-	cstr8 GetVersion()
+	pcstr GetVersion()
 	{
 		return _vf_version;
 	}

@@ -6,8 +6,8 @@ int vfeEntry_IDL(int argc, object argv[])
 	for(int i=0; i<argc; i++)
 	{
 		IDL_STRING* v = (IDL_STRING*)(argv[i]);
-		cstr8 s8 = str::Copy(v->s);
-		ShowMsgbox(s8);
+		pcstr cs8 = str::Copy(v->s);
+		ShowMsgbox(cs8);
 	}
 	return 0;
 }

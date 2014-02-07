@@ -11,12 +11,12 @@ LibraryCLR::~LibraryCLR()
 	Clear(_Handle);
 }
 
-cstr8 LibraryCLR::GetHandle()
+pcstr LibraryCLR::GetHandle()
 {
 	if(_Handle == null) 
 	{
 		uint64 v = (uint64)this;
-		_Handle = str::ValueTo(v);
+		_Handle = str::Value(v);
 	}
 	return _Handle;
 }
@@ -27,18 +27,18 @@ bool LibraryCLR::Mount()
 	arg += "|";
 	arg += _Path;
 
-	cstr16 s16 = str::ToCh16(arg.c_str());
+	pcwstr cs16 = str::ToStrW(arg.c_str());
 	DriverCLR* drv = DriverCLR::GetInstance();
-	int ret = drv->CallBridge(L"Mount", s16);
-	delete s16;
+	int ret = drv->CallBridge(L"Mount", cs16);
+	delete cs16;
 
 	return ret > 0;
 }
 
 void LibraryCLR::Unmount()
 {
-	cstr16 s16 = str::ToCh16(GetHandle());
+	pcwstr cs16 = str::ToStrW(GetHandle());
 	DriverCLR* drv = DriverCLR::GetInstance();
-	drv->CallBridge(L"Unmount", s16);
-	delete s16;
+	drv->CallBridge(L"Unmount", cs16);
+	delete cs16;
 }

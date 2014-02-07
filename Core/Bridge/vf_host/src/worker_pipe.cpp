@@ -24,7 +24,7 @@ bool Worker_PIPE::RunStageA()
 	Task* task = dynamic_cast<Task*>(_Task);
 	XML* xml_cfg = XML::Parse(task->GetCtrlSetting());
 	std::locale::global(std::locale(""));
-	cstr8 pid = XML::ValCh8(XML::XElem(xml_cfg, "pid"));
+	pcstr pid = XML::ValStr(XML::XElem(xml_cfg, "pid"));
 	if(!_Pipe->Connect(pid))
 		return false;
 	_Pipe->Write("A");
@@ -51,7 +51,7 @@ bool Worker_PIPE::RunStageB()
 		oss<<ctx->GetCurrentState()<<",";
 		oss<<ctx->GetProgress();
 		_Pipe->Write(oss.str().c_str());
-		cstr8 data = _Pipe->Read();
+		pcstr data = _Pipe->Read();
 		int ctrl = atoi(data);
 		switch(ctrl)
 		{
@@ -85,7 +85,7 @@ bool Worker_PIPE::RunStageC()
 		if(env->GetMode(i) != VF_PM_IN)
 		{
 			resp += "<param id=\"";
-			resp += str::ValueTo(i);
+			resp += str::Value(i);
 			resp += "\">";
 			resp += env->CastReadValue(i);
 			resp += "</param>";
@@ -98,7 +98,7 @@ bool Worker_PIPE::RunStageC()
 
 	//if(_Pipe->GetDataVol() >= xml.size())
 	//{
-	cstr8 str = str::Copy(resp.c_str());
+	pcstr str = str::Copy(resp.c_str());
 	_Pipe->Write(str);
 	delete str;
 	//}

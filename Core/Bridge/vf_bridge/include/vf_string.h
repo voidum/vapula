@@ -1,18 +1,14 @@
 #pragma once
 
 #include "vf_const.h"
-#include "vf_smartptr.hpp"
 
 namespace vapula
 {
-	typedef Scoped<char> astr8;
-	typedef Scoped<wchar_t> astr16;
-
 	namespace str
 	{
 		//convert value to string
 		template<typename T>
-		VAPULA_API cstr8 ValueTo(T value)
+		VAPULA_API pcstr Value(T value)
 		{
 			std::ostringstream oss;
 			oss.imbue(std::locale("C"));
@@ -22,22 +18,22 @@ namespace vapula
 
 		//convert wide char string to char string
 		//from UTF16, default to system
-		VAPULA_API cstr8 ToCh8(cstr16 src, cstr8 cp = null);
+		VAPULA_API pcstr ToStr(pcwstr src, pcstr cp = null);
 
 		//convert char string to wide char string
 		//default from system, to UTF16
-		VAPULA_API cstr16 ToCh16(cstr8 src, cstr8 cp = null);
+		VAPULA_API pcwstr ToStrW(pcstr src, pcstr cp = null);
 
 		//convert encoding of char string
-		VAPULA_API cstr8 EncodeCh8(cstr8 src, cstr8 cp_from, cstr8 cp_to);
+		VAPULA_API pcstr Encode(pcstr src, pcstr cp_from, pcstr cp_to);
 
 		//copy string
-		VAPULA_API cstr8 Copy(cstr8 src);
-		VAPULA_API cstr16 Copy(cstr16 src);
+		VAPULA_API pcstr Copy(pcstr src);
+		VAPULA_API pcwstr Copy(pcwstr src);
 
 		//replace sub string in string
 		//default char string in UTF8
-		VAPULA_API cstr8 Replace(cstr8 src, cstr8 from, cstr8 to);
-		VAPULA_API cstr16 Replace(cstr16 src, cstr16 from, cstr16 to);
+		VAPULA_API pcstr Replace(pcstr src, pcstr from, pcstr to);
+		VAPULA_API pcwstr Replace(pcwstr src, pcwstr from, pcwstr to);
 	}
 }

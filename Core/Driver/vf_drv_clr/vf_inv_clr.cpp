@@ -12,12 +12,12 @@ InvokerCLR::~InvokerCLR()
 	Clear(_Handle);
 }
 
-cstr8 InvokerCLR::GetHandle()
+pcstr InvokerCLR::GetHandle()
 {
 	if(_Handle == null) 
 	{
 		uint64 v = (uint64)this;
-		_Handle = str::ValueTo(v);
+		_Handle = str::Value(v);
 	}
 	return _Handle;
 }
@@ -31,16 +31,16 @@ bool InvokerCLR::Initialize(Function* func)
 	Library* lib = func->GetLibrary();
 	LibraryCLR* lib_clr = dynamic_cast<LibraryCLR*>(lib);
 	arg += lib_clr->GetHandle();
-	cstr16 s16 = str::ToCh16(arg.c_str());
-	drv->CallBridge(L"InitInvoker", s16);
-	delete s16;
+	pcwstr cs16 = str::ToStrW(arg.c_str());
+	drv->CallBridge(L"InitInvoker", cs16);
+	delete cs16;
 	return true;
 }
 
 void InvokerCLR::_Entry()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
-	cstr16 s16 = str::ToCh16(GetHandle());
-	drv->CallBridge(L"CallEntry", s16);
-	delete s16;
+	pcwstr cs16 = str::ToStrW(GetHandle());
+	drv->CallBridge(L"CallEntry", cs16);
+	delete cs16;
 }

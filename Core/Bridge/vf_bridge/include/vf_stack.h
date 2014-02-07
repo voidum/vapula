@@ -16,7 +16,7 @@ namespace vapula
 
 	private:
 		uint32 _StackId;
-		cstr8 _FunctionId;
+		pcstr _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
 
@@ -28,7 +28,7 @@ namespace vapula
 		void SetStackId(uint32 id);
 
 		//set function id
-		void SetFunctionId(cstr8 id);
+		void SetFunctionId(pcstr id);
 
 		//set context
 		void SetContext(Context* ctx);
@@ -41,7 +41,7 @@ namespace vapula
 		uint32 GetStackId();
 
 		//get function id
-		cstr8 GetFunctionId();
+		pcstr GetFunctionId();
 
 		//get context
 		Context* GetContext();

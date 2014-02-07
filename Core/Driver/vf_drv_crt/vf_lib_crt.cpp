@@ -13,9 +13,9 @@ LibraryCRT::~LibraryCRT()
 
 bool LibraryCRT::Mount()
 {
-	cstr16 s16 = str::ToCh16(_Path);
-	_Module = LoadLibrary(s16);
-	delete s16;
+	pcwstr cs16 = str::ToStrW(_Path);
+	_Module = LoadLibrary(cs16);
+	delete cs16;
 	return (_Module != null);
 }
 
@@ -25,7 +25,7 @@ void LibraryCRT::Unmount()
 	_Module = null;
 }
 
-object LibraryCRT::GetEntry(cstr8 id)
+object LibraryCRT::GetEntry(pcstr id)
 {
 	object entry = GetProcAddress(
 		_Module, 

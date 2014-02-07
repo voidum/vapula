@@ -15,7 +15,7 @@ namespace vapula
 	protected:
 		Library();
 	public:
-		static Library* Load(cstr8 path);
+		static Library* Load(pcstr path);
 	public:
 		virtual ~Library();
 
@@ -24,10 +24,10 @@ namespace vapula
 		Driver* _Driver;
 
 		//library bin path
-		cstr8 _Path;
+		pcstr _Path;
 
 		//library id
-		cstr8 _Id; 
+		pcstr _Id; 
 
 		//functions
 		vector<Function*> _Functions;
@@ -40,13 +40,13 @@ namespace vapula
 		Driver* GetDriver();
 
 		//get library id
-		cstr8 GetLibraryId();
+		pcstr GetLibraryId();
 
 		//get function by id
-		Function* GetFunction(cstr8 id);
+		Function* GetFunction(pcstr id);
 
 		//create invoker by id
-		Invoker* CreateInvoker(cstr8 id);
+		Invoker* CreateInvoker(pcstr id);
 
 	public:
 		//mount library

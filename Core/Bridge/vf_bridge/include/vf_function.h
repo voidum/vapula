@@ -14,7 +14,7 @@ namespace vapula
 	protected:
 		Function();
 	public:
-		static Function* Parse(cstr8 xml);
+		static Function* Parse(pcstr xml);
 	public:
 		virtual ~Function();
 
@@ -22,10 +22,10 @@ namespace vapula
 		Library* _Library;
 
 		//function id
-		cstr8 _Id;
+		pcstr _Id;
 
 		//entry symbol
-		cstr8 _EntrySym;
+		pcstr _EntrySym;
 
 		//prototype envelope
 		Envelope* _Envelope;
@@ -38,10 +38,10 @@ namespace vapula
 		void SetLibrary(Library* lib);
 
 		//get function id
-		cstr8 GetFunctionId();
+		pcstr GetFunctionId();
 
 		//get entry symbol
-		cstr8 GetEntrySym();
+		pcstr GetEntrySym();
 
 		//get envelope
 		Envelope* GetEnvelope();

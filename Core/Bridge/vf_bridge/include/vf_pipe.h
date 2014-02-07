@@ -14,7 +14,7 @@ namespace vapula
 		Pipe();
 		~Pipe();
 	private:
-		cstr8 _Id;
+		pcstr _Id;
 		object _Data;
 		object _Mapping;
 		uint32 _Volume;
@@ -39,7 +39,7 @@ namespace vapula
 	//链路
 	public: 
 		//获取信道标识;
-		cstr8 GetPipeId();
+		pcstr GetPipeId();
 
 		//获取数据容量
 		int GetVolume();
@@ -52,7 +52,7 @@ namespace vapula
 		bool Listen(uint32 vol = VF_PIPE_DATASIZE);
 
 		//连接指定的信道
-		bool Connect(cstr8 pid);
+		bool Connect(pcstr pid);
 
 		//关闭信道
 		void Close();
@@ -66,9 +66,9 @@ namespace vapula
 		uint32 GetReadSize();
 
 		//写入数据
-		void Write(cstr8 data);
+		void Write(pcstr data);
 
 		//读取数据
-		cstr8 Read();
+		pcstr Read();
 	};
 }

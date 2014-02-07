@@ -8,9 +8,9 @@ public:
 	InvokerCLR();
 	~InvokerCLR();
 private:
-	cstr8 _Handle;
+	pcstr _Handle;
 public:
-	cstr8 GetHandle();
+	pcstr GetHandle();
 
 protected:
 	void _Entry();

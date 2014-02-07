@@ -14,7 +14,7 @@ namespace vapula
 		~XML();
 
 	private:
-		cstr8 _Data;
+		pcstr _Data;
 		object _Entity;
 
 	public:
@@ -22,33 +22,33 @@ namespace vapula
 
 	public:
 		//load XML
-		static XML* Load(cstr8 path);
+		static XML* Load(pcstr path);
 
 		//parse XML from UTF8 char string
-		static XML* Parse(cstr8 src);
+		static XML* Parse(pcstr src);
 
 		//print XML to char string
-		static cstr8 Print(object xml);
+		static pcstr Print(object xml);
 
 	public:
 		//get next sibling
 		static object Next(object xml);
 
 		//get element by name
-		static object XElem(object xml, cstr8 name);
+		static object XElem(object xml, pcstr name);
 
 		//get attribute by name
-		static object XAttr(object xml, cstr8 name);
+		static object XAttr(object xml, pcstr name);
 
 		//query child node by XPath-like method
 		static object XPath(object xml, int count, ...);
 
 	public:
 		//read node value as UTF8 char string
-		static cstr8 ValCh8(object xml);
+		static pcstr ValStr(object xml);
 
 		//read node value as wide char string
-		static cstr16 ValCh16(object xml);
+		static pcwstr ValStrW(object xml);
 
 		//read node value as integer
 		static int ValInt(object xml);
@@ -57,6 +57,6 @@ namespace vapula
 		static double ValReal(object xml);
 
 		//real node value as bool judged by specified string
-		static bool ValBool(object xml, cstr8 judge);
+		static bool ValBool(object xml, pcstr judge);
 	};
 }

@@ -44,7 +44,7 @@ namespace vapula
 		return _Library;
 	}
 
-	cstr8 Task::GetFunctionId()
+	pcstr Task::GetFunctionId()
 	{
 		return _FunctionId;
 	}
@@ -59,15 +59,16 @@ namespace vapula
 		return _CtrlMode; 
 	}
 
-	cstr8 Task::GetCtrlSetting() 
+	pcstr Task::GetCtrlSetting() 
 	{
 		return _CtrlSetting; 
 	}
 
-	Task* Task::Parse(cstr8 path)
+	Task* Task::Parse(pcstr path)
 	{
-		Scoped<XML> xml(XML::Load(path));
-		if(xml.empty())
+		XML* xml  = XML::Load(path);
+		Handle autop_xml(xml);
+		if(xml == null)
 		{
 			ShowMsgbox("Fail to load task file.", _vf_host);
 			return null;
@@ -80,15 +81,18 @@ namespace vapula
 		object xe_ext = XML::XElem(xe_root, "extension");
 
 		DriverHub* driver_hub = DriverHub::GetInstance();
-		astr8 driver_id(XML::ValCh8(XML::XElem(xe_target, "runtime")));
-		if(!driver_hub->Link(driver_id.get()))
+		pcstr cs8_drv_id = XML::ValStr(XML::XElem(xe_target, "runtime"));
+		Handle autop1((object)cs8_drv_id);
+		if(!driver_hub->Link(cs8_drv_id))
 		{
 			ShowMsgbox("Fail to link driver.", _vf_host);
 			return null;
 		}
 
-		astr8 path_lib_utf8(XML::ValCh8(XML::XElem(xe_target, "path")));
-		astr8 path_lib(str::EncodeCh8(path_lib_utf8.get(), _vf_msg_cp, null));
+		pcstr cs8_path_lib_utf8 = XML::ValStr(XML::XElem(xe_target, "path"));
+		pcstr cs8_path_lib = str::Encode(cs8_path_lib_utf8, _vf_msg_cp, null);
+		Handle autop2((object)cs8_path_lib_utf8);
+		Handle autop3((object)cs8_path_lib);
 		task->_Library = Library::Load(path);
 		if(task->_Library == null)
 		{
@@ -102,7 +106,7 @@ namespace vapula
 			return null;
 		}
 
-		task->_FunctionId = XML::ValCh8(XML::XElem(xe_target, "function"));
+		task->_FunctionId = XML::ValStr(XML::XElem(xe_target, "function"));
 		task->_Invoker = task->_Library->CreateInvoker(task->_FunctionId);
 		
 		Stack* stack = task->_Invoker->GetStack();
@@ -111,7 +115,7 @@ namespace vapula
 		while (xe_param)
 		{
 			int pid = XML::ValInt(XML::XAttr(xe_param, "id"));
-			cstr8 pv = XML::ValCh8(xe_param);
+			pcstr pv = XML::ValStr(xe_param);
 			env->CastWriteValue(pid, pv);
 			delete pv;
 			xe_param = XML::Next(xe_param);
@@ -150,7 +154,7 @@ namespace vapula
 		{
 			ostringstream oss;
 			oss<<"Vapula host has NOT done with task:\n";
-			oss<<_Library->GetLibraryId()<<"=>"<<str::ValueTo(_FunctionId);
+			oss<<_Library->GetLibraryId()<<"=>"<<str::Value(_FunctionId);
 			oss<<"\nLast stage: "<<('A' + ret_worker - 1);
 			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
 			ShowMsgbox(oss.str().c_str(), _vf_host);

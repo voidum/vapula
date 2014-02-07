@@ -17,41 +17,44 @@ namespace vapula
 		ClearAll();
 	}
 
-	Library* Library::Load(cstr8 path)
+	Library* Library::Load(pcstr path)
 	{
-		Scoped<XML> xml(XML::Load(path));
-		if(xml.empty())
+		XML* xml = XML::Load(path);
+		Handle autop_xml(xml);
+		if(xml == null)
 			return null;
 
 		object xdoc = xml->GetEntity();
 		object xe_lib = XML::XElem(xdoc, "library");
 
 		DriverHub* drv_hub = DriverHub::GetInstance();
-		astr8 s8_rt(XML::ValCh8(XML::XElem(xe_lib, "runtime")));
-		if(!drv_hub->Link(s8_rt.get()))
+		pcstr cs8_rt = XML::ValStr(XML::XElem(xe_lib, "runtime"));
+		Handle autop1((object)cs8_rt);
+		if(!drv_hub->Link(cs8_rt))
 			return null;
-		Driver* driver = drv_hub->GetDriver(s8_rt.get());
+		Driver* driver = drv_hub->GetDriver(cs8_rt);
 
 		Library* lib = driver->CreateLibrary();
 		lib->_Driver = driver;
 
 		object xe_lib_id = XML::XElem(xe_lib, "id");
-		lib->_Id = XML::ValCh8(xe_lib_id);
+		lib->_Id = XML::ValStr(xe_lib_id);
 
-		astr8 path_dir(GetDirPath(path, true));
-
+		pcstr path_dir = GetDirPath(path, true);
+		Handle autop2((object)path_dir);
 		ostringstream oss;
-		oss<<path_dir.get()<<lib->_Id<<"."<<driver->GetBinExt();
+		oss<<path_dir<<lib->_Id<<"."<<driver->GetBinExt();
 		lib->_Path = str::Copy(oss.str().c_str());
 
 		object xe_func = XML::XPath(xe_lib, 2, "functions", "function");
 		while(xe_func != null)
 		{
-			astr8 s8_func(XML::Print(xe_func));
-			Function* func = Function::Parse(s8_func.get());
+			pcstr cs8_func = XML::Print(xe_func);
+			Function* func = Function::Parse(cs8_func);
 			func->SetLibrary(lib);
 			lib->_Functions.push_back(func);
 			xe_func = XML::Next(xe_func);
+			delete cs8_func;
 		}
 		return lib;
 	}
@@ -69,12 +72,12 @@ namespace vapula
 		return _Driver;
 	}
 
-	cstr8 Library::GetLibraryId()
+	pcstr Library::GetLibraryId()
 	{
 		return _Id;
 	}
 
-	Function* Library::GetFunction(cstr8 id)
+	Function* Library::GetFunction(pcstr id)
 	{
 		typedef vector<Function*>::iterator iter;
 		for(iter i=_Functions.begin(); i!=_Functions.end(); i++)
@@ -86,7 +89,7 @@ namespace vapula
 		return null;
 	}
 
-	Invoker* Library::CreateInvoker(cstr8 id)
+	Invoker* Library::CreateInvoker(pcstr id)
 	{
 		Invoker* inv = _Driver->CreateInvoker();
 		Function* func = GetFunction(id);

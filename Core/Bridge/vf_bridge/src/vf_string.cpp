@@ -5,7 +5,7 @@ namespace vapula
 {
 	namespace str
 	{
-		cstr8 ToCh8(cstr16 src, cstr8 cp)
+		pcstr ToStr(pcwstr src, pcstr cp)
 		{
 			if(src == null) 
 				return null;
@@ -22,7 +22,7 @@ namespace vapula
 			return dst;
 		}
 
-		cstr16 ToCh16(cstr8 src, cstr8 cp)
+		pcwstr ToStrW(pcstr src, pcstr cp)
 		{
 			if(src == null) 
 				return null;
@@ -39,26 +39,26 @@ namespace vapula
 			return dst;
 		}
 
-		cstr8 EncodeCh8(cstr8 src, cstr8 cp_from, cstr8 cp_to)
+		pcstr Encode(pcstr src, pcstr cp_from, pcstr cp_to)
 		{
-			cstr16 s16 = ToCh16(src, cp_from);
-			cstr8 s8 = ToCh8(s16, cp_to);
+			pcwstr s16 = ToStrW(src, cp_from);
+			pcstr s8 = ToStr(s16, cp_to);
 			delete s16;
 			return s8;
 		}
 
-		cstr8 Copy(cstr8 src)
+		pcstr Copy(pcstr src)
 		{
 			if(src == null)
 				return null;
 			size_t len = strlen(src);
-			str8 dst = new char[len + 1];
+			pstr dst = new char[len + 1];
 			memcpy(dst, src, len);
 			dst[len] = 0;
-			return const_cast<cstr8>(dst);
+			return const_cast<pcstr>(dst);
 		}
 
-		cstr16 Copy(cstr16 src)
+		pcwstr Copy(pcwstr src)
 		{
 			if(src == null) 
 				return null;
@@ -66,16 +66,16 @@ namespace vapula
 			wchar_t* dst = new wchar_t[len + 1];
 			memcpy(dst, src, len * 2);
 			dst[len] = 0;
-			return const_cast<cstr16>(dst);
+			return const_cast<pcwstr>(dst);
 		}
 
-		cstr8 Replace(cstr8 src, cstr8 from, cstr8 to)
+		pcstr Replace(pcstr src, pcstr from, pcstr to)
 		{
-			cstr16 src16 = ToCh16(src, _vf_msg_cp);
-			cstr16 from16 = ToCh16(from, _vf_msg_cp);
-			cstr16 to16 = ToCh16(to, _vf_msg_cp);
-			cstr16 ret16 = Replace(src16, from16, to16);
-			cstr8 ret = ToCh8(ret16, _vf_msg_cp);
+			pcwstr src16 = ToStrW(src, _vf_msg_cp);
+			pcwstr from16 = ToStrW(from, _vf_msg_cp);
+			pcwstr to16 = ToStrW(to, _vf_msg_cp);
+			pcwstr ret16 = Replace(src16, from16, to16);
+			pcstr ret = ToStr(ret16, _vf_msg_cp);
 			delete src16;
 			delete from16;
 			delete to16;
@@ -83,7 +83,7 @@ namespace vapula
 			return ret;
 		}
 
-		cstr16 Replace(cstr16 src, cstr16 from, cstr16 to)
+		pcwstr Replace(pcwstr src, pcwstr from, pcwstr to)
 		{
 			if(src == null || from == null)
 				return null;

@@ -24,7 +24,7 @@ namespace vapula
 		return _Entity;
 	}
 
-	XML* XML::Load(cstr8 path)
+	XML* XML::Load(pcstr path)
 	{
 		try {
 			file<> xf(path);
@@ -34,17 +34,17 @@ namespace vapula
 		}
 	}
 
-	XML* XML::Parse(cstr8 src)
+	XML* XML::Parse(pcstr src)
 	{
 		XML* xml = new XML();
 		xml->_Data = str::Copy(src);
 		xml_document<>* xdoc = new xml_document<>();
-		xdoc->parse<0>(const_cast<str8>(xml->_Data));
+		xdoc->parse<0>(const_cast<pstr>(xml->_Data));
 		xml->_Entity = xdoc;
 		return xml;
 	}
 
-	cstr8 XML::Print(object xml)
+	pcstr XML::Print(object xml)
 	{
 		xml_node<>* obj = (xml_node<>*)xml;
 		string s;
@@ -58,13 +58,13 @@ namespace vapula
 		return xe->next_sibling();
 	}
 
-	object XML::XElem(object xml, cstr8 name)
+	object XML::XElem(object xml, pcstr name)
 	{
 		xml_node<>* xe = (xml_node<>*)xml;
 		return xe->first_node(name);
 	}
 
-	object XML::XAttr(object xml, cstr8 name)
+	object XML::XAttr(object xml, pcstr name)
 	{
 		xml_node<>* xe = (xml_node<>*)xml;
 		return xe->first_attribute(name);
@@ -78,19 +78,19 @@ namespace vapula
 		int idx = 0;
 		while(idx < count && xe != null)
 		{
-			xe = xe->first_node(va_arg(arg_ptr, cstr8));
+			xe = xe->first_node(va_arg(arg_ptr, pcstr));
 			idx++;
 		}
 		va_end(arg_ptr);
 		return xe;
 	}
 
-	cstr8 XML::ValCh8(object xml)
+	pcstr XML::ValStr(object xml)
 	{
 		if(xml == null) 
 			return null;
 		xml_base<>* xbase = (xml_base<>*)xml;
-		cstr8 v = xbase->value();
+		pcstr v = xbase->value();
 		if(strlen(v) > 0)
 			return str::Copy(v);
 		else
@@ -103,10 +103,11 @@ namespace vapula
 		return null;
 	}
 
-	cstr16 XML::ValCh16(object xml)
+	pcwstr XML::ValStrW(object xml)
 	{
-		astr8 s8(ValCh8(xml));
-		cstr16 s16 = str::ToCh16(s8.get(), _vf_msg_cp);
+		pcstr s8 = ValStr(xml);
+		pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
+		delete s8;
 		return s16;
 	}
 
@@ -114,8 +115,9 @@ namespace vapula
 	{
 		if(xml == null) 
 			return 0;
-		astr8 s8(ValCh8(xml));
-		int ret = atoi(s8.get());
+		pcstr s8 = ValStr(xml);
+		int ret = atoi(s8);
+		delete s8;
 		return ret;
 	}
 
@@ -123,17 +125,19 @@ namespace vapula
 	{
 		if(xml == null) 
 			return 0;
-		astr8 s8(ValCh8(xml));
-		double ret = atof(s8.get());
+		pcstr s8 = ValStr(xml);
+		double ret = atof(s8);
+		delete s8;
 		return ret;
 	}
 
-	bool XML::ValBool(object xml, cstr8 judge)
+	bool XML::ValBool(object xml, pcstr judge)
 	{
 		if(xml == null || judge == null) 
 			return 0;
-		astr8 s8(ValCh8(xml));
-		bool ret = (strcmp(s8.get(), judge) == 0);
+		pcstr s8 = ValStr(xml);
+		bool ret = (strcmp(s8, judge) == 0);
+		delete s8;
 		return ret;
 	}
 }

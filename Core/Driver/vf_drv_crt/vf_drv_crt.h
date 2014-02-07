@@ -11,8 +11,8 @@ public:
 	~DriverCRT();
 
 public:
-	cstr8 GetRuntimeId();
-	cstr8 GetBinExt();
+	pcstr GetRuntimeId();
+	pcstr GetBinExt();
 	Library* CreateLibrary();
 	Invoker* CreateInvoker();
 };

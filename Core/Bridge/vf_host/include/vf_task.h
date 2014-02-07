@@ -16,17 +16,17 @@ namespace vapula
 
 	private:
 		Library* _Library;
-		cstr8 _FunctionId;
+		pcstr _FunctionId;
 		Invoker* _Invoker;
 		float* _StageTime;
 
 	private:
 		int _CtrlMode;
-		cstr8 _CtrlSetting;
+		pcstr _CtrlSetting;
 
 	public:
 		//parse task from XML file
-		static Task* Parse(cstr8 path);
+		static Task* Parse(pcstr path);
 
 	public:
 		//set stage elapsed time (s)
@@ -39,7 +39,7 @@ namespace vapula
 		Library* GetLibrary();
 
 		//get function for task
-		cstr8 GetFunctionId();
+		pcstr GetFunctionId();
 
 		//get invoker
 		Invoker* GetInvoker();
@@ -49,7 +49,7 @@ namespace vapula
 		int GetCtrlMode();
 
 		//get control setting
-		cstr8 GetCtrlSetting();
+		pcstr GetCtrlSetting();
 
 	public:
 		//run as specified worker

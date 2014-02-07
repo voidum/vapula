@@ -12,13 +12,13 @@
 	processorArchitecture='*' \
 	publicKeyToken='6595b64144ccf1df' language='*'\"")  // NOLINT(whitespace/line_length)
 
-void CheckOption(int argc, str16* argv);
+void CheckOption(int argc, pwstr* argv);
 void ShowHelp();
 
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
 	int argc = 0;
-	str16* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+	pwstr* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
 	if(argc < 2)
 	{
@@ -27,31 +27,33 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	}
 
 	CheckOption(argc, argv);
-	astr8 path(str::ToCh8(argv[1]));
+	pcstr cs8_path = str::ToStr(argv[1]);
+	Handle autop1((object)cs8_path);
 
-	if(!CanOpenRead(path.get()))
+	if(!CanOpenRead(cs8_path))
 	{
 		ShowMsgbox("Fail to open task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 
-	Scoped<Task> task(Task::Parse(path.get()));
-	if(task.empty())
+	Task* task = Task::Parse(cs8_path);
+	Handle autop_task(task);
+	if(task == null)
 	{
 		ShowMsgbox("Fail to parse task file.", _vf_host);
 		return VF_HOST_RETURN_INVALIDTASK;
 	}
 	
-	Worker* wk = null;
+	Worker* worker = null;
 	switch(task->GetCtrlMode())
 	{
 		case VF_HOST_CJ_NULL:
-			wk = new Worker_NULL(); break;
+			worker = new Worker_NULL(); break;
 		case VF_HOST_CJ_PIPE:
-			wk = new Worker_PIPE(); break;
+			worker = new Worker_PIPE(); break;
 	}
-	Scoped<Worker> worker(wk);
-	bool ret = task->RunAs(wk);
+	Handle autop_wk(worker);
+	bool ret = task->RunAs(worker);
 	if(ret) return VF_HOST_RETURN_NORMAL;
 	else return VF_HOST_RETURN_FAILEXEC;
 }

@@ -33,12 +33,12 @@ namespace vapula
 		_StackId = id;
 	}
 
-	cstr8 Stack::GetFunctionId()
+	pcstr Stack::GetFunctionId()
 	{
 		return _FunctionId;
 	}
 
-	void Stack::SetFunctionId(cstr8 id)
+	void Stack::SetFunctionId(pcstr id)
 	{
 		_FunctionId = id;
 	}

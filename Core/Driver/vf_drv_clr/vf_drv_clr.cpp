@@ -6,11 +6,11 @@ using namespace vapula;
 
 DriverCLR::DriverCLR()
 {
-	cstr8 dir = GetRuntimeDir();
-	string s = dir;
-	s += "vf_bridge_x.dll";
-	_BridgePath = str::ToCh16(s.c_str());
-	delete dir;
+	pcstr cs8_dir = GetRuntimeDir();
+	string str1 = cs8_dir;
+	str1 += "vf_bridge_x.dll";
+	_BridgePath = str::ToStrW(str1.c_str());
+	delete cs8_dir;
 
 	HRESULT hr;
 	_MetaHost = NULL;
@@ -35,12 +35,12 @@ DriverCLR::~DriverCLR()
 	_MetaHost->Release();
 }
 
-cstr8 DriverCLR::GetRuntimeId() 
+pcstr DriverCLR::GetRuntimeId() 
 {
 	return _vf_runtime_id;
 }
 
-cstr8 DriverCLR::GetBinExt()
+pcstr DriverCLR::GetBinExt()
 {
 	return "dll";
 }
@@ -71,7 +71,7 @@ Driver* GetDriverInstance()
 	return driver;
 }
 
-int DriverCLR::CallBridge(cstr16 name, cstr16 arg)
+int DriverCLR::CallBridge(pcwstr name, pcwstr arg)
 {
 	DWORD ret = 0;
 	HRESULT hr = _RuntimeHost->ExecuteInDefaultAppDomain(

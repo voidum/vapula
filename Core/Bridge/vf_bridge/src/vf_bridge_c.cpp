@@ -13,7 +13,7 @@ using namespace vapula;
 
 //Base
 
-cstr8 vfeGetVersion()
+pcstr vfeGetVersion()
 {
 	return vapula::GetVersion();
 }
@@ -32,13 +32,13 @@ int vfeGetDriverCount()
 	return obj->GetCount();
 }
 
-int vfeLinkDriver(cstr8 path)
+int vfeLinkDriver(pcstr path)
 {
 	DriverHub* obj = DriverHub::GetInstance();
 	return obj->Link(path) ? 1 : 0;
 }
 
-void vfeKickDriver(cstr8 id)
+void vfeKickDriver(pcstr id)
 {
 	DriverHub* obj = DriverHub::GetInstance();
 	obj->Kick(id);
@@ -53,32 +53,32 @@ void vfeKickAllDrivers()
 
 //Library
 
-object vfeLoadLibrary(cstr8 path)
+object vfeLoadLibrary(pcstr path)
 {
 	return Library::Load(path);
 }
 
-object vfeLoadLibraryW(cstr16 path)
+object vfeLoadLibraryW(pcwstr path)
 {
-	cstr8 path8 = str::ToCh8(path);
+	pcstr path8 = str::ToStr(path);
 	object lib = Library::Load(path8);
 	delete path8;
 	return lib;
 }
 
-cstr8 vfeGetRuntime(object lib)
+pcstr vfeGetRuntime(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetDriver()->GetRuntimeId();
 }
 
-cstr8 vfeGetLibraryId(object lib)
+pcstr vfeGetLibraryId(object lib)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetLibraryId();
 }
 
-cstr8 vfeGetEntrySym(object lib, cstr8 id)
+pcstr vfeGetEntrySym(object lib, pcstr id)
 {
 	Library* obj = (Library*)lib;
 	return obj->GetFunction(id)->GetEntrySym();
@@ -99,7 +99,7 @@ void vfeUnmountLibrary(object lib)
 
 //Invoker
 
-object vfeCreateInvoker(object lib, cstr8 id)
+object vfeCreateInvoker(object lib, pcstr id)
 {
 	Library* obj = (Library*)lib;
 	return obj->CreateInvoker(id);
@@ -150,7 +150,7 @@ object vfeGetCurrentStack()
 	return stack;
 }
 
-cstr8 vfeGetFunctionId(object stk)
+pcstr vfeGetFunctionId(object stk)
 {
 	Stack* obj = (Stack*)stk;
 	return obj->GetFunctionId();
@@ -233,14 +233,14 @@ void vfeSwitchBusy(object ctx)
 
 //Envelope
 
-object vfeParseEnvelope(cstr8 xml)
+object vfeParseEnvelope(pcstr xml)
 {
 	return Envelope::Parse(xml);
 }
 
-object vfeParseEnvelopeW(cstr16 xml)
+object vfeParseEnvelopeW(pcwstr xml)
 {
-	cstr8 s8 = str::ToCh8(xml, _vf_msg_cp);
+	pcstr s8 = str::ToStr(xml, _vf_msg_cp);
 	object env = Envelope::Parse(s8);
 	delete s8;
 	return env;
@@ -258,31 +258,31 @@ object vfeCopyEnvelope(object env)
 	return obj->Copy();
 }
 
-void vfeWriteEnvelopeValue(object env, int id, cstr8 value)
+void vfeWriteEnvelopeValue(object env, int id, pcstr value)
 {
 	Envelope* obj = (Envelope*)env;
 	obj->CastWriteValue(id, value);
 }
 
-void vfeWriteEnvelopeValueW(object env, int id, cstr16 value)
+void vfeWriteEnvelopeValueW(object env, int id, pcwstr value)
 {
-	cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
+	pcstr s8 = str::ToStr(value, _vf_msg_cp);
 	Envelope* obj = (Envelope*)env;
 	obj->CastWriteValue(id, s8);
 	delete s8;
 }
 
-cstr8 vfeReadEnvelopeValue(object env, int id)
+pcstr vfeReadEnvelopeValue(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
 	return obj->CastReadValue(id);
 }
 
-cstr16 vfeReadEnvelopeValueW(object env, int id)
+pcwstr vfeReadEnvelopeValueW(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	cstr8 s8 = obj->CastReadValue(id);
-	cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
+	pcstr s8 = obj->CastReadValue(id);
+	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
 	delete s8;
 	return s16;
 }
@@ -338,7 +338,7 @@ int vfePipeHasNewData(object pipe)
 	return obj->HasNewData() ? TRUE : FALSE;
 }
 
-cstr8 vfeListenPipe(object pipe)
+pcstr vfeListenPipe(object pipe)
 {
 	Pipe* obj = (Pipe*)pipe;
 	if(!obj->Listen()) 
@@ -346,7 +346,7 @@ cstr8 vfeListenPipe(object pipe)
 	return obj->GetPipeId();
 }
 
-int vfeConnectPipe(object pipe, cstr8 id)
+int vfeConnectPipe(object pipe, pcstr id)
 {
 	Pipe* obj = (Pipe*)pipe;
 	return (obj->Connect(id) ? TRUE : FALSE);
@@ -358,31 +358,31 @@ void vfeClosePipe(object pipe)
 	obj->Close();
 }
 
-void vfeWritePipe(object pipe, cstr8 value)
+void vfeWritePipe(object pipe, pcstr value)
 {
 	Pipe* obj = (Pipe*)pipe;
 	obj->Write(value);
 }
 
-void vfeWritePipeW(object pipe, cstr16 value)
+void vfeWritePipeW(object pipe, pcwstr value)
 {
 	Pipe* obj = (Pipe*)pipe;
-	cstr8 s8 = str::ToCh8(value, _vf_msg_cp);
+	pcstr s8 = str::ToStr(value, _vf_msg_cp);
 	obj->Write(s8);
 	delete s8;
 }
 
-cstr8 vfeReadPipe(object pipe)
+pcstr vfeReadPipe(object pipe)
 {
 	Pipe* obj = (Pipe*)pipe;
 	return obj->Read();
 }
 
-cstr16 vfeReadPipeW(object pipe)
+pcwstr vfeReadPipeW(object pipe)
 {
 	Pipe* obj =(Pipe*)pipe;
-	cstr8 s8 = obj->Read();
-	cstr16 s16 = str::ToCh16(s8, _vf_msg_cp);
+	pcstr s8 = obj->Read();
+	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
 	delete s8;
 	return s16;
 }
