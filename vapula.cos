@@ -5,6 +5,9 @@
     <dst>~</dst>
   </context>
   <commands>
+    <command type="0">
+      <dir>Publish</dir>
+    </command>
     <command type="1">
       <src>LICENSE</src>
       <dst>Publish\LICENSE</dst>

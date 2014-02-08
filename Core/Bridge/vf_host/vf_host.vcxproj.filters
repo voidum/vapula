@@ -1,65 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="worker">
+      <UniqueIdentifier>{2b609a57-ca5a-48cf-88ab-7540cee274e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="worker\header">
+      <UniqueIdentifier>{39a5746e-6500-4c7d-a067-1f2ac4d83f1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="worker\source">
+      <UniqueIdentifier>{e2c092d7-4f8a-45fa-9070-d722e45f4e12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\worker">
-      <UniqueIdentifier>{3d1a653b-4a69-441e-b6d0-514fedfc33d9}</UniqueIdentifier>
+    <Filter Include=".base">
+      <UniqueIdentifier>{991aaf33-794b-4382-8930-a7447fd71f8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\worker">
-      <UniqueIdentifier>{382ddada-44c9-40f4-8e57-659579bdcff1}</UniqueIdentifier>
+    <Filter Include=".base\header">
+      <UniqueIdentifier>{acfb1c00-a142-4352-87d0-7f062bbb5e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".base\source">
+      <UniqueIdentifier>{df556f55-c693-41a1-a0f2-c4db9dd20a86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".res">
+      <UniqueIdentifier>{c1ca27ac-c1d0-43d7-a984-c272538aa4c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\worker_null.h">
-      <Filter>头文件\worker</Filter>
+      <Filter>worker\header</Filter>
     </ClInclude>
     <ClInclude Include="include\worker_pipe.h">
-      <Filter>头文件\worker</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_task.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_host.h">
-      <Filter>头文件</Filter>
+      <Filter>worker\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_worker.h">
-      <Filter>头文件</Filter>
+      <Filter>worker\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_host.h">
+      <Filter>.base\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_task.h">
+      <Filter>.base\header</Filter>
     </ClInclude>
     <ClInclude Include="res\resource.h">
-      <Filter>头文件</Filter>
+      <Filter>.res</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\worker_null.cpp">
-      <Filter>源文件\worker</Filter>
+      <Filter>worker\source</Filter>
     </ClCompile>
     <ClCompile Include="src\worker_pipe.cpp">
-      <Filter>源文件\worker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_task.cpp">
-      <Filter>源文件</Filter>
+      <Filter>worker\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_worker.cpp">
-      <Filter>源文件</Filter>
+      <Filter>worker\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>.base\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_task.cpp">
+      <Filter>.base\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_host.rc">
-      <Filter>资源文件</Filter>
+      <Filter>.res</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

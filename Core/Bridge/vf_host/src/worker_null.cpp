@@ -7,16 +7,16 @@
 
 using namespace vapula;
 
-Worker_NULL::Worker_NULL() { }
+Worker_Null::Worker_Null() { }
 
-Worker_NULL::~Worker_NULL() { }
+Worker_Null::~Worker_Null() { }
 
-bool Worker_NULL::RunStageA()
+bool Worker_Null::RunStageA()
 {
 	return true;
 }
 
-bool Worker_NULL::RunStageB()
+bool Worker_Null::RunStageB()
 {
 	Setting* setting = Setting::GetInstance();
 	int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
@@ -30,7 +30,7 @@ bool Worker_NULL::RunStageB()
 	return true;
 }
 
-bool Worker_NULL::RunStageC()
+bool Worker_Null::RunStageC()
 {
 	return true;
 }

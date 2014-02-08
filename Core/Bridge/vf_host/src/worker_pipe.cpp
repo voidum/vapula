@@ -9,17 +9,17 @@
 
 using std::ostringstream;
 
-Worker_PIPE::Worker_PIPE()
+Worker_Pipe::Worker_Pipe()
 {
 	_Pipe = new Pipe();
 }
 
-Worker_PIPE::~Worker_PIPE()
+Worker_Pipe::~Worker_Pipe()
 {
 	Clear(_Pipe);
 }
 
-bool Worker_PIPE::RunStageA()
+bool Worker_Pipe::RunStageA()
 {
 	Task* task = dynamic_cast<Task*>(_Task);
 	XML* xml_cfg = XML::Parse(task->GetCtrlSetting());
@@ -32,7 +32,7 @@ bool Worker_PIPE::RunStageA()
 	return true;
 }
 
-bool Worker_PIPE::RunStageB()
+bool Worker_Pipe::RunStageB()
 {
 	Setting* setting = Setting::GetInstance();
 	Task* task = dynamic_cast<Task*>(_Task);
@@ -72,7 +72,7 @@ bool Worker_PIPE::RunStageB()
 	return true;
 }
 
-bool Worker_PIPE::RunStageC()
+bool Worker_Pipe::RunStageC()
 {
 	Task* task = dynamic_cast<Task*>(_Task);
 	Invoker* inv = task->GetInvoker();

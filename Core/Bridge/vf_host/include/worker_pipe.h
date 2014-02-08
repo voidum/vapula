@@ -6,11 +6,11 @@
 using vapula::Pipe;
 using vapula::Worker;
 
-class Worker_PIPE : public Worker
+class Worker_Pipe : public Worker
 {
 public:
-	Worker_PIPE();
-	~Worker_PIPE();
+	Worker_Pipe();
+	~Worker_Pipe();
 private:
 	Pipe* _Pipe;
 public:

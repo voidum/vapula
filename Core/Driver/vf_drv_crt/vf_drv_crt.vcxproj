@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D0F7A8D0-7402-4848-B1C6-29DD21E843D9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tcm_drv_win32</RootNamespace>
+    <RootNamespace>vf_drv_crt</RootNamespace>
     <ProjectName>vf_drv_crt</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

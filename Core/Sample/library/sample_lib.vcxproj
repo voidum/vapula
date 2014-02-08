@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4E8858FE-E497-4CB4-ADFF-49B04D3D84C0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tcm_bridge_com_test</RootNamespace>
+    <RootNamespace>sample_lib</RootNamespace>
     <ProjectName>sample_lib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

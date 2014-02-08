@@ -19,10 +19,6 @@
     <Filter Include="library\source">
       <UniqueIdentifier>{e65d3346-5c3c-40d4-aa81-baa811d694df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="res">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include=".base">
       <UniqueIdentifier>{62319621-c5ab-4c65-bbad-cb7250a14b17}</UniqueIdentifier>
     </Filter>
@@ -49,6 +45,10 @@
     </Filter>
     <Filter Include=".sdk\source">
       <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -182,13 +182,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\vf_bridge.rc">
-      <Filter>res</Filter>
-    </ResourceCompile>
+    <None Include="ReleaseNotes.txt">
+      <Filter>.res</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReleaseNotes.txt">
-      <Filter>res</Filter>
-    </None>
+    <ResourceCompile Include="res\vf_bridge.rc">
+      <Filter>.res</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9730E928-8EBF-4F69-9A7C-297A086AE4A2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tcm_host</RootNamespace>
+    <RootNamespace>vf_host</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

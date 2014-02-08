@@ -4,11 +4,11 @@
 
 using vapula::Worker;
 
-class Worker_NULL : public Worker
+class Worker_Null : public Worker
 {
 public:
-	Worker_NULL();
-	~Worker_NULL();
+	Worker_Null();
+	~Worker_Null();
 public:
 	bool RunStageA();
 	bool RunStageB();
