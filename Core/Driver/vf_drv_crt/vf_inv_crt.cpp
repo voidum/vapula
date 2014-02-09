@@ -4,23 +4,32 @@
 
 InvokerCRT::InvokerCRT()
 {
-	_Action = null;
+	_EntryProcess = null;
+	_EntryRollback = null;
 }
 
 InvokerCRT::~InvokerCRT()
 {
 }
 
-bool InvokerCRT::Initialize(Function* func)
+bool InvokerCRT::Bind(Function* func)
 {
-	Invoker::Initialize(func);
+	Invoker::Bind(func);
 	Library* lib = func->GetLibrary();
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
-	_Action = (Action)lib_crt->GetEntry(func->GetEntrySym());
+	_EntryProcess = (Action)lib_crt->GetEntry(func->GetProcessSym());
+	_EntryRollback = (Action)lib_crt->GetEntry(func->GetRollbackSym());
 	return true;
 }
 
-void InvokerCRT::_Entry()
+void InvokerCRT::OnProcess()
 {
-	_Action();
+	if(_EntryProcess != null)
+		_EntryProcess();
+}
+
+void InvokerCRT::OnRollback()
+{
+	if(_EntryRollback != null)
+		_EntryRollback();
 }

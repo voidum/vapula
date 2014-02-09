@@ -30,9 +30,6 @@
     <ClInclude Include="include\worker_pipe.h">
       <Filter>worker\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_worker.h">
-      <Filter>worker\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_host.h">
       <Filter>.base\header</Filter>
     </ClInclude>
@@ -42,6 +39,9 @@
     <ClInclude Include="res\resource.h">
       <Filter>.res</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_worker.h">
+      <Filter>.base\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\worker_null.cpp">
@@ -50,13 +50,13 @@
     <ClCompile Include="src\worker_pipe.cpp">
       <Filter>worker\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_worker.cpp">
-      <Filter>worker\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>.base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_task.cpp">
+      <Filter>.base\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_worker.cpp">
       <Filter>.base\source</Filter>
     </ClCompile>
   </ItemGroup>

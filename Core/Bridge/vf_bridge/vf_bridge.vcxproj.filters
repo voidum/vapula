@@ -94,9 +94,6 @@
     <ClInclude Include="include\vf_stack.h">
       <Filter>.core\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_driver_dpt.h">
-      <Filter>.core\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_invoker.h">
       <Filter>.core\header</Filter>
     </ClInclude>
@@ -160,9 +157,6 @@
       <Filter>.core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_driver.cpp">
-      <Filter>.core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_driver_dpt.cpp">
       <Filter>.core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_envelope.cpp">

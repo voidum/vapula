@@ -9,6 +9,7 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 	VAPULA_API void vfeDeleteObject(object ptr);
+	VAPULA_API void vfeThrowException(pcstr what);
 
 	//Driver
 	VAPULA_API int vfeGetDriverCount();
@@ -22,7 +23,8 @@ extern "C"
 	VAPULA_API object vfeLoadLibraryW(pcwstr path);
 	VAPULA_API pcstr vfeGetRuntime(object lib);
 	VAPULA_API pcstr vfeGetLibraryId(object lib);
-	VAPULA_API pcstr vfeGetEntrySym(object lib, pcstr id);
+	VAPULA_API pcstr vfeGetProcessSym(object lib, pcstr id);
+	VAPULA_API pcstr vfeGetRollbackSym(object lib, pcstr id);
 	VAPULA_API int vfeMountLibrary(object lib);
 	VAPULA_API void vfeUnmountLibrary(object lib);
 
@@ -32,7 +34,7 @@ extern "C"
 	VAPULA_API void vfeStopInvoker(object inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(object inv, uint32 wait);
 	VAPULA_API void vfeResumeInvoker(object inv);
-	VAPULA_API void vfeRestartInvoker(object inv, uint32 wait);
+	VAPULA_API int vfeRestartInvoker(object inv, uint32 wait);
 
 	//Stack
 	VAPULA_API object vfeGetStack(object inv);

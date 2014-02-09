@@ -93,7 +93,12 @@ namespace vapula
 	{
 		Invoker* inv = _Driver->CreateInvoker();
 		Function* func = GetFunction(id);
-		inv->Initialize(func);
-		return inv;
+		if(inv->Bind(func))
+			return inv;
+		else
+		{
+			delete inv;
+			return null;
+		}
 	}
 }

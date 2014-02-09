@@ -8,6 +8,8 @@
 
 namespace vapula
 {
+	using std::exception;
+
 	Invoker::Invoker()
 	{
 		_Thread = null;
@@ -22,29 +24,39 @@ namespace vapula
 		Clear(_Stack);
 	}
 
-	Stack* Invoker::GetStack()
-	{
-		return _Stack;
-	}
-
-	uint32 WINAPI Invoker::Entry()
-	{
-		_Stack->SetStackId(GetCurrentThreadId());
-		StackHub* stack_hub = StackHub::GetInstance();
-		stack_hub->Link(_Stack);
-		_Entry();
-		stack_hub->Kick(_Stack);
-		_Stack->GetContext()->SetState(VF_STATE_IDLE);
-		return 0;
-	}
-
-	bool Invoker::Initialize(Function* func)
+	bool Invoker::Bind(Function* func)
 	{
 		_Stack = new Stack();
 		_Stack->SetFunctionId(func->GetFunctionId());
 		_Stack->SetEnvelope(func->GetEnvelope()->Copy());
 		_Stack->SetContext(new Context());
 		return true;
+	}
+
+	uint32 WINAPI Invoker::Entry()
+	{
+		_Stack->SetStackId(GetCurrentThreadId());
+		Context* ctx = _Stack->GetContext();
+
+		StackHub* stack_hub = StackHub::GetInstance();
+		stack_hub->Link(_Stack);
+		try {
+			ctx->SetState(VF_STATE_BUSY_BACK);
+			OnProcess();
+		} catch (exception&) {
+			ctx->SetState(VF_STATE_ROLLBACK);
+			OnRollback();
+		}
+		stack_hub->Kick(_Stack);
+
+		ctx->SetState(VF_STATE_IDLE);
+		return null;
+	}
+
+
+	Stack* Invoker::GetStack()
+	{
+		return _Stack;
 	}
 
 	bool Invoker::Start()
@@ -60,7 +72,6 @@ namespace vapula
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
-		ctx->SetState(VF_STATE_BUSY_BACK);
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
 
@@ -86,10 +97,8 @@ namespace vapula
 			TerminateThread(_Thread, 1);
 			WaitForSingleObject(_Thread, INFINITE);
 			ctx->SetReturnCode(VF_RETURN_TERMINATE);
+			ctx->SetState(VF_STATE_IDLE);
 		}
-		ctx->SetCtrlCode(VF_CTRL_NULL);
-		ctx->SetState(VF_STATE_IDLE);
-		
 		CloseHandle(_Thread);
 		_Thread = null;
 	}
@@ -133,8 +142,9 @@ namespace vapula
 		}
 	}
 
-	void Invoker::Restart(uint32 wait)
+	bool Invoker::Restart(uint32 wait)
 	{
-		//TODO: support ctrl code restart
+		Stop(wait);
+		return Start();
 	}
 }

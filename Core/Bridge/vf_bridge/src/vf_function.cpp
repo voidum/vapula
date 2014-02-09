@@ -2,7 +2,6 @@
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_envelope.h"
-#include "vf_invoker.h"
 #include "vf_xml.h"
 
 namespace vapula
@@ -10,14 +9,16 @@ namespace vapula
 	Function::Function()
 	{
 		_Id = null;
-		_EntrySym = null;
+		_ProcessSym = null;
+		_RollbackSym = null;
 		_Envelope = null;
 	}
 
 	Function::~Function()
 	{
 		Clear(_Id);
-		Clear(_EntrySym);
+		Clear(_ProcessSym);
+		Clear(_RollbackSym);
 		Clear(_Envelope);
 	}
 
@@ -25,20 +26,26 @@ namespace vapula
 	{
 		XML* xobj = XML::Parse(xml);
 		Handle autop_xml(xobj);
-		if(xml == null)
+		if(xobj == null)
 			return null;
+
 		object xdoc = xobj->GetEntity();
 		object xe = XML::XElem(xdoc, "function");
 		object xe_id = XML::XElem(xe, "id");
-		object xe_entry = XML::XElem(xe, "entry");
+		object xe_symbols = XML::XElem(xe, "symbols");
+		object xe_sym_process = XML::XElem(xe_symbols, "process");
+		object xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
 		object xe_params = XML::XElem(xe, "params");
 
 		Function* func = new Function();
 		func->_Id = XML::ValStr(xe_id);
-		func->_EntrySym = XML::ValStr(xe_entry);
+		func->_ProcessSym = XML::ValStr(xe_sym_process);
+		func->_RollbackSym = XML::ValStr(xe_sym_rollback);
+
 		pcstr cs8_params = XML::Print(xe_params);
 		func->_Envelope = Envelope::Parse(cs8_params);
 		delete cs8_params;
+
 		return func;
 	}
 
@@ -57,9 +64,14 @@ namespace vapula
 		return _Id;
 	}
 	
-	pcstr Function::GetEntrySym()
+	pcstr Function::GetProcessSym()
 	{
-		return _EntrySym;
+		return _ProcessSym;
+	}
+
+	pcstr Function::GetRollbackSym()
+	{
+		return _RollbackSym;
 	}
 
 	Envelope* Function::GetEnvelope()

@@ -23,6 +23,10 @@ void vfeDeleteObject(object obj)
 	Clear(obj);
 }
 
+void vfeThrowException(pcstr what)
+{
+	ThrowException(what);
+}
 
 //Driver
 
@@ -78,10 +82,16 @@ pcstr vfeGetLibraryId(object lib)
 	return obj->GetLibraryId();
 }
 
-pcstr vfeGetEntrySym(object lib, pcstr id)
+pcstr vfeGetProcessSym(object lib, pcstr id)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetFunction(id)->GetEntrySym();
+	return obj->GetFunction(id)->GetProcessSym();
+}
+
+pcstr vfeGetRollbackSym(object lib, pcstr id)
+{
+	Library* obj = (Library*)lib;
+	return obj->GetFunction(id)->GetRollbackSym();
 }
 
 int vfeMountLibrary(object lib)
@@ -135,10 +145,10 @@ void vfeResumeInvoker(object inv)
 	obj->Resume();
 }
 
-void vfeRestartInvoker(object inv, uint32 wait)
+int vfeRestartInvoker(object inv, uint32 wait)
 {
 	Invoker* obj = (Invoker*)inv;
-	obj->Restart(wait);
+	return obj->Restart(wait) ? TRUE : FALSE;
 }
 
 

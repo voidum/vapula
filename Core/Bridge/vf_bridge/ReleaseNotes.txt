@@ -125,6 +125,10 @@ v2.0.9.2
 =)adjust lock
 *)debug several memory leaks
 
+v2.1.0.0
+*)fix invoker bugs
++)support rollback
+
 vPLAN
 +)support smart pointer with GC?
 +)support rollback when fail?

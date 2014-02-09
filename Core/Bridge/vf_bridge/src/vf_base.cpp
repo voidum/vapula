@@ -2,6 +2,8 @@
 
 namespace vapula
 {
+	using std::exception;
+
 	Lock::Lock()
 	{
 		_Core = (uint64*)_aligned_malloc(1, sizeof(uint64));
@@ -141,5 +143,10 @@ namespace vapula
 	pcstr GetVersion()
 	{
 		return _vf_version;
+	}
+
+	void ThrowException(pcstr what)
+	{
+		throw exception(what);
 	}
 }

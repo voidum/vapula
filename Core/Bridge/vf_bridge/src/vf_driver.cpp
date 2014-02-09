@@ -1,5 +1,4 @@
 #include "vf_driver.h"
-#include "vf_driver_dpt.h"
 
 namespace vapula
 {
@@ -24,41 +23,31 @@ namespace vapula
 		KickAll();
 	}
 
-	DriverDpt* DriverHub::GetDriverDpt(pcstr id)
+	Driver* DriverHub::GetDriver(pcstr id)
 	{
-		typedef vector<DriverDpt*>::iterator iter;
-		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
+		typedef vector<Driver*>::iterator iter;
+		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 		{
-			DriverDpt* dpt = *i;
-			Driver* driver = dpt->_Driver;
-			if(strcmp(driver->GetRuntimeId(), id) == 0)
-				return dpt;
+			Driver* drv = *i;
+			if(strcmp(drv->GetRuntimeId(), id) == 0)
+				return drv;
 		}
 		return null;
 	}
 
-	Driver* DriverHub::GetDriver(pcstr id)
-	{
-		DriverDpt* dpt = GetDriverDpt(id);
-		if(dpt == null)
-			return null;
-		else
-			return dpt->_Driver;
-	}
-
 	int DriverHub::GetCount()
 	{
-		return _DriverDpts.size();
+		return _Drivers.size();
 	}
 
 	bool DriverHub::Link(pcstr id)
 	{
-		DriverDpt* dpt = GetDriverDpt(id);
-		if(dpt != null)
+		Driver* drv = GetDriver(id);
+		if(drv != null)
 			return true;
 
-		pcstr cs8_dir = GetRuntimeDir();
 		ostringstream oss;
+		pcstr cs8_dir = GetRuntimeDir();
 		oss<<cs8_dir<<id<<".driver";
 		pcwstr cs16_path = str::ToStrW(oss.str().c_str());
 		delete cs8_dir;
@@ -76,25 +65,22 @@ namespace vapula
 			return false;
 		}
 
-		Driver* driver = d();
-		dpt = new DriverDpt();
-		dpt->_Driver = driver;
-		dpt->_Handle = module;
-		_DriverDpts.push_back(dpt);
+		drv = d();
+		drv->_Module = module;
+		_Drivers.push_back(drv);
 		return true;
 	}
 
 	void DriverHub::Kick(pcstr id)
 	{
-		typedef vector<DriverDpt*>::iterator iter;
-		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
+		typedef vector<Driver*>::iterator iter;
+		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 		{
-			DriverDpt* dpt = *i;
-			Driver* driver = dpt->_Driver;
-			if(strcmp(driver->GetRuntimeId(), id) == 0)
+			Driver* drv = *i;
+			if(strcmp(drv->GetRuntimeId(), id) == 0)
 			{
-				_DriverDpts.erase(i);
-				Clear(dpt);
+				_Drivers.erase(i);
+				Clear(drv);
 				break;
 			}
 		}
@@ -102,9 +88,9 @@ namespace vapula
 
 	void DriverHub::KickAll()
 	{
-		typedef vector<DriverDpt*>::iterator iter;
-		for(iter i = _DriverDpts.begin(); i != _DriverDpts.end(); i++)
+		typedef vector<Driver*>::iterator iter;
+		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 			Clear(*i);
-		_DriverDpts.clear();
+		_Drivers.clear();
 	}
 }

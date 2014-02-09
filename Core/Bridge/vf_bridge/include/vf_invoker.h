@@ -11,31 +11,33 @@ namespace vapula
 	class VAPULA_API Invoker
 	{
 	protected:
+		bool _IsSuspend;
+		HANDLE _Thread;
+		Stack* _Stack;
+
+	protected:
 		Invoker();
 	public:
 		virtual ~Invoker();
 
-	protected:
-		HANDLE _Thread;
-		bool _IsSuspend;
-		Stack* _Stack;
+	public:
+		//bind invoker with function
+		virtual bool Bind(Function* func);
 
 	protected:
 		//invoke routine
 		uint32 WINAPI Entry();
 
-		//invoke custom core routine
-		virtual void _Entry() = 0;
+		//invoke custom process
+		virtual void OnProcess() = 0;
+
+		//invoke custom rollback
+		virtual void OnRollback() = 0;
 
 	public:
-		//init invoker
-		virtual bool Initialize(Function* func);
-
-	public:
-		//get stack of task by invoker
+		//get stack for invoker
 		Stack* GetStack();
 
-	public:
 		//start
 		bool Start();
 
@@ -49,6 +51,6 @@ namespace vapula
 		void Resume();
 
 		//restart
-		void Restart(uint32 wait = 0);
+		bool Restart(uint32 wait = 0);
 	};
 }

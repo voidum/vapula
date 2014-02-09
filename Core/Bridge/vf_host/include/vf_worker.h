@@ -2,6 +2,14 @@
 
 namespace vapula
 {
+	enum TaskStage
+	{
+		VF_STAGE_PREPARE = 0,
+		VF_STAGE_PROCESS = 1,
+		VF_STAGE_FINISH = 2,
+		VF_STAGE_ROLLBACK = 3
+	};
+
 	class Task;
 
 	//worker {base}
@@ -19,13 +27,16 @@ namespace vapula
 		//get task
 		Task* GetTask();
 	protected:
-		//run stage A
-		virtual bool RunStageA() = 0;
+		//stage: prepare
+		virtual bool OnPrepare() = 0;
 
-		//run stage B
-		virtual bool RunStageB() = 0;
+		//stage: process
+		virtual bool OnProcess() = 0;
 
-		//run stage C
-		virtual bool RunStageC() = 0;
+		//stage: finish
+		virtual bool OnFinish() = 0;
+
+		//stage: rollback
+		virtual bool OnRollback() = 0;
 	};
 }

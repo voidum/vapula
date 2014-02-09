@@ -12,15 +12,19 @@ namespace vapula
 	//spin lock
 	class VAPULA_API Lock : Uncopiable
 	{
+	private:
+		uint64* _Core; //TRUE - Lock , FALSE - Unlock
+
+	private:
+		static Lock* _CtorLock;
+
 	public:
 		Lock();
 		~Lock();
-	private:
-		static Lock* _CtorLock;
+
 	public:
 		static Lock* GetCtorLock();
-	private:
-		uint64* _Core; //TRUE - Lock , FALSE - Unlock
+
 	public:
 		//capture lock
 		void Enter();
@@ -32,12 +36,14 @@ namespace vapula
 	//can be set only once
 	class VAPULA_API Once : Uncopiable
 	{
-	public:
-		Once();
-		~Once();
 	private:
 		object _Data;
 		object _Seal;
+
+	public:
+		Once();
+		~Once();
+
 	public:
 		bool CanSet();
 
@@ -49,12 +55,14 @@ namespace vapula
 	//flag
 	class VAPULA_API Flag : Uncopiable
 	{
-	public:
-		Flag();
-		~Flag();
 	private:
 		Lock* _Lock;
 		int _Value;
+
+	public:
+		Flag();
+		~Flag();
+
 	public:
 		void Enable(int flag);
 		void Disable(int flag);
@@ -69,4 +77,7 @@ namespace vapula
 
 	//get Vapula core version
 	VAPULA_API pcstr GetVersion();
+
+	//throw exception
+	VAPULA_API void ThrowException(pcstr what);
 }

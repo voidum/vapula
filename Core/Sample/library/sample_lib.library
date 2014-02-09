@@ -11,7 +11,10 @@
   <functions>
     <function>
       <id>math</id>
-      <entry>Function_Math</entry>
+      <symbols>
+        <process>Process_Math</process>
+        <rollback />
+      </symbols>
       <params>
         <param id="1">
           <type>3</type>

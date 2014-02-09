@@ -5,7 +5,6 @@
 namespace vapula
 {
 	class Envelope;
-	class Invoker;
 	class Library;
 
 	//function
@@ -25,7 +24,10 @@ namespace vapula
 		pcstr _Id;
 
 		//entry symbol
-		pcstr _EntrySym;
+		pcstr _RollbackSym;
+
+		//process symbol
+		pcstr _ProcessSym;
 
 		//prototype envelope
 		Envelope* _Envelope;
@@ -40,10 +42,13 @@ namespace vapula
 		//get function id
 		pcstr GetFunctionId();
 
-		//get entry symbol
-		pcstr GetEntrySym();
-
 		//get envelope
 		Envelope* GetEnvelope();
+
+		//get process symbol
+		pcstr GetProcessSym();
+
+		//get rollback symbol
+		pcstr GetRollbackSym();
 	};
 }

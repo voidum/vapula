@@ -15,13 +15,16 @@ namespace vapula
 	int Worker::Run(Task* task)
 	{
 		_Task = task;
+
+		bool ret = false;
 		LARGE_INTEGER freq,t1,t2;
 		QueryPerformanceFrequency(&freq);
-		bool ret_stage = false;
-		int i=0;
-		for(i=0; i<3; i++)
-		{
-			QueryPerformanceCounter(&t1);
+
+		QueryPerformanceCounter(&t1);
+		ret = OnPrepare();
+		QueryPerformanceCounter(&t2);
+
+		if(!ret) return VF_HOST_RETURN_FAILEXEC;
 			switch(i)
 			{
 			case 0: ret_stage = RunStageA(); break;

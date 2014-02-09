@@ -6,11 +6,13 @@ namespace vapula
 {
 	class Library;
 	class Invoker;
-	class DriverDpt;
 
 	//driver {base}
 	class VAPULA_API Driver
 	{
+	public:
+		HMODULE _Module;
+
 	public:
 		Driver();
 		virtual ~Driver();
@@ -38,18 +40,20 @@ namespace vapula
 	class VAPULA_API DriverHub
 	{
 	private:
-		DriverHub();
-	public:
-		~DriverHub();
+		vector<Driver*> _Drivers;
+
 	private:
 		static DriverHub* _Instance;
+
 	public:
 		//get instance of DriverHub
 		static DriverHub* GetInstance();
+
 	private:
-		vector<DriverDpt*> _DriverDpts;
-	private:
-		DriverDpt* GetDriverDpt(pcstr id);
+		DriverHub();
+	public:
+		~DriverHub();
+
 	public:
 		//link driver by id
 		bool Link(pcstr id);
@@ -59,6 +63,7 @@ namespace vapula
 
 		//kick out all drivers
 		void KickAll();
+
 	public:
 		//get driver by id
 		Driver* GetDriver(pcstr id);

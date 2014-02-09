@@ -6,14 +6,18 @@ typedef void (*Action)();
 
 class InvokerCRT : public Invoker
 {
+private:
+	Action _EntryProcess;
+	Action _EntryRollback;
+
 public:
 	InvokerCRT();
 	~InvokerCRT();
-private:
-	Action _Action;
 
 protected:
-	void _Entry();
+	void OnProcess();
+	void OnRollback();
+
 public:
-	bool Initialize(Function* func);
+	bool Bind(Function* func);
 };
