@@ -5,6 +5,7 @@
 [Oo]bj/
 [Pp]ublish/
 3rdparty/
+node_modules/
 
 ## SVN
 .svn/
