@@ -8,19 +8,21 @@ using namespace vapula;
 
 extern "C" 
 {
-	EXPORT void Function_Math();
-	EXPORT void Function_Out();
-	EXPORT void Function_TestArray();
-	EXPORT void Function_TestObject();
-	EXPORT void Function_TestContext();
+	EXPORT void Process_Math();
+	EXPORT void Process_Out();
+	EXPORT void Process_Array();
+	EXPORT void Process_Object();
+	EXPORT void Process_Context();
+	EXPORT void Process_Context2();
+	EXPORT void Rollback_Context2();
 }
 
-class TestClassA
+class ClassA
 {
 public:
 	int MemberA;
 	float MemberB;
 public:
-	void Inc(){MemberA += 50;MemberB += 20;}
-	void Dec(){MemberA -= 50;MemberB -= 20;}
+	void Inc() { MemberA += 50; MemberB += 20; }
+	void Dec() { MemberA -= 50; MemberB -= 20; }
 };

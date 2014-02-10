@@ -9,6 +9,20 @@
 
 namespace vapula
 {
+	//basic error
+	class VAPULA_API Error
+	{
+	private:
+		int _What;
+	
+	public:
+		Error(int what);
+		~Error();
+
+	public:
+		int What();
+	};
+
 	//spin lock
 	class VAPULA_API Lock : Uncopiable
 	{
@@ -78,6 +92,6 @@ namespace vapula
 	//get Vapula core version
 	VAPULA_API pcstr GetVersion();
 
-	//throw exception
-	VAPULA_API void ThrowException(pcstr what);
+	//throw error
+	VAPULA_API void ThrowError(int what);
 }

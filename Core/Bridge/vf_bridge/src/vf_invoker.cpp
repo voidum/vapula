@@ -8,18 +8,16 @@
 
 namespace vapula
 {
-	using std::exception;
-
 	Invoker::Invoker()
 	{
-		_Thread = null;
 		_Stack = null;
+		_Thread = null;
 		_IsSuspend = false;
 	}
 
 	Invoker::~Invoker()
 	{
-		if(_Thread != null) 
+		if(_Thread != null)
 			CloseHandle(_Thread);
 		Clear(_Stack);
 	}
@@ -27,27 +25,28 @@ namespace vapula
 	bool Invoker::Bind(Function* func)
 	{
 		_Stack = new Stack();
-		_Stack->SetFunctionId(func->GetFunctionId());
+		_Stack->SetFunctionId(str::Copy(func->GetFunctionId()));
 		_Stack->SetEnvelope(func->GetEnvelope()->Copy());
 		_Stack->SetContext(new Context());
 		return true;
 	}
 
-	uint32 WINAPI Invoker::Entry()
+	uint32 WINAPI Invoker::Entry(object sender)
 	{
-		_Stack->SetStackId(GetCurrentThreadId());
-		Context* ctx = _Stack->GetContext();
+		Invoker* inv = (Invoker*)sender;
+		Stack* stack = inv->GetStack();
+		stack->SetStackId(GetCurrentThreadId());
+		Context* ctx = stack->GetContext();
 
 		StackHub* stack_hub = StackHub::GetInstance();
-		stack_hub->Link(_Stack);
+		stack_hub->Link(stack);
 		try {
-			ctx->SetState(VF_STATE_BUSY_BACK);
-			OnProcess();
-		} catch (exception&) {
+			inv->OnProcess();
+		} catch (Error*) {
 			ctx->SetState(VF_STATE_ROLLBACK);
-			OnRollback();
+			inv->OnRollback();
 		}
-		stack_hub->Kick(_Stack);
+		stack_hub->Kick(stack);
 
 		ctx->SetState(VF_STATE_IDLE);
 		return null;
@@ -61,21 +60,15 @@ namespace vapula
 
 	bool Invoker::Start()
 	{
-		union 
-		{
-			uint32 (WINAPI *thread)(PVOID);
-			uint32 (WINAPI Invoker::*member)();
-		} func_addr;
-		func_addr.member = &Invoker::Entry;
-
 		if(_Thread != null)
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
 		ctx->SetCtrlCode(VF_CTRL_NULL);
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
+		ctx->SetState(VF_STATE_BUSY_BACK);
 
-		_Thread = (HANDLE)_beginthreadex(null, 0, func_addr.thread, this, 0, null);
+		_Thread = (HANDLE)_beginthreadex(null, 0, Entry, this, 0, null);
 		if(_Thread <= 0)
 			return false;
 		return true;

@@ -129,6 +129,10 @@ v2.1.0.0
 *)fix invoker bugs
 +)support rollback
 
+v2.1.0.1
+*)fix invoker bugs
++)support error
+
 vPLAN
 +)support smart pointer with GC?
 +)support rollback when fail?

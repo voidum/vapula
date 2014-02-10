@@ -9,7 +9,7 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 	VAPULA_API void vfeDeleteObject(object ptr);
-	VAPULA_API void vfeThrowException(pcstr what);
+	VAPULA_API void vfeThrowError(int what);
 
 	//Driver
 	VAPULA_API int vfeGetDriverCount();

@@ -19,6 +19,7 @@ namespace vapula
 		pcstr _FunctionId;
 		Context* _Context;
 		Envelope* _Envelope;
+		Error* _Error;
 
 	public:
 		static Stack* GetInstance();
@@ -36,6 +37,9 @@ namespace vapula
 		//set envelope
 		void SetEnvelope(Envelope* env);
 
+		//set error
+		void SetError(Error* err);
+
 	public:
 		//get stack id
 		uint32 GetStackId();
@@ -48,6 +52,9 @@ namespace vapula
 
 		//get envelope
 		Envelope* GetEnvelope();
+
+		//get error
+		Error* GetError();
 	};
 
 	//stack hub

@@ -48,7 +48,10 @@
     </function>
     <function>
       <id>output</id>
-      <entry>Function_Out</entry>
+      <symbols>
+        <process>Process_Out</process>
+        <rollback />
+      </symbols>
       <params>
         <param id="1">
           <type>21</type>
@@ -66,7 +69,10 @@
     </function>
     <function>
       <id>array</id>
-      <entry>Function_TestArray</entry>
+      <symbols>
+        <process>Process_Array</process>
+        <rollback />
+      </symbols>
       <params />
       <tags>
         <tag key="name">数组操作</tag>
@@ -75,7 +81,10 @@
     </function>
     <function>
       <id>object</id>
-      <entry>Function_TestObject</entry>
+      <symbols>
+        <process>Process_Object</process>
+        <rollback />
+      </symbols>
       <params />
       <tags>
         <tag key="name">对象操作</tag>
@@ -84,11 +93,26 @@
     </function>
     <function>
       <id>context</id>
-      <entry>Function_TestContext</entry>
+      <symbols>
+        <process>Process_Context</process>
+        <rollback />
+      </symbols>
       <params />
       <tags>
         <tag key="name">上下文示例</tag>
         <tag key="description">示例上下文控制</tag>
+      </tags>
+    </function>
+    <function>
+      <id>context2</id>
+      <symbols>
+        <process>Process_Context2</process>
+        <rollback>Rollback_Context2</rollback>
+      </symbols>
+      <params />
+      <tags>
+        <tag key="name">上下文示例2</tag>
+        <tag key="description">示例上下文控制2</tag>
       </tags>
     </function>
   </functions>

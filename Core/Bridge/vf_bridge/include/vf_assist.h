@@ -20,8 +20,6 @@ namespace vapula
 	template<typename T>
 	void Clear(T& target, bool isarr = false)
 	{
-		typedef char need_complete_type[sizeof(T) ? 1 : -1];
-		(void) sizeof(need_complete_type);
 		if(target == null)
 			return;
 		if(isarr)

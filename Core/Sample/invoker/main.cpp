@@ -114,13 +114,24 @@ void Test3(Library* lib)
 	Clear(inv);
 }
 
-void Test4()
+void Test4(Library* lib)
 {
-	vector<int*> vec;
-	int* d = new int[100];
-	vec.push_back(d);
-	vec.clear();
-	Handle autop(d);
+	cout<<"[get invoker] ... ";
+	Invoker* inv = lib->CreateInvoker("context2");
+	Assert(inv != NULL);
+	Stack* stack = inv->GetStack();
+
+	Context* ctx = stack->GetContext();
+	Envelope* env = stack->GetEnvelope();
+
+	cout<<"[invoke function context2] ... ";
+	Assert(inv->Start());
+	while(ctx->GetCurrentState() != VF_STATE_IDLE)
+	{
+		cout<<ctx->GetProgress()<<endl;
+		Sleep(50);
+	}
+	Clear(inv);
 }
 
 int main()
@@ -145,8 +156,9 @@ int main()
 	Assert(lib->Mount());
 
 	//Test1(lib);
-	Test2(lib);
-	Test3(lib);
+	//Test2(lib);
+	//Test3(lib);
+	Test4(lib);
 
 	cout<<"[unmount component]"<<endl;
 	lib->Unmount();

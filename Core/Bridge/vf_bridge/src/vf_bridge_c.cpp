@@ -23,9 +23,9 @@ void vfeDeleteObject(object obj)
 	Clear(obj);
 }
 
-void vfeThrowException(pcstr what)
+void vfeThrowError(int what)
 {
-	ThrowException(what);
+	ThrowError(what);
 }
 
 //Driver

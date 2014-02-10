@@ -1,8 +1,19 @@
 #include "vf_base.h"
+#include "vf_stack.h"
 
 namespace vapula
 {
-	using std::exception;
+	Error::Error(int what)
+	{
+		_What = what;
+	}
+
+	Error::~Error() { }
+
+	int Error::What()
+	{
+		return _What;
+	}
 
 	Lock::Lock()
 	{
@@ -145,8 +156,16 @@ namespace vapula
 		return _vf_version;
 	}
 
-	void ThrowException(pcstr what)
+	void ThrowError(int what)
 	{
-		throw exception(what);
+		Error* err = new Error(what);
+		Stack* stack = Stack::GetInstance();
+		if(stack != null)
+		{
+			Error* old_err = stack->GetError();
+			Clear(old_err);
+			stack->SetError(err);
+		}
+		throw err;
 	}
 }

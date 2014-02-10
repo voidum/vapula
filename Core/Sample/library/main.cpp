@@ -2,7 +2,7 @@
 #include <iostream>
 
 //1st
-void Function_Math()
+void Process_Math()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -23,7 +23,7 @@ void Function_Math()
 }
 
 //2nd
-void Function_Out()
+void Process_Out()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -37,7 +37,7 @@ void Function_Out()
 }
 
 //3rd
-void Function_TestArray()
+void Process_Array()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
@@ -57,26 +57,26 @@ void Function_TestArray()
 }
 
 //4th
-void Function_TestObject()
+void Process_Object()
 {
 	Stack* stack = Stack::GetInstance();
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
-	TestClassA* obj = (TestClassA*)env->ReadObject(1);
+	ClassA* obj = (ClassA*)env->ReadObject(1);
 	bool ifinc = env->ReadValue<bool>(2);
 
 	if(ifinc) obj->Inc();
 	else obj->Dec();
 
-	env->WriteObject(3, obj, sizeof(TestClassA));
+	env->WriteObject(3, obj, sizeof(ClassA));
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //5th
-void Function_TestContext()
+void Process_Context()
 {
 	Stack* stack = Stack::GetInstance();
 	Context* ctx = stack->GetContext();
@@ -101,13 +101,42 @@ void Function_TestContext()
 					ctx->SwitchHold();
 					break;
 				}
-				Sleep(25);
+				Sleep(20);
 			}
 		}
 		ctx->SetProgress(i / 10.0f);
-		Sleep(25);
+		Sleep(20);
 	}
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
+}
+
+//6th
+void Process_Context2()
+{
+	Stack* stack = Stack::GetInstance();
+	Context* ctx = stack->GetContext();
+
+	int custom_error = 1001;
+	for(int i=0; i<1000; i++)
+	{
+		if(i == 500)
+			ThrowError(1001);
+		ctx->SetProgress(i / 10.0f);
+		Sleep(20);
+	}
+}
+
+//6th rollback
+void Rollback_Context2()
+{
+	Stack* stack = Stack::GetInstance();
+	Context* ctx = stack->GetContext();
+	float prog = ctx->GetProgress();
+	for(int i=prog; i>0; i--)
+	{
+		ctx->SetProgress(i);
+		Sleep(20);
+	}
 }
