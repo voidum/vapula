@@ -22,13 +22,13 @@ pcstr InvokerCLR::GetHandle()
 	return _Handle;
 }
 
-bool InvokerCLR::Initialize(Function* func)
+bool InvokerCLR::Bind(Method* mt)
 {
-	Invoker::Initialize(func);
+	Invoker::Bind(mt);
 	DriverCLR* drv = DriverCLR::GetInstance();
 	string arg = GetHandle();
 	arg += "|";
-	Library* lib = func->GetLibrary();
+	Library* lib = mt->GetLibrary();
 	LibraryCLR* lib_clr = dynamic_cast<LibraryCLR*>(lib);
 	arg += lib_clr->GetHandle();
 	pcwstr cs16 = str::ToStrW(arg.c_str());
@@ -37,10 +37,18 @@ bool InvokerCLR::Initialize(Function* func)
 	return true;
 }
 
-void InvokerCLR::_Entry()
+void InvokerCLR::OnProcess()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
 	pcwstr cs16 = str::ToStrW(GetHandle());
-	drv->CallBridge(L"CallEntry", cs16);
+	drv->CallBridge(L"CallProcess", cs16);
+	delete cs16;
+}
+
+void InvokerCLR::OnRollback()
+{
+	DriverCLR* drv = DriverCLR::GetInstance();
+	pcwstr cs16 = str::ToStrW(GetHandle());
+	drv->CallBridge(L"CallRollback", cs16);
 	delete cs16;
 }

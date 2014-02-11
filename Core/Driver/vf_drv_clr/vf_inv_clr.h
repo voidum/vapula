@@ -4,16 +4,18 @@
 
 class InvokerCLR : public Invoker
 {
+private:
+	pcstr _Handle;
+
 public:
 	InvokerCLR();
 	~InvokerCLR();
-private:
-	pcstr _Handle;
-public:
-	pcstr GetHandle();
 
 protected:
-	void _Entry();
+	void OnProcess();
+	void OnRollback();
+
 public:
-	bool Initialize(Function* func);
+	pcstr GetHandle();
+	bool Bind(Method* mt);
 };

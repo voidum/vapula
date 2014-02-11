@@ -7,20 +7,20 @@ namespace vapula
 	class Envelope;
 	class Library;
 
-	//function
-	class VAPULA_API Function
+	//method
+	class VAPULA_API Method
 	{
 	protected:
-		Function();
+		Method();
 	public:
-		static Function* Parse(pcstr xml);
+		static Method* Parse(pcstr xml);
 	public:
-		virtual ~Function();
+		virtual ~Method();
 
 	protected:
 		Library* _Library;
 
-		//function id
+		//method id
 		pcstr _Id;
 
 		//entry symbol
@@ -39,8 +39,8 @@ namespace vapula
 		//set library
 		void SetLibrary(Library* lib);
 
-		//get function id
-		pcstr GetFunctionId();
+		//get method id
+		pcstr GetMethodId();
 
 		//get envelope
 		Envelope* GetEnvelope();

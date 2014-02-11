@@ -35,13 +35,20 @@ namespace vapula
 	protected:
 		object _Ptr;
 		bool _IsArr;
+
 	public:
 		explicit Handle(object ptr, bool isarr = false);
 		~Handle();
+
 	public:
 		object Get();
+		
 		bool IsNull();
-	public:
+
+		void Ref(object ptr, bool isarr = false);
+
+		void DeRef();
+
 		template<typename T>
 		T& Index(uint32 i) const
 		{

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "vf_utility.h"
+#include "vf_base.h"
 
 namespace vapula
 {
 	class Stack;
-	class Function;
+	class Method;
 
 	//invoker
 	class VAPULA_API Invoker
@@ -21,8 +21,8 @@ namespace vapula
 		virtual ~Invoker();
 
 	public:
-		//bind invoker with function
-		virtual bool Bind(Function* func);
+		//bind invoker with method
+		virtual bool Bind(Method* mt);
 
 	protected:
 		//invoke routine

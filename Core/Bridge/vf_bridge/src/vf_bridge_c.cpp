@@ -1,7 +1,7 @@
 #include "vf_bridge_c.h"
 #include "vf_driver.h"
 #include "vf_library.h"
-#include "vf_function.h"
+#include "vf_method.h"
 #include "vf_invoker.h"
 #include "vf_stack.h"
 #include "vf_context.h"
@@ -85,13 +85,13 @@ pcstr vfeGetLibraryId(object lib)
 pcstr vfeGetProcessSym(object lib, pcstr id)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetFunction(id)->GetProcessSym();
+	return obj->GetMethod(id)->GetProcessSym();
 }
 
 pcstr vfeGetRollbackSym(object lib, pcstr id)
 {
 	Library* obj = (Library*)lib;
-	return obj->GetFunction(id)->GetRollbackSym();
+	return obj->GetMethod(id)->GetRollbackSym();
 }
 
 int vfeMountLibrary(object lib)
@@ -160,10 +160,10 @@ object vfeGetCurrentStack()
 	return stack;
 }
 
-pcstr vfeGetFunctionId(object stk)
+pcstr vfeGetMethodId(object stk)
 {
 	Stack* obj = (Stack*)stk;
-	return obj->GetFunctionId();
+	return obj->GetMethodId();
 }
 
 object vfeGetContext(object stk)

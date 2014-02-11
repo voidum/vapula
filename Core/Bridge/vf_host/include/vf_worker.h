@@ -2,30 +2,52 @@
 
 namespace vapula
 {
-	enum TaskStage
+	#define STAGE_MAX 4
+
+	enum WorkerReturnCode
 	{
-		VF_STAGE_PREPARE = 0,
-		VF_STAGE_PROCESS = 1,
-		VF_STAGE_FINISH = 2,
-		VF_STAGE_ROLLBACK = 3
+		VFH_WORKER_NORMAL = 0,
+		VFH_WORKER_PREPARE = 1,
+		VFH_WORKER_PROCESS = 2,
+		VFH_WORKER_FINISH = 3,
+		VFH_WORKER_ROLLBACK = 4
 	};
 
 	class Task;
+	class Invoker;
+	class Stack;
 
 	//worker {base}
 	class Worker
 	{
+	protected:
+		Task* _Task;
+		float* _StageTime;
+		Invoker* _Invoker;
+
 	public:
 		Worker();
 		~Worker();
-	protected:
-		Task* _Task;
+
+	private:
+		bool _OnPrepare();
+
 	public:
+		//get task
+		Task* GetTask();
+
+		//get stack
+		Stack* GetStack();
+
+		//set stage elapsed time (s)
+		void SetStageTime(int stage, float time);
+
+		//get stage elapsed time (s)
+		float GetStageTime(int stage);
+
 		//run task
 		int Run(Task* task);
 
-		//get task
-		Task* GetTask();
 	protected:
 		//stage: prepare
 		virtual bool OnPrepare() = 0;

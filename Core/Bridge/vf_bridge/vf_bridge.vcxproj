@@ -109,10 +109,9 @@
     <ClInclude Include="include\vf_bridge_c.h" />
     <ClInclude Include="include\vf_debug.h" />
     <ClInclude Include="include\vf_dev_inv.h" />
-    <ClInclude Include="include\vf_function.h" />
+    <ClInclude Include="include\vf_method.h" />
     <ClInclude Include="include\vf_jointcut.h" />
     <ClInclude Include="include\vf_assist.h" />
-    <ClInclude Include="include\vf_utility.h" />
     <ClInclude Include="include\vf_dev_lib.h" />
     <ClInclude Include="include\vf_const.h" />
     <ClInclude Include="include\vf_library.h" />
@@ -133,9 +132,8 @@
     <ClCompile Include="src\vf_base.cpp" />
     <ClCompile Include="src\vf_bridge_c.cpp" />
     <ClCompile Include="src\vf_debug.cpp" />
-    <ClCompile Include="src\vf_function.cpp" />
+    <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />
-    <ClCompile Include="src\vf_utility.cpp" />
     <ClCompile Include="src\vf_library.cpp" />
     <ClCompile Include="src\vf_setting.cpp" />
     <ClCompile Include="src\vf_context.cpp" />

@@ -19,5 +19,5 @@ protected:
 	void OnRollback();
 
 public:
-	bool Bind(Function* func);
+	bool Bind(Method* mt);
 };

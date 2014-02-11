@@ -1,4 +1,5 @@
 #include "vf_stack.h"
+#include "vf_invoker.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
 
@@ -7,17 +8,17 @@ namespace vapula
 	Stack::Stack() 
 	{
 		_StackId = 0;
+		_MethodId = null;
 		_Context = null;
 		_Envelope = null;
-		_FunctionId = null;
 		_Error = null;
 	}
 
 	Stack::~Stack()
 	{
+		Clear(_MethodId);
 		Clear(_Context);
 		Clear(_Envelope);
-		Clear(_FunctionId);
 		Clear(_Error);
 	}
 
@@ -34,19 +35,21 @@ namespace vapula
 		return _StackId;
 	}
 
-	void Stack::SetStackId(uint32 id)
+	void Stack::SetStackId(uint32 id, Invoker* owner)
 	{
-		_StackId = id;
+		if(owner->GetStack() == this)
+			_StackId = id;
 	}
 
-	pcstr Stack::GetFunctionId()
+	pcstr Stack::GetMethodId()
 	{
-		return _FunctionId;
+		return _MethodId;
 	}
 
-	void Stack::SetFunctionId(pcstr id)
+	void Stack::SetMethodId(pcstr id, Invoker* owner)
 	{
-		_FunctionId = id;
+		if(owner->GetStack() == this)
+			_MethodId = id;
 	}
 
 	Context* Stack::GetContext()
@@ -54,9 +57,10 @@ namespace vapula
 		return _Context;
 	}
 
-	void Stack::SetContext(Context* ctx)
+	void Stack::SetContext(Context* ctx, Invoker* owner)
 	{
-		_Context = ctx;
+		if(owner->GetStack() == this)
+			_Context = ctx;
 	}
 
 	Envelope* Stack::GetEnvelope()
@@ -64,20 +68,23 @@ namespace vapula
 		return _Envelope;
 	}
 
-	void Stack::SetEnvelope(Envelope* env)
+	void Stack::SetEnvelope(Envelope* env, Invoker* owner)
 	{
-		_Envelope = env;
+		if(owner->GetStack() == this)
+			_Envelope = env;
 	}
 
 	Error* Stack::GetError()
 	{
 		return _Error;
-	} 
+	}
 
 	void Stack::SetError(Error* err)
 	{
+		Clear(_Error);
 		_Error = err;
 	}
+
 
 	StackHub* StackHub::_Instance = null;
 

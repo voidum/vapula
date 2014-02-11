@@ -39,7 +39,7 @@ extern "C"
 	//Stack
 	VAPULA_API object vfeGetStack(object inv);
 	VAPULA_API object vfeGetCurrentStack();
-	VAPULA_API pcstr vfeGetFunctionId(object stk);
+	VAPULA_API pcstr vfeGetMethodId(object stk);
 	VAPULA_API object vfeGetContext(object stk);
 	VAPULA_API object vfeGetEnvelope(object stk);
 	

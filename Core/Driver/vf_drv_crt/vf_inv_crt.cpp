@@ -12,13 +12,13 @@ InvokerCRT::~InvokerCRT()
 {
 }
 
-bool InvokerCRT::Bind(Function* func)
+bool InvokerCRT::Bind(Method* mt)
 {
-	Invoker::Bind(func);
-	Library* lib = func->GetLibrary();
+	Invoker::Bind(mt);
+	Library* lib = mt->GetLibrary();
 	LibraryCRT* lib_crt = dynamic_cast<LibraryCRT*>(lib);
-	_EntryProcess = (Action)lib_crt->GetEntry(func->GetProcessSym());
-	_EntryRollback = (Action)lib_crt->GetEntry(func->GetRollbackSym());
+	_EntryProcess = (Action)lib_crt->GetEntry(mt->GetProcessSym());
+	_EntryRollback = (Action)lib_crt->GetEntry(mt->GetRollbackSym());
 	return true;
 }
 

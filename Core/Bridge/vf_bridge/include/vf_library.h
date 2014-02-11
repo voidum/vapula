@@ -7,7 +7,7 @@ namespace vapula
 	class Invoker;
 	class Driver;
 
-	class Function;
+	class Method;
 
 	//library {base}
 	class VAPULA_API Library
@@ -29,8 +29,8 @@ namespace vapula
 		//library id
 		pcstr _Id; 
 
-		//functions
-		vector<Function*> _Functions;
+		//methods
+		vector<Method*> _Methods;
 
 	protected:
 		void ClearAll();
@@ -42,8 +42,8 @@ namespace vapula
 		//get library id
 		pcstr GetLibraryId();
 
-		//get function by id
-		Function* GetFunction(pcstr id);
+		//get method by id
+		Method* GetMethod(pcstr id);
 
 		//create invoker by id
 		Invoker* CreateInvoker(pcstr id);

@@ -138,6 +138,10 @@
   <ItemGroup>
     <ResourceCompile Include="res\vf_host.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="tmpl_data.xml" />
+    <None Include="tmpl_task.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -23,7 +23,7 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	if(argc < 2)
 	{
 		ShowHelp();
-		return VF_HOST_RETURN_INVALIDCMD;
+		return VFH_RETURN_INVALIDCMD;
 	}
 
 	CheckOption(argc, argv);
@@ -33,29 +33,29 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	if(!CanOpenRead(cs8_path))
 	{
 		ShowMsgbox("Fail to open task file.", _vf_host);
-		return VF_HOST_RETURN_INVALIDTASK;
+		return VFH_RETURN_INVALIDTASK;
 	}
 
-	Task* task = Task::Parse(cs8_path);
+	Task* task = Task::Load(cs8_path);
 	Handle autop_task(task);
 	if(task == null)
 	{
 		ShowMsgbox("Fail to parse task file.", _vf_host);
-		return VF_HOST_RETURN_INVALIDTASK;
+		return VFH_RETURN_INVALIDTASK;
 	}
 	
 	Worker* worker = null;
 	switch(task->GetCtrlMode())
 	{
-		case VF_HOST_CJ_NULL:
-			worker = new Worker_NULL(); break;
-		case VF_HOST_CJ_PIPE:
-			worker = new Worker_PIPE(); break;
+		case VFH_CTRL_NULL:
+			worker = new Worker_Null(); break;
+		case VFH_CTRL_PIPE:
+			worker = new Worker_Pipe(); break;
 	}
 	Handle autop_wk(worker);
 	bool ret = task->RunAs(worker);
-	if(ret) return VF_HOST_RETURN_NORMAL;
-	else return VF_HOST_RETURN_FAILEXEC;
+	if(ret) return VFH_RETURN_NORMAL;
+	else return VFH_RETURN_FAILEXEC;
 }
 
 void CheckOption(int argc, LPWSTR* argv)

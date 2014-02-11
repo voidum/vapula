@@ -133,6 +133,13 @@ v2.1.0.1
 *)fix invoker bugs
 +)support error
 
+v2.1.0.2
+=)rename function to method
++)add key frame to context
++)support TI0
+-)combine utility with base
+*)support ref/deref in smart pointer
+
 vPLAN
 +)support smart pointer with GC?
 +)support rollback when fail?

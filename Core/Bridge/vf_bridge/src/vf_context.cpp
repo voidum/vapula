@@ -1,4 +1,6 @@
 #include "vf_context.h"
+#include "vf_invoker.h"
+#include "vf_stack.h"
 
 namespace vapula
 {
@@ -17,8 +19,10 @@ namespace vapula
 		Clear(_Lock);
 	}
 
-	void Context::SetState(uint8 value)
+	void Context::SetState(uint8 value, Invoker* owner)
 	{
+		if(owner->GetStack()->GetContext() != this)
+			return;
 		_Lock->Enter();
 		_LastState = _CurrentState;
 		_CurrentState = value;
@@ -56,8 +60,10 @@ namespace vapula
 		return v;
 	}
 
-	void Context::SetCtrlCode(uint8 value)
+	void Context::SetCtrlCode(uint8 value, Invoker* owner)
 	{
+		if(owner->GetStack()->GetContext() != this)
+			return;
 		_Lock->Enter();
 		_CtrlCode = value;
 		_Lock->Leave();
@@ -116,6 +122,22 @@ namespace vapula
 	{
 		_Lock->Enter();
 		_Progress = value;
+		_Lock->Leave();
+	}
+
+	pcstr Context::GetKeyFrame()
+	{
+		_Lock->Enter();
+		pcstr v = _KeyFrame;
+		_Lock->Leave();
+		return v;
+	}
+
+	void Context::SetKeyFrame(pcstr value)
+	{
+		_Lock->Enter();
+		Clear(_KeyFrame);
+		_KeyFrame = str::Copy(value);
 		_Lock->Leave();
 	}
 }

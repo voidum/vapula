@@ -11,11 +11,11 @@ namespace vapula
 		Joint();
 		~Joint();
 	private:
-		void _Reach(cstr8 function, cstr8 symbol);
+		void _Reach(cstr8 method, cstr8 symbol);
 	public:
-		void Reach(cstr8 function);
-		void Reach(cstr8 function, int line);
-		void Reach(cstr8 function, cstr8 label);
+		void Reach(cstr8 method);
+		void Reach(cstr8 method, int line);
+		void Reach(cstr8 method, cstr8 label);
 	};
 
 	//pointcut

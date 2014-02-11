@@ -10,39 +10,33 @@ namespace vapula
 	class Task
 	{
 	private:
+		pcstr _Path;
+		Library* _Library;
+		pcstr _MethodId;
+		int _CtrlMode;
+		pcstr _CtrlSetting;
+
+	private:
 		Task();
 	public:
 		~Task();
 
-	private:
-		Library* _Library;
-		pcstr _FunctionId;
-		Invoker* _Invoker;
-		float* _StageTime;
-
-	private:
-		int _CtrlMode;
-		pcstr _CtrlSetting;
+	public:
+		//load task from XML file
+		static Task* Load(pcstr path);
 
 	public:
-		//parse task from XML file
-		static Task* Parse(pcstr path);
+		//get path of task
+		pcstr GetTaskPath();
 
-	public:
-		//set stage elapsed time (s)
-		void SetStageTime(int stage, float time);
-
-		//get stage elapsed time (s)
-		float GetStageTime(int stage);
+		//get path of task data
+		pcstr GetDataPath();
 
 		//get library for task
 		Library* GetLibrary();
 
-		//get function for task
-		pcstr GetFunctionId();
-
-		//get invoker
-		Invoker* GetInvoker();
+		//get method for task
+		pcstr GetMethodId();
 
 	public:
 		//get control mode

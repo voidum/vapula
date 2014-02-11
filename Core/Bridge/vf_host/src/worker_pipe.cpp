@@ -35,15 +35,12 @@ bool Worker_Pipe::RunStageA()
 bool Worker_Pipe::RunStageB()
 {
 	Setting* setting = Setting::GetInstance();
-	Task* task = dynamic_cast<Task*>(_Task);
-	Invoker* inv = task->GetInvoker();
-
 	_Pipe->Write("B");
 	//TODO: wait for permission
 
 	int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
-	inv->Start();
-	Stack* stack = inv->GetStack();
+	_Invoker->Start();
+	Stack* stack = _Invoker->GetStack();
 	Context* ctx = stack->GetContext();
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 	{
@@ -56,12 +53,12 @@ bool Worker_Pipe::RunStageB()
 		switch(ctrl)
 		{
 		case VF_CTRL_CANCEL:
-			inv->Stop(30000);
+			_Invoker->Stop(30000);
 			break;
 		case VF_CTRL_PAUSE:
-			inv->Pause();
+			_Invoker->Pause();
 		case VF_CTRL_RESUME:
-			inv->Resume();
+			_Invoker->Resume();
 			break;
 		}
 		Sleep(freq_monitor);
@@ -74,9 +71,7 @@ bool Worker_Pipe::RunStageB()
 
 bool Worker_Pipe::RunStageC()
 {
-	Task* task = dynamic_cast<Task*>(_Task);
-	Invoker* inv = task->GetInvoker();
-	Stack* stack = inv->GetStack();
+	Stack* stack = _Invoker->GetStack();
 	Envelope* env = stack->GetEnvelope();
 
 	string resp = "C<response><params>";

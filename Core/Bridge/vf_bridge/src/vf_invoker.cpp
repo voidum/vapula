@@ -1,5 +1,5 @@
 #include "vf_invoker.h"
-#include "vf_function.h"
+#include "vf_method.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
@@ -22,12 +22,12 @@ namespace vapula
 		Clear(_Stack);
 	}
 
-	bool Invoker::Bind(Function* func)
+	bool Invoker::Bind(Method* mt)
 	{
 		_Stack = new Stack();
-		_Stack->SetFunctionId(str::Copy(func->GetFunctionId()));
-		_Stack->SetEnvelope(func->GetEnvelope()->Copy());
-		_Stack->SetContext(new Context());
+		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
+		_Stack->SetEnvelope(mt->GetEnvelope()->Copy(), this);
+		_Stack->SetContext(new Context(), this);
 		return true;
 	}
 
@@ -35,7 +35,7 @@ namespace vapula
 	{
 		Invoker* inv = (Invoker*)sender;
 		Stack* stack = inv->GetStack();
-		stack->SetStackId(GetCurrentThreadId());
+		stack->SetStackId(GetCurrentThreadId(), inv);
 		Context* ctx = stack->GetContext();
 
 		StackHub* stack_hub = StackHub::GetInstance();
@@ -43,12 +43,12 @@ namespace vapula
 		try {
 			inv->OnProcess();
 		} catch (Error*) {
-			ctx->SetState(VF_STATE_ROLLBACK);
+			ctx->SetState(VF_STATE_ROLLBACK, inv);
 			inv->OnRollback();
 		}
 		stack_hub->Kick(stack);
 
-		ctx->SetState(VF_STATE_IDLE);
+		ctx->SetState(VF_STATE_IDLE, inv);
 		return null;
 	}
 
@@ -64,9 +64,9 @@ namespace vapula
 			CloseHandle(_Thread);
 
 		Context* ctx = _Stack->GetContext();
-		ctx->SetCtrlCode(VF_CTRL_NULL);
+		ctx->SetCtrlCode(VF_CTRL_NULL, this);
 		ctx->SetReturnCode(VF_RETURN_NULLTASK);
-		ctx->SetState(VF_STATE_BUSY_BACK);
+		ctx->SetState(VF_STATE_BUSY_BACK, this);
 
 		_Thread = (HANDLE)_beginthreadex(null, 0, Entry, this, 0, null);
 		if(_Thread <= 0)
@@ -80,7 +80,7 @@ namespace vapula
 		bool finish = false;
 		if(wait != 0)
 		{
-			ctx->SetCtrlCode(VF_CTRL_CANCEL);
+			ctx->SetCtrlCode(VF_CTRL_CANCEL, this);
 			DWORD dw = WaitForSingleObject(_Thread, wait);
 			if(dw == WAIT_OBJECT_0)
 				finish = true;
@@ -90,7 +90,7 @@ namespace vapula
 			TerminateThread(_Thread, 1);
 			WaitForSingleObject(_Thread, INFINITE);
 			ctx->SetReturnCode(VF_RETURN_TERMINATE);
-			ctx->SetState(VF_STATE_IDLE);
+			ctx->SetState(VF_STATE_IDLE, this);
 		}
 		CloseHandle(_Thread);
 		_Thread = null;
@@ -106,7 +106,7 @@ namespace vapula
 			if(wait % 25 != 0) 
 				times++;
 
-			ctx->SetCtrlCode(VF_CTRL_PAUSE);
+			ctx->SetCtrlCode(VF_CTRL_PAUSE, this);
 			for(int i=0; i<times; i++)
 			{
 				byte state = ctx->GetCurrentState();
@@ -131,7 +131,7 @@ namespace vapula
 		}
 		else
 		{
-			ctx->SetCtrlCode(VF_CTRL_RESUME);
+			ctx->SetCtrlCode(VF_CTRL_RESUME, this);
 		}
 	}
 

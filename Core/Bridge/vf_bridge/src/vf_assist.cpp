@@ -28,4 +28,15 @@ namespace vapula
 	{
 		return _Ptr == null;
 	}
+
+	void Handle::Ref(object ptr, bool isarr)
+	{
+		_Ptr = ptr;
+		_IsArr = isarr;
+	}
+
+	void Handle::DeRef()
+	{
+		_Ptr = null;
+	}
 }

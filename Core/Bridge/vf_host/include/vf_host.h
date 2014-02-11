@@ -1,25 +1,24 @@
 #pragma once
 
-#include "vf_utility.h"
 #include "vf_library.h"
 #include "vf_invoker.h"
 
 using namespace vapula;
 
-//control injection mode
-enum CtrlInjectMode
+//control mode
+enum CtrlMode
 {
-	VF_HOST_CJ_NULL = 0,
-	VF_HOST_CJ_PIPE = 1
+	VFH_CTRL_NULL = 0,
+	VFH_CTRL_PIPE = 1
 };
 
 //host return code
 enum HostReturnCode
 {
-	VF_HOST_RETURN_NORMAL = 0,
-	VF_HOST_RETURN_INVALIDCMD = 1,
-	VF_HOST_RETURN_INVALIDTASK = 2,
-	VF_HOST_RETURN_FAILEXEC = 3
+	VFH_RETURN_NORMAL = 0,
+	VFH_RETURN_INVALIDCMD = 1,
+	VFH_RETURN_INVALIDTASK = 2,
+	VFH_RETURN_FAILEXEC = 3
 };
 
 pcstr const _vf_host = "Vapula Host";

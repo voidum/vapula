@@ -65,4 +65,12 @@
       <Filter>.res</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="tmpl_task.xml">
+      <Filter>.res</Filter>
+    </None>
+    <None Include="tmpl_data.xml">
+      <Filter>.res</Filter>
+    </None>
+  </ItemGroup>
 </Project>

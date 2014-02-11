@@ -1,11 +1,12 @@
 #pragma once
 
-#include "vf_utility.h"
+#include "vf_base.h"
 
 namespace vapula
 {
 	class Context;
 	class Envelope;
+	class Invoker;
 
 	//stack
 	class VAPULA_API Stack
@@ -16,7 +17,7 @@ namespace vapula
 
 	private:
 		uint32 _StackId;
-		pcstr _FunctionId;
+		pcstr _MethodId;
 		Context* _Context;
 		Envelope* _Envelope;
 		Error* _Error;
@@ -26,16 +27,16 @@ namespace vapula
 
 	public:
 		//set stack id
-		void SetStackId(uint32 id);
+		void SetStackId(uint32 id, Invoker* owner);
 
-		//set function id
-		void SetFunctionId(pcstr id);
+		//set method id
+		void SetMethodId(pcstr id, Invoker* owner);
 
 		//set context
-		void SetContext(Context* ctx);
+		void SetContext(Context* ctx, Invoker* owner);
 
 		//set envelope
-		void SetEnvelope(Envelope* env);
+		void SetEnvelope(Envelope* env, Invoker* owner);
 
 		//set error
 		void SetError(Error* err);
@@ -44,8 +45,8 @@ namespace vapula
 		//get stack id
 		uint32 GetStackId();
 
-		//get function id
-		pcstr GetFunctionId();
+		//get method id
+		pcstr GetMethodId();
 
 		//get context
 		Context* GetContext();
