@@ -3,11 +3,8 @@
 #include "vf_invoker.h"
 #include "vf_stack.h"
 #include "vf_context.h"
-#include "vf_envelope.h"
-#include "vf_xml.h"
 #include "vf_setting.h"
-
-using std::ostringstream;
+#include "vf_xml.h"
 
 Worker_Pipe::Worker_Pipe()
 {
@@ -19,35 +16,41 @@ Worker_Pipe::~Worker_Pipe()
 	Clear(_Pipe);
 }
 
-bool Worker_Pipe::RunStageA()
+bool Worker_Pipe::OnPrepare()
 {
-	Task* task = dynamic_cast<Task*>(_Task);
-	XML* xml_cfg = XML::Parse(task->GetCtrlSetting());
-	std::locale::global(std::locale(""));
-	pcstr pid = XML::ValStr(XML::XElem(xml_cfg, "pid"));
+	XML* xml = XML::Parse(_Task->GetCtrlSetting());
+	object xml_cfg = xml->GetEntity();
+	pcstr pid = XML::ValStr(XML::XElem(xml_cfg, "pipe"));
 	if(!_Pipe->Connect(pid))
 		return false;
-	_Pipe->Write("A");
-	//TODO: wait for permission
-	return true;
+
+	ostringstream oss;
+	oss<<VFH_WORKER_PREPARE;
+	_Pipe->Write(oss.str().c_str());
+
+	while(!_Pipe->HasNewData());
+	pcstr resp = _Pipe->Read();
+	bool ret = strcmp(resp, "true") == 0;
+	return ret;
 }
 
-bool Worker_Pipe::RunStageB()
+bool Worker_Pipe::OnProcess()
 {
 	Setting* setting = Setting::GetInstance();
-	_Pipe->Write("B");
-	//TODO: wait for permission
-
 	int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
-	_Invoker->Start();
+
 	Stack* stack = _Invoker->GetStack();
 	Context* ctx = stack->GetContext();
+
+	_Invoker->Start();
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 	{
 		ostringstream oss;
+		oss<<VFH_WORKER_PROCESS<<",";
 		oss<<ctx->GetCurrentState()<<",";
 		oss<<ctx->GetProgress();
 		_Pipe->Write(oss.str().c_str());
+		
 		pcstr data = _Pipe->Read();
 		int ctrl = atoi(data);
 		switch(ctrl)
@@ -63,39 +66,18 @@ bool Worker_Pipe::RunStageB()
 		}
 		Sleep(freq_monitor);
 	}
+
 	ostringstream oss;
 	oss<<VF_STATE_IDLE<<","<<100.0f;
 	_Pipe->Write(oss.str().c_str());
 	return true;
 }
 
-bool Worker_Pipe::RunStageC()
+bool Worker_Pipe::OnFinish()
 {
-	Stack* stack = _Invoker->GetStack();
-	Envelope* env = stack->GetEnvelope();
-
-	string resp = "C<response><params>";
-	for(int i=0;i<env->GetTotal();i++) 
-	{
-		if(env->GetMode(i) != VF_PM_IN)
-		{
-			resp += "<param id=\"";
-			resp += str::Value(i);
-			resp += "\">";
-			resp += env->CastReadValue(i);
-			resp += "</param>";
-		}
-	}
-	resp += "</params><debug>";
-	resp += "<exception>";
-	resp += "</exception>";
-	resp += "</debug></response>";
-
-	//if(_Pipe->GetDataVol() >= xml.size())
-	//{
-	pcstr str = str::Copy(resp.c_str());
-	_Pipe->Write(str);
-	delete str;
-	//}
+	ostringstream oss;
+	oss<<VFH_WORKER_FINISH;
+	_Pipe->Write(oss.str().c_str());
+	Worker::OnFinish();
 	return false;
 }

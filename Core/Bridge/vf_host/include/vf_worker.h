@@ -4,13 +4,12 @@ namespace vapula
 {
 	#define STAGE_MAX 4
 
-	enum WorkerReturnCode
+	enum WorkerStage
 	{
 		VFH_WORKER_NORMAL = 0,
 		VFH_WORKER_PREPARE = 1,
 		VFH_WORKER_PROCESS = 2,
-		VFH_WORKER_FINISH = 3,
-		VFH_WORKER_ROLLBACK = 4
+		VFH_WORKER_FINISH = 3
 	};
 
 	class Task;
@@ -28,9 +27,6 @@ namespace vapula
 	public:
 		Worker();
 		~Worker();
-
-	private:
-		bool _OnPrepare();
 
 	public:
 		//get task
@@ -50,15 +46,12 @@ namespace vapula
 
 	protected:
 		//stage: prepare
-		virtual bool OnPrepare() = 0;
+		virtual bool OnPrepare();
 
 		//stage: process
 		virtual bool OnProcess() = 0;
 
 		//stage: finish
-		virtual bool OnFinish() = 0;
-
-		//stage: rollback
-		virtual bool OnRollback() = 0;
+		virtual bool OnFinish();
 	};
 }

@@ -45,6 +45,8 @@ namespace vapula
 		} catch (Error*) {
 			ctx->SetState(VF_STATE_ROLLBACK, inv);
 			inv->OnRollback();
+		} catch (...) {
+			ShowMsgbox("FATAL ERROR");
 		}
 		stack_hub->Kick(stack);
 

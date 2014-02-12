@@ -8,13 +8,15 @@ using vapula::Worker;
 
 class Worker_Pipe : public Worker
 {
+private:
+	Pipe* _Pipe;
+
 public:
 	Worker_Pipe();
 	~Worker_Pipe();
-private:
-	Pipe* _Pipe;
+
 public:
-	bool RunStageA();
-	bool RunStageB();
-	bool RunStageC();
+	bool OnPrepare();
+	bool OnProcess();
+	bool OnFinish();
 };

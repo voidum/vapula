@@ -10,25 +10,25 @@ Worker_Null::Worker_Null() { }
 
 Worker_Null::~Worker_Null() { }
 
-bool Worker_Null::RunStageA()
+bool Worker_Null::OnPrepare()
 {
-	return true;
+	return Worker::OnPrepare();
 }
 
-bool Worker_Null::RunStageB()
+bool Worker_Null::OnProcess()
 {
 	Setting* setting = Setting::GetInstance();
 	int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
-
 	Stack* stack = _Invoker->GetStack();
-	_Invoker->Start();
 	Context* ctx = stack->GetContext();
+
+	_Invoker->Start();
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(freq_monitor);
 	return true;
 }
 
-bool Worker_Null::RunStageC()
+bool Worker_Null::OnFinish()
 {
-	return true;
+	return Worker::OnFinish();
 }

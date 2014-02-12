@@ -80,9 +80,12 @@ void CheckOption(int argc, LPWSTR* argv)
 void ShowHelp()
 {
 	ostringstream oss;
-	oss<<"command lines:\n";
+	oss<<"version:\n";
+	oss<<" bridge - "<<_vf_version<<"\n";
+	oss<<" host - "<<_vf_host_version<<"\n";
+	oss<<"\ncommand lines:\n";
 	oss<<" vf_host [task file] [option]\n";
-	oss<<"option:\n";
+	oss<<"\noption:\n";
 	oss<<" \"silent\" - to run without any prompt\n";
 	oss<<" \"rtmon\" - to monitor in high CPU usage\n";
 	ShowMsgbox(oss.str().c_str(), _vf_host);

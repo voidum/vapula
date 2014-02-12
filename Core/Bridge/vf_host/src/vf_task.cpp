@@ -29,6 +29,19 @@ namespace vapula
 		return _Library;
 	}
 
+	pcstr Task::GetTaskPath()
+	{
+		return _Path;
+	}
+
+	pcstr Task::GetDataPath()
+	{
+		ostringstream oss;
+		oss<<_Path<<".data";
+		pcstr path = str::Copy(oss.str().c_str());
+		return path;
+	}
+
 	pcstr Task::GetMethodId()
 	{
 		return _MethodId;
@@ -54,16 +67,15 @@ namespace vapula
 			return null;
 		}
 		object xdoc = xml->GetEntity();
-		
-		Task* task = new Task();
-		Handle autop1(task);
-		task->_Path = str::Copy(path);
-
 		object xe_root = XML::XElem(xdoc, "task");
 		object xe_lib = XML::XElem(xe_root, "library");
 		object xe_mt = XML::XElem(xe_root, "method");
 		object xe_ctrl_mode = XML::XPath(xe_root, 2, "control", "mode");
 		object xe_ctrl_setting = XML::XPath(xe_root, 2, "control", "setting");
+
+		Task* task = new Task();
+		Handle autop1(task);
+		task->_Path = str::Copy(path);
 
 		pcstr cs8_lib_utf8 = XML::ValStr(xe_lib);
 		Handle autop2((object)cs8_lib_utf8);
@@ -71,7 +83,7 @@ namespace vapula
 		pcstr cs8_lib = str::Encode(cs8_lib_utf8, _vf_msg_cp, null);
 		Handle autop3((object)cs8_lib);
 
-		task->_Library = Library::Load(path);
+		task->_Library = Library::Load(cs8_lib);
 		if(task->_Library == null)
 		{
 			ShowMsgbox("Fail to load library.", _vf_host);
@@ -106,20 +118,20 @@ namespace vapula
 			Stack* stack = worker->GetStack();
 			int ret_task = stack->GetContext()->GetReturnCode();
 			ostringstream oss;
-			oss<<"Vapula host has done with task:\n";
+			oss<<"task is done\n";
 			oss<<_Library->GetLibraryId()<<"=>"<<_MethodId;
-			oss<<"\nReturn code:"<<ret_task;
-			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
+			oss<<"\nreturn code: "<<ret_task;
+			oss<<"\nelapsed time: "<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
 			ShowMsgbox(oss.str().c_str(), _vf_host);
 			ret = true;
 		}
 		else
 		{
 			ostringstream oss;
-			oss<<"Vapula host has NOT done with task:\n";
+			oss<<"task is NOT done\n";
 			oss<<_Library->GetLibraryId()<<"=>"<<_MethodId;
-			oss<<"\nLast stage: "<<ret_worker;
-			oss<<"\nElapsed time:"<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
+			oss<<"\nlast stage: "<<ret_worker;
+			oss<<"\nelapsed time: "<<((t2.QuadPart-t1.QuadPart)/(float)freq.QuadPart)<<"(s)";
 			ShowMsgbox(oss.str().c_str(), _vf_host);
 		}
 		return ret;

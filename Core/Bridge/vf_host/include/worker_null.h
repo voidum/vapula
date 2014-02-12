@@ -10,7 +10,7 @@ public:
 	Worker_Null();
 	~Worker_Null();
 public:
-	bool RunStageA();
-	bool RunStageB();
-	bool RunStageC();
+	bool OnPrepare();
+	bool OnProcess();
+	bool OnFinish();
 };

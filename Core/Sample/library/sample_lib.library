@@ -8,8 +8,8 @@
     <tag key="version">1.0</tag>
     <tag key="publisher"></tag>
   </tags>
-  <functions>
-    <function>
+  <methods>
+    <method>
       <id>math</id>
       <symbols>
         <process>Process_Math</process>
@@ -45,8 +45,8 @@
         <tag key="name">运算示例</tag>
         <tag key="description"></tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>output</id>
       <symbols>
         <process>Process_Out</process>
@@ -66,8 +66,8 @@
         <tag key="name">输出示例</tag>
         <tag key="description">输出一个字符串</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>array</id>
       <symbols>
         <process>Process_Array</process>
@@ -78,8 +78,8 @@
         <tag key="name">数组操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>object</id>
       <symbols>
         <process>Process_Object</process>
@@ -90,8 +90,8 @@
         <tag key="name">对象操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>context</id>
       <symbols>
         <process>Process_Context</process>
@@ -102,8 +102,8 @@
         <tag key="name">上下文示例</tag>
         <tag key="description">示例上下文控制</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>context2</id>
       <symbols>
         <process>Process_Context2</process>
@@ -114,6 +114,6 @@
         <tag key="name">上下文示例2</tag>
         <tag key="description">示例上下文控制2</tag>
       </tags>
-    </function>
-  </functions>
+    </method>
+  </methods>
 </library>
