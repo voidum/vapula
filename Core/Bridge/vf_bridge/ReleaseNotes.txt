@@ -140,6 +140,9 @@ v2.1.0.2
 -)combine utility with base
 *)support ref/deref in smart pointer
 
+v2.1.1.0
++)support safe invoke
+
 vPLAN
 +)support smart pointer with GC?
 +)support rollback when fail?

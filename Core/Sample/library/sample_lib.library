@@ -11,6 +11,7 @@
   <methods>
     <method>
       <id>math</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Math</process>
         <rollback />
@@ -48,6 +49,7 @@
     </method>
     <method>
       <id>output</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Out</process>
         <rollback />
@@ -69,6 +71,7 @@
     </method>
     <method>
       <id>array</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Array</process>
         <rollback />
@@ -81,6 +84,7 @@
     </method>
     <method>
       <id>object</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Object</process>
         <rollback />
@@ -93,6 +97,7 @@
     </method>
     <method>
       <id>context</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Context</process>
         <rollback />
@@ -105,6 +110,7 @@
     </method>
     <method>
       <id>context2</id>
+      <protect>false</protect>
       <symbols>
         <process>Process_Context2</process>
         <rollback>Rollback_Context2</rollback>
@@ -113,6 +119,19 @@
       <tags>
         <tag key="name">上下文示例2</tag>
         <tag key="description">示例上下文控制2</tag>
+      </tags>
+    </method>
+    <method>
+      <id>protect</id>
+      <protect>true</protect>
+      <symbols>
+        <process>Process_Protect</process>
+        <rollback>Rollback_Protect</rollback>
+      </symbols>
+      <params />
+      <tags>
+        <tag key="name">保护模式示例</tag>
+        <tag key="description">示例保护模式</tag>
       </tags>
     </method>
   </methods>

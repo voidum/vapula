@@ -34,6 +34,12 @@ namespace vapula
 		//invoke custom rollback
 		virtual void OnRollback() = 0;
 
+		//invoke custom process safely
+		void OnSafeProcess();
+
+		//invoke custom process safely
+		void OnSafeRollback();
+
 	public:
 		//get stack for invoker
 		Stack* GetStack();

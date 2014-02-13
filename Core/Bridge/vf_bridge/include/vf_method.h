@@ -23,6 +23,9 @@ namespace vapula
 		//method id
 		pcstr _Id;
 
+		//protected flag
+		bool _IsProtected;
+
 		//entry symbol
 		pcstr _RollbackSym;
 
@@ -41,6 +44,9 @@ namespace vapula
 
 		//get method id
 		pcstr GetMethodId();
+
+		//get protected flag
+		bool IsProtected();
 
 		//get envelope
 		Envelope* GetEnvelope();

@@ -9,6 +9,7 @@ namespace vapula
 	Method::Method()
 	{
 		_Id = null;
+		_IsProtected = false;
 		_ProcessSym = null;
 		_RollbackSym = null;
 		_Envelope = null;
@@ -32,6 +33,7 @@ namespace vapula
 		object xdoc = xobj->GetEntity();
 		object xe = XML::XElem(xdoc, "method");
 		object xe_id = XML::XElem(xe, "id");
+		object xe_protected = XML::XElem(xe, "protect");
 		object xe_symbols = XML::XElem(xe, "symbols");
 		object xe_sym_process = XML::XElem(xe_symbols, "process");
 		object xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
@@ -39,6 +41,7 @@ namespace vapula
 
 		Method* mt = new Method();
 		mt->_Id = XML::ValStr(xe_id);
+		mt->_IsProtected = XML::ValBool(xe_protected, "true");
 		mt->_ProcessSym = XML::ValStr(xe_sym_process);
 		mt->_RollbackSym = XML::ValStr(xe_sym_rollback);
 
@@ -62,6 +65,11 @@ namespace vapula
 	pcstr Method::GetMethodId()
 	{
 		return _Id;
+	}
+
+	bool Method::IsProtected()
+	{
+		return _IsProtected;
 	}
 	
 	pcstr Method::GetProcessSym()

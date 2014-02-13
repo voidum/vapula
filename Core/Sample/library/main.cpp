@@ -140,3 +140,17 @@ void Rollback_Context2()
 		Sleep(20);
 	}
 }
+
+//7th
+void Process_Protect()
+{
+	int* err_ptr = null;
+	err_ptr[0] = 42;
+}
+
+//7th rollback
+void Rollback_Protect()
+{
+	int* err_ptr = null;
+	err_ptr[0] = 42;
+}

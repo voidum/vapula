@@ -15,6 +15,8 @@ extern "C"
 	EXPORT void Process_Context();
 	EXPORT void Process_Context2();
 	EXPORT void Rollback_Context2();
+	EXPORT void Process_Protect();
+	EXPORT void Rollback_Protect();
 }
 
 class ClassA

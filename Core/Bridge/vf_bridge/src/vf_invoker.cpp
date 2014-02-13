@@ -28,6 +28,7 @@ namespace vapula
 		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
 		_Stack->SetEnvelope(mt->GetEnvelope()->Copy(), this);
 		_Stack->SetContext(new Context(), this);
+		_Stack->SetProtect(mt->IsProtected(), this);
 		return true;
 	}
 
@@ -41,17 +42,54 @@ namespace vapula
 		StackHub* stack_hub = StackHub::GetInstance();
 		stack_hub->Link(stack);
 		try {
-			inv->OnProcess();
+			if(stack->IsProtected())
+				inv->OnSafeProcess();
+			else
+				inv->OnProcess();
 		} catch (Error*) {
 			ctx->SetState(VF_STATE_ROLLBACK, inv);
-			inv->OnRollback();
-		} catch (...) {
-			ShowMsgbox("FATAL ERROR");
+			if(stack->IsProtected())
+				inv->OnSafeRollback();
+			else
+				inv->OnRollback();
+			ctx->SetReturnCode(VF_RETURN_ERROR);
 		}
 		stack_hub->Kick(stack);
 
 		ctx->SetState(VF_STATE_IDLE, inv);
 		return null;
+	}
+
+	void Invoker::OnSafeProcess()
+	{
+		__try {
+			OnProcess();
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER) {
+			if(_Stack != null) {
+				Context* ctx = _Stack->GetContext();
+				if(ctx != null) {
+					ctx->SetReturnCode(VF_RETURN_UNHANDLED);
+				}
+			}
+			ShowMsgbox(_vf_fatal, _vf_bridge);
+		}
+	}
+
+	void Invoker::OnSafeRollback()
+	{
+		__try {
+			OnRollback();
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER) {
+			if(_Stack != null) {
+				Context* ctx = _Stack->GetContext();
+				if(ctx != null) {
+					ctx->SetReturnCode(VF_RETURN_UNHANDLED);
+				}
+			}
+			ShowMsgbox(_vf_fatal, _vf_bridge);
+		}
 	}
 
 
