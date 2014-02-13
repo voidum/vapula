@@ -101,5 +101,5 @@ You can donate this project by Alipay.
 <img src='https://img.alipay.com/sys/personalprod/style/mc/btn-index.png' />
 </a>   
 Dogecoin supported here.  
-<img src='Resources/dogecoin.png' />   
+<img src='https://raw.github.com/sartrey/vapula/master/Resource/dogecoin.png' />   
 My address: <b>DHEbps1GYW1eY9YJ7J8XZhBaduUDTwuCiG</b>
