@@ -34,12 +34,12 @@ namespace Vapula.Runtime
         /// <summary>
         /// 获取功能标识
         /// </summary>
-        public string FunctionId
+        public string MethodId
         {
             get 
             { 
                 return Bridge.MarshalString(
-                    Bridge.GetFunctionId(Handle), false); 
+                    Bridge.GetMethodId(Handle), false); 
             }
         }
 

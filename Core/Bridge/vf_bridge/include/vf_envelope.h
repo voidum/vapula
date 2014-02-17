@@ -10,6 +10,13 @@ namespace vapula
 	class VAPULA_API Envelope
 	{
 	private:
+		int32 _Total; //param total
+		int8* _Types; //param type
+		int8* _Modes; //param mode
+		uint32* _Addrs; //memory address table
+		uint32* _Lengths; //param length table
+
+	private:
 		Envelope(int32 total);
 	public:
 		~Envelope();
@@ -18,13 +25,6 @@ namespace vapula
 		//parse envelope from XML string
 		//need node <params>
 		static Envelope* Parse(pcstr xml);
-
-	private:
-		int32 _Total; //param total
-		int8* _Types; //param type
-		int8* _Modes; //param mode
-		uint32* _Addrs; //memory address table
-		uint32* _Lengths; //param length table
 
 	private:
 		bool _AssertId(int id, Envelope* env = null);
@@ -61,6 +61,9 @@ namespace vapula
 		void WriteObject(int id, object value, uint32 size, bool copy = false);
 
 	public:
+		//create array
+		void CreateArray(int id, uint32 len);
+
 		//read param array
 		//optional if copy, default non-copy
 		template<typename T>
@@ -77,10 +80,10 @@ namespace vapula
 
 		//read param value
 		template<typename T>
-		T ReadValue(int id)
+		T ReadValue(int id, uint32 idx = 0)
 		{
 			T* data = ReadArray<T>(id);
-			return data[0];
+			return data[idx];
 		}
 
 		//write param array
@@ -98,10 +101,22 @@ namespace vapula
 
 		//write param value
 		template<typename T>
-		void WriteValue(int id, T value)
+		void WriteValue(int id, T value, uint32 idx = 0)
 		{
-			T tmp_value = value;
-			WriteArray(id, &tmp_value, 1, true);
+			if(!_AssertId(id))
+				throw invalid_argument(_vf_err_1);
+			int pidx = id - 1;
+			T* data = (T*)_Addrs[pidx];
+			if(data != null)
+			{
+				if(_Lengths[pidx] > idx)
+					data[idx] = value;
+			} else {
+				data = new T[1];
+				data[0] = value;
+				_Addrs[pidx] = (uint32)data;
+				_Lengths[pidx] = 1;
+			}
 		}
 
 	public:
@@ -119,10 +134,10 @@ namespace vapula
 
 	public:
 		//read and cast value to string
-		pcstr CastReadValue(int id);
+		pcstr CastRead(int id, uint32 idx = 0);
 
 		//cast string to value and write
-		void CastWriteValue(int id, pcstr value);
+		void CastWrite(int id, pcstr value, uint32 idx = 0);
 
 		//deliver envelope
 		void Deliver(Envelope* who, int from, int to);

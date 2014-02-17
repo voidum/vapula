@@ -6,6 +6,7 @@
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_envelope.h"
+#include "vf_error.h"
 #include "vf_pipe.h"
 
 using namespace vapula;
@@ -23,10 +24,20 @@ void vfeDeleteObject(object obj)
 	Clear(obj);
 }
 
+
+//Error
+
+int vfeWhatError(object err)
+{
+	Error* obj = (Error*)err;
+	return obj->What();
+}
+
 void vfeThrowError(int what)
 {
-	ThrowError(what);
+	Error::Throw(what);
 }
+
 
 //Driver
 
@@ -115,12 +126,6 @@ object vfeCreateInvoker(object lib, pcstr id)
 	return obj->CreateInvoker(id);
 }
 
-object vfeGetStack(object inv)
-{
-	Invoker* obj = (Invoker*)inv;
-	return obj->GetStack();
-}
-
 int vfeStartInvoker(object inv)
 {
 	Invoker* obj = (Invoker*)inv;
@@ -154,6 +159,12 @@ int vfeRestartInvoker(object inv, uint32 wait)
 
 //Stack
 
+object vfeGetStack(object inv)
+{
+	Invoker* obj = (Invoker*)inv;
+	return obj->GetStack();
+}
+
 object vfeGetCurrentStack()
 {
 	Stack* stack = Stack::GetInstance();
@@ -178,19 +189,20 @@ object vfeGetEnvelope(object stk)
 	return obj->GetEnvelope();
 }
 
+int vfeStackIsProtected(object stk)
+{
+	Stack* obj = (Stack*)stk;
+	return obj->IsProtected() ? TRUE : FALSE;
+}
+
+object vfeGetError(object stk)
+{
+	Stack* obj = (Stack*)stk;
+	return obj->GetError();
+}
+
 
 //Context
-
-object vfeCreateContext()
-{
-	return new Context();
-}
-
-uint8 vfeGetCtrlCode(object ctx)
-{
-	Context* obj = (Context*)ctx;
-	return obj->GetCtrlCode();
-}
 
 uint8 vfeGetCurrentState(object ctx)
 {
@@ -210,10 +222,10 @@ uint8 vfeGetReturnCode(object ctx)
 	return obj->GetReturnCode();
 }
 
-void vfeSetReturnCode(object ctx, uint8 ret)
+uint8 vfeGetCtrlCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
-	obj->SetReturnCode(ret);
+	return obj->GetCtrlCode();
 }
 
 float vfeGetProgress(object ctx)
@@ -222,10 +234,28 @@ float vfeGetProgress(object ctx)
 	return obj->GetProgress();
 }
 
+pcstr vfeGetKeyFrame(object ctx)
+{
+	Context* obj = (Context*)ctx;
+	return obj->GetKeyFrame();
+}
+
+void vfeSetReturnCode(object ctx, uint8 ret)
+{
+	Context* obj = (Context*)ctx;
+	obj->SetReturnCode(ret);
+}
+
 void vfeSetProgress(object ctx, float prog)
 {
 	Context* obj = (Context*)ctx;
 	obj->SetProgress(prog);
+}
+
+void vfeSetKeyFrame(object ctx, pcstr frame)
+{
+	Context* obj = (Context*)ctx;
+	obj->SetKeyFrame(frame);
 }
 
 void vfeSwitchHold(object ctx)
@@ -268,65 +298,105 @@ object vfeCopyEnvelope(object env)
 	return obj->Copy();
 }
 
-void vfeWriteEnvelopeValue(object env, int id, pcstr value)
+void vfeDeliverEnvelope(object src, object dst, int from, int to)
 {
-	Envelope* obj = (Envelope*)env;
-	obj->CastWriteValue(id, value);
+	Envelope* src_env = (Envelope*)src;
+	Envelope* dst_env = (Envelope*)dst;
+	src_env->Deliver(dst_env, from, to);
 }
 
-void vfeWriteEnvelopeValueW(object env, int id, pcwstr value)
+void vfeCastDeliverEnvelope(object src, object dst, int from, int to)
+{
+	Envelope* src_env = (Envelope*)src;
+	Envelope* dst_env = (Envelope*)dst;
+	src_env->CastDeliver(dst_env, from, to);
+}
+
+uint32 vfeGetEnvLen(object env, int id)
+{
+	Envelope* obj = (Envelope*)env;
+	uint32 len = obj->GetLength(id);
+	return len;
+}
+
+void vfeWriteEnvVal(object env, int id, pcstr value)
+{
+	Envelope* obj = (Envelope*)env;
+	obj->CastWrite(id, value);
+}
+
+void vfeWriteEnvValW(object env, int id, pcwstr value)
 {
 	pcstr s8 = str::ToStr(value, _vf_msg_cp);
 	Envelope* obj = (Envelope*)env;
-	obj->CastWriteValue(id, s8);
+	obj->CastWrite(id, s8);
 	delete s8;
 }
 
-pcstr vfeReadEnvelopeValue(object env, int id)
-{
-	Envelope* obj = (Envelope*)env;
-	return obj->CastReadValue(id);
-}
-
-pcwstr vfeReadEnvelopeValueW(object env, int id)
-{
-	Envelope* obj = (Envelope*)env;
-	pcstr s8 = obj->CastReadValue(id);
-	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
-	delete s8;
-	return s16;
-}
-
-void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length)
+void vfeWriteEnvObj(object env, int id, object value, uint32 length)
 {
 	Envelope* obj = (Envelope*)env;
 	int8 type = obj->GetType(id);
 	obj->WriteObject(id, value, length * GetTypeUnit(type));
 }
 
-object vfeReadEnvelopeObject(object env, int id, uint32* length)
+pcstr vfeReadEnvVal(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	uint32 len = null;
-	object data = obj->ReadObject(id, &len);
-	if(length != null)
-		*length = len;
+	return obj->CastRead(id);
+}
+
+pcwstr vfeReadEnvValW(object env, int id)
+{
+	Envelope* obj = (Envelope*)env;
+	pcstr s8 = obj->CastRead(id);
+	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
+	delete s8;
+	return s16;
+}
+
+object vfeReadEnvObj(object env, int id)
+{
+	Envelope* obj = (Envelope*)env;
+	object data = obj->ReadObject(id, null);
 	return data;
 }
 
-void vfeDeliverEnvelope(object src_env, object dst_env, int from, int to)
+void vfeCreateArray(object env, int id, uint32 len)
 {
-	Envelope* src = (Envelope*)src_env;
-	Envelope* dst = (Envelope*)dst_env;
-	src->Deliver(dst, from, to);
+	Envelope* obj = (Envelope*)env;
+	obj->CreateArray(id, len);
 }
 
-void vfeCastDeliverEnvelope(object src_env, object dst_env, int from, int to)
+void vfeWriteValAt(object env, int id, uint32 idx, pcstr value)
 {
-	Envelope* src = (Envelope*)src_env;
-	Envelope* dst = (Envelope*)dst_env;
-	src->CastDeliver(dst, from, to);
+	Envelope* obj = (Envelope*)env;
+	obj->CastWrite(id, value, idx);
 }
+
+void vfeWriteValAtW(object env, int id, uint32 idx, pcwstr value)
+{
+	Envelope* obj = (Envelope*)env;
+	pcstr s8 = str::ToStr(value, _vf_msg_cp);
+	obj->CastWrite(id, s8, idx);
+	delete s8;
+}
+
+pcstr vfeReadValAt(object env, int id, uint32 idx)
+{
+	Envelope* obj = (Envelope*)env;
+	return obj->CastRead(id, idx);
+}
+
+pcwstr vfeReadValAtW(object env, int id, uint32 idx)
+{
+	Envelope* obj = (Envelope*)env;
+	pcstr s8 = obj->CastRead(id, idx);
+	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
+	delete s8;
+	return s16;
+}
+
 
 //Pipe
 

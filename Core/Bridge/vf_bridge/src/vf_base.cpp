@@ -4,18 +4,6 @@
 
 namespace vapula
 {
-	Error::Error(int what)
-	{
-		_What = what;
-	}
-
-	Error::~Error() { }
-
-	int Error::What()
-	{
-		return _What;
-	}
-
 	Lock::Lock()
 	{
 		_Core = (uint64*)_aligned_malloc(1, sizeof(uint64));
@@ -155,15 +143,6 @@ namespace vapula
 	pcstr GetVersion()
 	{
 		return _vf_version;
-	}
-
-	void ThrowError(int what)
-	{
-		Error* err = new Error(what);
-		Stack* stack = Stack::GetInstance();
-		if(stack != null)
-			stack->SetError(err);
-		throw err;
 	}
 
 	void ShowMsgbox(pcstr value, pcstr caption)

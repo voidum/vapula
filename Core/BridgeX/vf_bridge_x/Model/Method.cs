@@ -4,9 +4,9 @@ using System.Xml.Linq;
 namespace Vapula.Model
 {
     /// <summary>
-    /// Vapula模型的功能描述
+    /// Vapula模型的方法描述
     /// </summary>
-    public class Function
+    public class Method
     {
         #region 字段
         private string _Id;
@@ -21,7 +21,7 @@ namespace Vapula.Model
         #endregion
 
         #region 构造
-        public Function() { }
+        public Method() { }
         #endregion
 
         #region 索引器
@@ -44,21 +44,21 @@ namespace Vapula.Model
         /// <summary>
         /// 由XML解析功能描述
         /// </summary>
-        public static Function Parse(XElement xml)
+        public static Method Parse(XElement xml)
         {
-            Function func = new Function();
-            func._Id = xml.Element("id").Value;
-            func._Entry = xml.Element("entry").Value;
+            Method mt = new Method();
+            mt._Id = xml.Element("id").Value;
+            mt._Entry = xml.Element("entry").Value;
             var xml_tags = xml.Element("tags");
-            func._Tags = TagList.Parse(xml_tags);
+            mt._Tags = TagList.Parse(xml_tags);
             var xml_params = xml.Element("params").Elements("param");
             foreach (var xml_param in xml_params)
             {
                 var param = Parameter.Parse(xml_param);
-                param.Function = func;
-                func.Parameters.Add(param);
+                param.Method = mt;
+                mt.Parameters.Add(param);
             }
-            return func;
+            return mt;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Vapula.Model
         /// </summary>
         public XElement ToXML()
         {
-            XElement xml = new XElement("function",
+            XElement xml = new XElement("method",
                 new XElement("params"),
                 new XElement("id", Id),
                 new XElement("entry", Entry),

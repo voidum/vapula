@@ -15,8 +15,8 @@ namespace Vapula.Model
         private string _Runtime;
         private TagList _Tags
             = new TagList();
-        private List<Function> _Functions
-            = new List<Function>();
+        private List<Method> _Methods
+            = new List<Method>();
 
         private string _Path;
         private TagList _Attach
@@ -31,13 +31,13 @@ namespace Vapula.Model
         /// <summary>
         /// 根据指定标识获取功能
         /// </summary>
-        public Function this[string id]
+        public Method this[string id]
         {
             get
             {
-                foreach (var func in Functions)
-                    if (func.Id == id)
-                        return func;
+                foreach (var mt in Methods)
+                    if (mt.Id == id)
+                        return mt;
                 return null;
             }
         }
@@ -85,12 +85,12 @@ namespace Vapula.Model
             lib.Runtime = xml.Element("runtime").Value;
             var xml_tags = xml.Element("tags");
             lib._Tags = TagList.Parse(xml_tags);
-            var xmls_func = xml.Element("functions").Elements("function");
-            foreach (var xml_func in xmls_func)
+            var xmls_mt = xml.Element("methods").Elements("method");
+            foreach (var xml_mt in xmls_mt)
             {
-                var func = Function.Parse(xml_func);
-                func.Library = lib;
-                lib.Functions.Add(func);
+                var mt = Method.Parse(xml_mt);
+                mt.Library = lib;
+                lib.Methods.Add(mt);
             }
             return lib;
         }
@@ -103,12 +103,12 @@ namespace Vapula.Model
             XElement xml = new XElement("library",
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
-                new XElement("functions"),
+                new XElement("methods"),
                 _Tags.ToXML());
-            foreach (var func in _Functions)
+            foreach (var mt in _Methods)
             {
-                var xml_func = func.ToXML();
-                xml.Element("functions").Add(xml_func);
+                var xml_mt = mt.ToXML();
+                xml.Element("methods").Add(xml_mt);
             }
             return xml;
         }
@@ -120,9 +120,9 @@ namespace Vapula.Model
         /// </summary>
         public void Clear()
         {
-            foreach (var func in Functions)
-                func.Clear();
-            Functions.Clear();
+            foreach (var mt in Methods)
+                mt.Clear();
+            Methods.Clear();
             Tags.Clear();
             if (_Attach != null)
                 _Attach.Clear();
@@ -179,9 +179,9 @@ namespace Vapula.Model
         /// <summary>
         /// 获取库的功能集合
         /// </summary>
-        public List<Function> Functions
+        public List<Method> Methods
         {
-            get { return _Functions; }
+            get { return _Methods; }
         }
 
         /// <summary>

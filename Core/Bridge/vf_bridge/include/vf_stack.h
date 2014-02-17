@@ -7,6 +7,7 @@ namespace vapula
 	class Context;
 	class Envelope;
 	class Invoker;
+	class Error;
 
 	//stack
 	class VAPULA_API Stack

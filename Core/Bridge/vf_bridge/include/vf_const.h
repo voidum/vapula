@@ -106,7 +106,7 @@ namespace vapula
 	pcstr const _vf_err_3 = "untrusted invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.1.0";
+	pcstr const _vf_version = "2.1.1.1";
 	pcstr const _vf_msg_cp = "utf8";
 
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";

@@ -11,7 +11,7 @@ namespace Vapula.Model
         private int _Id;
         private DataType _Type;
         private ParamMode _Mode;
-        private Function _Function;
+        private Method _Method;
         private TagList _Tags
             = new TagList();
         #endregion
@@ -93,10 +93,10 @@ namespace Vapula.Model
         /// <summary>
         /// 获取或设置参数所属的功能
         /// </summary>
-        public Function Function
+        public Method Method
         {
-            get { return _Function; }
-            set { _Function = value; }
+            get { return _Method; }
+            set { _Method = value; }
         }
 
         /// <summary>

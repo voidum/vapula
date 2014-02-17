@@ -49,7 +49,7 @@
     <Compile Include="Helper\Logger\LoggerHub.cs" />
     <Compile Include="Core\Stack.cs" />
     <Compile Include="Driver\DriverEntry.cs" />
-    <Compile Include="Model\Function.cs" />
+    <Compile Include="Model\Method.cs" />
     <Compile Include="Model\ISyncable.cs" />
     <Compile Include="Model\Library.cs" />
     <Compile Include="Model\Parameter.cs" />

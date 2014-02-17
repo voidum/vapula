@@ -143,6 +143,12 @@ v2.1.0.2
 v2.1.1.0
 +)support safe invoke
 
+v2.1.1.1
+=)seperate error from base
+=)adjust C entry
++)add array C entry
+*)fix envelope bugs
+
 vPLAN
 +)support smart pointer with GC?
 +)support rollback when fail?

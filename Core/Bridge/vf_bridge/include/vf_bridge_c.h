@@ -9,6 +9,9 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 	VAPULA_API void vfeDeleteObject(object ptr);
+
+	//Error
+	VAPULA_API int vfeWhatError(object err);
 	VAPULA_API void vfeThrowError(int what);
 
 	//Driver
@@ -18,7 +21,6 @@ extern "C"
 	VAPULA_API void vfeKickAllDrivers();
 
 	//Library
-	VAPULA_API int vfeGetLibraryCount();
 	VAPULA_API object vfeLoadLibrary(pcstr path);
 	VAPULA_API object vfeLoadLibraryW(pcwstr path);
 	VAPULA_API pcstr vfeGetRuntime(object lib);
@@ -42,15 +44,19 @@ extern "C"
 	VAPULA_API pcstr vfeGetMethodId(object stk);
 	VAPULA_API object vfeGetContext(object stk);
 	VAPULA_API object vfeGetEnvelope(object stk);
+	VAPULA_API int vfeStackIsProtected(object stk);
+	VAPULA_API object vfeGetError(object stk);
 	
 	//Context
-	VAPULA_API uint8 vfeGetCtrlCode(object ctx);
 	VAPULA_API uint8 vfeGetCurrentState(object ctx);
 	VAPULA_API uint8 vfeGetLastState(object ctx);
 	VAPULA_API uint8 vfeGetReturnCode(object ctx);
-	VAPULA_API void vfeSetReturnCode(object ctx, uint8 ret);
+	VAPULA_API uint8 vfeGetCtrlCode(object ctx);
 	VAPULA_API float vfeGetProgress(object ctx);
+	VAPULA_API pcstr vfeGetKeyFrame(object ctx);
+	VAPULA_API void vfeSetReturnCode(object ctx, uint8 ret);
 	VAPULA_API void vfeSetProgress(object ctx, float prog);
+	VAPULA_API void vfeSetKeyFrame(object ctx, pcstr frame);
 	VAPULA_API void vfeSwitchHold(object ctx);
 	VAPULA_API void vfeSwitchBusy(object ctx);
 
@@ -59,14 +65,22 @@ extern "C"
 	VAPULA_API object vfeParseEnvelopeW(pcwstr xml);
 	VAPULA_API void vfeZeroEnvelope(object env);
 	VAPULA_API object vfeCopyEnvelope(object env);
-	VAPULA_API void vfeWriteEnvelopeValue(object env, int id, pcstr value);
-	VAPULA_API void vfeWriteEnvelopeValueW(object env, int id, pcwstr value);
-	VAPULA_API pcstr vfeReadEnvelopeValue(object env, int id);
-	VAPULA_API pcwstr vfeReadEnvelopeValueW(object env, int id);
-	VAPULA_API void vfeWriteEnvelopeObject(object env, int id, object value, uint32 length);
-	VAPULA_API object vfeReadEnvelopeObject(object env, int id, uint32* length);
 	VAPULA_API void vfeDeliverEnvelope(object src, object dst, int from, int to);
 	VAPULA_API void vfeCastDeliverEnvelope(object src, object dst, int from, int to);
+
+	VAPULA_API uint32 vfeGetEnvLen(object env, int id);
+	VAPULA_API void vfeWriteEnvVal(object env, int id, pcstr value);
+	VAPULA_API void vfeWriteEnvValW(object env, int id, pcwstr value);
+	VAPULA_API void vfeWriteEnvObj(object env, int id, object value, uint32 length);
+	VAPULA_API pcstr vfeReadEnvVal(object env, int id);
+	VAPULA_API pcwstr vfeReadEnvValW(object env, int id);
+	VAPULA_API object vfeReadEnvObj(object env, int id);
+
+	VAPULA_API void vfeCreateArray(object env, int id, uint32 len);
+	VAPULA_API void vfeWriteValAt(object env, int id, uint32 idx, pcstr value);
+	VAPULA_API void vfeWriteValAtW(object env, int id, uint32 idx, pcwstr value);
+	VAPULA_API pcstr vfeReadValAt(object env, int id, uint32 idx);
+	VAPULA_API pcwstr vfeReadValAtW(object env, int id, uint32 idx);
 
 	//Pipe
 	VAPULA_API object vfeCreatePipe();

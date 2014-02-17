@@ -115,6 +115,9 @@
     <ClInclude Include="include\vf_method.h">
       <Filter>library\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_error.h">
+      <Filter>.core\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="src\vf_method.cpp">
       <Filter>library\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_error.cpp">
+      <Filter>.core\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

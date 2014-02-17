@@ -22,4 +22,4 @@ enum HostReturnCode
 };
 
 pcstr const _vf_host = "Vapula Host";
-pcstr const _vf_host_version = "2.0.4.0";
+pcstr const _vf_host_version = "2.0.4.1";

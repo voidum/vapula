@@ -10,10 +10,10 @@
     <xs:all>
       <xs:element name="id" maxOccurs="1" type="ascii_string" />
       <xs:element name="runtime" maxOccurs="1" type="ascii_string" />
-      <xs:element name="functions" maxOccurs="1">
+      <xs:element name="methods" maxOccurs="1">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="function" type="function" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="method" type="method" minOccurs="0" maxOccurs="unbounded" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -21,7 +21,7 @@
     </xs:all>
   </xs:complexType>
   
-  <xs:complexType name="function">
+  <xs:complexType name="method">
     <xs:all>
       <xs:element name="id" maxOccurs="1" type="ascii_string" />
       <xs:element name="entry" maxOccurs="1" type="ascii_string" />

@@ -5,6 +5,8 @@
 #include "vf_envelope.h"
 #include <fstream>
 
+#pragma warning(disable: 4127)
+
 namespace vapula
 {
 	Worker::Worker()
@@ -135,9 +137,10 @@ namespace vapula
 
 		std::ofstream out;
 		pcstr path = _Task->GetDataPath();
-		out.open(_Task->GetDataPath(), std::ios::out | std::ios::binary);
+		out.open(path, std::ios::out | std::ios::binary);
 		out<<xml;
 		out.close();
+		delete path;
 		return true;
 	}
 }
