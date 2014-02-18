@@ -30,7 +30,7 @@ namespace vapula
 		pcstr _Id; 
 
 		//methods
-		vector<Method*> _Methods;
+		list<Method*> _Methods;
 
 	protected:
 		void ClearAll();

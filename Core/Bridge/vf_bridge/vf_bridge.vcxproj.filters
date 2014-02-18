@@ -1,14 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="aspect">
-      <UniqueIdentifier>{77fcfeee-12d5-4dcd-b6ed-576ebb06eddb}</UniqueIdentifier>
+    <Filter Include="base">
+      <UniqueIdentifier>{62319621-c5ab-4c65-bbad-cb7250a14b17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="aspect\header">
-      <UniqueIdentifier>{ea2083da-2119-4dbb-81c5-c357ff6be7bc}</UniqueIdentifier>
+    <Filter Include="base\header">
+      <UniqueIdentifier>{cea338d9-61e2-4f73-999e-2052153d188b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="aspect\source">
-      <UniqueIdentifier>{5b203447-5fc6-46f1-9636-1b1748f31c58}</UniqueIdentifier>
+    <Filter Include="base\source">
+      <UniqueIdentifier>{67c0c82c-f83a-40c1-be7a-916bd371900a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{c51d2d36-900c-47f1-8f07-8cb8ab962e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\header">
+      <UniqueIdentifier>{f3d95d33-7feb-45d3-a471-933d39a75dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\source">
+      <UniqueIdentifier>{74ea52ca-e884-423f-872f-5e0ecb348756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="sdk">
+      <UniqueIdentifier>{b54294e6-7b43-4b1b-a0ec-c85220f7f154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sdk\header">
+      <UniqueIdentifier>{2d73aab2-7452-44cc-b541-3ad54056648b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sdk\source">
+      <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
     </Filter>
     <Filter Include="library">
       <UniqueIdentifier>{6553cd31-ea23-421c-8cee-cf1085676b89}</UniqueIdentifier>
@@ -19,170 +41,136 @@
     <Filter Include="library\source">
       <UniqueIdentifier>{e65d3346-5c3c-40d4-aa81-baa811d694df}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".core">
-      <UniqueIdentifier>{c51d2d36-900c-47f1-8f07-8cb8ab962e59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".core\header">
-      <UniqueIdentifier>{f3d95d33-7feb-45d3-a471-933d39a75dee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".core\source">
-      <UniqueIdentifier>{74ea52ca-e884-423f-872f-5e0ecb348756}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".sdk">
-      <UniqueIdentifier>{b54294e6-7b43-4b1b-a0ec-c85220f7f154}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".sdk\header">
-      <UniqueIdentifier>{2d73aab2-7452-44cc-b541-3ad54056648b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".sdk\source">
-      <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".res">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include=".base">
-      <UniqueIdentifier>{62319621-c5ab-4c65-bbad-cb7250a14b17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".base\header">
-      <UniqueIdentifier>{cea338d9-61e2-4f73-999e-2052153d188b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include=".base\source">
-      <UniqueIdentifier>{67c0c82c-f83a-40c1-be7a-916bd371900a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_base.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_xml.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_const.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_setting.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_string.h">
-      <Filter>.base\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_advice.h">
-      <Filter>aspect\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_jointcut.h">
-      <Filter>aspect\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_bridge_c.h">
-      <Filter>.sdk\header</Filter>
+      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_dev_lib.h">
-      <Filter>.sdk\header</Filter>
+      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_dev_drv.h">
-      <Filter>.sdk\header</Filter>
+      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_dev_inv.h">
-      <Filter>.sdk\header</Filter>
+      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_driver.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_stack.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_invoker.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_pipe.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_library.h">
       <Filter>library\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_context.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_envelope.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_debug.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_assist.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_method.h">
       <Filter>library\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_error.h">
-      <Filter>.core\header</Filter>
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_aspect.h">
+      <Filter>library\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_weaver.h">
+      <Filter>library\header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_base.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_string.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_xml.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_bridge_c.cpp">
-      <Filter>.sdk\source</Filter>
+      <Filter>sdk\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_setting.cpp">
-      <Filter>.base\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_advice.cpp">
-      <Filter>aspect\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_library.cpp">
       <Filter>library\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_context.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_stack.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_driver.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_envelope.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_invoker.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_pipe.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_debug.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_assist.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_method.cpp">
       <Filter>library\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_error.cpp">
-      <Filter>.core\source</Filter>
+      <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

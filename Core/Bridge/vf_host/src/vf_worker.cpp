@@ -102,7 +102,7 @@ namespace vapula
 		{
 			int id = XML::ValInt(XML::XAttr(xe_param, "id"));
 			pcstr value = XML::ValStr(xe_param);
-			env->CastWriteValue(id, value);
+			env->CastWrite(id, value);
 			delete value;
 			xe_param = XML::Next(xe_param);
 		}
@@ -128,7 +128,7 @@ namespace vapula
 				pcstr v = str::Value(i);
 				oss<<(pcstr)(Handle((object)v).Get());
 				oss<<"\">";
-				oss<<env->CastReadValue(i);
+				oss<<env->CastRead(i);
 				oss<<"</param>";
 			}
 		}

@@ -25,7 +25,7 @@ namespace vapula
 
 	Driver* DriverHub::GetDriver(pcstr id)
 	{
-		typedef vector<Driver*>::iterator iter;
+		typedef list<Driver*>::iterator iter;
 		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 		{
 			Driver* drv = *i;
@@ -73,7 +73,7 @@ namespace vapula
 
 	void DriverHub::Kick(pcstr id)
 	{
-		typedef vector<Driver*>::iterator iter;
+		typedef list<Driver*>::iterator iter;
 		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 		{
 			Driver* drv = *i;
@@ -88,7 +88,7 @@ namespace vapula
 
 	void DriverHub::KickAll()
 	{
-		typedef vector<Driver*>::iterator iter;
+		typedef list<Driver*>::iterator iter;
 		for(iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 			Clear(*i);
 		_Drivers.clear();

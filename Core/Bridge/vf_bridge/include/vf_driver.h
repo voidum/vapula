@@ -40,7 +40,7 @@ namespace vapula
 	class VAPULA_API DriverHub
 	{
 	private:
-		vector<Driver*> _Drivers;
+		list<Driver*> _Drivers;
 
 	private:
 		static DriverHub* _Instance;

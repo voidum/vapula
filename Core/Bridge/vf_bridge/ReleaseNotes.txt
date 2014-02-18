@@ -92,15 +92,18 @@ v2.0.8.2
 =)adjust entries
 *)rename Settings => Setting
 
+
 v2.0.8.3
 +)add TI v2
 +)*)restore token
 +)*)improve performance
 +)*)adjust usage
 
+
 v2.0.8.4
 *)improve TI2
 *)+)add lock for token
+
 
 v2.0.8.5
 *)remove TI2
@@ -111,27 +114,34 @@ v2.0.8.5
 
 =)adjust entry
 
+
 v2.0.8.6
 =)adjust driver path
+
 
 v2.0.9.0
 +)add function
 =)one entry for one function
 
+
 v2.0.9.1
 +)add scoped smart pointer
+
 
 v2.0.9.2
 =)adjust lock
 *)debug several memory leaks
 
+
 v2.1.0.0
 *)fix invoker bugs
 +)support rollback
 
+
 v2.1.0.1
 *)fix invoker bugs
 +)support error
+
 
 v2.1.0.2
 =)rename function to method
@@ -140,8 +150,10 @@ v2.1.0.2
 -)combine utility with base
 *)support ref/deref in smart pointer
 
+
 v2.1.1.0
 +)support safe invoke
+
 
 v2.1.1.1
 =)seperate error from base
@@ -149,13 +161,13 @@ v2.1.1.1
 +)add array C entry
 *)fix envelope bugs
 
+
 vPLAN
-+)support smart pointer with GC?
-+)support rollback when fail?
 +)support AOP
-+)support json
-+)support base64
++)support base64 - mem deserialization
+
++)support json - reduce inter file size ?
++)support smart pointer with GC?
 +)support logger
-+)support exception
 +)support virtual thread?
 +)support thread pool?

@@ -122,7 +122,7 @@ void Process_Context2()
 	for(int i=0; i<1000; i++)
 	{
 		if(i == 500)
-			ThrowError(1001);
+			Error::Throw(custom_error);
 		ctx->SetProgress(i / 10.0f);
 		Sleep(20);
 	}
@@ -134,7 +134,7 @@ void Rollback_Context2()
 	Stack* stack = Stack::GetInstance();
 	Context* ctx = stack->GetContext();
 	float prog = ctx->GetProgress();
-	for(int i=prog; i>0; i--)
+	for(float i = prog; i > 0; i--)
 	{
 		ctx->SetProgress(i);
 		Sleep(20);

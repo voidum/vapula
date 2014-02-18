@@ -61,7 +61,7 @@ namespace vapula
 
 	void Library::ClearAll()
 	{
-		typedef vector<Method*>::iterator iter;
+		typedef list<Method*>::iterator iter;
 		for(iter i=_Methods.begin(); i!=_Methods.end(); i++)
 			Clear(*i);
 		_Methods.clear();
@@ -79,7 +79,7 @@ namespace vapula
 
 	Method* Library::GetMethod(pcstr id)
 	{
-		typedef vector<Method*>::iterator iter;
+		typedef list<Method*>::iterator iter;
 		for(iter i=_Methods.begin(); i!=_Methods.end(); i++)
 		{
 			Method* mt = *i;

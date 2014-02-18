@@ -81,7 +81,7 @@ namespace vapula
 
 	private:
 		Lock* _Lock;
-		vector<Stack*> _Stacks;
+		list<Stack*> _Stacks;
 	public:
 		//get stack by id
 		Stack* GetStack(uint32 id);

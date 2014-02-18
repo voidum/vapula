@@ -10,16 +10,16 @@
     <Filter Include="worker\source">
       <UniqueIdentifier>{e2c092d7-4f8a-45fa-9070-d722e45f4e12}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".base">
+    <Filter Include="base">
       <UniqueIdentifier>{991aaf33-794b-4382-8930-a7447fd71f8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".base\header">
+    <Filter Include="base\header">
       <UniqueIdentifier>{acfb1c00-a142-4352-87d0-7f062bbb5e86}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".base\source">
+    <Filter Include="base\source">
       <UniqueIdentifier>{df556f55-c693-41a1-a0f2-c4db9dd20a86}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".res">
+    <Filter Include="res">
       <UniqueIdentifier>{c1ca27ac-c1d0-43d7-a984-c272538aa4c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -31,16 +31,16 @@
       <Filter>worker\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_host.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_task.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="res\resource.h">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_worker.h">
-      <Filter>.base\header</Filter>
+      <Filter>base\header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -51,26 +51,26 @@
       <Filter>worker\source</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_task.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_worker.cpp">
-      <Filter>.base\source</Filter>
+      <Filter>base\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_host.rc">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="tmpl_task.xml">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </None>
     <None Include="tmpl_data.xml">
-      <Filter>.res</Filter>
+      <Filter>res</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <vector>
+#include <list>
 #include <iostream>
 #include <ctime>
 #include <random>
@@ -20,6 +21,7 @@ namespace vapula
 {
 	//using namespace
 	using std::vector;
+	using std::list;
 	using std::string;
 	using std::wstring;
 	using std::ostringstream;
@@ -98,6 +100,13 @@ namespace vapula
 		VF_RETURN_NULLTASK = 4,
 		VF_RETURN_UNHANDLED = 5
 	}; //context return code
+
+	enum AspectMode
+	{
+		VF_ASPECT_WAIT,
+		VF_ASPECT_SYNC,
+		VF_ASPECT_ASYNC
+	}; //aspect mode
 
 	//define error
 	pcstr const _vf_err_0 = "invalid data type";

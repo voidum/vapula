@@ -124,7 +124,7 @@ namespace vapula
 
 	Stack* StackHub::GetStack(uint32 id)
 	{
-		typedef vector<Stack*>::iterator iter;
+		typedef list<Stack*>::iterator iter;
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{
 			Stack* stack = *i;
@@ -141,7 +141,7 @@ namespace vapula
 
 	void StackHub::Link(Stack* stack)
 	{
-		typedef vector<Stack*>::iterator iter;
+		typedef list<Stack*>::iterator iter;
 		_Lock->Enter();
 		iter i = _Stacks.begin();
 		while(i != _Stacks.end())
@@ -157,7 +157,7 @@ namespace vapula
 
 	void StackHub::Kick(Stack* stack)
 	{
-		typedef vector<Stack*>::iterator iter;
+		typedef list<Stack*>::iterator iter;
 		_Lock->Enter();
 		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
 		{

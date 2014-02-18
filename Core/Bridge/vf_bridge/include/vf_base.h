@@ -45,10 +45,13 @@ namespace vapula
 		~Once();
 
 	public:
+		//test if can be set
 		bool CanSet();
 
+		//set value
 		void Set(object data, uint32 size);
 
+		//get value
 		object Get();
 	};
 
@@ -64,8 +67,13 @@ namespace vapula
 		~Flag();
 
 	public:
+		//enable flag
 		void Enable(int flag);
+
+		//disable flag
 		void Disable(int flag);
+
+		//valid flag
 		bool Valid(int flag);
 	};
 
