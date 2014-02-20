@@ -12,10 +12,10 @@ namespace vapula
 	private:
 		Lock* _Lock;
 	private:
-		uint8 _LastState;
-		uint8 _CurrentState;
-		uint8 _ReturnCode;
-		uint8 _CtrlCode;
+		int8 _LastState;
+		int8 _CurrentState;
+		int8 _ReturnCode;
+		int8 _CtrlCode;
 		pcstr _KeyFrame;
 		float _Progress; //0 - 100
 
@@ -25,13 +25,13 @@ namespace vapula
 
 	public:
 		//set state
-		void SetState(uint8 value, Invoker* owner);
+		void SetState(int8 value, Invoker* owner);
 
 		//set return code
-		void SetReturnCode(uint8 value);
+		void SetReturnCode(int8 value);
 
 		//set control code
-		void SetCtrlCode(uint8 value, Invoker* owner);
+		void SetCtrlCode(int8 value, Invoker* owner);
 
 		//set progress
 		void SetProgress(float value);
@@ -47,16 +47,16 @@ namespace vapula
 
 	public:
 		//get current state
-		uint8 GetCurrentState();
+		int8 GetCurrentState();
 
 		//get last state
-		uint8 GetLastState();
+		int8 GetLastState();
 
 		//get return code
-		uint8 GetReturnCode();
+		int8 GetReturnCode();
 
 		//get control code
-		uint8 GetCtrlCode();
+		int8 GetCtrlCode();
 
 		//get progress
 		float GetProgress();

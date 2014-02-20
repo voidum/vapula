@@ -103,7 +103,6 @@ namespace vapula
 
 	enum AspectMode
 	{
-		VF_ASPECT_WAIT,
 		VF_ASPECT_SYNC,
 		VF_ASPECT_ASYNC
 	}; //aspect mode
@@ -115,7 +114,7 @@ namespace vapula
 	pcstr const _vf_err_3 = "untrusted invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.1.1";
+	pcstr const _vf_version = "2.1.2.0";
 	pcstr const _vf_msg_cp = "utf8";
 
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";

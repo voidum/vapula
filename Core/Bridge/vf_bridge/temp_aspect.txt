@@ -1,0 +1,7 @@
+<xml utf8>
+ <aspect>
+  <id>{string: aspect id}</id>
+  <library>{string: library id}</library>
+  <method>{string: method id}</method>
+  <mode>{int: aspect mode}</mode>
+  <contact>{string: key frame pattern}</contact>

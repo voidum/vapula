@@ -48,13 +48,13 @@ extern "C"
 	VAPULA_API object vfeGetError(object stk);
 	
 	//Context
-	VAPULA_API uint8 vfeGetCurrentState(object ctx);
-	VAPULA_API uint8 vfeGetLastState(object ctx);
-	VAPULA_API uint8 vfeGetReturnCode(object ctx);
-	VAPULA_API uint8 vfeGetCtrlCode(object ctx);
+	VAPULA_API int8 vfeGetCurrentState(object ctx);
+	VAPULA_API int8 vfeGetLastState(object ctx);
+	VAPULA_API int8 vfeGetReturnCode(object ctx);
+	VAPULA_API int8 vfeGetCtrlCode(object ctx);
 	VAPULA_API float vfeGetProgress(object ctx);
 	VAPULA_API pcstr vfeGetKeyFrame(object ctx);
-	VAPULA_API void vfeSetReturnCode(object ctx, uint8 ret);
+	VAPULA_API void vfeSetReturnCode(object ctx, int8 ret);
 	VAPULA_API void vfeSetProgress(object ctx, float prog);
 	VAPULA_API void vfeSetKeyFrame(object ctx, pcstr frame);
 	VAPULA_API void vfeSwitchHold(object ctx);

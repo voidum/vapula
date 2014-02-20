@@ -10,12 +10,16 @@ namespace vapula
 	//driver {base}
 	class VAPULA_API Driver
 	{
-	public:
+	private:
 		HMODULE _Module;
 
 	public:
 		Driver();
 		virtual ~Driver();
+
+	public:
+		//load driver by path
+		static Driver* Load(pcstr path);
 
 	public:
 		//get runtime id
@@ -46,7 +50,7 @@ namespace vapula
 		static DriverHub* _Instance;
 
 	public:
-		//get instance of DriverHub
+		//get instance of driver hub
 		static DriverHub* GetInstance();
 
 	private:
@@ -55,7 +59,11 @@ namespace vapula
 		~DriverHub();
 
 	public:
-		//link driver by id
+		//link driver
+		void Link(Driver* driver);
+
+		//try to load & link driver by id
+		//TODO: NEED TEST
 		bool Link(pcstr id);
 
 		//kick out driver by id

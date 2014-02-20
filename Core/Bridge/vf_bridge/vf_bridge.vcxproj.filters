@@ -162,9 +162,18 @@
     <ClCompile Include="src\vf_error.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
+    <ClCompile Include="src\vf_aspect.cpp">
+      <Filter>library\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_weaver.cpp">
+      <Filter>library\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt">
+      <Filter>res</Filter>
+    </None>
+    <None Include="temp_aspect.txt">
       <Filter>res</Filter>
     </None>
   </ItemGroup>

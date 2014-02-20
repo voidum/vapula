@@ -3,7 +3,30 @@
 namespace vapula
 {
 	Driver::Driver() { }
+
 	Driver::~Driver() { }
+
+	Driver* Driver::Load(pcstr path)
+	{
+		pcwstr cs16_path = str::ToStrW(path);
+		Handle autop1((object)cs16_path);
+		HMODULE module = LoadLibraryW(cs16_path);
+		if(module == null) 
+			return null;
+
+		typedef Driver* (*Delegate)();
+		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
+		if(d == null)
+		{
+			FreeLibrary(module);
+			return null;
+		}
+
+		Driver* drv = d();
+		drv->_Module = module;
+		return drv;
+	}
+
 
 	DriverHub* DriverHub::_Instance = null;
 
@@ -18,6 +41,7 @@ namespace vapula
 	}
 
 	DriverHub::DriverHub() { }
+
 	DriverHub::~DriverHub()
 	{
 		KickAll();
@@ -40,33 +64,25 @@ namespace vapula
 		return _Drivers.size();
 	}
 
+	void DriverHub::Link(Driver* driver)
+	{
+		Driver* drv = GetDriver(driver->GetRuntimeId());
+		if(drv == null)
+			_Drivers.push_back(driver);
+	}
+
 	bool DriverHub::Link(pcstr id)
 	{
 		Driver* drv = GetDriver(id);
 		if(drv != null)
 			return true;
-
 		ostringstream oss;
 		pcstr cs8_dir = GetRuntimeDir();
 		oss<<cs8_dir<<id<<".driver";
-		pcwstr cs16_path = str::ToStrW(oss.str().c_str());
-		delete cs8_dir;
-		Handle autop1((object)cs16_path);
-		HMODULE module = LoadLibraryW(cs16_path);
-
-		if(module == null) 
+		pcstr cs8_path = oss.str().c_str();
+		drv = Driver::Load(cs8_path);
+		if(drv == null)
 			return false;
-
-		typedef Driver* (*Delegate)();
-		Delegate d = (Delegate)GetProcAddress(module, "GetDriverInstance");
-		if(d == null)
-		{
-			FreeLibrary(module);
-			return false;
-		}
-
-		drv = d();
-		drv->_Module = module;
 		_Drivers.push_back(drv);
 		return true;
 	}

@@ -130,10 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\vf_aspect.cpp" />
     <ClCompile Include="src\vf_base.cpp" />
     <ClCompile Include="src\vf_bridge_c.cpp" />
     <ClCompile Include="src\vf_debug.cpp" />
     <ClCompile Include="src\vf_error.cpp" />
+    <ClCompile Include="src\vf_weaver.cpp" />
     <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />
     <ClCompile Include="src\vf_library.cpp" />
@@ -149,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt" />
+    <None Include="temp_aspect.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc" />

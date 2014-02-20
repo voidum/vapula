@@ -204,25 +204,25 @@ object vfeGetError(object stk)
 
 //Context
 
-uint8 vfeGetCurrentState(object ctx)
+int8 vfeGetCurrentState(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetCurrentState();
 }
 
-uint8 vfeGetLastState(object ctx)
+int8 vfeGetLastState(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetLastState();
 }
 
-uint8 vfeGetReturnCode(object ctx)
+int8 vfeGetReturnCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetReturnCode();
 }
 
-uint8 vfeGetCtrlCode(object ctx)
+int8 vfeGetCtrlCode(object ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetCtrlCode();
@@ -240,7 +240,7 @@ pcstr vfeGetKeyFrame(object ctx)
 	return obj->GetKeyFrame();
 }
 
-void vfeSetReturnCode(object ctx, uint8 ret)
+void vfeSetReturnCode(object ctx, int8 ret)
 {
 	Context* obj = (Context*)ctx;
 	obj->SetReturnCode(ret);

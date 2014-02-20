@@ -158,8 +158,16 @@ v2.1.1.0
 v2.1.1.1
 =)seperate error from base
 =)adjust C entry
-+)add array C entry
++)add C entry for array
 *)fix envelope bugs
+
+v2.1.2.0
++)add library hub
+*)improve hubs
++)add AOP
++)+)add aspect
++)+)add aspect hub
++)+)add joint
 
 
 vPLAN
