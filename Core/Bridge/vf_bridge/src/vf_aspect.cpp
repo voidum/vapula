@@ -91,6 +91,7 @@ namespace vapula
 		using std::regex;
 		const regex pattern(_Contact);
 		string str_frame = frame;
-		return std::regex_match(str_frame, pattern);
+		bool match = std::regex_match(str_frame, pattern);
+		return match;
 	}
 }

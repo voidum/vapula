@@ -134,6 +134,20 @@ void Test4(Library* lib)
 	Clear(inv);
 }
 
+void Test5(Library* lib)
+{
+	cout<<"[load aspect]";
+	Aspect* aspect = Aspect::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\aspect.xml");
+	Weaver* weaver = Weaver::GetInstance();
+	weaver->Link(aspect);
+	Invoker* inv = lib->CreateInvoker("protect");
+	inv->Start();
+	Stack* stack = inv->GetStack();
+	Context* ctx = stack->GetContext();
+	while(ctx->GetCurrentState() != VF_STATE_IDLE)
+		Sleep(50);
+}
+
 int main()
 {
 	//link driver manually
@@ -150,6 +164,8 @@ int main()
 	path += "sample_lib.library";
 	
 	Library* lib = Library::Load(path.c_str());
+	LibraryHub* lib_hub = LibraryHub::GetInstance();
+	lib_hub->Link(lib);
 	Assert(lib != NULL);
 
 	cout<<"[mount library] ... ";
@@ -158,7 +174,8 @@ int main()
 	//Test1(lib);
 	//Test2(lib);
 	//Test3(lib);
-	Test4(lib);
+	//Test4(lib);
+	Test5(lib);
 
 	cout<<"[unmount component]"<<endl;
 	lib->Unmount();

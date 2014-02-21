@@ -173,7 +173,10 @@
     <None Include="ReleaseNotes.txt">
       <Filter>res</Filter>
     </None>
-    <None Include="temp_aspect.txt">
+    <None Include="tmpl_aspect.txt">
+      <Filter>res</Filter>
+    </None>
+    <None Include="aspect.xml">
       <Filter>res</Filter>
     </None>
   </ItemGroup>

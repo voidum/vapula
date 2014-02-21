@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aspect>
+  <id>test</id>
+  <library>sample_lib</library>
+  <method>msgbox</method>
+  <mode>0</mode>
+  <contact>\w+</contact>
+</aspect>

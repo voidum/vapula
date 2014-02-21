@@ -79,7 +79,8 @@ namespace vapula
 		ostringstream oss;
 		pcstr cs8_dir = GetRuntimeDir();
 		oss<<cs8_dir<<id<<".driver";
-		pcstr cs8_path = oss.str().c_str();
+		pcstr cs8_path = str::Copy(oss.str().c_str());
+		Handle autop((object)cs8_path);
 		drv = Driver::Load(cs8_path);
 		if(drv == null)
 			return false;

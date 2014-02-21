@@ -11,12 +11,14 @@ namespace vapula
 		_ReturnCode = VF_RETURN_NORMAL;
 		_CtrlCode = VF_CTRL_NULL;
 		_Progress = 0;
+		_KeyFrame = null;
 		_Lock = new Lock();
 	}
 
 	Context::~Context()
 	{
 		Clear(_Lock);
+		Clear(_KeyFrame);
 	}
 
 	void Context::SetState(int8 value, Invoker* owner)

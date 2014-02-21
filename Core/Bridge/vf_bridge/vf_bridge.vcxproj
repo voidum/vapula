@@ -150,8 +150,9 @@
     <ClCompile Include="src\vf_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="aspect.xml" />
     <None Include="ReleaseNotes.txt" />
-    <None Include="temp_aspect.txt" />
+    <None Include="tmpl_aspect.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc" />

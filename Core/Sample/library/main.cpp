@@ -8,9 +8,6 @@ void Process_Math()
 	Envelope* env = stack->GetEnvelope();
 	Context* ctx = stack->GetContext();
 
-	//TI2 will ignore invalid operation
-	//stack->SetEnvelope(null);
-
 	int a = env->ReadValue<int>(1);
 	int b = env->ReadValue<int>(2);
 
@@ -144,6 +141,8 @@ void Rollback_Context2()
 //7th
 void Process_Protect()
 {
+	Weaver* weaver = Weaver::GetInstance();
+	weaver->Reach("msg");
 	int* err_ptr = null;
 	err_ptr[0] = 42;
 }
@@ -153,4 +152,18 @@ void Rollback_Protect()
 {
 	int* err_ptr = null;
 	err_ptr[0] = 42;
+}
+
+//8th
+void Process_Msgbox()
+{
+	Stack* stack = Stack::GetInstance();
+	Envelope* env = stack->GetEnvelope();
+	uint32 target = env->ReadValue<uint32>(1);
+
+	StackHub* stack_hub = StackHub::GetInstance();
+	Stack* stack_tar = stack_hub->GetStack(target);
+	pcstr ptrs = str::Value((uint32)stack_tar);
+	ShowMsgbox(ptrs);
+	ShowMsgbox("hello, world.");
 }

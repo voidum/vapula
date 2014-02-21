@@ -48,7 +48,7 @@ namespace vapula
 	{
 		Aspect* aspe = GetAspect(aspect->GetAspectId());
 		if(aspe == null)
-			_Aspects.push_back(aspe);
+			_Aspects.push_back(aspect);
 	}
 
 	void Weaver::Kick(pcstr id)
@@ -76,6 +76,10 @@ namespace vapula
 
 	void Weaver::Reach(pcstr frame) 
 	{
+		Stack* stk = Stack::GetInstance();
+		Context* ctx = stk->GetContext();
+		ctx->SetKeyFrame(frame);
+
 		typedef list<Aspect*>::iterator iter;
 		list<Aspect*> reqs;
 		for(iter i = _Aspects.begin(); i != _Aspects.end(); i++)
