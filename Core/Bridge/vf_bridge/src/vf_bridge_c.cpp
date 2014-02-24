@@ -312,20 +312,20 @@ void vfeCastDeliverEnvelope(object src, object dst, int from, int to)
 	src_env->CastDeliver(dst_env, from, to);
 }
 
-uint32 vfeGetEnvLen(object env, int id)
+uint32 vfeEnvGetLen(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
 	uint32 len = obj->GetLength(id);
 	return len;
 }
 
-void vfeWriteEnvVal(object env, int id, pcstr value)
+void vfeEnvWriteVal(object env, int id, pcstr value)
 {
 	Envelope* obj = (Envelope*)env;
 	obj->CastWrite(id, value);
 }
 
-void vfeWriteEnvValW(object env, int id, pcwstr value)
+void vfeEnvWriteValW(object env, int id, pcwstr value)
 {
 	pcstr s8 = str::ToStr(value, _vf_msg_cp);
 	Envelope* obj = (Envelope*)env;
@@ -333,11 +333,10 @@ void vfeWriteEnvValW(object env, int id, pcwstr value)
 	delete s8;
 }
 
-void vfeWriteEnvObj(object env, int id, object value, uint32 length)
+void vfeEnvWriteObj(object env, int id, object value, uint32 len)
 {
 	Envelope* obj = (Envelope*)env;
-	int8 type = obj->GetType(id);
-	obj->WriteObject(id, value, length * GetTypeUnit(type));
+	obj->WriteObject(id, value, len);
 }
 
 pcstr vfeReadEnvVal(object env, int id)
@@ -358,7 +357,7 @@ pcwstr vfeReadEnvValW(object env, int id)
 object vfeReadEnvObj(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	object data = obj->ReadObject(id, null);
+	object data = obj->ReadObject(id);
 	return data;
 }
 

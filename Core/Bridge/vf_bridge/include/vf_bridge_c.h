@@ -68,19 +68,19 @@ extern "C"
 	VAPULA_API void vfeDeliverEnvelope(object src, object dst, int from, int to);
 	VAPULA_API void vfeCastDeliverEnvelope(object src, object dst, int from, int to);
 
-	VAPULA_API uint32 vfeGetEnvLen(object env, int id);
-	VAPULA_API void vfeWriteEnvVal(object env, int id, pcstr value);
-	VAPULA_API void vfeWriteEnvValW(object env, int id, pcwstr value);
-	VAPULA_API void vfeWriteEnvObj(object env, int id, object value, uint32 length);
-	VAPULA_API pcstr vfeReadEnvVal(object env, int id);
-	VAPULA_API pcwstr vfeReadEnvValW(object env, int id);
-	VAPULA_API object vfeReadEnvObj(object env, int id);
+	VAPULA_API uint32 vfeEnvGetLen(object env, int id);
+	VAPULA_API void vfeEnvWriteVal(object env, int id, pcstr value);
+	VAPULA_API void vfeEnvWriteValW(object env, int id, pcwstr value);
+	VAPULA_API void vfeEnvWriteObj(object env, int id, object value, uint32 size);
+	VAPULA_API pcstr vfeEnvReadVal(object env, int id);
+	VAPULA_API pcwstr vfeEnvReadValW(object env, int id);
+	VAPULA_API object vfeEnvReadObj(object env, int id);
 
 	VAPULA_API void vfeCreateArray(object env, int id, uint32 len);
-	VAPULA_API void vfeWriteValAt(object env, int id, uint32 idx, pcstr value);
-	VAPULA_API void vfeWriteValAtW(object env, int id, uint32 idx, pcwstr value);
-	VAPULA_API pcstr vfeReadValAt(object env, int id, uint32 idx);
-	VAPULA_API pcwstr vfeReadValAtW(object env, int id, uint32 idx);
+	VAPULA_API void vfeWriteValAt(object env, int id, uint32 offs, pcstr value);
+	VAPULA_API void vfeWriteValAtW(object env, int id, uint32 offs, pcwstr value);
+	VAPULA_API pcstr vfeReadValAt(object env, int id, uint32 offs);
+	VAPULA_API pcwstr vfeReadValAtW(object env, int id, uint32 offs);
 
 	//Pipe
 	VAPULA_API object vfeCreatePipe();

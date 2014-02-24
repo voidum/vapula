@@ -77,9 +77,6 @@ namespace vapula
 		bool Valid(int flag);
 	};
 
-	//get type unit
-	VAPULA_API uint32 GetTypeUnit(int8 type);
-
 	//generate local unique id
 	VAPULA_API pcstr GetLUID(bool logo = false);
 

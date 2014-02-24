@@ -3,34 +3,20 @@
 
 namespace vapula
 {
-	Envelope::Envelope(int32 total)
+	Envelope::Envelope()
 	{
-		_Total = total;
-		if(total > 0)
-		{
-			_Types = new int8[total];
-			_Modes = new int8[total];
-			_Addrs = new uint32[total];
-			_Lengths = new uint32[total];
-			memset(_Addrs, 0, total * sizeof(uint32));
-			memset(_Lengths, 0, total * sizeof(uint32));
-		}
-		else
-		{
-			_Types = null;
-			_Modes = null;
-			_Addrs = null;
-			_Lengths = null;
-		}
+		_Vars = null;
 	}
 
 	Envelope::~Envelope()
 	{
 		Zero();
-		Clear(_Types, true);
-		Clear(_Modes, true);
-		Clear(_Addrs, true);
-		Clear(_Lengths, true);
+		if(_Vars == null)
+			return;
+		for (int i = 0; i < _Total; i++)
+			if(_Vars[i] != null)
+				delete _Vars[i];
+		delete _Vars;
 	}
 
 	Envelope* Envelope::Parse(pcstr xml)
@@ -57,11 +43,11 @@ namespace vapula
 		}
 
 		Envelope* env = new Envelope(total);
-		for(int i=0; i<total; i++)
+		for(int i = 0; i < total; i++)
 		{
-			int id = v_id[i] - 1;
-			env->_Types[id] = v_type[i];
-			env->_Modes[id] = v_mode[i];
+			int idx = v_id[i] - 1;
+			env->_Types[idx] = v_type[i];
+			env->_Modes[idx] = v_mode[i];
 		}
 		return env;
 	}
@@ -76,291 +62,35 @@ namespace vapula
 			return id <= env->_Total;
 	}
 
-	object Envelope::_Read(int idx, uint32 size, bool copy)
-	{
-		if(_Addrs[idx] == null)
-			return null;
-		if(!copy)
-			return (object)(_Addrs[idx]);
-		object data = new byte[size];
-		memcpy(data, (object)(_Addrs[idx]), size);
-		return data;
-	}
-
-	void Envelope::_Write(int idx, object value, uint32 size, bool clear, bool copy)
-	{
-		//same address & do nothing
-		if((uint32)value == _Addrs[idx])
-			return;
-
-		//null data & do nothing
-		if(value == null)
-			return;
-
-		object data = (object)_Addrs[idx];
-
-		//clear old data
-		if(clear)
-		{
-			if(data != null)
-				delete data;
-			data = new byte[size];
-		}
-
-		//copy data
-		if(!copy)
-			_Addrs[idx] = (uint32)value;
-		else
-		{
-			memcpy(data, value, size);
-			_Addrs[idx] = (uint32)data;
-		}
-	}
-
 	int32 Envelope::GetTotal()
 	{
 		return _Total;
 	}
 
-	int8 Envelope::GetType(int id)
-	{
-		if(!_AssertId(id)) 
-			throw invalid_argument(_vf_err_1);
-		return _Types[id - 1];
-	}
-
-	int8 Envelope::GetMode(int id)
-	{
-		if(!_AssertId(id)) 
-			throw invalid_argument(_vf_err_1);
-		return _Modes[id - 1];
-	}
-
-	uint32 Envelope::GetLength(int id)
-	{
-		if(!_AssertId(id)) 
-			throw invalid_argument(_vf_err_1);
-		return _Lengths[id - 1];
-	}
-
 	void Envelope::Zero()
 	{
-		for(int i=0; i<_Total; i++)
+		for(int i = 0; i < _Total; i++)
 		{
-			if(_Addrs[i] != null)
-				delete (object)_Addrs[i];
+			if(_Vars[i] != null)
+				_Vars[i]->Zero();
 		}
-		memset(_Addrs, 0, 4 * _Total);
 	}
 
 	Envelope* Envelope::Copy()
 	{
-		Envelope* env = new Envelope(_Total);
-		for(int i=0; i<_Total; i++)
-		{
-			env->_Types[i] = _Types[i];
-			env->_Modes[i] = _Modes[i];
-		}
+		Envelope* env = new Envelope();
+		env->_Total = _Total;
+		env->_Vars = new PVar[_Total];
+		for(int i = 0; i < _Total; i++)
+			env->_Vars[i] = _Vars[i]->Copy();
 		return env;
-	}
-
-	object Envelope::ReadObject(int id, uint32* size, bool copy)
-	{
-		if(!_AssertId(id))
-			throw invalid_argument(_vf_err_1);
-		int idx = id - 1;
-		object data = _Read(idx, _Lengths[idx], copy);
-		if(size != null)
-			*size = _Lengths[idx];
-		return data;
-	}
-
-	void Envelope::WriteObject(int id, object value, uint32 size, bool copy)
-	{
-		if(!_AssertId(id))
-			throw invalid_argument(_vf_err_1);
-		int idx = id - 1;
-		bool clear = (value != null && _Lengths[idx] != size);
-		_Write(idx, value, size, clear, copy);
-		_Lengths[idx] = size;
-	}
-
-	void Envelope::CreateArray(int id, uint32 len)
-	{
-		if(!_AssertId(id))
-			throw invalid_argument(_vf_err_1);
-		int idx = id - 1;
-		uint32 size = len * GetTypeUnit(_Types[idx]);
-		object data = new byte[size];
-		memset(data, 0, size);
-		_Addrs[idx] = (uint32)data;
-		_Lengths[idx] = len;
-	}
-
-	pcstr Envelope::ReadStr(int id)
-	{
-		uint32 size = 0;
-		pcstr s8 = (pcstr)ReadObject(id, &size, true);
-		return s8;
-	}
-
-	pcwstr Envelope::ReadStrW(int id)
-	{
-		pcstr s8 = (pcstr)ReadObject(id, null, false);
-		pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
-		return s16;
-	}
-
-	void Envelope::WriteStr(int id, pcstr value)
-	{
-		WriteObject(id, const_cast<pstr>(value), strlen(value) + 1, true);
-	}
-
-	void Envelope::WriteStrW(int id, pcwstr value)
-	{
-		pcstr s8 = str::ToStr(value, _vf_msg_cp);
-		WriteObject(id, const_cast<pstr>(s8), wcslen(value) * 2 + 2, false);
-	}
-
-	pcstr Envelope::CastRead(int id, uint32 idx)
-	{
-		if(!_AssertId(id))
-			throw invalid_argument(_vf_err_1);
-		int8 type = GetType(id);
-		switch(type)
-		{
-		case VF_DATA_INT8:	
-			return str::Value(ReadValue<int8>(id, idx));
-		case VF_DATA_UINT8:
-			return str::Value(ReadValue<uint8>(id, idx));
-		case VF_DATA_INT16:
-			return str::Value(ReadValue<int16>(id, idx));
-		case VF_DATA_UINT16:
-			return str::Value(ReadValue<uint16>(id, idx));
-		case VF_DATA_INT32:
-			return str::Value(ReadValue<int32>(id, idx));
-		case VF_DATA_UINT32:
-			return str::Value(ReadValue<uint32>(id, idx));
-		case VF_DATA_INT64:
-			return str::Value(ReadValue<int64>(id, idx));
-		case VF_DATA_UINT64:
-			return str::Value(ReadValue<uint64>(id, idx));
-		case VF_DATA_REAL32:
-			return str::Value(ReadValue<real32>(id, idx));
-		case VF_DATA_REAL64:
-			return str::Value(ReadValue<real64>(id, idx));
-		case VF_DATA_BOOL:	
-			return ReadValue<bool>(id, idx) ? "true" : "false";
-		case VF_DATA_STRING:
-			return ReadStr(id);
-		default:
-			return null;
-		}
-	}
-
-	void Envelope::CastWrite(int id, pcstr value, uint32 idx)
-	{
-		if(value == null)
-			throw invalid_argument(_vf_err_2);
-		if(!_AssertId(id))
-			throw invalid_argument(_vf_err_1);
-		int8 type = GetType(id);
-		switch(type)
-		{
-		case VF_DATA_INT8:	
-			WriteValue(id, (int8)atoi(value), idx); break;
-		case VF_DATA_UINT8:
-			WriteValue(id, (uint8)atoi(value), idx); break;
-		case VF_DATA_INT16:
-			WriteValue(id, (int16)atoi(value), idx); break;
-		case VF_DATA_UINT16:
-			WriteValue(id, (uint16)atoi(value), idx); break;
-		case VF_DATA_INT32:
-			WriteValue(id, atoi(value), idx); break;
-		case VF_DATA_UINT32:
-			WriteValue(id, (uint32)atoi(value), idx); break;
-		case VF_DATA_INT64:
-			WriteValue(id, _atoi64(value), idx); break;
-		case VF_DATA_UINT64:
-			WriteValue(id, (uint64)_atoi64(value), idx); break;
-		case VF_DATA_REAL32:
-			WriteValue(id, atof(value), idx); break;
-		case VF_DATA_REAL64:
-			WriteValue(id, atof(value), idx); break;
-		case VF_DATA_BOOL:	
-			WriteValue(id, (strcmp(value,"true") == 0) ? 1 : 0, idx); break;
-		case VF_DATA_STRING:
-			WriteStr(id, value); break;
-		default:
-			break;
-		}
 	}
 
 	void Envelope::Deliver(Envelope* who, int from, int to)
 	{
 		if(!_AssertId(from) || !_AssertId(to, who))
 			throw invalid_argument(_vf_err_1);
-		int type = GetType(from);
-		if(type != who->GetType(to))
-			throw invalid_argument(_vf_err_0);
-
-		object ptr = null;
-		uint32 size = 0;
-		switch(type)
-		{
-		case VF_DATA_OBJECT:
-		case VF_DATA_STRING:
-			ptr = ReadObject(from, &size, false);
-			who->WriteObject(to, ptr, size, false);
-			break;
-		case VF_DATA_INT8:
-			ptr = ReadArray<int8>(from, &size, false);
-			who->WriteArray(to, (int8*)ptr, size, false);
-			break;
-		case VF_DATA_UINT8:
-			ptr = ReadArray<uint8>(from, &size, false);
-			who->WriteArray(to, (uint8*)ptr, size, false);
-			break;
-		case VF_DATA_INT16:
-			ptr = ReadArray<int16>(from, &size, false);
-			who->WriteArray(to, (int16*)ptr, size, false);
-			break;
-		case VF_DATA_UINT16:
-			ptr = ReadArray<uint16>(from, &size, false);
-			who->WriteArray(to, (uint16*)ptr, size, false);
-			break;
-		case VF_DATA_INT32:
-			ptr = ReadArray<int32>(from, &size, false);
-			who->WriteArray(to, (int32*)ptr, size, false);
-			break;
-		case VF_DATA_UINT32:
-			ptr = ReadArray<uint32>(from, &size, false);
-			who->WriteArray(to, (uint32*)ptr, size, false);
-			break;
-		case VF_DATA_INT64:
-			ptr = ReadArray<int64>(from, &size, false);
-			who->WriteArray(to, (int64*)ptr, size, false);
-			break;
-		case VF_DATA_UINT64:
-			ptr = ReadArray<uint64>(from, &size, false);
-			who->WriteArray(to, (uint64*)ptr, size, false);
-			break;
-		case VF_DATA_REAL32:
-			ptr = ReadArray<real32>(from, &size, false);
-			who->WriteArray(to, (real32*)ptr, size, false);
-			break;
-		case VF_DATA_REAL64:
-			ptr = ReadArray<real64>(from, &size, false);
-			who->WriteArray(to, (real64*)ptr, size, false);
-			break;
-		case VF_DATA_BOOL:
-			ptr = ReadArray<bool>(from, &size, false);
-			who->WriteArray(to, (bool*)ptr, size, false);
-			break;
-		default:
-			return;
-		}
-		delete [] ptr;
+		_Vars[from - 1]->Deliver(who->_Vars[to - 1]);
 	}
 
 	void Envelope::CastDeliver(Envelope* who, int from, int to)
@@ -372,7 +102,7 @@ namespace vapula
 		if(type == VF_DATA_OBJECT || size > 1)
 		{
 			uint32 size = 0;
-			object ptr = ReadObject(from, &size, false);
+			object ptr = ReadObject(from, false);
 			who->WriteObject(to, ptr, size, false);
 		}
 		else

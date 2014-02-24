@@ -125,6 +125,7 @@
     <ClInclude Include="include\vf_pipe.h" />
     <ClInclude Include="include\vf_stack.h" />
     <ClInclude Include="include\vf_string.h" />
+    <ClInclude Include="include\vf_variable.h" />
     <ClInclude Include="include\vf_weaver.h" />
     <ClInclude Include="include\vf_xml.h" />
   </ItemGroup>
@@ -135,6 +136,7 @@
     <ClCompile Include="src\vf_bridge_c.cpp" />
     <ClCompile Include="src\vf_debug.cpp" />
     <ClCompile Include="src\vf_error.cpp" />
+    <ClCompile Include="src\vf_variable.cpp" />
     <ClCompile Include="src\vf_weaver.cpp" />
     <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />

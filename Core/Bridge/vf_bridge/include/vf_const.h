@@ -109,7 +109,7 @@ namespace vapula
 
 	//define error
 	pcstr const _vf_err_0 = "invalid data type";
-	pcstr const _vf_err_1 = "access null param";
+	pcstr const _vf_err_1 = "invalid access";
 	pcstr const _vf_err_2 = "invalid invoke";
 	pcstr const _vf_err_3 = "untrusted invoke";
 

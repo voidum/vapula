@@ -109,6 +109,9 @@
     <ClInclude Include="include\vf_weaver.h">
       <Filter>library\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_variable.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="src\vf_weaver.cpp">
       <Filter>library\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_variable.cpp">
+      <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
