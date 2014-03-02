@@ -3,11 +3,11 @@
 
 Intro
 ------
-<code>Vapula</code> is a light component framework 
+`Vapula` is a light component framework 
 for faster and easier desktop software development.   
-<code>Vapula</code> is created by 
+`Vapula` is created by 
 [Sartrey Lee](http://sartrey.cn "know me here").
-To learn more about <code>Vapula</code>, 
+To learn more about `Vapula`, 
 check out [vapula.cn](http://vapula.cn "learn more here").
 
 Table of contents
@@ -19,35 +19,34 @@ Table of contents
 * [Contribution](#contribution "Contribution")
 * [Donate](#donate "Donate")
 
-<a id="features"></a>Feature
+Features
 ------
-<code>Vapula</code> is designed to simplify large software project.   
+`Vapula` is designed to simplify large software project.   
 Developers can concentrate on component development while considering main application less.
 ####Core
 * loose coupling
 * interop between supported languages
+* powerful data exchange
 * async invoker
 * optional transaction
-* stable
-* efficiency
-* light
+* stable, efficiency, light
 * easy API
 
 ####Model
-* directed-graph-based logic modeling (instead of simple UML)
-* config-based software modeling
+* DGML-based logic modeling (instead of UML)
+* software visualization modeling
 
 ####Engine
 * B/S structure
 * local or remote invoke
 
 ####supported language
-up to now, <b>C/C++</b>, <b>C#</b>.
+up to now, *C/C++*, *C#*.
 
 ####supported os
-up to now, <b>Windows</b> only.
+up to now, *Windows* only.
 
-<a id="build"></a>Build
+Build
 ------
 ####Prepare:
 1. setup <b>Visual Studio 2010+ Express</b>   
