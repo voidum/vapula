@@ -15,7 +15,6 @@ namespace vapula
 		int8 _Mode; //param mode
 		object _Data; //memory
 		uint32 _Length; //param length
-		bool _IsProto; //is prototype
 
 	private:
 		Variable();
@@ -42,10 +41,10 @@ namespace vapula
 		uint32 GetLength();
 
 	public:
-		//zero var
+		//clear data
 		void Zero();
 
-		//copy var
+		//copy variable
 		Variable* Copy();
 
 	public:
@@ -58,34 +57,39 @@ namespace vapula
 		//write string as 8-bit
 		void Write(pcstr value);
 
-		//deliver this to who
-		void Deliver(Variable* who);
-
-	public:
-		//sugar: read value at index
+		//read value at index
 		template<typename T>
-		T Get(uint32 at = 0)
+		T ReadAt(uint32 at = 0)
 		{
 			if(_Type == VF_DATA_STRING)
 				throw invalid_argument(_vf_err_0);
 			return ((T*)_Data)[at];
 		}
 
-		//sugar: write value at index
+		//write value at index
 		template<typename T>
-		void Set(T value, uint32 at = 0)
+		void WriteAt(T value, uint32 at = 0)
 		{
 			if(_Type == VF_DATA_STRING)
 				throw invalid_argument(_vf_err_0);
 			((T*)_Data)[at] = value;
 		}
 
-	public:
-		//read and cast value to string
-		pcstr CastRead(uint32 at = 0);
+		//deliver this to whom
+		void Deliver(Variable* who, bool copy = false);
 
-		//cast string to value and write
-		void CastWrite(pcstr value, uint32 at = 0);
+	public:
+		//read and cast value to string at index
+		pcstr CastReadAt(uint32 at = 0);
+
+		//cast string to value and write at index
+		void CastWriteAt(pcstr value, uint32 at = 0);
+
+		//encode memory to string
+		pcstr CastRead();
+
+		//decode string to memory
+		void CastWrite(pcstr value);
 	};
 
 	typedef Variable* PVar;

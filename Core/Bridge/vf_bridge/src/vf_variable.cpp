@@ -34,7 +34,6 @@ namespace vapula
 		_Mode = VF_PM_INOUT;
 		_Data = null;
 		_Length = 0;
-		_IsProto = true;
 	}
 
 	Variable::~Variable()
@@ -71,8 +70,7 @@ namespace vapula
 
 	void Variable::Zero()
 	{
-		if(!_IsProto)
-			Clear(_Data);
+		Clear(_Data);
 	}
 
 	Variable* Variable::Copy()
@@ -80,7 +78,6 @@ namespace vapula
 		Variable* var = new Variable();
 		var->_Type = _Type;
 		var->_Mode = _Mode;
-		var->_IsProto = false;
 		return var;
 	}
 
@@ -129,78 +126,84 @@ namespace vapula
 		Write((object)value, len, true);
 	}
 
-	void Variable::Deliver(Variable* who)
+	void Variable::Deliver(Variable* who, bool copy)
 	{
-		if(_Type != who->_Type)
-			throw invalid_argument(_vf_err_0);
-		who->Write(_Data, _Length, true);
+		uint32 unit = GetTypeUnit(who->_Type);
+		uint32 len = _Length + _Length % unit;
+		who->Write(_Data, len, copy);
 	}
 
-	pcstr Variable::CastRead(uint32 at)
+	pcstr Variable::CastReadAt(uint32 at)
 	{
 		switch(_Type)
 		{
-		case VF_DATA_INT8:	
-			return str::Value(Get<int8>(at));
+		case VF_DATA_INT8:
+			return str::Value(ReadAt<int8>(at));
 		case VF_DATA_UINT8:
-			return str::Value(Get<uint8>(at));
+			return str::Value(ReadAt<uint8>(at));
 		case VF_DATA_INT16:
-			return str::Value(Get<int16>(at));
+			return str::Value(ReadAt<int16>(at));
 		case VF_DATA_UINT16:
-			return str::Value(Get<uint16>(at));
+			return str::Value(ReadAt<uint16>(at));
 		case VF_DATA_INT32:
-			return str::Value(Get<int32>(at));
+			return str::Value(ReadAt<int32>(at));
 		case VF_DATA_UINT32:
-			return str::Value(Get<uint32>(at));
+			return str::Value(ReadAt<uint32>(at));
 		case VF_DATA_INT64:
-			return str::Value(Get<int64>(at));
+			return str::Value(ReadAt<int64>(at));
 		case VF_DATA_UINT64:
-			return str::Value(Get<uint64>(at));
+			return str::Value(ReadAt<uint64>(at));
 		case VF_DATA_REAL32:
-			return str::Value(Get<real32>(at));
+			return str::Value(ReadAt<real32>(at));
 		case VF_DATA_REAL64:
-			return str::Value(Get<real64>(at));
-		case VF_DATA_BOOL:	
-			return Get<bool>(at) ? "true" : "false";
-		case VF_DATA_STRING:
-			return (pcstr)Read(true);
+			return str::Value(ReadAt<real64>(at));
+		case VF_DATA_BOOL:
+			return ReadAt<bool>(at) ? "true" : "false";
 		default:
 			return null;
 		}
 	}
 
-	void Variable::CastWrite(pcstr value, uint32 at)
+	void Variable::CastWriteAt(pcstr value, uint32 at)
 	{
 		if(value == null)
 			throw invalid_argument(_vf_err_2);
 		switch(_Type)
 		{
-		case VF_DATA_INT8:	
-			Set((int8)atoi(value), at); break;
+		case VF_DATA_INT8:
+			WriteAt((int8)atoi(value), at); break;
 		case VF_DATA_UINT8:
-			Set((uint8)atoi(value), at); break;
+			WriteAt((uint8)atoi(value), at); break;
 		case VF_DATA_INT16:
-			Set((int16)atoi(value), at); break;
+			WriteAt((int16)atoi(value), at); break;
 		case VF_DATA_UINT16:
-			Set((uint16)atoi(value), at); break;
+			WriteAt((uint16)atoi(value), at); break;
 		case VF_DATA_INT32:
-			Set(atoi(value), at); break;
+			WriteAt(atoi(value), at); break;
 		case VF_DATA_UINT32:
-			Set((uint32)atoi(value), at); break;
+			WriteAt((uint32)atoi(value), at); break;
 		case VF_DATA_INT64:
-			Set(_atoi64(value), at); break;
+			WriteAt(_atoi64(value), at); break;
 		case VF_DATA_UINT64:
-			Set((uint64)_atoi64(value), at); break;
+			WriteAt((uint64)_atoi64(value), at); break;
 		case VF_DATA_REAL32:
-			Set(atof(value), at); break;
+			WriteAt(atof(value), at); break;
 		case VF_DATA_REAL64:
-			Set(atof(value), at); break;
-		case VF_DATA_BOOL:	
-			Set((strcmp(value,"true") == 0) ? 1 : 0, at); break;
-		case VF_DATA_STRING:
-			Write(value); break;
+			WriteAt(atof(value), at); break;
+		case VF_DATA_BOOL:
+			WriteAt((strcmp(value,"true") == 0) ? 1 : 0, at); break;
 		default:
 			break;
 		}
+	}
+
+	pcstr Variable::CastRead()
+	{
+		return null;
+	}
+
+	void Variable::CastWrite(pcstr value)
+	{
+		value = null;
 	}
 }

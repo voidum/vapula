@@ -65,22 +65,21 @@ extern "C"
 	VAPULA_API object vfeParseEnvelopeW(pcwstr xml);
 	VAPULA_API void vfeZeroEnvelope(object env);
 	VAPULA_API object vfeCopyEnvelope(object env);
-	VAPULA_API void vfeDeliverEnvelope(object src, object dst, int from, int to);
-	VAPULA_API void vfeCastDeliverEnvelope(object src, object dst, int from, int to);
+	VAPULA_API object vfeGetVariable(object env, int id);
 
-	VAPULA_API uint32 vfeEnvGetLen(object env, int id);
-	VAPULA_API void vfeEnvWriteVal(object env, int id, pcstr value);
-	VAPULA_API void vfeEnvWriteValW(object env, int id, pcwstr value);
-	VAPULA_API void vfeEnvWriteObj(object env, int id, object value, uint32 size);
-	VAPULA_API pcstr vfeEnvReadVal(object env, int id);
-	VAPULA_API pcwstr vfeEnvReadValW(object env, int id);
-	VAPULA_API object vfeEnvReadObj(object env, int id);
-
-	VAPULA_API void vfeCreateArray(object env, int id, uint32 len);
-	VAPULA_API void vfeWriteValAt(object env, int id, uint32 offs, pcstr value);
-	VAPULA_API void vfeWriteValAtW(object env, int id, uint32 offs, pcwstr value);
-	VAPULA_API pcstr vfeReadValAt(object env, int id, uint32 offs);
-	VAPULA_API pcwstr vfeReadValAtW(object env, int id, uint32 offs);
+	//Variable
+	VAPULA_API uint32 vfeGetVarLength(object var);
+	VAPULA_API void vfeWriteVar(object var, object value, uint32 len);
+	VAPULA_API object vfeReadVar(object var);
+	VAPULA_API void vfeCastWriteVarAt(object var, pcstr value, uint32 at);
+	VAPULA_API void vfeCastWriteVarAtW(object var, pcwstr value, uint32 at);
+	VAPULA_API pcstr vfeCastReadVarAt(object var, uint32 at);
+	VAPULA_API pcwstr vfeCastReadVarAtW(object var, uint32 at);
+	VAPULA_API void vfeCastWriteVar(object var, pcstr value);
+	VAPULA_API void vfeCastWriteVarW(object var, pcwstr value);
+	VAPULA_API pcstr vfeCastReadVar(object var);
+	VAPULA_API pcwstr vfeCastReadVarW(object var);
+	VAPULA_API void vfeDeliverVar(object src, object dst);
 
 	//Pipe
 	VAPULA_API object vfeCreatePipe();

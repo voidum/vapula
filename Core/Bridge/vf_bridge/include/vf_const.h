@@ -31,7 +31,7 @@ namespace vapula
 	//define type
 	typedef void* object;
 	typedef unsigned char byte;
-	typedef char int8;
+	typedef signed char int8;
 	typedef short int16;
 	typedef int int32;
 	typedef long long int64;
@@ -114,7 +114,7 @@ namespace vapula
 	pcstr const _vf_err_3 = "untrusted invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.2.1";
+	pcstr const _vf_version = "2.1.3.0";
 	pcstr const _vf_msg_cp = "utf8";
 
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";

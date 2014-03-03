@@ -100,8 +100,12 @@ namespace vapula
 		Invoker* inv = aspect->GetInvoker();
 		Stack* stk_aspe = inv->GetStack();
 		Envelope* env = stk_aspe->GetEnvelope();
-		Stack* stk = Stack::GetInstance();
-		env->WriteValue(1, stk->GetStackId());
+		Variable* var = (*env)[1];
+		if(var != null)
+		{
+			Stack* stk = Stack::GetInstance();
+			var->WriteAt(stk->GetStackId());
+		}
 		inv->Start();
 	}
 

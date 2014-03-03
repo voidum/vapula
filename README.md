@@ -10,15 +10,6 @@ for faster and easier desktop software development.
 To learn more about `Vapula`, 
 check out [vapula.cn](http://vapula.cn "learn more here").
 
-Table of contents
-------
-* [Features](#features "Features")
-* [Build](#build "Build")
-* [Authors](#authors "Authors")
-* [License](#license "License")
-* [Contribution](#contribution "Contribution")
-* [Donate](#donate "Donate")
-
 Features
 ------
 `Vapula` is designed to simplify large software project.   
@@ -41,21 +32,21 @@ Developers can concentrate on component development while considering main appli
 * local or remote invoke
 
 ####supported language
-up to now, *C/C++*, *C#*.
+up to now, **C/C++**, **C#**.
 
 ####supported os
-up to now, *Windows* only.
+up to now, **Windows** only.
 
 Build
 ------
 ####Prepare:
-1. setup <b>Visual Studio 2010+ Express</b>   
-2. setup other environments if need (e.g. <b>JDK</b>, <b>Python</b>...)
+1. setup **Visual Studio 2010+ Express**   
+2. setup other environments if need (e.g. **JDK**, **Python**...)
 3. download code   
 4. download 3rdparty requirement   
 
 ####Project:
-Within the download you'll find the following directories:
+Within the download you'll find the following directories:   
 <pre>
 vapula/
 ├── Core/ (core bridge, drivers & runtimes)
@@ -64,7 +55,7 @@ vapula/
 ├── Toolkit/ (toolkits for vapula)
 └── Docs/ (documents for vapula)
 </pre>
-
+   
 ####To build Core:
 1. open <code>Core/core.sln</code> and build   
 2. open other solution/project files and build if need
@@ -75,30 +66,28 @@ vapula/
 ####To build Toolkit:
 1. open <code>Toolkit/toolkit.sln</code> and build
 
-<a id="authors"></a>Authors
+Authors
 ------
 ####Sartrey Lee
 * [sartrey.cn](http://sartrey.cn "know me here")
 * [sartrey@live.cn](mailto:sartrey@live.cn "mail to me")
 
-<a id="license"></a>License
+License
 ------
 Code and document copyright Sartrey Lee.   
-Code released under the Apache 2 license.   
-Docs released under Creative Commons 3.0.
+Code released under **Apache 2 license**.   
+Docs released under **Creative Commons 3**.
 
-<a id="contribution"></a>Contribution
+Contribution
 ------
 You can contribute code, document on [Github](https://github.com/sartrey/vapula "Github") directly.
 You can contribute ideas by email or ways.
 
-<a id="donate"></a>Donate
+Donate
 ------
 Thank you for your support.   
 You can donate this project by Alipay.   
-<a href='http://me.alipay.com/sartrey'>
-<img src='https://img.alipay.com/sys/personalprod/style/mc/btn-index.png' />
-</a>   
+[![alipay](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](http://me.alipay.com/sartrey)   
 Dogecoin supported here.  
-<img src='https://raw.github.com/sartrey/vapula/master/Resource/dogecoin.png' />   
-My address: <b>DHEbps1GYW1eY9YJ7J8XZhBaduUDTwuCiG</b>
+![dogecoin](https://raw.github.com/sartrey/vapula/master/Resource/dogecoin.png)   
+My address: **DHEbps1GYW1eY9YJ7J8XZhBaduUDTwuCiG**

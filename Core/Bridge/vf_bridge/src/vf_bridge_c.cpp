@@ -298,102 +298,95 @@ object vfeCopyEnvelope(object env)
 	return obj->Copy();
 }
 
-void vfeDeliverEnvelope(object src, object dst, int from, int to)
-{
-	Envelope* src_env = (Envelope*)src;
-	Envelope* dst_env = (Envelope*)dst;
-	src_env->Deliver(dst_env, from, to);
-}
-
-void vfeCastDeliverEnvelope(object src, object dst, int from, int to)
-{
-	Envelope* src_env = (Envelope*)src;
-	Envelope* dst_env = (Envelope*)dst;
-	src_env->CastDeliver(dst_env, from, to);
-}
-
-uint32 vfeEnvGetLen(object env, int id)
+object vfeGetVariable(object env, int id)
 {
 	Envelope* obj = (Envelope*)env;
-	uint32 len = obj->GetLength(id);
-	return len;
+	return (*obj)[id];
 }
 
-void vfeEnvWriteVal(object env, int id, pcstr value)
+
+//Variable
+
+uint32 vfeGetVarLength(object var)
 {
-	Envelope* obj = (Envelope*)env;
-	obj->CastWrite(id, value);
+	Variable* obj = (Variable*)var;
+	return obj->GetLength();
 }
 
-void vfeEnvWriteValW(object env, int id, pcwstr value)
+void vfeWriteVar(object var, object value, uint32 len)
 {
-	pcstr s8 = str::ToStr(value, _vf_msg_cp);
-	Envelope* obj = (Envelope*)env;
-	obj->CastWrite(id, s8);
-	delete s8;
+	Variable* obj = (Variable*)var;
+	obj->Write(value, len);
 }
 
-void vfeEnvWriteObj(object env, int id, object value, uint32 len)
+object vfeReadVar(object var)
 {
-	Envelope* obj = (Envelope*)env;
-	obj->WriteObject(id, value, len);
+	Variable* obj = (Variable*)var;
+	return obj->Read();
 }
 
-pcstr vfeReadEnvVal(object env, int id)
+void vfeCastWriteVarAt(object var, pcstr value, uint32 at)
 {
-	Envelope* obj = (Envelope*)env;
-	return obj->CastRead(id);
+	Variable* obj = (Variable*)var;
+	obj->CastWriteAt(value, at);
 }
 
-pcwstr vfeReadEnvValW(object env, int id)
+void vfeCastWriteVarAtW(object var, pcwstr value, uint32 at)
 {
-	Envelope* obj = (Envelope*)env;
-	pcstr s8 = obj->CastRead(id);
-	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
-	delete s8;
-	return s16;
+	Variable* obj = (Variable*)var;
+	pcstr v = str::ToStr(value, _vf_msg_cp);
+	obj->CastWriteAt(v, at);
+	delete v;
 }
 
-object vfeReadEnvObj(object env, int id)
+pcstr vfeCastReadVarAt(object var, uint32 at)
 {
-	Envelope* obj = (Envelope*)env;
-	object data = obj->ReadObject(id);
-	return data;
+	Variable* obj = (Variable*)var;
+	return obj->CastReadAt(at);
 }
 
-void vfeCreateArray(object env, int id, uint32 len)
+pcwstr vfeCastReadVarAtW(object var, uint32 at)
 {
-	Envelope* obj = (Envelope*)env;
-	obj->CreateArray(id, len);
+	Variable* obj = (Variable*)var;
+	pcstr v = obj->CastReadAt(at);
+	pcwstr vw = str::ToStrW(v, _vf_msg_cp);
+	delete v;
+	return vw;
 }
 
-void vfeWriteValAt(object env, int id, uint32 idx, pcstr value)
+void vfeCastWriteVar(object var, pcstr value)
 {
-	Envelope* obj = (Envelope*)env;
-	obj->CastWrite(id, value, idx);
+	Variable* obj = (Variable*)var;
+	obj->CastWrite(value);
 }
 
-void vfeWriteValAtW(object env, int id, uint32 idx, pcwstr value)
+void vfeCastWriteVarW(object var, pcwstr value)
 {
-	Envelope* obj = (Envelope*)env;
-	pcstr s8 = str::ToStr(value, _vf_msg_cp);
-	obj->CastWrite(id, s8, idx);
-	delete s8;
+	Variable* obj = (Variable*)var;
+	pcstr v = str::ToStr(value, _vf_msg_cp);
+	obj->CastWrite(v);
+	delete v;
 }
 
-pcstr vfeReadValAt(object env, int id, uint32 idx)
+pcstr vfeCastReadVar(object var)
 {
-	Envelope* obj = (Envelope*)env;
-	return obj->CastRead(id, idx);
+	Variable* obj = (Variable*)var;
+	return obj->CastRead();
 }
 
-pcwstr vfeReadValAtW(object env, int id, uint32 idx)
+pcwstr vfeCastReadVarW(object var)
 {
-	Envelope* obj = (Envelope*)env;
-	pcstr s8 = obj->CastRead(id, idx);
-	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
-	delete s8;
-	return s16;
+	Variable* obj = (Variable*)var;
+	pcstr v = obj->CastRead();
+	pcwstr vw = str::ToStrW(v, _vf_msg_cp);
+	delete v;
+	return vw;
+}
+
+void vfeDeliverVar(object src, object dst)
+{
+	Variable* obj = (Variable*)src;
+	obj->Deliver((Variable*)dst);
 }
 
 

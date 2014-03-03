@@ -32,17 +32,14 @@ namespace vapula
 		int32 GetTotal();
 
 	public:
-		//zero envelope
+		//get variable by id
+		PVar operator [] (int id);
+
+	public:
+		//clear data in envelope
 		void Zero();
 
 		//copy envelope
 		Envelope* Copy();
-
-	public:
-		//deliver envelope
-		void Deliver(Envelope* who, int from, int to);
-
-		//deliver envelope with auto-cast
-		void CastDeliver(Envelope* who, int from, int to);
 	};
 }
