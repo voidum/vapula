@@ -5,11 +5,11 @@
 void Process_Math()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 	Context* ctx = stack->GetContext();
 
-	int a = env->ReadValue<int>(1);
-	int b = env->ReadValue<int>(2);
+	int* a = (int*)((*ds)[1]->Read());
+	int b = ds->ReadValue<int>(2);
 
 	int c = a + b;
 

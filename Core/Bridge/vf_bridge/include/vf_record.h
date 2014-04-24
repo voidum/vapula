@@ -54,11 +54,24 @@ namespace vapula
 		//write data
 		void Write(raw value, uint32 size, bool copy = false);
 
+		//deliver this to whom
+		void Deliver(Record* who, bool copy = false);
+
+	//candy for C++
+	public:
 		//write string as 8-bit
 		void Write(pcstr value);
 
-		//deliver this to whom
-		void Deliver(Record* who, bool copy = false);
+		template<typename T>
+		void WriteAt()
+		{
+		}
+
+		template<typename T>
+		T ReadAt()
+		{
+			return null;
+		}
 	};
 
 	typedef Record* PRecord;

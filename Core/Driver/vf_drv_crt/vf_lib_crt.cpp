@@ -25,9 +25,9 @@ void LibraryCRT::Unmount()
 	_Module = null;
 }
 
-object LibraryCRT::GetEntry(pcstr id)
+raw LibraryCRT::GetEntry(pcstr id)
 {
-	object entry = GetProcAddress(
+	raw entry = GetProcAddress(
 		_Module, 
 		id == null ? "Run" : id);
 	if(entry == null)

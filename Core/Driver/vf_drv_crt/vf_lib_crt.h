@@ -10,7 +10,7 @@ public:
 private:
 	HMODULE _Module;
 public:
-	object GetEntry(pcstr id);
+	raw GetEntry(pcstr id);
 
 public:
 	bool Mount();
