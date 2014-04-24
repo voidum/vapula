@@ -37,8 +37,8 @@ namespace vapula
 	class VAPULA_API Once : Uncopiable
 	{
 	private:
-		object _Data;
-		object _Seal;
+		raw _Data;
+		raw _Seal;
 
 	public:
 		Once();
@@ -49,10 +49,10 @@ namespace vapula
 		bool CanSet();
 
 		//set value
-		void Set(object data, uint32 size);
+		void Set(raw data, uint32 size);
 
 		//get value
-		object Get();
+		raw Get();
 	};
 
 	//flag

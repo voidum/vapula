@@ -4,7 +4,7 @@
 
 namespace vapula
 {
-	class Envelope;
+	class Dataset;
 	class Library;
 
 	//method
@@ -32,8 +32,8 @@ namespace vapula
 		//process symbol
 		pcstr _ProcessSym;
 
-		//prototype envelope
-		Envelope* _Envelope;
+		//prototype dataset
+		Dataset* _Dataset;
 
 	public:
 		//get library
@@ -48,8 +48,8 @@ namespace vapula
 		//get protected flag
 		bool IsProtected();
 
-		//get envelope
-		Envelope* GetEnvelope();
+		//get dataset
+		Dataset* GetDataset();
 
 		//get process symbol
 		pcstr GetProcessSym();

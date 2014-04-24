@@ -2,7 +2,7 @@
 #include "vf_aspect.h"
 #include "vf_invoker.h"
 #include "vf_stack.h"
-#include "vf_envelope.h"
+#include "vf_dataset.h"
 #include "vf_context.h"
 #include "vf_setting.h"
 
@@ -99,12 +99,14 @@ namespace vapula
 	{
 		Invoker* inv = aspect->GetInvoker();
 		Stack* stk_aspe = inv->GetStack();
-		Envelope* env = stk_aspe->GetEnvelope();
-		Variable* var = (*env)[1];
-		if(var != null)
+		Dataset* ds = stk_aspe->GetDataset();
+		Record* rec = (*ds)[1];
+		if(rec != null)
 		{
 			Stack* stk = Stack::GetInstance();
-			var->WriteAt(stk->GetStackId());
+			uint32* data = new uint32[1];
+			data[0] = stk->GetStackId();
+			rec->Write(data, sizeof(uint32));
 		}
 		inv->Start();
 	}

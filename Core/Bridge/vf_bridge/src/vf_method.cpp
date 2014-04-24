@@ -1,7 +1,7 @@
 #include "vf_method.h"
 #include "vf_driver.h"
 #include "vf_library.h"
-#include "vf_envelope.h"
+#include "vf_dataset.h"
 #include "vf_xml.h"
 
 namespace vapula
@@ -12,7 +12,7 @@ namespace vapula
 		_IsProtected = false;
 		_ProcessSym = null;
 		_RollbackSym = null;
-		_Envelope = null;
+		_Dataset = null;
 	}
 
 	Method::~Method()
@@ -20,24 +20,24 @@ namespace vapula
 		Clear(_Id);
 		Clear(_ProcessSym);
 		Clear(_RollbackSym);
-		Clear(_Envelope);
+		Clear(_Dataset);
 	}
 
 	Method* Method::Parse(pcstr xml)
 	{
 		XML* xobj = XML::Parse(xml);
-		Handle autop_xml(xobj);
+		Scoped autop_xml(xobj);
 		if(xobj == null)
 			return null;
 
-		object xdoc = xobj->GetEntity();
-		object xe = XML::XElem(xdoc, "method");
-		object xe_id = XML::XElem(xe, "id");
-		object xe_protected = XML::XElem(xe, "protect");
-		object xe_symbols = XML::XElem(xe, "symbols");
-		object xe_sym_process = XML::XElem(xe_symbols, "process");
-		object xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
-		object xe_params = XML::XElem(xe, "params");
+		raw xdoc = xobj->GetEntity();
+		raw xe = XML::XElem(xdoc, "method");
+		raw xe_id = XML::XElem(xe, "id");
+		raw xe_protected = XML::XElem(xe, "protect");
+		raw xe_symbols = XML::XElem(xe, "symbols");
+		raw xe_sym_process = XML::XElem(xe_symbols, "process");
+		raw xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
+		raw xe_params = XML::XElem(xe, "params");
 
 		Method* mt = new Method();
 		mt->_Id = XML::ValStr(xe_id);
@@ -46,7 +46,7 @@ namespace vapula
 		mt->_RollbackSym = XML::ValStr(xe_sym_rollback);
 
 		pcstr cs8_params = XML::Print(xe_params);
-		mt->_Envelope = Envelope::Parse(cs8_params);
+		mt->_Dataset = Dataset::Parse(cs8_params);
 		delete cs8_params;
 
 		return mt;
@@ -82,8 +82,8 @@ namespace vapula
 		return _RollbackSym;
 	}
 
-	Envelope* Method::GetEnvelope()
+	Dataset* Method::GetDataset()
 	{
-		return _Envelope;
+		return _Dataset;
 	}
 }

@@ -20,15 +20,15 @@ namespace vapula
 	Library* Library::Load(pcstr path)
 	{
 		XML* xml = XML::Load(path);
-		Handle autop_xml(xml);
+		Scoped autop_xml(xml);
 		if(xml == null)
 			return null;
 
-		object xdoc = xml->GetEntity();
-		object xe_lib = XML::XElem(xdoc, "library");
+		raw xdoc = xml->GetEntity();
+		raw xe_lib = XML::XElem(xdoc, "library");
 
 		pcstr cs8_rt = XML::ValStr(XML::XElem(xe_lib, "runtime"));
-		Handle autop1((object)cs8_rt);
+		Scoped autop1((raw)cs8_rt);
 
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		Driver* drv = drv_hub->GetDriver(cs8_rt);
@@ -38,16 +38,16 @@ namespace vapula
 		Library* lib = drv->CreateLibrary();
 		lib->_Driver = drv;
 
-		object xe_lib_id = XML::XElem(xe_lib, "id");
+		raw xe_lib_id = XML::XElem(xe_lib, "id");
 		lib->_Id = XML::ValStr(xe_lib_id);
 
 		pcstr path_dir = GetDirPath(path, true);
-		Handle autop2((object)path_dir);
+		Scoped autop2((raw)path_dir);
 		ostringstream oss;
 		oss<<path_dir<<lib->_Id<<"."<<drv->GetBinExt();
 		lib->_Path = str::Copy(oss.str().c_str());
 
-		object xe_mt = XML::XPath(xe_lib, 2, "methods", "method");
+		raw xe_mt = XML::XPath(xe_lib, 2, "methods", "method");
 		while(xe_mt != null)
 		{
 			pcstr cs8_mt = XML::Print(xe_mt);

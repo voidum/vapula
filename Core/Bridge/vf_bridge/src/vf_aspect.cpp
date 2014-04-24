@@ -28,17 +28,17 @@ namespace vapula
 	Aspect* Aspect::Load(pcstr path)
 	{
 		XML* xml = XML::Load(path);
-		Handle autop_xml(xml);
+		Scoped autop_xml(xml);
 		if(xml == null)
 			return null;
 
-		object xdoc = xml->GetEntity();
-		object xe_aspe = XML::XElem(xdoc, "aspect");
-		object xe_aspe_id = XML::XElem(xe_aspe, "id");
-		object xe_lib = XML::XElem(xe_aspe, "library");
-		object xe_mt = XML::XElem(xe_aspe, "method");
-		object xe_mode = XML::XElem(xe_aspe, "mode");
-		object xe_contact = XML::XElem(xe_aspe, "contact");
+		raw xdoc = xml->GetEntity();
+		raw xe_aspe = XML::XElem(xdoc, "aspect");
+		raw xe_aspe_id = XML::XElem(xe_aspe, "id");
+		raw xe_lib = XML::XElem(xe_aspe, "library");
+		raw xe_mt = XML::XElem(xe_aspe, "method");
+		raw xe_mode = XML::XElem(xe_aspe, "mode");
+		raw xe_contact = XML::XElem(xe_aspe, "contact");
 		
 		Aspect* aspect = new Aspect();
 		aspect->_Id = XML::ValStr(xe_aspe_id);

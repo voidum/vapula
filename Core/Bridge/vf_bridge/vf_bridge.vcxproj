@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -20,14 +20,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -61,7 +61,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VAPULA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)../3rdparty;$(SolutionDir)../3rdparty/icu/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VapulaRef);$(VapulaRef)icu\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
@@ -75,8 +75,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)../3rdparty/icu/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>icuuc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VapulaRef)icu\lib;$(VapulaRef)modp_b64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>icuuc.lib;modp_b64_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,13 +119,13 @@
     <ClInclude Include="include\vf_setting.h" />
     <ClInclude Include="include\vf_context.h" />
     <ClInclude Include="include\vf_dev_drv.h" />
-    <ClInclude Include="include\vf_envelope.h" />
+    <ClInclude Include="include\vf_dataset.h" />
     <ClInclude Include="include\vf_invoker.h" />
     <ClInclude Include="include\vf_driver.h" />
     <ClInclude Include="include\vf_pipe.h" />
     <ClInclude Include="include\vf_stack.h" />
     <ClInclude Include="include\vf_string.h" />
-    <ClInclude Include="include\vf_variable.h" />
+    <ClInclude Include="include\vf_record.h" />
     <ClInclude Include="include\vf_weaver.h" />
     <ClInclude Include="include\vf_xml.h" />
   </ItemGroup>
@@ -136,7 +136,7 @@
     <ClCompile Include="src\vf_bridge_c.cpp" />
     <ClCompile Include="src\vf_debug.cpp" />
     <ClCompile Include="src\vf_error.cpp" />
-    <ClCompile Include="src\vf_variable.cpp" />
+    <ClCompile Include="src\vf_record.cpp" />
     <ClCompile Include="src\vf_weaver.cpp" />
     <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />
@@ -144,7 +144,7 @@
     <ClCompile Include="src\vf_setting.cpp" />
     <ClCompile Include="src\vf_context.cpp" />
     <ClCompile Include="src\vf_driver.cpp" />
-    <ClCompile Include="src\vf_envelope.cpp" />
+    <ClCompile Include="src\vf_dataset.cpp" />
     <ClCompile Include="src\vf_invoker.cpp" />
     <ClCompile Include="src\vf_pipe.cpp" />
     <ClCompile Include="src\vf_stack.cpp" />

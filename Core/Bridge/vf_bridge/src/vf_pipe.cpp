@@ -90,38 +90,38 @@ namespace vapula
 			((uint32*)((uint32)_Data + offset))[0] = value;
 	}
 
-	void Pipe::_Write(object data, uint32 len)
+	void Pipe::_Write(raw data, uint32 len)
 	{
 		if(_IsServer)
 		{
 			((uint32*)((uint32)_Data + 7))[0] = len;
-			memcpy((object)((uint32)_Data + VF_PIPE_PRTCSIZE), data, len);
+			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE), data, len);
 			_SetFlag(1, 1);
 		}
 		else
 		{
 			((uint32*)((uint32)_Data + 11))[0] = len;
-			memcpy((object)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), data, len);
+			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), data, len);
 			_SetFlag(2, 1);
 		}
 	}
 
-	object Pipe::_Read()
+	raw Pipe::_Read()
 	{
-		object data = null;
+		raw data = null;
 		uint32 len = 0;
 		if(_IsServer)
 		{
 			len = _GetValue(11);
 			data = new byte[len];
-			memcpy(data, (object)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), len);
+			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), len);
 			_SetFlag(2, 0);
 		}
 		else
 		{
 			len = _GetValue(7);
 			data = new byte[len];
-			memcpy(data, (object)((uint32)_Data + VF_PIPE_PRTCSIZE), len);
+			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE), len);
 			_SetFlag(1, 0);
 		}
 		return data;
@@ -197,7 +197,7 @@ namespace vapula
 	void Pipe::Write(pcstr data)
 	{
 		uint32 len = strlen(data) + 1;
-		_Write((object)data, len);
+		_Write((raw)data, len);
 	}
 
 	pcstr Pipe::Read()

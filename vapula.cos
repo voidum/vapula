@@ -1,204 +1,212 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <script>
   <context>
-    <src>~</src>
-    <dst>~</dst>
+    <vars>
+      <var key="3rdpartyDir">$ScriptDir$\3rdparty\</var>
+      <var key="PublishDir">$ScriptDir$\Publish\</var>
+      <var key="CorePubDir">$ScriptDir$\Publish\core\</var>
+      <var key="ToolkitPubDir">$ScriptDir$\Publish\toolkit\</var>
+      <var key="SamplePubDir">$ScriptDir$\Publish\sample\</var>
+    </vars>
+    <tvars>
+      <tvar key="1">$ScriptDir$</tvar>
+    </tvars>
   </context>
-  <commands>
-    <command type="0">
-      <dir>Publish</dir>
-    </command>
-    <command type="1">
-      <src>LICENSE</src>
-      <dst>Publish\LICENSE</dst>
-    </command>
+  <todos>
+    <do what="new-dir">
+      <dir>?Publish</dir>
+    </do>
+    <do what="new-dir">
+      <dir>?Publish\core</dir>
+    </do>
+    <do what="new-dir">
+      <dir>?Publish\toolkit</dir>
+    </do>
+    <do what="new-dir">
+      <dir>?Publish\sample</dir>
+    </do>
 
-    <command type="1">
-      <src>3rdparty\icu\bin\icudt52.dll</src>
-      <dst>Publish\core\bin\icudt52.dll</dst>
-    </command>
-    <command type="1">
-      <src>3rdparty\icu\bin\icuuc52.dll</src>
-      <dst>Publish\core\bin\icuuc52.dll</dst>
-    </command>
+    <do what="cpy-file">
+      <src>?LICENSE</src>
+      <dst>$PublishDir$LICENSE</dst>
+    </do>
+    <do what="cpy-file">
+      <src>$3rdpartyDir$icu\bin\icudt52.dll</src>
+      <dst>$CorePubDir$bin\icudt52.dll</dst>
+    </do>
+    <do what="cpy-file">
+      <src>$3rdpartyDir$icu\bin\icuuc52.dll</src>
+      <dst>$CorePubDir$bin\icuuc52.dll</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\core</dir>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\ReleaseNotes.txt</src>
-      <dst>Publish\core\ReleaseNotes.txt</dst>
-    </command>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\ReleaseNotes.txt</src>
+      <dst>$CorePubDir$ReleaseNotes.txt</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\core\include</dir>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_bridge_c.h</src>
-      <dst>Publish\core\include\vf_bridge_c.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_dev_drv.h</src>
-      <dst>Publish\core\include\vf_dev_drv.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_dev_lib.h</src>
-      <dst>Publish\core\include\vf_dev_lib.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_dev_inv.h</src>
-      <dst>Publish\core\include\vf_dev_inv.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_const.h</src>
-      <dst>Publish\core\include\vf_const.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_string.h</src>
-      <dst>Publish\core\include\vf_string.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_base.h</src>
-      <dst>Publish\core\include\vf_base.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_utility.h</src>
-      <dst>Publish\core\include\vf_utility.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_setting.h</src>
-      <dst>Publish\core\include\vf_setting.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_xml.h</src>
-      <dst>Publish\core\include\vf_xml.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_pipe.h</src>
-      <dst>Publish\core\include\vf_pipe.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_stack.h</src>
-      <dst>Publish\core\include\vf_stack.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_context.h</src>
-      <dst>Publish\core\include\vf_context.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_envelope.h</src>
-      <dst>Publish\core\include\vf_envelope.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_driver.h</src>
-      <dst>Publish\core\include\vf_driver.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_invoker.h</src>
-      <dst>Publish\core\include\vf_invoker.h</dst>
-    </command>
-    <command type="1">
-      <src>Core\Bridge\vf_bridge\include\vf_library.h</src>
-      <dst>Publish\core\include\vf_library.h</dst>
-    </command>
+    <do what="new_dir">
+      <dir>$CorePubDir$include</dir>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_bridge_c.h</src>
+      <dst>$CorePubDir$include\vf_bridge_c.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_dev_drv.h</src>
+      <dst>$CorePubDir$include\vf_dev_drv.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_dev_lib.h</src>
+      <dst>$CorePubDir$include\vf_dev_lib.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_dev_inv.h</src>
+      <dst>$CorePubDir$include\vf_dev_inv.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_const.h</src>
+      <dst>$CorePubDir$include\vf_const.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_string.h</src>
+      <dst>$CorePubDir$include\vf_string.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_base.h</src>
+      <dst>$CorePubDir$include\vf_base.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_utility.h</src>
+      <dst>$CorePubDir$include\vf_utility.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_setting.h</src>
+      <dst>$CorePubDir$include\vf_setting.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_xml.h</src>
+      <dst>$CorePubDir$include\vf_xml.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_pipe.h</src>
+      <dst>$CorePubDir$include\vf_pipe.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_stack.h</src>
+      <dst>$CorePubDir$include\vf_stack.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_context.h</src>
+      <dst>$CorePubDir$include\vf_context.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_envelope.h</src>
+      <dst>$CorePubDir$include\vf_envelope.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_driver.h</src>
+      <dst>$CorePubDir$include\vf_driver.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_invoker.h</src>
+      <dst>$CorePubDir$include\vf_invoker.h</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Bridge\vf_bridge\include\vf_library.h</src>
+      <dst>$CorePubDir$include\vf_library.h</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\core\lib</dir>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\vf_bridge.lib</src>
-      <dst>Publish\core\lib\vf_bridge.lib</dst>
-    </command>
+    <do what="new_dir">
+      <dir>?lib</dir>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\vf_bridge.lib</src>
+      <dst>$CorePubDir$lib\vf_bridge.lib</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\core\bin</dir>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\vf_bridge.dll</src>
-      <dst>Publish\core\bin\vf_bridge.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\vf_host.exe</src>
-      <dst>Publish\core\bin\vf_host.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\clr.driver</src>
-      <dst>Publish\core\bin\clr.driver</dst>
-    </command>
-    <command type="1">
-      <src>Core\BridgeX\vf_bridge_x\bin\Release\vf_bridge_x.dll</src>
-      <dst>Publish\core\bin\vf_bridge_x.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\BridgeX\vf_bridge_x\XSD\library.xsd</src>
-      <dst>Publish\core\bin\library.xsd</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\crt.driver</src>
-      <dst>Publish\core\bin\crt.driver</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\vfe_bridge_idl.dll</src>
-      <dst>Publish\core\bin\vfe_bridge_idl.dll</dst>
-    </command>
+    <do what="new_dir">
+      <dir>$CorePubDir$bin</dir>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\vf_bridge.dll</src>
+      <dst>$CorePubDir$bin\vf_bridge.dll</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\vf_host.exe</src>
+      <dst>$CorePubDir$bin\vf_host.exe</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\clr.driver</src>
+      <dst>$CorePubDir$bin\clr.driver</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\BridgeX\vf_bridge_x\bin\Release\vf_bridge_x.dll</src>
+      <dst>$CorePubDir$bin\vf_bridge_x.dll</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\BridgeX\vf_bridge_x\XSD\library.xsd</src>
+      <dst>$CorePubDir$bin\library.xsd</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\crt.driver</src>
+      <dst>$CorePubDir$bin\crt.driver</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\vfe_bridge_idl.dll</src>
+      <dst>$CorePubDir$bin\vfe_bridge_idl.dll</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\sample</dir>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\sample_lib.dll</src>
-      <dst>Publish\sample\sample_lib.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\Sample\library\sample_lib.library</src>
-      <dst>Publish\sample\sample_lib.library</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\sample_invoker.exe</src>
-      <dst>Publish\sample\sample_invoker.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\OutDir\Release\sample_pipe.exe</src>
-      <dst>Publish\sample\sample_pipe.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\Sample\sample_xpipe\bin\Release\sample_xpipe.exe</src>
-      <dst>Publish\sample\sample_xpipe.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\Sample\xinvoker\bin\Release\sample_xinvoker.exe</src>
-      <dst>Publish\sample\sample_xinvoker.exe</dst>
-    </command>
-    <command type="1">
-      <src>Core\Sample\xlibrary\bin\Release\sample_xlib.dll</src>
-      <dst>Publish\sample\sample_xlib.dll</dst>
-    </command>
-    <command type="1">
-      <src>Core\Sample\xlibrary\sample_xlib.library</src>
-      <dst>Publish\sample\sample_xlib.library</dst>
-    </command>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\sample_lib.dll</src>
+      <dst>$SamplePubDir$sample_lib.dll</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Sample\library\sample_lib.library</src>
+      <dst>$SamplePubDir$sample_lib.library</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\sample_invoker.exe</src>
+      <dst>$SamplePubDir$sample_invoker.exe</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\OutDir\Release\sample_pipe.exe</src>
+      <dst>$SamplePubDir$sample_pipe.exe</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Sample\sample_xpipe\bin\Release\sample_xpipe.exe</src>
+      <dst>$SamplePubDir$sample_xpipe.exe</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Sample\xinvoker\bin\Release\sample_xinvoker.exe</src>
+      <dst>$SamplePubDir$sample_xinvoker.exe</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Sample\xlibrary\bin\Release\sample_xlib.dll</src>
+      <dst>$SamplePubDir$sample_xlib.dll</dst>
+    </do>
+    <do what="cpy-file">
+      <src>?Core\Sample\xlibrary\sample_xlib.library</src>
+      <dst>$SamplePubDir$sample_xlib.library</dst>
+    </do>
 
-    <command type="0">
-      <dir>Publish\toolkit</dir>
-    </command>
-    <command type="0">
-      <dir>Publish\toolkit\LibraryEditor</dir>
-    </command>
-    <command type="1">
-      <src>Toolkit\LibraryEditor\bin\Release\vf_libedt.exe</src>
-      <dst>Publish\toolkit\LibraryEditor\vf_libedt.exe</dst>
-    </command>
-    <command type="1">
-      <src>Docs\out\manual_LibraryEditor.pdf</src>
-      <dst>Publish\toolkit\LibraryEditor\manual.pdf</dst>
-    </command>
-    <command type="1">
-      <src>Publish\core\bin\vf_bridge_x.dll</src>
-      <dst>Publish\toolkit\LibraryEditor\vf_bridge_x.dll</dst>
-    </command>
-    <command type="1">
-      <src>Publish\core\bin\library.xsd</src>
-      <dst>Publish\toolkit\LibraryEditor\library.xsd</dst>
-    </command>
-  </commands>
+    <do what="new_dir">
+      <dir>$ToolkitPubDir$LibraryEditor</dir>
+    </do>
+    <do what="cpy_file">
+      <src>?Toolkit\LibraryEditor\bin\Release\vf_libedt.exe</src>
+      <dst>$ToolkitPubDir$LibraryEditor\vf_libedt.exe</dst>
+    </do>
+    <do what="cpy_file">
+      <src>?Docs\out\manual_LibraryEditor.pdf</src>
+      <dst>$ToolkitPubDir$LibraryEditor\manual.pdf</dst>
+    </do>
+    <do what="cpy_file">
+      <src>$CorePubDir$bin\vf_bridge_x.dll</src>
+      <dst>$ToolkitPubDir$LibraryEditor\vf_bridge_x.dll</dst>
+    </do>
+    <do what="cpy_file">
+      <src>$CorePubDir$bin\library.xsd</src>
+      <dst>$ToolkitPubDir$LibraryEditor\library.xsd</dst>
+    </do>
+  </todos>
 </script>

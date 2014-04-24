@@ -1,7 +1,7 @@
 #include "vf_stack.h"
 #include "vf_invoker.h"
 #include "vf_context.h"
-#include "vf_envelope.h"
+#include "vf_dataset.h"
 #include "vf_error.h"
 
 namespace vapula
@@ -12,7 +12,7 @@ namespace vapula
 		_MethodId = null;
 		_IsProtected = false;
 		_Context = null;
-		_Envelope = null;
+		_Dataset = null;
 		_Error = null;
 	}
 
@@ -20,7 +20,7 @@ namespace vapula
 	{
 		Clear(_MethodId);
 		Clear(_Context);
-		Clear(_Envelope);
+		Clear(_Dataset);
 		Clear(_Error);
 	}
 
@@ -76,15 +76,15 @@ namespace vapula
 			_Context = ctx;
 	}
 
-	Envelope* Stack::GetEnvelope()
+	Dataset* Stack::GetDataset()
 	{
-		return _Envelope;
+		return _Dataset;
 	}
 
-	void Stack::SetEnvelope(Envelope* env, Invoker* owner)
+	void Stack::SetDataset(Dataset* ds, Invoker* owner)
 	{
 		if(owner->GetStack() == this)
-			_Envelope = env;
+			_Dataset = ds;
 	}
 
 	Error* Stack::GetError()

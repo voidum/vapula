@@ -30,22 +30,22 @@ namespace vapula
 	}
 
 	//non-typed scoped pointer
-	class VAPULA_API Handle : Uncopiable
+	class VAPULA_API Scoped : Uncopiable
 	{
 	protected:
-		object _Ptr;
+		raw _Ptr;
 		bool _IsArr;
 
 	public:
-		explicit Handle(object ptr, bool isarr = false);
-		~Handle();
+		explicit Scoped(raw ptr, bool isarr = false);
+		~Scoped();
 
 	public:
-		object Get();
+		raw Get();
 		
 		bool IsNull();
 
-		void Ref(object ptr, bool isarr = false);
+		void Ref(raw ptr, bool isarr = false);
 
 		void DeRef();
 

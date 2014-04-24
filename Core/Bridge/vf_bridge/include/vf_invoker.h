@@ -26,7 +26,7 @@ namespace vapula
 
 	protected:
 		//invoke routine
-		static uint32 WINAPI Entry(object sender);
+		static uint32 WINAPI Entry(raw sender);
 
 		//invoke custom process
 		virtual void OnProcess() = 0;

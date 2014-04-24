@@ -28,8 +28,11 @@ namespace vapula
 	using std::invalid_argument;
 	using std::bad_exception;
 
-	//define type
-	typedef void* object;
+	//define null
+	#define null 0
+
+	//define type alias
+	typedef void* raw;
 	typedef unsigned char byte;
 	typedef signed char int8;
 	typedef short int16;
@@ -47,32 +50,34 @@ namespace vapula
 	typedef const char* pcstr;
 	typedef const wchar_t* pcwstr;
 
-	#define null 0
-
 	//define enum
 	enum DataType
 	{
-		VF_DATA_OBJECT = 0,
-		VF_DATA_INT8 = 1,
-		VF_DATA_INT16 = 2,
-		VF_DATA_INT32 = 3,
-		VF_DATA_INT64 = 4,
-		VF_DATA_UINT8 = 5,
-		VF_DATA_UINT16 = 6,
-		VF_DATA_UINT32 = 7,
-		VF_DATA_UINT64 = 8,
-		VF_DATA_REAL32 = 10,
-		VF_DATA_REAL64 = 11,
-		VF_DATA_BOOL = 20,
-		VF_DATA_STRING = 21
-	}; //envelope data type
+		VF_DATA_RAW = 0,
+		VF_DATA_VALUE = 1,
+		VF_DATA_TEXT = 2
+	}; //data type
 
-	enum ParamMode
+	enum ValueType
 	{
-		VF_PM_IN = 0,
-		VF_PM_OUT = 1,
-		VF_PM_INOUT = 2
-	};
+		VF_VALUE_INT8 = 1,
+		VF_VALUE_INT16 = 2,
+		VF_VALUE_INT32 = 3,
+		VF_VALUE_INT64 = 4,
+		VF_VALUE_UINT8 = 5,
+		VF_VALUE_UINT16 = 6,
+		VF_VALUE_UINT32 = 7,
+		VF_VALUE_UINT64 = 8,
+		VF_VALUE_REAL32 = 10,
+		VF_VALUE_REAL64 = 11,
+	}; //value type
+
+	enum AccessMode
+	{
+		VF_ACCESS_IN = 0,
+		VF_ACCESS_OUT = 1,
+		VF_ACCESS_INOUT = 2
+	}; //access mode
 
 	enum State
 	{
@@ -83,7 +88,7 @@ namespace vapula
 		VF_STATE_ROLLBACK = 4
 	}; //context state
 
-	enum CtrlCode
+	enum ControlCode
 	{
 		VF_CTRL_NULL = 0,
 		VF_CTRL_PAUSE = 1,

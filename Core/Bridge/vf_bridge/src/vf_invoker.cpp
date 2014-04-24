@@ -2,7 +2,7 @@
 #include "vf_method.h"
 #include "vf_stack.h"
 #include "vf_context.h"
-#include "vf_envelope.h"
+#include "vf_dataset.h"
 #include "vf_driver.h"
 #include "process.h"
 
@@ -26,13 +26,13 @@ namespace vapula
 	{
 		_Stack = new Stack();
 		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
-		_Stack->SetEnvelope(mt->GetEnvelope()->Copy(), this);
+		_Stack->SetDataset(mt->GetDataset()->Copy(), this);
 		_Stack->SetContext(new Context(), this);
 		_Stack->SetProtect(mt->IsProtected(), this);
 		return true;
 	}
 
-	uint32 WINAPI Invoker::Entry(object sender)
+	uint32 WINAPI Invoker::Entry(raw sender)
 	{
 		Invoker* inv = (Invoker*)sender;
 		Stack* stack = inv->GetStack();

@@ -88,9 +88,6 @@
     <ClInclude Include="include\vf_context.h">
       <Filter>core\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_envelope.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_debug.h">
       <Filter>base\header</Filter>
     </ClInclude>
@@ -109,7 +106,10 @@
     <ClInclude Include="include\vf_weaver.h">
       <Filter>library\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_variable.h">
+    <ClInclude Include="include\vf_dataset.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_record.h">
       <Filter>core\header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -144,9 +144,6 @@
     <ClCompile Include="src\vf_driver.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_envelope.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_invoker.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
@@ -171,7 +168,10 @@
     <ClCompile Include="src\vf_weaver.cpp">
       <Filter>library\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_variable.cpp">
+    <ClCompile Include="src\vf_dataset.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_record.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,10 +15,10 @@ namespace vapula
 
 	private:
 		pcstr _Data;
-		object _Entity;
+		raw _Entity;
 
 	public:
-		object GetEntity();
+		raw GetEntity();
 
 	public:
 		//load XML
@@ -28,35 +28,35 @@ namespace vapula
 		static XML* Parse(pcstr src);
 
 		//print XML to char string
-		static pcstr Print(object xml);
+		static pcstr Print(raw xml);
 
 	public:
 		//get next sibling
-		static object Next(object xml);
+		static raw Next(raw xml);
 
 		//get element by name
-		static object XElem(object xml, pcstr name);
+		static raw XElem(raw xml, pcstr name);
 
 		//get attribute by name
-		static object XAttr(object xml, pcstr name);
+		static raw XAttr(raw xml, pcstr name);
 
 		//query child node by XPath-like method
-		static object XPath(object xml, int count, ...);
+		static raw XPath(raw xml, int count, ...);
 
 	public:
 		//read node value as UTF8 char string
-		static pcstr ValStr(object xml);
+		static pcstr ValStr(raw xml);
 
 		//read node value as wide char string
-		static pcwstr ValStrW(object xml);
+		static pcwstr ValStrW(raw xml);
 
 		//read node value as integer
-		static int ValInt(object xml);
+		static int ValInt(raw xml);
 
 		//read node value as real
-		static double ValReal(object xml);
+		static double ValReal(raw xml);
 
 		//real node value as bool judged by specified string
-		static bool ValBool(object xml, pcstr judge);
+		static bool ValBool(raw xml, pcstr judge);
 	};
 }

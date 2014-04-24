@@ -1,7 +1,7 @@
 #include "vf_xml.h"
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
-#include "rapidxml/rapidxml_print.hpp"
+#include "rapidxml\rapidxml.hpp"
+#include "rapidxml\rapidxml_utils.hpp"
+#include "rapidxml\rapidxml_print.hpp"
 
 namespace vapula
 {
@@ -19,7 +19,7 @@ namespace vapula
 		Clear(_Data);
 	}
 
-	object XML::GetEntity()
+	raw XML::GetEntity()
 	{
 		return _Entity;
 	}
@@ -44,7 +44,7 @@ namespace vapula
 		return xml;
 	}
 
-	pcstr XML::Print(object xml)
+	pcstr XML::Print(raw xml)
 	{
 		xml_node<>* obj = (xml_node<>*)xml;
 		string s;
@@ -52,25 +52,25 @@ namespace vapula
 		return str::Copy(s.c_str());
 	}
 
-	object XML::Next(object xml)
+	raw XML::Next(raw xml)
 	{
 		xml_node<>* xe = (xml_node<>*)xml;
 		return xe->next_sibling();
 	}
 
-	object XML::XElem(object xml, pcstr name)
+	raw XML::XElem(raw xml, pcstr name)
 	{
 		xml_node<>* xe = (xml_node<>*)xml;
 		return xe->first_node(name);
 	}
 
-	object XML::XAttr(object xml, pcstr name)
+	raw XML::XAttr(raw xml, pcstr name)
 	{
 		xml_node<>* xe = (xml_node<>*)xml;
 		return xe->first_attribute(name);
 	}
 
-	object XML::XPath(object xml, int count, ...)
+	raw XML::XPath(raw xml, int count, ...)
 	{
 		va_list arg_ptr;
 		va_start(arg_ptr, count);
@@ -85,7 +85,7 @@ namespace vapula
 		return xe;
 	}
 
-	pcstr XML::ValStr(object xml)
+	pcstr XML::ValStr(raw xml)
 	{
 		if(xml == null) 
 			return null;
@@ -103,7 +103,7 @@ namespace vapula
 		return null;
 	}
 
-	pcwstr XML::ValStrW(object xml)
+	pcwstr XML::ValStrW(raw xml)
 	{
 		pcstr s8 = ValStr(xml);
 		pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
@@ -111,7 +111,7 @@ namespace vapula
 		return s16;
 	}
 
-	int XML::ValInt(object xml)
+	int XML::ValInt(raw xml)
 	{
 		if(xml == null) 
 			return 0;
@@ -121,7 +121,7 @@ namespace vapula
 		return ret;
 	}
 
-	double XML::ValReal(object xml)
+	double XML::ValReal(raw xml)
 	{
 		if(xml == null) 
 			return 0;
@@ -131,7 +131,7 @@ namespace vapula
 		return ret;
 	}
 
-	bool XML::ValBool(object xml, pcstr judge)
+	bool XML::ValBool(raw xml, pcstr judge)
 	{
 		if(xml == null || judge == null) 
 			return 0;

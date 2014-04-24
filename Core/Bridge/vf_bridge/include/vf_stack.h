@@ -5,7 +5,7 @@
 namespace vapula
 {
 	class Context;
-	class Envelope;
+	class Dataset;
 	class Invoker;
 	class Error;
 
@@ -21,7 +21,7 @@ namespace vapula
 		pcstr _MethodId;
 		bool _IsProtected;
 		Context* _Context;
-		Envelope* _Envelope;
+		Dataset* _Dataset;
 		Error* _Error;
 
 	public:
@@ -40,8 +40,8 @@ namespace vapula
 		//set context
 		void SetContext(Context* ctx, Invoker* owner);
 
-		//set envelope
-		void SetEnvelope(Envelope* env, Invoker* owner);
+		//set dataset
+		void SetDataset(Dataset* ds, Invoker* owner);
 
 		//set error
 		void SetError(Error* err);
@@ -59,8 +59,8 @@ namespace vapula
 		//get context
 		Context* GetContext();
 
-		//get envelope
-		Envelope* GetEnvelope();
+		//get dataset
+		Dataset* GetDataset();
 
 		//get error
 		Error* GetError();

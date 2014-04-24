@@ -8,34 +8,34 @@ namespace vapula
 
 	Uncopiable::~Uncopiable() { }
 
-	Handle::Handle(object ptr, bool isarr)
+	Scoped::Scoped(raw ptr, bool isarr)
 	{
 		_Ptr = ptr;
 		_IsArr = isarr;
 	}
 
-	Handle::~Handle()
+	Scoped::~Scoped()
 	{
 		Clear(_Ptr, _IsArr);
 	}
 
-	object Handle::Get()
+	raw Scoped::Get()
 	{
 		return _Ptr;
 	}
 
-	bool Handle::IsNull()
+	bool Scoped::IsNull()
 	{
 		return _Ptr == null;
 	}
 
-	void Handle::Ref(object ptr, bool isarr)
+	void Scoped::Ref(raw ptr, bool isarr)
 	{
 		_Ptr = ptr;
 		_IsArr = isarr;
 	}
 
-	void Handle::DeRef()
+	void Scoped::DeRef()
 	{
 		_Ptr = null;
 	}

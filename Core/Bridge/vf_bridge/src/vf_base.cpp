@@ -51,7 +51,7 @@ namespace vapula
 		return (_Seal != null);
 	}
 
-	void Once::Set(object data, uint32 size)
+	void Once::Set(raw data, uint32 size)
 	{
 		Lock* lock = Lock::GetCtorLock();
 		lock->Enter();
@@ -143,7 +143,7 @@ namespace vapula
 		GetModuleFileName(mod, s16_path, _vf_path_len);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
-		Handle autop1((object)cs8_path);
+		Scoped autop1((raw)cs8_path);
 		string str_full = cs8_path;
 		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		pcstr ret = str::Copy(str_fix.c_str());
@@ -156,7 +156,7 @@ namespace vapula
 		GetModuleFileName(null, s16_path, _vf_path_len);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
-		Handle autop1((object)cs8_path);
+		Scoped autop1((raw)cs8_path);
 		string str_full = cs8_path;
 		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
 		pcstr ret = str::Copy(str_fix.c_str());
@@ -169,7 +169,7 @@ namespace vapula
 		GetModuleFileName(null, s16_path, _vf_path_len);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
-		Handle autop1((object)cs8_path);
+		Scoped autop1((raw)cs8_path);
 		string str_full = cs8_path;
 		string str_fix = str_full.substr(str_full.rfind(L'\\') + 1);
 		pcstr ret = str::Copy(str_fix.c_str());

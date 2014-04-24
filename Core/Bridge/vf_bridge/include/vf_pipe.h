@@ -15,8 +15,8 @@ namespace vapula
 		~Pipe();
 	private:
 		pcstr _Id;
-		object _Data;
-		object _Mapping;
+		raw _Data;
+		raw _Mapping;
 		uint32 _Volume;
  		bool _IsServer;
 
@@ -33,8 +33,8 @@ namespace vapula
 		void _SetFlag(uint32 offset, uint8 value);
 		uint32 _GetValue(uint32 offset);
 		void _SetValue(uint32 offset, uint32 value);
-		void _Write(object data, uint32 len);
-		object _Read();
+		void _Write(raw data, uint32 len);
+		raw _Read();
 
 	//Á´Â·
 	public: 

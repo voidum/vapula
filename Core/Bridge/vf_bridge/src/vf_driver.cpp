@@ -9,7 +9,7 @@ namespace vapula
 	Driver* Driver::Load(pcstr path)
 	{
 		pcwstr cs16_path = str::ToStrW(path);
-		Handle autop1((object)cs16_path);
+		Scoped autop1((raw)cs16_path);
 		HMODULE module = LoadLibraryW(cs16_path);
 		if(module == null) 
 			return null;
@@ -80,7 +80,7 @@ namespace vapula
 		pcstr cs8_dir = GetRuntimeDir();
 		oss<<cs8_dir<<id<<".driver";
 		pcstr cs8_path = str::Copy(oss.str().c_str());
-		Handle autop((object)cs8_path);
+		Scoped autop((raw)cs8_path);
 		drv = Driver::Load(cs8_path);
 		if(drv == null)
 			return false;
