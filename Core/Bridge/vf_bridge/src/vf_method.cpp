@@ -23,31 +23,21 @@ namespace vapula
 		Clear(_Dataset);
 	}
 
-	Method* Method::Parse(pcstr xml)
+	Method* Method::Parse(raw xml)
 	{
-		XML* xobj = XML::Parse(xml);
-		Scoped autop_xml(xobj);
-		if(xobj == null)
-			return null;
-
-		raw xdoc = xobj->GetEntity();
-		raw xe = XML::XElem(xdoc, "method");
-		raw xe_id = XML::XElem(xe, "id");
-		raw xe_protected = XML::XElem(xe, "protect");
-		raw xe_symbols = XML::XElem(xe, "symbols");
+		raw xe_id = XML::XElem(xml, "id");
+		raw xe_protected = XML::XElem(xml, "protect");
+		raw xe_symbols = XML::XElem(xml, "symbols");
 		raw xe_sym_process = XML::XElem(xe_symbols, "process");
 		raw xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
-		raw xe_params = XML::XElem(xe, "params");
+		raw xe_schema = XML::XElem(xml, "schema");
 
 		Method* mt = new Method();
 		mt->_Id = XML::ValStr(xe_id);
 		mt->_IsProtected = XML::ValBool(xe_protected, "true");
 		mt->_ProcessSym = XML::ValStr(xe_sym_process);
 		mt->_RollbackSym = XML::ValStr(xe_sym_rollback);
-
-		pcstr cs8_params = XML::Print(xe_params);
-		mt->_Dataset = Dataset::Parse(cs8_params);
-		delete cs8_params;
+		mt->_Dataset = Dataset::Parse(xe_schema);
 
 		return mt;
 	}

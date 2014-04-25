@@ -13,8 +13,8 @@ namespace vapula
 	protected:
 		int8 _Type; //data type
 		int8 _Access; //access mode
-		raw _Data; //raw data
 		uint32 _Size; //data size by byte
+		raw _Data; //raw data
 
 	protected:
 		Record();
@@ -22,10 +22,6 @@ namespace vapula
 		virtual ~Record();
 
 	public:
-		//parse record from XML string
-		//need node <record>
-		static Record* Parse(pcstr xml);
-
 		//parse record from XML object
 		//need node <record>
 		static Record* Parse(raw xml);
@@ -41,35 +37,53 @@ namespace vapula
 		uint32 GetSize();
 
 	public:
-		//clear data
-		void Zero();
-
 		//copy record
 		Record* Copy();
+
+		//zero record
+		void Zero();
 
 	public:
 		//read data
 		raw Read(bool copy = false);
 
-		//write data
-		void Write(raw value, uint32 size, bool copy = false);
+		//write data by copy
+		void Write(raw data, uint32 size);
 
 		//deliver this to whom
-		void Deliver(Record* who, bool copy = false);
+		void Deliver(Record* who);
 
 	//candy for C++
 	public:
-		//write string as 8-bit
-		void Write(pcstr value);
+		//write string as 8-bit (UTF-8)
+		void Write(pcstr data);
 
+		//write string as 16-bit (UTF-16)
+		void Write(pcwstr data);
+
+		//write data at offset (at) by type (T)
+		//write new data when diff size
 		template<typename T>
-		void WriteAt()
+		void WriteAt(T data, uint32 at = 0)
 		{
+			uint32 x = (at + 1) * sizeof(T);
+			if (_Size >= x)
+				((T*)_Data)[at] = data;
+			else
+			{
+				T* mem = new T[at + 1];
+				mem[at] = data;
+				Write(mem, x);
+				Clear(mem, true);
+			}
 		}
 
+		//read data at offset (at) by type (T)
 		template<typename T>
-		T ReadAt()
+		T ReadAt(uint32 at = 0)
 		{
+			if (_Size >= sizeof(T)* (at + 1))
+				return ((T*)_Data)[at];
 			return null;
 		}
 	};

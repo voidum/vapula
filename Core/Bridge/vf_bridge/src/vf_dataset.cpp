@@ -23,13 +23,18 @@ namespace vapula
 	{
 		XML* xobj = XML::Parse(xml);
 		Scoped autop_xml(xobj);
-		if(xobj == null)
+		if (xobj == null)
 			return null;
 		raw xdoc = xobj->GetEntity();
+		raw xe = XML::XElem(xdoc, "schema");
+		return Parse(xe);
+	}
 
+	Dataset* Dataset::Parse(raw xml)
+	{
 		list<int> ids;
 		list<PRecord> recs;
-		raw xe = XML::XPath(xdoc, 2, "schema", "record");
+		raw xe = XML::XElem(xml, "field");
 		while(xe != null)
 		{
 			PRecord rec = Record::Parse(xe);
@@ -41,6 +46,7 @@ namespace vapula
 
 		Dataset* ds = new Dataset();
 		ds->_Records = new PRecord[recs.size()];
+		ds->_Total = recs.size();
 
 		list<int>::iterator i1 = ids.begin();
 		list<PRecord>::iterator i2 = recs.begin();
@@ -57,19 +63,16 @@ namespace vapula
 		return ds;
 	}
 
-	bool Dataset::_AssertId(int id, Dataset* ds)
+	PRecord Dataset::GetRecord(int id)
 	{
-		if(id < 1)
-			return false;
-		if(ds == null)
-			return id <= _Total;
-		else
-			return id <= ds->_Total;
+		if (id < 1 && id > _Total)
+			return null;
+		return _Records[id - 1];
 	}
 
 	PRecord Dataset::operator[](int id)
 	{
-		if(!_AssertId(id))
+		if (id < 1 && id > _Total)
 			return null;
 		return _Records[id - 1];
 	}

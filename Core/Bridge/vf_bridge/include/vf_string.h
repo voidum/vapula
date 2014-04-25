@@ -24,12 +24,6 @@ namespace vapula
 		//default from system, to UTF16
 		VAPULA_API pcwstr ToStrW(pcstr src, pcstr cp = null);
 
-		//convert raw data to base64 string
-		VAPULA_API pcstr ToBase64(raw src, uint32 size);
-
-		//convert base64 string to raw data
-		VAPULA_API raw FromBase64(pcstr src);
-
 		//convert encoding of char string
 		VAPULA_API pcstr Encode(pcstr src, pcstr cp_from, pcstr cp_to);
 

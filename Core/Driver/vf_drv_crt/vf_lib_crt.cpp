@@ -30,7 +30,7 @@ raw LibraryCRT::GetEntry(pcstr id)
 	raw entry = GetProcAddress(
 		_Module, 
 		id == null ? "Run" : id);
-	if(entry == null)
-		std::cout<<GetLastError()<<std::endl;
+	//if(entry == null)
+	//	std::cout<<GetLastError()<<std::endl;
 	return entry;
 }

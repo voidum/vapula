@@ -8,12 +8,12 @@ void Process_Math()
 	Dataset* ds = stack->GetDataset();
 	Context* ctx = stack->GetContext();
 
-	int* a = (int*)((*ds)[1]->Read());
-	int b = ds->ReadValue<int>(2);
+	int a = (*ds)[1]->ReadAt<int>();
+	int b = (*ds)[2]->ReadAt<int>();
 
 	int c = a + b;
 
-	env->WriteValue(3, c);
+	(*ds)[3]->WriteAt(c);
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
@@ -23,11 +23,11 @@ void Process_Math()
 void Process_Out()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 	Context* ctx = stack->GetContext();
 
 	pcwstr str = L"中文Engligh日本語テスト";
-	env->WriteStrW(1, str);
+	(*ds)[1]->Write(str);
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
@@ -37,17 +37,18 @@ void Process_Out()
 void Process_Array()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 	Context* ctx = stack->GetContext();
 
-	int count = env->GetLength(1);
-	int* data = env->ReadArray<int>(1);
+	Record* rec = (*ds)[1];
+	int* data = (int*)(rec->Read());
+	int count = rec->GetSize() / sizeof(int);
 
 	int result = 0;
-	for(int i=0;i<count;i++)
+	for(int i=0; i<count; i++)
 		result += data[i];
 
-	env->WriteValue(1, result);
+	(*ds)[2]->WriteAt(result);
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
@@ -57,16 +58,14 @@ void Process_Array()
 void Process_Object()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 	Context* ctx = stack->GetContext();
 
-	ClassA* obj = (ClassA*)env->ReadObject(1);
-	bool ifinc = env->ReadValue<bool>(2);
+	ClassA* obj = (ClassA*)(*ds)[1]->Read();
+	bool ifinc = (*ds)[2]->ReadAt<bool>();
 
 	if(ifinc) obj->Inc();
 	else obj->Dec();
-
-	env->WriteObject(3, obj, sizeof(ClassA));
 
 	ctx->SetProgress(100);
 	ctx->SetReturnCode(VF_RETURN_NORMAL);
@@ -158,11 +157,12 @@ void Rollback_Protect()
 void Process_Msgbox()
 {
 	Stack* stack = Stack::GetInstance();
-	Envelope* env = stack->GetEnvelope();
-	uint32 target = env->ReadValue<uint32>(1);
+	Dataset* ds = stack->GetDataset();
+	uint32 target = (*ds)[1]->ReadAt<uint32>();
 
 	StackHub* stack_hub = StackHub::GetInstance();
 	Stack* stack_tar = stack_hub->GetStack(target);
+
 	pcstr ptrs = str::Value((uint32)stack_tar);
 	ShowMsgbox(ptrs);
 	ShowMsgbox("hello, world.");

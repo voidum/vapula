@@ -14,6 +14,7 @@ namespace vapula
 		Method();
 	public:
 		static Method* Parse(pcstr xml);
+		static Method* Parse(raw xml);
 	public:
 		virtual ~Method();
 

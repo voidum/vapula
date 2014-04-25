@@ -1,6 +1,5 @@
 #include "vf_string.h"
 #include "unicode\ucnv.h"
-#include "modp_b64\modp_b64.h"
 
 namespace vapula
 {
@@ -109,33 +108,6 @@ namespace vapula
 				}
 			}
 			return Copy(str_dst.c_str());
-		}
-
-		pcstr ToBase64(raw src, uint32 size)
-		{
-			uint32 dst_size = modp_b64_encode_len(size);
-			pstr dst = new char[dst_size];
-			int ret = modp_b64_encode(dst, (pcstr)src, size);
-			if (ret == -1)
-			{
-				delete dst;
-				dst = null;
-			}
-			return dst;
-		}
-
-		raw FromBase64(pcstr src)
-		{
-			uint32 src_size = strlen(src);
-			uint32 dst_size = modp_b64_decode_len(src_size);
-			pstr dst = new char[dst_size];
-			int ret = modp_b64_decode(dst, src, src_size);
-			if (ret == -1)
-			{
-				delete dst;
-				dst = null;
-			}
-			return dst;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 #include "vf_record.h"
+#include "vf_xml.h"
 
 namespace vapula
 {
@@ -38,16 +39,15 @@ namespace vapula
 		Zero();
 	}
 
-	Record* Record::Parse(pcstr xml)
-	{
-		xml = null;
-		return null;
-	}
-
 	Record* Record::Parse(raw xml)
 	{
-		xml = null;
-		return null;
+		raw xe_type = XML::XElem(xml, "type");
+		raw xe_access = XML::XElem(xml, "access");
+		
+		Record* rec = new Record();
+		rec->_Type = (int8)XML::ValInt(xe_type);
+		rec->_Access = (int8)XML::ValInt(xe_access);
+		return rec;
 	}
 	
 	int8 Record::GetType()
@@ -87,42 +87,43 @@ namespace vapula
 		return data;
 	}
 
-	void Record::Write(raw value, uint32 size, bool copy)
+	void Record::Write(raw data, uint32 size)
 	{
 		//null data
-		if(value == null)
+		if(data == null)
 			return;
 
 		//same address
-		if(_Data == value)
+		if(_Data == data)
 			return;
 
-		//clear old data
-		if(_Data != null && _Size != size)
-			Clear(_Data);
-
-		//copy data
-		if(copy)
+		//write data
+		if (_Size != size)
 		{
-			if(_Data == null)
-				_Data = new byte[size];
-			memcpy(_Data, value, size);
+			if (_Data != null)
+				Clear(_Data);
+			_Data = new byte[size];
 		}
-		else
-		{
-			_Data = value;
-		}
+		memcpy(_Data, data, size);
 		_Size = size;
 	}
 
-	void Record::Write(pcstr value)
+	void Record::Write(pcstr data)
 	{
-		uint32 len = strlen(value) + 1;
-		Write((raw)value, len, true);
+		uint32 size = strlen(data) + 1;
+		Write((raw)data, size);
 	}
 
-	void Record::Deliver(Record* who, bool copy)
+	void Record::Write(pcwstr data)
 	{
-		who->Write(_Data, _Size, copy);
+		uint32 size = wcslen(data) * 2 + 2;
+		Write((raw)data, size);
+	}
+
+	void Record::Deliver(Record* who)
+	{
+		if (_Data == null)
+			return;
+		who->Write(_Data, _Size);
 	}
 }

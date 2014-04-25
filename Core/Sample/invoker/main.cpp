@@ -64,10 +64,10 @@ void Test2(Library* lib)
 	Assert(inv != NULL);
 
 	Stack* stack = inv->GetStack();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 
-	env->WriteValue(1, 12);
-	env->WriteValue(2, 23);
+	(*ds)[1]->WriteAt(12);
+	(*ds)[2]->WriteAt(23);
 
 	cout<<"[invoke function math] ... ";
 	Assert(inv->Start());
@@ -76,7 +76,7 @@ void Test2(Library* lib)
 	while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 		Sleep(50);
 	
-	int result = env->ReadValue<int>(3);
+	int result = (*ds)[3]->ReadAt<int>();
 	cout<<"<valid> - out:"<<result<<endl;
 
 	LARGE_INTEGER freq, t1, t2;
@@ -84,12 +84,12 @@ void Test2(Library* lib)
 	QueryPerformanceCounter(&t1);
 	for (int i=0;i<10000;i++)
 	{
-		env->WriteValue(1, 12);
-		env->WriteValue(2, 23);
+		(*ds)[1]->WriteAt(12);
+		(*ds)[2]->WriteAt(23);
 		inv->Start();
 		while(ctx->GetCurrentState() != VF_STATE_IDLE) 
 			Sleep(0);
-		int result = env->ReadValue<int>(3);
+		(*ds)[3]->ReadAt<int>();
 	}
 	QueryPerformanceCounter(&t2);
 	cout<<"adv time:"<<(t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart<<" (ms)"<<endl;
@@ -104,13 +104,13 @@ void Test3(Library* lib)
 	Stack* stack = inv->GetStack();
 
 	Context* ctx = stack->GetContext();
-	Envelope* env = stack->GetEnvelope();
+	Dataset* ds = stack->GetDataset();
 
 	cout<<"[invoke function output] ... ";
 	Assert(inv->Start());
 	while(ctx->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
-	ShowMsgbox(env->ReadStrW(1));
+	ShowMsgbox((pcstr)(*ds)[1]->Read());
 	Clear(inv);
 }
 
@@ -122,7 +122,6 @@ void Test4(Library* lib)
 	Stack* stack = inv->GetStack();
 
 	Context* ctx = stack->GetContext();
-	Envelope* env = stack->GetEnvelope();
 
 	cout<<"[invoke function context2] ... ";
 	Assert(inv->Start());
@@ -138,6 +137,8 @@ void Test5(Library* lib)
 {
 	cout<<"[load aspect]";
 	Aspect* aspect = Aspect::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\aspect.xml");
+	if (aspect == null)
+		return;
 	Weaver* weaver = Weaver::GetInstance();
 	weaver->Link(aspect);
 	Invoker* inv = lib->CreateInvoker("protect");
@@ -172,10 +173,10 @@ int main()
 	Assert(lib->Mount());
 
 	//Test1(lib);
-	//Test2(lib);
+	Test2(lib);
 	//Test3(lib);
 	//Test4(lib);
-	Test5(lib);
+	//Test5(lib);
 
 	cout<<"[unmount component]"<<endl;
 	lib->Unmount();

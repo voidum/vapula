@@ -77,11 +77,17 @@ namespace vapula
 		bool Valid(int flag);
 	};
 
+	//get Vapula core version
+	VAPULA_API pcstr GetVersion();
+
 	//generate local unique id
 	VAPULA_API pcstr GetLUID(bool logo = false);
 
-	//get Vapula core version
-	VAPULA_API pcstr GetVersion();
+	//convert raw data to base64 string
+	VAPULA_API pcstr RawToBase64(raw data, uint32 size);
+
+	//convert base64 string to raw data
+	VAPULA_API raw Base64ToRaw(pcstr data);
 
 	//show value by simple message box
 	template<typename T>
@@ -103,7 +109,7 @@ namespace vapula
 	VAPULA_API pcstr GetProcessName();
 
 	//get path directory
-	VAPULA_API pcstr GetDirPath(pcstr path, bool isfile = false);
+	VAPULA_API pcstr GetDirPath(pcstr path, bool file = false);
 
 	//test if file can be opened as read
 	VAPULA_API bool CanOpenRead(pcstr file);

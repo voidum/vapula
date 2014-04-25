@@ -23,15 +23,16 @@ namespace vapula
 		//parse dataset from XML string
 		//need node <schema>
 		static Dataset* Parse(pcstr xml);
-
-	private:
-		bool _AssertId(int id, Dataset* ds = null);
+		static Dataset* Parse(raw xml);
 
 	public:
 		//get record total
 		int32 GetTotal();
 
 	public:
+		//get record by id
+		PRecord GetRecord(int id);
+
 		//get record by id
 		PRecord operator [] (int id);
 

@@ -8,15 +8,14 @@ namespace vapula
 
 	Uncopiable::~Uncopiable() { }
 
-	Scoped::Scoped(raw ptr, bool isarr)
+	Scoped::Scoped(raw ptr)
 	{
 		_Ptr = ptr;
-		_IsArr = isarr;
 	}
 
 	Scoped::~Scoped()
 	{
-		Clear(_Ptr, _IsArr);
+		Clear(_Ptr);
 	}
 
 	raw Scoped::Get()
@@ -29,10 +28,9 @@ namespace vapula
 		return _Ptr == null;
 	}
 
-	void Scoped::Ref(raw ptr, bool isarr)
+	void Scoped::Ref(raw ptr)
 	{
 		_Ptr = ptr;
-		_IsArr = isarr;
 	}
 
 	void Scoped::DeRef()

@@ -8,13 +8,16 @@ extern "C"
 {
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
-	VAPULA_API void vfeDeleteObject(raw ptr);
+
+	VAPULA_API raw vfeNewData(int8 type, uint32 count);
 	VAPULA_API void vfeWriteAt(raw data, int8 type, uint32 at, pcstr value);
 	VAPULA_API pcstr vfeReadAt(raw data, int8 type, uint32 at);
-	VAPULA_API raw vfeToData(pcstr data);
-	VAPULA_API raw vfeToDataW(pcwstr data);
-	VAPULA_API pcstr vfeToString(raw data);
-	VAPULA_API pcwstr vfeToStringW(raw data);
+	VAPULA_API void vfeDeleteRaw(raw ptr);
+
+	VAPULA_API raw vfeBase64ToRaw(pcstr data);
+	VAPULA_API raw vfeBase64ToRawW(pcwstr data);
+	VAPULA_API pcstr vfeRawToBase64(raw data, uint32 size);
+	VAPULA_API pcwstr vfeRawToBase64W(raw data, uint32 size);
 
 	//Error
 	VAPULA_API int vfeWhatError(raw err);

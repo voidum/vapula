@@ -18,13 +18,13 @@ namespace vapula
 
 	//clear target
 	template<typename T>
-	void Clear(T& target, bool isarr = false)
+	void Clear(T& target, bool arr = false)
 	{
 		if(target == null)
 			return;
-		if(isarr)
-			delete [] target;
-		else 
+		if (arr)
+			delete[] target;
+		else
 			delete target;
 		target = null;
 	}
@@ -34,10 +34,9 @@ namespace vapula
 	{
 	protected:
 		raw _Ptr;
-		bool _IsArr;
 
 	public:
-		explicit Scoped(raw ptr, bool isarr = false);
+		explicit Scoped(raw ptr);
 		~Scoped();
 
 	public:
@@ -45,16 +44,8 @@ namespace vapula
 		
 		bool IsNull();
 
-		void Ref(raw ptr, bool isarr = false);
+		void Ref(raw ptr);
 
 		void DeRef();
-
-		template<typename T>
-		T& Index(uint32 i) const
-		{
-			if(_Ptr == null)
-				return null;
-			return ((T*)_Ptr)[i];
-		}
 	};
 }

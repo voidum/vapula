@@ -1,6 +1,7 @@
 #include "vf_base.h"
 #include "vf_stack.h"
 #include "vf_setting.h"
+#include "modp_b64\modp_b64.h"
 
 namespace vapula
 {
@@ -98,6 +99,38 @@ namespace vapula
 	}
 
 
+	pcstr GetVersion()
+	{
+		return _vf_version;
+	}
+
+	pcstr RawToBase64(raw data, uint32 size)
+	{
+		uint32 dst_size = modp_b64_encode_len(size);
+		pstr dst = new char[dst_size];
+		int ret = modp_b64_encode(dst, (pcstr)data, size);
+		if (ret == -1)
+		{
+			delete dst;
+			dst = null;
+		}
+		return dst;
+	}
+
+	raw Base64ToRaw(pcstr data)
+	{
+		uint32 src_size = strlen(data);
+		uint32 dst_size = modp_b64_decode_len(src_size);
+		pstr dst = new char[dst_size];
+		int ret = modp_b64_decode(dst, data, src_size);
+		if (ret == -1)
+		{
+			delete dst;
+			dst = null;
+		}
+		return dst;
+	}
+
 	pcstr GetLUID(bool logo)
 	{
 		std::ostringstream oss;
@@ -113,11 +146,6 @@ namespace vapula
 			oss<<rnd;
 		}
 		return str::Copy(oss.str().c_str());
-	}
-
-	pcstr GetVersion()
-	{
-		return _vf_version;
 	}
 
 	void ShowMsgbox(pcstr value, pcstr caption)

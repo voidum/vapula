@@ -104,9 +104,7 @@ namespace vapula
 		if(rec != null)
 		{
 			Stack* stk = Stack::GetInstance();
-			uint32* data = new uint32[1];
-			data[0] = stk->GetStackId();
-			rec->Write(data, sizeof(uint32));
+			rec->WriteAt(stk->GetStackId());
 		}
 		inv->Start();
 	}

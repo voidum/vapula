@@ -50,12 +50,10 @@ namespace vapula
 		raw xe_mt = XML::XPath(xe_lib, 2, "methods", "method");
 		while(xe_mt != null)
 		{
-			pcstr cs8_mt = XML::Print(xe_mt);
-			Method* mt = Method::Parse(cs8_mt);
+			Method* mt = Method::Parse(xe_mt);
 			mt->SetLibrary(lib);
 			lib->_Methods.push_back(mt);
 			xe_mt = XML::Next(xe_mt);
-			delete cs8_mt;
 		}
 		return lib;
 	}
