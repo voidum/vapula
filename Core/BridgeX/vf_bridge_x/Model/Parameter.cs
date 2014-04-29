@@ -10,7 +10,7 @@ namespace Vapula.Model
         #region 字段
         private int _Id;
         private DataType _Type;
-        private ParamMode _Mode;
+        private AccessMode _Access;
         private Method _Method;
         private TagList _Tags
             = new TagList();
@@ -32,7 +32,7 @@ namespace Vapula.Model
             Parameter param = new Parameter();
             param.Id = int.Parse(xml.Attribute("id").Value);
             param.Type = (DataType)int.Parse(xml.Element("type").Value);
-            param.Mode = (ParamMode)int.Parse(xml.Element("mode").Value);
+            param.Access = (AccessMode)int.Parse(xml.Element("access").Value);
             var xml_tags = xml.Element("tags");
             param._Tags = TagList.Parse(xml_tags);
             return param;
@@ -84,10 +84,10 @@ namespace Vapula.Model
         /// <summary>
         /// 获取或设置参数的模式
         /// </summary>
-        public ParamMode Mode
+        public AccessMode Access
         {
-            get { return _Mode; }
-            set { _Mode = value; }
+            get { return _Access; }
+            set { _Access = value; }
         }
 
         /// <summary>

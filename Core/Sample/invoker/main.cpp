@@ -149,6 +149,25 @@ void Test5(Library* lib)
 		Sleep(50);
 }
 
+void Test6()
+{
+	int* data = new int[123];
+	for (int i = 0; i < 123; i++)
+		data[i] = i;
+	pcstr str = RawToBase64(data, 123 * sizeof(int));
+	cout << "data:" << str << endl;
+	int* data2 = (int*)Base64ToRaw(str);
+	delete str;
+	cout << "data:" << data2[122] << endl;
+}
+
+void Test7()
+{
+	pcstr data = "-23";
+	uint8 i = (uint8)atoi(data);
+	cout << (uint32)i << endl;
+}
+
 int main()
 {
 	//link driver manually
@@ -173,10 +192,12 @@ int main()
 	Assert(lib->Mount());
 
 	//Test1(lib);
-	Test2(lib);
+	//Test2(lib);
 	//Test3(lib);
 	//Test4(lib);
 	//Test5(lib);
+	//Test6();
+	Test7();
 
 	cout<<"[unmount component]"<<endl;
 	lib->Unmount();

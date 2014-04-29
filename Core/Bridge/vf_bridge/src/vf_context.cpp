@@ -21,7 +21,7 @@ namespace vapula
 		Clear(_KeyFrame);
 	}
 
-	void Context::SetState(int8 value, Invoker* owner)
+	void Context::SetState(uint8 value, Invoker* owner)
 	{
 		if(owner->GetStack()->GetContext() != this)
 			return;
@@ -31,38 +31,38 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	int8 Context::GetCurrentState()
+	uint8 Context::GetCurrentState()
 	{
 		_Lock->Enter();
-		int8 v = _CurrentState;
+		uint8 v = _CurrentState;
 		_Lock->Leave();
 		return v;
 	}
 
-	int8 Context::GetLastState()
+	uint8 Context::GetLastState()
 	{
 		_Lock->Enter();
-		int8 v = _LastState;
+		uint8 v = _LastState;
 		_Lock->Leave();
 		return v;
 	}
 
-	void Context::SetReturnCode(int8 value)
+	void Context::SetReturnCode(uint8 value)
 	{
 		_Lock->Enter();
 		_ReturnCode = value;
 		_Lock->Leave();
 	}
 
-	int8 Context::GetReturnCode()
+	uint8 Context::GetReturnCode()
 	{
 		_Lock->Enter();
-		int8 v = _ReturnCode;
+		uint8 v = _ReturnCode;
 		_Lock->Leave();
 		return v;
 	}
 
-	void Context::SetCtrlCode(int8 value, Invoker* owner)
+	void Context::SetCtrlCode(uint8 value, Invoker* owner)
 	{
 		if(owner->GetStack()->GetContext() != this)
 			return;
@@ -71,10 +71,10 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	int8 Context::GetCtrlCode()
+	uint8 Context::GetCtrlCode()
 	{
 		_Lock->Enter();
-		int8 v = _CtrlCode;
+		uint8 v = _CtrlCode;
 		_Lock->Leave();
 		return v;
 	}

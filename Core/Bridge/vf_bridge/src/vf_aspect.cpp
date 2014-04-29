@@ -54,7 +54,7 @@ namespace vapula
 		return _Id;
 	}
 
-	int8 Aspect::GetMode()
+	uint8 Aspect::GetMode()
 	{
 		return _Mode;
 	}

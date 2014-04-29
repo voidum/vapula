@@ -2,7 +2,7 @@
 #include "vf_task.h"
 #include "vf_xml.h"
 #include "vf_stack.h"
-#include "vf_envelope.h"
+#include "vf_dataset.h"
 #include <fstream>
 
 #pragma warning(disable: 4127)
@@ -77,32 +77,32 @@ namespace vapula
 				return stage;
 		}
 	}
-
+	
 	bool Worker::OnPrepare()
 	{
 		Library* lib = _Task->GetLibrary();
 		_Invoker = lib->CreateInvoker(_Task->GetMethodId());
 		Stack* stack = _Invoker->GetStack();
-		Envelope* env = stack->GetEnvelope();
+		Dataset* ds = stack->GetDataset();
 
 		pcstr path_data = _Task->GetDataPath();
 		XML* xml  = XML::Load(path_data);
-		Handle autop_xml(xml);
+		Scoped autop_xml(xml);
 		delete path_data;
 		if(xml == null)
 		{
 			ShowMsgbox("Fail to load data file.", _vf_host);
 			return false;
 		}
-		object xdoc = xml->GetEntity();
-		object xe_root = XML::XElem(xdoc, "data");
+		raw xdoc = xml->GetEntity();
+		raw xe_root = XML::XElem(xdoc, "data");
 
-		object xe_param = XML::XPath(xe_root, 2, "params", "param");
+		raw xe_param = XML::XPath(xe_root, 2, "params", "param");
 		while (xe_param)
 		{
 			int id = XML::ValInt(XML::XAttr(xe_param, "id"));
 			pcstr value = XML::ValStr(xe_param);
-			env->CastWrite(id, value);
+			(*ds)[id]->Write(value);
 			delete value;
 			xe_param = XML::Next(xe_param);
 		}

@@ -140,7 +140,7 @@ namespace vapula
 			oss<<"VAPULA_";
 		oss<<t<<"_";
 		srand((uint32)time(null));
-		for(int8 i=0; i<16; i++)
+		for(uint8 i=0; i<16; i++)
 		{
 			int rnd = rand() % 10;
 			oss<<rnd;

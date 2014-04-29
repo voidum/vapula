@@ -22,9 +22,29 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetVersion();
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteObject",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeNewData",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeleteObject(IntPtr obj);
+        public static extern IntPtr NewData(byte type, uint count);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteAt",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void vfeWriteAt(IntPtr data, byte type, uint at, string value);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadAt",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr vfeReadAt(IntPtr data, byte type, uint at);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteRaw",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DeleteRaw(IntPtr obj);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeBase64ToRaw",
+            CallingConvention = CallingConvention.Cdecl)]
+	    public static extern IntPtr Base64ToRaw(string data);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeRawToBase64",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr RawToBase64(IntPtr data, uint size);
         #endregion
 
         #region Error
@@ -88,6 +108,17 @@ namespace Vapula.API
         public static extern void UnmountLibrary(IntPtr lib);
         #endregion
 
+        #region
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeLinkAspectW",
+            CharSet = CharSet.Unicode,
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool LinkAspect(string path);
+
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReachFrame",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ReachFrame(string frame);
+        #endregion
+
         #region Invoker
         [DllImport("vf_bridge.dll", EntryPoint = "vfeCreateInvoker",
             CallingConvention = CallingConvention.Cdecl)]
@@ -135,9 +166,9 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetEnvelope(IntPtr stk);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeStackIsProtected",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeIsProtected",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern int StackIsProtected(IntPtr stk);
+        public static extern bool IsProtected(IntPtr stk);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetError",
             CallingConvention = CallingConvention.Cdecl)]
@@ -190,49 +221,41 @@ namespace Vapula.API
         public static extern void SwitchBusy(IntPtr ctx);
         #endregion
 
-        #region Envelope
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeParseEnvelopeW",
+        #region Dataset
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeParseDatasetW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ParseEnvelope(string xml);
+        public static extern IntPtr ParseDataset(string xml);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeZeroEnvelope",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeZeroDataset",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ZeroEnvelope(object env);
+        public static extern void ZeroDataset(IntPtr ds);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeCopyEnvelope",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeCopyDataset",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CopyEnvelope(object env);
+        public static extern IntPtr CopyDataset(IntPtr ds);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeW",
-            CharSet = CharSet.Unicode,
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WriteEnvelope(IntPtr env, int id, string value);
+        public static extern IntPtr GetRecord(IntPtr ds, int id);
+        #endregion
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteEnvelopeO",
-            CharSet = CharSet.Unicode,
+        #region Record
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetRecordSize",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WriteEnvelopeO(IntPtr env, int id, IntPtr value, uint length);
+	    public static extern uint GetRecordSize(IntPtr rec);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeW",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ReadEnvelope(IntPtr env, int id);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadEnvelopeO",
+	    public static extern void WriteRecord(IntPtr rec, IntPtr data, uint size);
+        
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ReadEnvelopeO(IntPtr env, int id);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadLengthO",
+	    public static extern IntPtr ReadRecord(IntPtr rec);
+        
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeliverRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint ReadEnvelopeO(IntPtr env, int id);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeDeliverEnvelope",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeliverEnvelope(IntPtr src, IntPtr dst, int from, int to);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeCastDeliverEnvelope",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CastDeliverEnvelope(IntPtr src, IntPtr dst, int from, int to);
+        public static extern void DeliverRecord(IntPtr src, IntPtr dst);
         #endregion
 
         #region Pipe

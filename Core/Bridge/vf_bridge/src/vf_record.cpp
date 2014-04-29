@@ -3,7 +3,7 @@
 
 namespace vapula
 {
-	uint32 GetValueUnit(int8 type)
+	uint32 GetValueUnit(uint8 type)
 	{
 		switch(type)
 		{
@@ -45,17 +45,17 @@ namespace vapula
 		raw xe_access = XML::XElem(xml, "access");
 		
 		Record* rec = new Record();
-		rec->_Type = (int8)XML::ValInt(xe_type);
-		rec->_Access = (int8)XML::ValInt(xe_access);
+		rec->_Type = (uint8)XML::ValInt(xe_type);
+		rec->_Access = (uint8)XML::ValInt(xe_access);
 		return rec;
 	}
 	
-	int8 Record::GetType()
+	uint8 Record::GetType()
 	{
 		return _Type;
 	}
 
-	int8 Record::GetAccess()
+	uint8 Record::GetAccess()
 	{
 		return _Access;
 	}

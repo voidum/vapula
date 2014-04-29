@@ -63,9 +63,9 @@ namespace Vapula.Runtime
         /// <summary>
         /// 获取控制码
         /// </summary>
-        public CtrlCode CtrlCode
+        public ControlCode CtrlCode
         {
-            get { return (CtrlCode)Bridge.GetCtrlCode(_Handle); }
+            get { return (ControlCode)Bridge.GetCtrlCode(_Handle); }
         }
 
         /// <summary>

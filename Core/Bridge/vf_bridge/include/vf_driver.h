@@ -63,7 +63,6 @@ namespace vapula
 		void Link(Driver* driver);
 
 		//try to load & link driver by id
-		//TODO: NEED TEST
 		bool Link(pcstr id);
 
 		//kick out driver by id

@@ -1,6 +1,8 @@
 #include "vf_bridge_c.h"
 #include "vf_driver.h"
 #include "vf_library.h"
+#include "vf_weaver.h"
+#include "vf_aspect.h"
 #include "vf_method.h"
 #include "vf_invoker.h"
 #include "vf_stack.h"
@@ -19,9 +21,87 @@ pcstr vfeGetVersion()
 	return vapula::GetVersion();
 }
 
-void vfeDeleteObject(raw obj)
+raw vfeNewData(uint8 type, uint32 count)
 {
-	Clear(obj);
+	raw data = new vapula::byte[GetValueUnit(type) * count];
+	return data;
+}
+
+void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value)
+{
+	if (data == null)
+		return;
+	switch (type)
+	{
+	case VF_VALUE_INT8: 
+		((int8*)data)[at] = (int8)atoi(value); break;
+	case VF_VALUE_INT16: 
+		((int16*)data)[at] = (int16)atoi(value); break;
+	case VF_VALUE_INT32:
+		((int32*)data)[at] = atoi(value); break;
+	case VF_VALUE_INT64:
+		((int64*)data)[at] = atoll(value); break;
+	case VF_VALUE_UINT8:
+		((uint8*)data)[at] = (uint8)atoi(value); break;
+	case VF_VALUE_UINT16:
+		((uint16*)data)[at] = (uint16)atoi(value); break;
+	case VF_VALUE_UINT32:
+		((uint32*)data)[at] = (uint32)atoi(value); break;
+	case VF_VALUE_UINT64:
+		((uint64*)data)[at] = (uint64)atoll(value); break;
+	case VF_VALUE_REAL32:
+		((float*)data)[at] = (float)atof(value); break;
+	case VF_VALUE_REAL64:
+		((double*)data)[at] = atof(value); break;
+	}
+}
+
+pcstr vfeReadAt(raw data, uint8 type, uint32 at)
+{
+	if (data == null)
+		return null;
+	switch (type)
+	{
+	case VF_VALUE_INT8:
+		return str::Value(((int8*)data)[at]);
+	case VF_VALUE_INT16:
+		return str::Value(((int16*)data)[at]);
+	case VF_VALUE_INT32:
+		return str::Value(((int32*)data)[at]);
+	case VF_VALUE_INT64:
+		return str::Value(((int64*)data)[at]);
+	case VF_VALUE_UINT8:
+		return str::Value(((uint8*)data)[at]);
+	case VF_VALUE_UINT16:
+		return str::Value(((uint16*)data)[at]);
+	case VF_VALUE_UINT32:
+		return str::Value(((uint32*)data)[at]);
+	case VF_VALUE_UINT64:
+		return str::Value(((uint64*)data)[at]);
+	case VF_VALUE_REAL32:
+		return str::Value(((float*)data)[at]);
+	case VF_VALUE_REAL64:
+		return str::Value(((double*)data)[at]);
+	default:
+		return null;
+	}
+}
+
+void vfeDeleteRaw(raw ptr)
+{
+	Clear(ptr);
+}
+
+raw vfeBase64ToRaw(pcstr data)
+{
+	raw out = Base64ToRaw(data);
+	return out;
+}
+
+pcstr vfeRawToBase64(raw data, uint32 size)
+{
+	pcstr out = RawToBase64(data, size);
+	return out;
 }
 
 
@@ -118,6 +198,32 @@ void vfeUnmountLibrary(raw lib)
 }
 
 
+//Weaver
+
+int vfeLinkAspect(pcstr path)
+{
+	Weaver* weaver = Weaver::GetInstance();
+	Aspect* aspect = Aspect::Load(path);
+	if (aspect == null)
+		return FALSE;
+	weaver->Link(aspect);
+	return TRUE;
+}
+
+int vfeLinkAspectW(pcwstr path)
+{
+	pcstr cs8_path = str::ToStr(path);
+	Scoped autop((raw)cs8_path);
+	return vfeLinkAspect(cs8_path);
+}
+
+void vfeReachFrame(pcstr frame)
+{
+	Weaver* weaver = Weaver::GetInstance();
+	weaver->Reach(frame);
+}
+
+
 //Invoker
 
 raw vfeCreateInvoker(raw lib, pcstr id)
@@ -204,25 +310,25 @@ raw vfeGetError(raw stk)
 
 //Context
 
-int8 vfeGetCurrentState(raw ctx)
+uint8 vfeGetCurrentState(raw ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetCurrentState();
 }
 
-int8 vfeGetLastState(raw ctx)
+uint8 vfeGetLastState(raw ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetLastState();
 }
 
-int8 vfeGetReturnCode(raw ctx)
+uint8 vfeGetReturnCode(raw ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetReturnCode();
 }
 
-int8 vfeGetCtrlCode(raw ctx)
+uint8 vfeGetCtrlCode(raw ctx)
 {
 	Context* obj = (Context*)ctx;
 	return obj->GetCtrlCode();
@@ -240,7 +346,7 @@ pcstr vfeGetKeyFrame(raw ctx)
 	return obj->GetKeyFrame();
 }
 
-void vfeSetReturnCode(raw ctx, int8 ret)
+void vfeSetReturnCode(raw ctx, uint8 ret)
 {
 	Context* obj = (Context*)ctx;
 	obj->SetReturnCode(ret);

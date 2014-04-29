@@ -14,7 +14,7 @@ namespace vapula
 		pcstr _Contact;
 		pcstr _LibraryId;
 		pcstr _MethodId;
-		int8 _Mode;
+		uint8 _Mode;
 	private:
 		Invoker* _Invoker;
 
@@ -31,7 +31,7 @@ namespace vapula
 		pcstr GetAspectId();
 
 		//get aspect mode
-		int8 GetMode();
+		uint8 GetMode();
 
 		//get key frame regex pattern
 		pcstr GetContact();

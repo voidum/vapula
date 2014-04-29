@@ -9,15 +9,13 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 
-	VAPULA_API raw vfeNewData(int8 type, uint32 count);
-	VAPULA_API void vfeWriteAt(raw data, int8 type, uint32 at, pcstr value);
-	VAPULA_API pcstr vfeReadAt(raw data, int8 type, uint32 at);
+	VAPULA_API raw vfeNewData(uint8 type, uint32 count);
+	VAPULA_API void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value);
+	VAPULA_API pcstr vfeReadAt(raw data, uint8 type, uint32 at);
 	VAPULA_API void vfeDeleteRaw(raw ptr);
 
 	VAPULA_API raw vfeBase64ToRaw(pcstr data);
-	VAPULA_API raw vfeBase64ToRawW(pcwstr data);
 	VAPULA_API pcstr vfeRawToBase64(raw data, uint32 size);
-	VAPULA_API pcwstr vfeRawToBase64W(raw data, uint32 size);
 
 	//Error
 	VAPULA_API int vfeWhatError(raw err);
@@ -39,6 +37,11 @@ extern "C"
 	VAPULA_API int vfeMountLibrary(raw lib);
 	VAPULA_API void vfeUnmountLibrary(raw lib);
 
+	//Weaver
+	VAPULA_API int vfeLinkAspect(pcstr path);
+	VAPULA_API int vfeLinkAspectW(pcwstr path);
+	VAPULA_API void vfeReachFrame(pcstr frame);
+
 	//Invoker
 	VAPULA_API raw vfeCreateInvoker(raw lib, pcstr id);
 	VAPULA_API int vfeStartInvoker(raw inv);
@@ -57,13 +60,13 @@ extern "C"
 	VAPULA_API raw vfeGetError(raw stk);
 	
 	//Context
-	VAPULA_API int8 vfeGetCurrentState(raw ctx);
-	VAPULA_API int8 vfeGetLastState(raw ctx);
-	VAPULA_API int8 vfeGetReturnCode(raw ctx);
-	VAPULA_API int8 vfeGetCtrlCode(raw ctx);
+	VAPULA_API uint8 vfeGetCurrentState(raw ctx);
+	VAPULA_API uint8 vfeGetLastState(raw ctx);
+	VAPULA_API uint8 vfeGetReturnCode(raw ctx);
+	VAPULA_API uint8 vfeGetCtrlCode(raw ctx);
 	VAPULA_API float vfeGetProgress(raw ctx);
 	VAPULA_API pcstr vfeGetKeyFrame(raw ctx);
-	VAPULA_API void vfeSetReturnCode(raw ctx, int8 ret);
+	VAPULA_API void vfeSetReturnCode(raw ctx, uint8 ret);
 	VAPULA_API void vfeSetProgress(raw ctx, float prog);
 	VAPULA_API void vfeSetKeyFrame(raw ctx, pcstr frame);
 	VAPULA_API void vfeSwitchHold(raw ctx);

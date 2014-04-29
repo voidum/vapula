@@ -93,7 +93,8 @@ namespace vapula
 		VF_CTRL_NULL = 0,
 		VF_CTRL_PAUSE = 1,
 		VF_CTRL_RESUME = 2,
-		VF_CTRL_CANCEL = 3
+		VF_CTRL_CANCEL = 3,
+		VF_CTRL_RESTART = 4
 	}; //context control code
 
 	enum ReturnCode
@@ -119,7 +120,7 @@ namespace vapula
 	pcstr const _vf_err_3 = "untrusted invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.3.1";
+	pcstr const _vf_version = "2.1.3.2";
 	pcstr const _vf_msg_cp = "utf8";
 
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";

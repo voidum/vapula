@@ -7,14 +7,22 @@ namespace Vapula.Runtime
     /// </summary>
     public class DriverHub
     {
-        private static DriverHub _Instance = null;
+        private static DriverHub _Instance 
+            = null;
+        private static readonly object _CtorLock 
+            = new object();
 
         public static DriverHub Instance
         {
             get
             {
                 if (_Instance == null)
-                    _Instance = new DriverHub();
+                {
+                    lock (_CtorLock) 
+                    {
+                        _Instance = new DriverHub();
+                    }
+                }
                 return _Instance;
             }
         }

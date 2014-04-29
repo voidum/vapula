@@ -19,8 +19,8 @@ Worker_Pipe::~Worker_Pipe()
 bool Worker_Pipe::OnPrepare()
 {
 	XML* xml = XML::Parse(_Task->GetCtrlSetting());
-	object xml_cfg = xml->GetEntity();
-	pcstr pid = XML::ValStr(XML::XElem(xml_cfg, "pipe"));
+	raw xdoc = xml->GetEntity();
+	pcstr pid = XML::ValStr(XML::XElem(xdoc, "pipe"));
 	if(!_Pipe->Connect(pid))
 		return false;
 

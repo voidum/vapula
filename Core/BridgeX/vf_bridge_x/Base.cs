@@ -4,11 +4,56 @@ using System.IO;
 namespace Vapula
 {
     /// <summary>
-    /// Vapula支持的数据类型
+    /// 执行状态
+    /// </summary>
+    public enum State
+    {
+        Idle = 0,
+        Pause = 1,
+        BusyBack = 2,
+        BusyFront = 3,
+        Rollback = 4
+    }
+
+    /// <summary>
+    /// 执行控制码
+    /// </summary>
+    public enum ControlCode
+    {
+        Null = 0,
+        Pause = 1,
+        Resume = 2,
+        Cancel = 3,
+        Restart = 4
+    }
+
+    /// <summary>
+    /// 执行返回值
+    /// </summary>
+    public enum ReturnCode
+    {
+        Error = 0,
+        Normal = 1,
+        Cancel = 2,
+        Terminate = 3,
+        NullTask = 4
+    }
+
+    /// <summary>
+    /// 支持数据类型
     /// </summary>
     public enum DataType
     {
-        Object = 0,
+        Raw = 0,
+        Value = 1,
+        Text = 2
+    };
+
+    /// <summary>
+    /// 支持值类型
+    /// </summary>
+    public enum ValueType
+    {
         Int8 = 1,
         Int16 = 2,
         Int32 = 3,
@@ -19,14 +64,12 @@ namespace Vapula
         UInt64 = 8,
         Real32 = 10,
         Real64 = 11,
-        Bool = 20,
-        String = 21
-    };
+    }
 
     /// <summary>
-    /// Vapula支持的参数模式
+    /// 数据访问模式
     /// </summary>
-    public enum ParamMode
+    public enum AccessMode
     {
         In = 0,
         Out = 1,
@@ -57,49 +100,43 @@ namespace Vapula
         }
 
         /// <summary>
-        /// 获取Vapula数据类型对应的CLR类型
+        /// 获取Vapula值类型对应的CLR类型
         /// </summary>
-        public static Type GetCLRType(DataType type)
+        public static Type GetCLRType(ValueType type)
         {
             switch (type)
             {
-                case DataType.Bool: return typeof(bool);
-                case DataType.Int8: return typeof(char);
-                case DataType.Int16: return typeof(short);
-                case DataType.Int32: return typeof(int);
-                case DataType.Int64: return typeof(long);
-                case DataType.UInt8: return typeof(byte);
-                case DataType.UInt16: return typeof(ushort);
-                case DataType.UInt32: return typeof(uint);
-                case DataType.UInt64: return typeof(ulong);
-                case DataType.Real32: return typeof(float);
-                case DataType.Real64: return typeof(double);
-                case DataType.String:
-                    return typeof(string);
+                case ValueType.Int8: return typeof(char);
+                case ValueType.Int16: return typeof(short);
+                case ValueType.Int32: return typeof(int);
+                case ValueType.Int64: return typeof(long);
+                case ValueType.UInt8: return typeof(byte);
+                case ValueType.UInt16: return typeof(ushort);
+                case ValueType.UInt32: return typeof(uint);
+                case ValueType.UInt64: return typeof(ulong);
+                case ValueType.Real32: return typeof(float);
+                case ValueType.Real64: return typeof(double);
                 default: return typeof(IntPtr);
             }
         }
 
         /// <summary>
-        /// 获取Vapula数据类型对应的CLR可空类型
+        /// 获取Vapula值类型对应的CLR可空类型
         /// </summary>
-        public static Type GetNullableCLRType(DataType type)
+        public static Type GetNullableCLRType(ValueType type)
         {
             switch (type)
             {
-                case DataType.Bool: return typeof(Nullable<bool>);
-                case DataType.Int8: return typeof(Nullable<char>);
-                case DataType.Int16: return typeof(Nullable<short>);
-                case DataType.Int32: return typeof(Nullable<int>);
-                case DataType.Int64: return typeof(Nullable<long>);
-                case DataType.UInt8: return typeof(Nullable<byte>);
-                case DataType.UInt16: return typeof(Nullable<ushort>);
-                case DataType.UInt32: return typeof(Nullable<uint>);
-                case DataType.UInt64: return typeof(Nullable<ulong>);
-                case DataType.Real32: return typeof(Nullable<float>);
-                case DataType.Real64: return typeof(Nullable<double>);
-                case DataType.String:
-                    return typeof(string);
+                case ValueType.Int8: return typeof(Nullable<char>);
+                case ValueType.Int16: return typeof(Nullable<short>);
+                case ValueType.Int32: return typeof(Nullable<int>);
+                case ValueType.Int64: return typeof(Nullable<long>);
+                case ValueType.UInt8: return typeof(Nullable<byte>);
+                case ValueType.UInt16: return typeof(Nullable<ushort>);
+                case ValueType.UInt32: return typeof(Nullable<uint>);
+                case ValueType.UInt64: return typeof(Nullable<ulong>);
+                case ValueType.Real32: return typeof(Nullable<float>);
+                case ValueType.Real64: return typeof(Nullable<double>);
                 default: return typeof(Nullable<IntPtr>);
             }
         }

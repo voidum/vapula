@@ -5,14 +5,14 @@
 namespace vapula
 {
 	//get value unit
-	VAPULA_API uint32 GetValueUnit(int8 type);
+	VAPULA_API uint32 GetValueUnit(uint8 type);
 
 	//record
 	class VAPULA_API Record
 	{
 	protected:
-		int8 _Type; //data type
-		int8 _Access; //access mode
+		uint8 _Type; //data type
+		uint8 _Access; //access mode
 		uint32 _Size; //data size by byte
 		raw _Data; //raw data
 
@@ -28,10 +28,10 @@ namespace vapula
 
 	public:
 		//get data type
-		int8 GetType();
+		uint8 GetType();
 		
 		//get access mode
-		int8 GetAccess();
+		uint8 GetAccess();
 
 		//get size
 		uint32 GetSize();

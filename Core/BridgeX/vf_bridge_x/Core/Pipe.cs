@@ -25,7 +25,7 @@ namespace Vapula.Runtime
         public void Dispose()
         {
             if (_Handle != IntPtr.Zero)
-                Bridge.DeleteObject(_Handle);
+                Bridge.DeleteRaw(_Handle);
         }
 
         /// <summary>
