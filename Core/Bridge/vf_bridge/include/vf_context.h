@@ -15,7 +15,7 @@ namespace vapula
 		uint8 _LastState;
 		uint8 _CurrentState;
 		uint8 _ReturnCode;
-		uint8 _CtrlCode;
+		uint8 _ControlCode;
 		pcstr _KeyFrame;
 		float _Progress; //0 - 100
 
@@ -56,7 +56,7 @@ namespace vapula
 		uint8 GetReturnCode();
 
 		//get control code
-		uint8 GetCtrlCode();
+		uint8 GetControlCode();
 
 		//get progress
 		float GetProgress();

@@ -46,7 +46,7 @@ namespace Vapula.Model
             XElement xml = new XElement("param",
                 new XAttribute("id", Id),
                 new XElement("type", (int)Type),
-                new XElement("mode", (int)Mode),
+                new XElement("mode", (int)Access),
                 _Tags.ToXML());
             return xml;
         }

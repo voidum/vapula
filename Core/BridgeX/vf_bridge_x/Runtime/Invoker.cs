@@ -4,25 +4,25 @@ using Vapula.API;
 namespace Vapula.Runtime
 {
     /// <summary>
-    /// 调用器基类
+    /// invoker
     /// </summary>
     public class Invoker : IDisposable
     {
-        #region 字段
+        #region Fields
         protected IntPtr _Handle;
         protected Stack _Stack = null;
         #endregion
 
-        #region 构造
+        #region Ctor
         public Invoker(IntPtr handle)
         {
             _Handle = handle;
         }
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
-        /// 获取或设置当前私有栈
+        /// get stack for current invoker
         /// </summary>
         public Stack Stack
         {
@@ -40,7 +40,7 @@ namespace Vapula.Runtime
 
         #region 方法
         /// <summary>
-        /// 启动
+        /// start invoker
         /// </summary>
         public virtual bool Start()
         {
@@ -48,7 +48,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 停止
+        /// stop invoker
         /// </summary>
         public virtual void Stop(uint wait)
         {
@@ -56,7 +56,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 暂停
+        /// pause invoker
         /// </summary>
         public virtual void Pause(uint wait)
         {
@@ -64,7 +64,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 恢复
+        /// resume invoker
         /// </summary>
         public virtual void Resume() 
         {
@@ -72,7 +72,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 重启
+        /// restart invoker
         /// </summary>
         public virtual void Restart(uint wait) 
         {
@@ -80,12 +80,13 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 销毁调用器
+        /// dispose invoker
         /// </summary>
         public virtual void Dispose()
         {
-            if(_Handle != IntPtr.Zero)
-                Bridge.DeleteObject(_Handle);
+            StackHub hub = StackHub.Instance;
+            hub.Kick(Stack);
+            Bridge.DeleteRaw(_Handle);
         }
         #endregion
     }

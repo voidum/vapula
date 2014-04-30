@@ -328,10 +328,10 @@ uint8 vfeGetReturnCode(raw ctx)
 	return obj->GetReturnCode();
 }
 
-uint8 vfeGetCtrlCode(raw ctx)
+uint8 vfeGetControlCode(raw ctx)
 {
 	Context* obj = (Context*)ctx;
-	return obj->GetCtrlCode();
+	return obj->GetControlCode();
 }
 
 float vfeGetProgress(raw ctx)

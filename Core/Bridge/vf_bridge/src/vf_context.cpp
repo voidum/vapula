@@ -9,7 +9,7 @@ namespace vapula
 		_LastState = VF_STATE_IDLE;
 		_CurrentState = VF_STATE_IDLE;
 		_ReturnCode = VF_RETURN_NORMAL;
-		_CtrlCode = VF_CTRL_NULL;
+		_ControlCode = VF_CTRL_NULL;
 		_Progress = 0;
 		_KeyFrame = null;
 		_Lock = new Lock();
@@ -67,14 +67,14 @@ namespace vapula
 		if(owner->GetStack()->GetContext() != this)
 			return;
 		_Lock->Enter();
-		_CtrlCode = value;
+		_ControlCode = value;
 		_Lock->Leave();
 	}
 
-	uint8 Context::GetCtrlCode()
+	uint8 Context::GetControlCode()
 	{
 		_Lock->Enter();
-		uint8 v = _CtrlCode;
+		uint8 v = _ControlCode;
 		_Lock->Leave();
 		return v;
 	}
@@ -82,17 +82,17 @@ namespace vapula
 	void Context::SwitchHold()
 	{
 		_Lock->Enter();
-		if(_CtrlCode == VF_CTRL_PAUSE)
+		if (_ControlCode == VF_CTRL_PAUSE)
 		{
 			_LastState = _CurrentState;
 			_CurrentState = VF_STATE_PAUSE;
 		}
-		else if(_CtrlCode == VF_CTRL_RESUME)
+		else if (_ControlCode == VF_CTRL_RESUME)
 		{
 			_CurrentState = _LastState;
 			_LastState = VF_STATE_PAUSE;
 		}
-		_CtrlCode = VF_CTRL_NULL;
+		_ControlCode = VF_CTRL_NULL;
 		_Lock->Leave();
 	}
 

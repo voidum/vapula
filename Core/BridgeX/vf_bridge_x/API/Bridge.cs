@@ -6,9 +6,9 @@ namespace Vapula.API
     public class Bridge
     {
         /// <summary>
-        /// 转换P/Invoke返回的字符串
+        /// convert IntPtr from PInvoke into string
         /// </summary>
-        public static string MarshalString(IntPtr ptr, bool unicode = true)
+        public static string ToString(IntPtr ptr, bool unicode = true)
         {
             string ret =
                 unicode ?
@@ -28,11 +28,11 @@ namespace Vapula.API
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteAt",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void vfeWriteAt(IntPtr data, byte type, uint at, string value);
+        public static extern void WriteAt(IntPtr data, byte type, uint at, string value);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeReadAt",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vfeReadAt(IntPtr data, byte type, uint at);
+        public static extern IntPtr ReadAt(IntPtr data, byte type, uint at);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteRaw",
             CallingConvention = CallingConvention.Cdecl)]
@@ -188,9 +188,9 @@ namespace Vapula.API
             CallingConvention = CallingConvention.Cdecl)]
         public static extern byte GetReturnCode(IntPtr ctx);
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetCtrlCode",
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetControlCode",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern byte GetCtrlCode(IntPtr ctx);
+        public static extern byte GetControlCode(IntPtr ctx);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetProgress",
             CallingConvention = CallingConvention.Cdecl)]

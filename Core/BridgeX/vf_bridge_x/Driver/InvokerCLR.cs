@@ -34,7 +34,7 @@ namespace Vapula.Runtime
         public void CallEntry()
         {
             string entry_sym = 
-                _Library.GetEntrySym(Stack.MethodId);
+                _Library.GetProcessSym(Stack.MethodId);
             string clsid = "";
             string mtid = "";
             if(string.IsNullOrWhiteSpace(entry_sym))

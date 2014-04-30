@@ -4,22 +4,19 @@ using Vapula.API;
 namespace Vapula.Runtime
 {
     /// <summary>
-    /// 上下文
+    /// context
     /// </summary>
     public class Context
     {
         private IntPtr _Handle = IntPtr.Zero;
 
-        /// <summary>
-        /// 构造上下文
-        /// </summary>
         public Context(IntPtr handle)
         {
             _Handle = handle;
         }
 
         /// <summary>
-        /// 获取内核句柄
+        /// get handle
         /// </summary>
         public IntPtr Handle
         {
@@ -27,7 +24,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取当前状态
+        /// get current state
         /// </summary>
         public State CurrentState
         {
@@ -35,7 +32,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取上一个状态
+        /// get last state
         /// </summary>
         public State LastState
         {
@@ -43,7 +40,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取或设置进度值
+        /// get or set progress
         /// </summary>
         public float Progress 
         {
@@ -52,7 +49,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取返回值
+        /// get or set return code
         /// </summary>
         public ReturnCode ReturnCode
         {
@@ -61,11 +58,11 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取控制码
+        /// get control code
         /// </summary>
-        public ControlCode CtrlCode
+        public ControlCode ControlCode
         {
-            get { return (ControlCode)Bridge.GetCtrlCode(_Handle); }
+            get { return (ControlCode)Bridge.GetControlCode(_Handle); }
         }
 
         /// <summary>

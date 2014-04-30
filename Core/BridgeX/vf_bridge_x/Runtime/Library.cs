@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Vapula.API;
 
 namespace Vapula.Runtime
@@ -9,50 +8,22 @@ namespace Vapula.Runtime
         protected IntPtr _Handle 
             = IntPtr.Zero;
 
-        /// <summary>
-        /// 获取组件的标识
-        /// </summary>
-        public string Id
-        {
-            get 
-            {
-                string value = 
-                    Bridge.MarshalString(
-                    Bridge.GetLibraryId(_Handle), false);
-                return value;
-            }
-        }
-
-        /// <summary>
-        /// 获取组件的运行时
-        /// </summary>
-        public string RuntimeId
-        {
-            get 
-            { 
-                string value = 
-                    Bridge.MarshalString(
-                    Bridge.GetRuntime(_Handle), false);
-                return value;
-            }
-        }
-
         public Library(IntPtr handle)
         {
             _Handle = handle;
         }
 
         /// <summary>
-        /// 从文件加载库
+        /// load library from file
         /// </summary>
         public static Library Load(string path)
         {
             IntPtr ptr = Bridge.LoadLibrary(path);
-            if (ptr == IntPtr.Zero) 
+            if (ptr == IntPtr.Zero)
                 return null;
             Library lib = null;
-            string runtime = 
-                Bridge.MarshalString(
+            string runtime =
+                Bridge.ToString(
                 Bridge.GetRuntime(ptr), false);
             if (runtime == Base.RuntimeId)
                 lib = new LibraryCLR(ptr);
@@ -61,20 +32,36 @@ namespace Vapula.Runtime
             return lib;
         }
 
+        /// <summary>
+        /// get library id
+        /// </summary>
+        public string Id
+        {
+            get 
+            {
+                string value = 
+                    Bridge.ToString(
+                    Bridge.GetLibraryId(_Handle), false);
+                return value;
+            }
+        }
 
         /// <summary>
-        /// 获取组件的入口
+        /// get runtime id
         /// </summary>
-        public string GetEntrySym(string id)
+        public string RuntimeId
         {
-            string value =
-                Bridge.MarshalString(
-                Bridge.GetEntrySym(_Handle, id), false);
-            return value;
+            get 
+            { 
+                string value = 
+                    Bridge.ToString(
+                    Bridge.GetRuntime(_Handle), false);
+                return value;
+            }
         }
 
 		/// <summary>
-        /// 获取指定功能的调用器
+        /// create invoker for method
 		/// </summary>
         public Invoker CreateInvoker(string id)
         {
@@ -86,9 +73,31 @@ namespace Vapula.Runtime
                 inv = new Invoker(ptr);
             return inv;
         }
-		
+
+        /// <summary>
+        /// get method process symbol
+        /// </summary>
+        public string GetProcessSym(string id)
+        {
+            string sym = 
+                Bridge.ToString(
+                Bridge.GetProcessSym(_Handle, id), false);
+            return sym;
+        }
+
+        /// <summary>
+        /// get method rollback symbol
+        /// </summary>
+        public string GetRollbackSym(string id)
+        {
+            string sym =
+                Bridge.ToString(
+                Bridge.GetRollbackSym(_Handle, id), false);
+            return sym;
+        }
+
 		/// <summary>
-		/// 装载库
+		/// mount library
 		/// </summary>
         public virtual bool Mount()
         {
@@ -96,7 +105,7 @@ namespace Vapula.Runtime
         }
 
 		/// <summary>
-        /// 卸载库
+        /// unmount library
 		/// </summary>
         public virtual void Unmount()
         {
@@ -104,12 +113,12 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 销毁库
+        /// dispose library
         /// </summary>
         public virtual void Dispose()
         {
             Unmount();
-            Bridge.DeleteObject(_Handle);
+            Bridge.DeleteRaw(_Handle);
         }
     }
 }

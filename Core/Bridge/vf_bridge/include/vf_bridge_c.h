@@ -21,7 +21,7 @@ extern "C"
 	VAPULA_API int vfeWhatError(raw err);
 	VAPULA_API void vfeThrowError(int what);
 
-	//Driver
+	//DriverHub
 	VAPULA_API int vfeGetDriverCount();
 	VAPULA_API int vfeLinkDriver(pcstr path);
 	VAPULA_API void vfeKickDriver(pcstr id);
@@ -36,6 +36,7 @@ extern "C"
 	VAPULA_API pcstr vfeGetRollbackSym(raw lib, pcstr id);
 	VAPULA_API int vfeMountLibrary(raw lib);
 	VAPULA_API void vfeUnmountLibrary(raw lib);
+	VAPULA_API raw vfeCreateInvoker(raw lib, pcstr id);
 
 	//Weaver
 	VAPULA_API int vfeLinkAspect(pcstr path);
@@ -43,15 +44,14 @@ extern "C"
 	VAPULA_API void vfeReachFrame(pcstr frame);
 
 	//Invoker
-	VAPULA_API raw vfeCreateInvoker(raw lib, pcstr id);
 	VAPULA_API int vfeStartInvoker(raw inv);
 	VAPULA_API void vfeStopInvoker(raw inv, uint32 wait);
 	VAPULA_API void vfePauseInvoker(raw inv, uint32 wait);
 	VAPULA_API void vfeResumeInvoker(raw inv);
 	VAPULA_API int vfeRestartInvoker(raw inv, uint32 wait);
+	VAPULA_API raw vfeGetStack(raw inv);
 
 	//Stack
-	VAPULA_API raw vfeGetStack(raw inv);
 	VAPULA_API raw vfeGetCurrentStack();
 	VAPULA_API pcstr vfeGetMethodId(raw stk);
 	VAPULA_API raw vfeGetContext(raw stk);
@@ -63,7 +63,7 @@ extern "C"
 	VAPULA_API uint8 vfeGetCurrentState(raw ctx);
 	VAPULA_API uint8 vfeGetLastState(raw ctx);
 	VAPULA_API uint8 vfeGetReturnCode(raw ctx);
-	VAPULA_API uint8 vfeGetCtrlCode(raw ctx);
+	VAPULA_API uint8 vfeGetControlCode(raw ctx);
 	VAPULA_API float vfeGetProgress(raw ctx);
 	VAPULA_API pcstr vfeGetKeyFrame(raw ctx);
 	VAPULA_API void vfeSetReturnCode(raw ctx, uint8 ret);

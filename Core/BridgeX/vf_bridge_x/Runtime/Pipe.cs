@@ -73,7 +73,7 @@ namespace Vapula.Runtime
         /// </summary>
         public void Listen()
         {
-            _Id = Bridge.MarshalString(
+            _Id = Bridge.ToString(
                 Bridge.ListenPipe(_Handle), false);
         }
 
@@ -98,7 +98,7 @@ namespace Vapula.Runtime
         /// </summary>
         public string Read() 
         {
-            return Bridge.MarshalString(
+            return Bridge.ToString(
                 Bridge.ReadPipe(_Handle));
         }
     }

@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base.cs" />
+    <Compile Include="Runtime\Error.cs" />
+    <Compile Include="Runtime\Record.cs" />
     <Compile Include="Helper\AppHelper.cs" />
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />
     <Compile Include="Helper\Logger\ILogger.cs" />
     <Compile Include="Helper\Logger\LoggerHub.cs" />
-    <Compile Include="Core\Stack.cs" />
+    <Compile Include="Runtime\Stack.cs" />
     <Compile Include="Driver\DriverEntry.cs" />
     <Compile Include="Model\Method.cs" />
     <Compile Include="Model\ISyncable.cs" />
@@ -54,15 +56,17 @@
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API\Bridge.cs" />
-    <Compile Include="Core\Context.cs" />
+    <Compile Include="Runtime\Context.cs" />
     <Compile Include="Driver\InvokerCLR.cs" />
     <Compile Include="Driver\LibraryCLR.cs" />
-    <Compile Include="Core\Envelope.cs" />
-    <Compile Include="Core\Invoker.cs" />
-    <Compile Include="Core\Library.cs" />
-    <Compile Include="Core\DriverHub.cs" />
-    <Compile Include="Core\Pipe.cs" />
+    <Compile Include="Runtime\Dataset.cs" />
+    <Compile Include="Runtime\Invoker.cs" />
+    <Compile Include="Runtime\Library.cs" />
+    <Compile Include="Runtime\DriverHub.cs" />
+    <Compile Include="Runtime\Pipe.cs" />
     <Compile Include="Model\TagList.cs" />
+    <Compile Include="Runtime\StackHub.cs" />
+    <Compile Include="Runtime\Weaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="XSD\library.xsd">

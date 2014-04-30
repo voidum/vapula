@@ -8,9 +8,9 @@
   
   <xs:complexType name="library">
     <xs:all>
-      <xs:element name="id" maxOccurs="1" type="ascii_string" />
-      <xs:element name="runtime" maxOccurs="1" type="ascii_string" />
-      <xs:element name="methods" maxOccurs="1">
+      <xs:element name="id" type="vf_id" />
+      <xs:element name="runtime" type="vf_id" />
+      <xs:element name="methods">
         <xs:complexType>
           <xs:sequence>
             <xs:element name="method" type="method" minOccurs="0" maxOccurs="unbounded" />
@@ -23,12 +23,20 @@
   
   <xs:complexType name="method">
     <xs:all>
-      <xs:element name="id" maxOccurs="1" type="ascii_string" />
-      <xs:element name="entry" maxOccurs="1" type="ascii_string" />
-      <xs:element name="params">
+      <xs:element name="id" type="vf_id" />
+      <xs:element name="protect" type="xs:boolean" />
+      <xs:element name="symbols">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="process" type="vf_id" />
+            <xs:element name="rollback" type="vf_id" />
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="schema">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="param" type="param" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="field" type="field" minOccurs="0" maxOccurs="unbounded" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -36,10 +44,10 @@
     </xs:all>
   </xs:complexType>
   
-  <xs:complexType name="param">
+  <xs:complexType name="field">
     <xs:all>
       <xs:element name="type" type="xs:int" />
-      <xs:element name="mode" type="xs:int" />
+      <xs:element name="access" type="xs:int" />
       <xs:element name="tags" type="tags" />
     </xs:all>
     <xs:attribute name="id" use="required">
@@ -65,7 +73,7 @@
     </xs:simpleContent>
   </xs:complexType>
 
-  <xs:simpleType name="ascii_string">
+  <xs:simpleType name="vf_id">
     <xs:restriction base="xs:string">
       <xs:whiteSpace value="replace" />
       <xs:pattern value="([a-zA-Z0-9._])*" />
