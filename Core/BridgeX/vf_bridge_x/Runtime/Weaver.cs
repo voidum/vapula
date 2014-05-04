@@ -6,7 +6,7 @@ namespace Vapula.Runtime
     {
         private static Weaver _Instance 
             = null;
-        private static readonly object _CtorLock 
+        private static readonly object _SyncCtor 
             = new object();
 
         public static Weaver Instance
@@ -15,7 +15,7 @@ namespace Vapula.Runtime
             {
                 if (_Instance == null)
                 {
-                    lock (_CtorLock) 
+                    lock (_SyncCtor) 
                     {
                         _Instance = new Weaver();
                     }

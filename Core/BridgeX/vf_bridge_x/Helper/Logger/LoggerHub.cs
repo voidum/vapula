@@ -6,14 +6,21 @@ namespace Vapula.Helper
     {
         private static LoggerHub _Instance 
             = null;
+        private static readonly object _SyncCtor 
+            = new object();
 
         public static LoggerHub Instance
         {
             get 
             {
                 if (_Instance == null)
-                    _Instance = new LoggerHub();
-                return _Instance; 
+                {
+                    lock (_SyncCtor) 
+                    {
+                        _Instance = new LoggerHub();
+                    }
+                }
+                return _Instance;
             }
         }
 

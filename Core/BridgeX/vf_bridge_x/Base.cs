@@ -3,9 +3,6 @@ using System.IO;
 
 namespace Vapula
 {
-    /// <summary>
-    /// 执行状态
-    /// </summary>
     public enum State
     {
         Idle = 0,
@@ -15,9 +12,6 @@ namespace Vapula
         Rollback = 4
     }
 
-    /// <summary>
-    /// 执行控制码
-    /// </summary>
     public enum ControlCode
     {
         Null = 0,
@@ -27,9 +21,6 @@ namespace Vapula
         Restart = 4
     }
 
-    /// <summary>
-    /// 执行返回值
-    /// </summary>
     public enum ReturnCode
     {
         Error = 0,
@@ -39,9 +30,6 @@ namespace Vapula
         NullTask = 4
     }
 
-    /// <summary>
-    /// 支持数据类型
-    /// </summary>
     public enum DataType
     {
         Raw = 0,
@@ -49,9 +37,6 @@ namespace Vapula
         Text = 2
     };
 
-    /// <summary>
-    /// 支持值类型
-    /// </summary>
     public enum ValueType
     {
         Int8 = 1,
@@ -66,9 +51,6 @@ namespace Vapula
         Real64 = 11,
     }
 
-    /// <summary>
-    /// 数据访问模式
-    /// </summary>
     public enum AccessMode
     {
         In = 0,
@@ -79,12 +61,12 @@ namespace Vapula
     public class Base
     {
         /// <summary>
-        /// 当前运行时标识
+        /// current runtime
         /// </summary>
         public const string RuntimeId = "clr";
 
         /// <summary>
-        /// 获取类型所在程序集的加载目录
+        /// get directory for assembly with type
         /// </summary>
         public static string GetTypeDir(Type type)
         {
@@ -92,7 +74,7 @@ namespace Vapula
         }
 
         /// <summary>
-        /// 当前运行时的目录
+        /// get runtime directory
         /// </summary>
         public static string RuntimeDir
         {
@@ -100,7 +82,7 @@ namespace Vapula
         }
 
         /// <summary>
-        /// 获取Vapula值类型对应的CLR类型
+        /// get CLR type for Vapula value type
         /// </summary>
         public static Type GetCLRType(ValueType type)
         {
@@ -121,7 +103,7 @@ namespace Vapula
         }
 
         /// <summary>
-        /// 获取Vapula值类型对应的CLR可空类型
+        /// get CLR nullable for Vapula value type
         /// </summary>
         public static Type GetNullableCLRType(ValueType type)
         {

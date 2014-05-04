@@ -10,7 +10,7 @@ namespace Vapula.Runtime
     {
         private static StackHub _Instance
             = null;
-        private static readonly object _CtorLock
+        private static readonly object _SyncCtor
             = new object();
 
         public static StackHub Instance
@@ -19,7 +19,7 @@ namespace Vapula.Runtime
             {
                 if (_Instance == null)
                 {
-                    lock (_CtorLock)
+                    lock (_SyncCtor)
                     {
                         _Instance = new StackHub();
                     }
@@ -28,7 +28,7 @@ namespace Vapula.Runtime
             }
         }
 
-        private readonly object _Lock = new object();
+        private readonly object _SyncRoot = new object();
 
         private StackHub()
         {
@@ -52,7 +52,7 @@ namespace Vapula.Runtime
         public void Link(Stack stack)
         {
             IntPtr handle = stack.Handle;
-            lock (_Lock) 
+            lock (_SyncRoot) 
             {
                 if (this[handle] == null)
                     _Stacks.Add(stack);
@@ -62,7 +62,7 @@ namespace Vapula.Runtime
         public void Kick(Stack stack)
         {
             IntPtr handle = stack.Handle;
-            lock (_Lock)
+            lock (_SyncRoot)
             {
                 if(_Stacks.Contains(stack))
                     _Stacks.Remove(stack);

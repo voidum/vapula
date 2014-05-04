@@ -1,7 +1,7 @@
 ﻿namespace Vapula.Helper
 {
     /// <summary>
-    /// 日志类型
+    /// log type
     /// </summary>
     public enum LogType
     {
@@ -13,17 +13,17 @@
     }
 
     /// <summary>
-    /// 支持日志的接口
+    /// support log
     /// </summary>
     public interface ILogger
     {
         /// <summary>
-        /// 写入日志
+        /// write log
         /// </summary>
         void WriteLog(LogType type, params object[] values);
     
         /// <summary>
-        /// 清理日志
+        /// clear log
         /// </summary>
         void ClearLog();
     }

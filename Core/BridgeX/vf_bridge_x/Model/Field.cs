@@ -3,11 +3,11 @@
 namespace Vapula.Model
 {
     /// <summary>
-    /// Vapula模型的参数描述
+    /// schema for Vapula field
     /// </summary>
-    public class Parameter
+    public class Field
     {
-        #region 字段
+        #region Fields
         private int _Id;
         private DataType _Type;
         private AccessMode _Access;
@@ -16,45 +16,42 @@ namespace Vapula.Model
             = new TagList();
         #endregion
 
-        #region 构造
-        /// <summary>
-        /// 构造参数描述
-        /// </summary>
-        public Parameter() { }
+        #region Ctor
+        public Field() { }
         #endregion
 
-        #region 序列化
+        #region Serialization
         /// <summary>
-        /// 由XML解析参数描述
+        /// parse schema from XML
         /// </summary>
-        public static Parameter Parse(XElement xml)
+        public static Field Parse(XElement xml)
         {
-            Parameter param = new Parameter();
-            param.Id = int.Parse(xml.Attribute("id").Value);
-            param.Type = (DataType)int.Parse(xml.Element("type").Value);
-            param.Access = (AccessMode)int.Parse(xml.Element("access").Value);
-            var xml_tags = xml.Element("tags");
-            param._Tags = TagList.Parse(xml_tags);
-            return param;
+            Field field = new Field();
+            field.Id = int.Parse(xml.Attribute("id").Value);
+            field.Type = (DataType)int.Parse(xml.Element("type").Value);
+            field.Access = (AccessMode)int.Parse(xml.Element("access").Value);
+            var xe_tags = xml.Element("tags");
+            field._Tags = TagList.Parse(xe_tags);
+            return field;
         }
 
         /// <summary>
-        /// 将参数描述序列化成XML元素
+        /// output schema to XML
         /// </summary>
         public XElement ToXML()
         {
-            XElement xml = new XElement("param",
+            XElement xml = new XElement("field",
                 new XAttribute("id", Id),
                 new XElement("type", (int)Type),
-                new XElement("mode", (int)Access),
+                new XElement("access", (int)Access),
                 _Tags.ToXML());
             return xml;
         }
         #endregion
 
-        #region 集合
+        #region Collection
         /// <summary>
-        /// 清理参数描述
+        /// clear schema
         /// </summary>
         public void Clear()
         {
@@ -62,9 +59,9 @@ namespace Vapula.Model
         }
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
-        /// 获取或设置参数的标识
+        /// get or set id
         /// </summary>
         public int Id
         {
@@ -73,7 +70,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数的类型
+        /// get or set data type
         /// </summary>
         public DataType Type
         {
@@ -82,7 +79,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数的模式
+        /// get or set access mode
         /// </summary>
         public AccessMode Access
         {
@@ -91,7 +88,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数所属的功能
+        /// get or set method
         /// </summary>
         public Method Method
         {
@@ -100,7 +97,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取参数的标签表
+        /// get or set tags
         /// </summary>
         public TagList Tags
         {
@@ -108,7 +105,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数的名称
+        /// get or set name
         /// </summary>
         public string Name
         {
@@ -128,7 +125,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置参数的描述
+        /// get or set description
         /// </summary>
         public string Description
         {

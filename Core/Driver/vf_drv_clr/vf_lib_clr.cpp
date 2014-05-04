@@ -23,22 +23,17 @@ pcstr LibraryCLR::GetHandle()
 
 bool LibraryCLR::Mount()
 {
-	string arg = GetHandle();
-	arg += "|";
-	arg += _Path;
+	string args = GetHandle();
+	args += "|";
+	args += _Path;
 
-	pcwstr cs16 = str::ToStrW(arg.c_str());
 	DriverCLR* drv = DriverCLR::GetInstance();
-	int ret = drv->CallBridge(L"Mount", cs16);
-	delete cs16;
-
-	return ret > 0;
+	int ret = drv->CallBridge("Mount", args.c_str());
+	return ret == TRUE;
 }
 
 void LibraryCLR::Unmount()
 {
-	pcwstr cs16 = str::ToStrW(GetHandle());
 	DriverCLR* drv = DriverCLR::GetInstance();
-	drv->CallBridge(L"Unmount", cs16);
-	delete cs16;
+	drv->CallBridge("Unmount", GetHandle());
 }

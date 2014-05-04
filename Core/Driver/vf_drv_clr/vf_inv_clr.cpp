@@ -26,29 +26,25 @@ bool InvokerCLR::Bind(Method* mt)
 {
 	Invoker::Bind(mt);
 	DriverCLR* drv = DriverCLR::GetInstance();
-	string arg = GetHandle();
-	arg += "|";
 	Library* lib = mt->GetLibrary();
 	LibraryCLR* lib_clr = dynamic_cast<LibraryCLR*>(lib);
-	arg += lib_clr->GetHandle();
-	pcwstr cs16 = str::ToStrW(arg.c_str());
-	drv->CallBridge(L"InitInvoker", cs16);
-	delete cs16;
+
+	string args = GetHandle();
+	args += "|";
+	args += lib_clr->GetHandle();
+
+	drv->CallBridge("InitInvoker", args.c_str());
 	return true;
 }
 
 void InvokerCLR::OnProcess()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
-	pcwstr cs16 = str::ToStrW(GetHandle());
-	drv->CallBridge(L"CallProcess", cs16);
-	delete cs16;
+	drv->CallBridge("OnProcess", GetHandle());
 }
 
 void InvokerCLR::OnRollback()
 {
 	DriverCLR* drv = DriverCLR::GetInstance();
-	pcwstr cs16 = str::ToStrW(GetHandle());
-	drv->CallBridge(L"CallRollback", cs16);
-	delete cs16;
+	drv->CallBridge("OnRollback", GetHandle());
 }

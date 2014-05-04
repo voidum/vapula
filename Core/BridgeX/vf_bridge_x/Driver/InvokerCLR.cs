@@ -31,23 +31,34 @@ namespace Vapula.Runtime
             base.Dispose();
         }
 
-        public void CallEntry()
+        public void OnProcess()
         {
-            string entry_sym = 
+            string entry = 
                 _Library.GetProcessSym(Stack.MethodId);
-            string clsid = "";
-            string mtid = "";
-            if(string.IsNullOrWhiteSpace(entry_sym))
-            {
-                clsid = "Program";
-                mtid = "Run";
-            }
+            if (string.IsNullOrWhiteSpace(entry))
+                CallEntry("Program", "Process");
             else
             {
-                string[] strs = entry_sym.Split(new char[] { '.' });
-                clsid = strs[0];
-                mtid = strs[1];
+                string[] strs = entry.Split(new char[] { '.' });
+                CallEntry(strs[0], strs[1]);
             }
+        }
+
+        public void OnRollback()
+        {
+            string entry =
+                _Library.GetRollbackSym(Stack.MethodId);
+            if (string.IsNullOrWhiteSpace(entry))
+                CallEntry("Program", "Rollback");
+            else
+            {
+                string[] strs = entry.Split(new char[] { '.' });
+                CallEntry(strs[0], strs[1]);
+            }
+        }
+
+        private void CallEntry(string clsid, string mtid)
+        {
             Assembly assembly = _Library.Assembly;
             Type type = assembly.GetType(_Library.Id + "." + clsid);
             try

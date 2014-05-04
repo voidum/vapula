@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Vapula;
 using Vapula.Runtime;
 
 namespace sample_xlib
@@ -8,19 +9,19 @@ namespace sample_xlib
         public void Function_Math()
         {
             Stack stack = Stack.Instance;
-            Envelope env = stack.Envelope;
-            int a = int.Parse(env.Read(1));
-            int b = int.Parse(env.Read(2));
+            Dataset ds = stack.Dataset;
+            int a = int.Parse(ds[1].ReadAt());
+            int b = int.Parse(ds[2].ReadAt());
             int c = a + b;
-            env.Write(3, c.ToString());
+            ds[3].WriteAt(c.ToString());
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
         public void Function_Out()
         {
             Stack stack = Stack.Instance;
-            Envelope env = stack.Envelope;
-            env.Write(1, "中文English日本語テスト");
+            Dataset ds = stack.Dataset;
+            ds[1].Write("中文English日本語テスト");
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
@@ -65,16 +66,16 @@ namespace sample_xlib
             Context ctx = stack.Context;
             for (int i = 0; i < 1000; i++)
             {
-                CtrlCode ctrl = ctx.CtrlCode;
-                if (ctrl == CtrlCode.Cancel)
+                ControlCode ctrl = ctx.ControlCode;
+                if (ctrl == ControlCode.Cancel)
                     ctx.ReturnCode = ReturnCode.Cancel;
-                if (ctrl == CtrlCode.Pause)
+                if (ctrl == ControlCode.Pause)
                 {
                     ctx.SwitchHold();
                     while (true)
                     {
-                        ctrl = ctx.CtrlCode;
-                        if (ctrl == CtrlCode.Resume)
+                        ctrl = ctx.ControlCode;
+                        if (ctrl == ControlCode.Resume)
                         {
                             ctx.SwitchHold();
                             break;

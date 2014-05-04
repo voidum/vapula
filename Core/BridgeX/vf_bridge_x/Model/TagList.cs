@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Xml.Linq;
 
 namespace Vapula.Model
 {
     /// <summary>
-    /// Vapula附加数据
+    /// easy and thread-safe {string:object} collection
     /// </summary>
     public class TagList
     {
-        private Dictionary<string, object> _Tags 
-            = new Dictionary<string,object>();
+        private ConcurrentDictionary<string, object> _Tags
+            = new ConcurrentDictionary<string, object>();
 
-        public Dictionary<string, object> Tags
+        public ConcurrentDictionary<string, object> Tags
         {
             get { return _Tags; }
         }
@@ -20,6 +20,7 @@ namespace Vapula.Model
         {
             get 
             {
+
                 if (_Tags.ContainsKey(key))
                     return _Tags[key];
                 return null;
@@ -29,7 +30,7 @@ namespace Vapula.Model
                 if (_Tags.ContainsKey(key))
                     _Tags[key] = value;
                 else
-                    _Tags.Add(key, value);
+                    _Tags.TryAdd(key, value);
             }
         }
 

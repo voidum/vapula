@@ -6,30 +6,27 @@ using System.Xml.Linq;
 namespace Vapula.Model
 {
     /// <summary>
-    /// Vapula模型的库描述
+    /// schema for Vapula library
     /// </summary>
     public class Library
     {
-        #region 字段
+        #region Fields
         private string _Id;
         private string _Runtime;
-        private TagList _Tags
-            = new TagList();
         private List<Method> _Methods
             = new List<Method>();
-
+        private TagList _Tags
+            = new TagList();
         private string _Path;
-        private TagList _Attach
-            = null;
         #endregion
 
-        #region 构造
+        #region Ctor
         public Library() { }
         #endregion
 
-        #region 索引器
+        #region Indexer
         /// <summary>
-        /// 根据指定标识获取功能
+        /// get method by id
         /// </summary>
         public Method this[string id]
         {
@@ -43,11 +40,11 @@ namespace Vapula.Model
         }
         #endregion
 
-        #region 序列化
+        #region Serialization
         /// <summary>
-        /// 加载Vapula组件的库描述
+        /// load Vapula library schema
         /// </summary>
-        /// <param name="path">库描述文件的全路径</param>
+        /// <param name="path">path for schema file</param>
         public static Library Load(string path)
         {
             var xrs = new XmlReaderSettings();
@@ -76,19 +73,19 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 由XML解析库描述
+        /// parse schema from XML
         /// </summary>
         public static Library Parse(XElement xml)
         {
             Library lib = new Library();
             lib.Id = xml.Element("id").Value;
             lib.Runtime = xml.Element("runtime").Value;
-            var xml_tags = xml.Element("tags");
-            lib._Tags = TagList.Parse(xml_tags);
-            var xmls_mt = xml.Element("methods").Elements("method");
-            foreach (var xml_mt in xmls_mt)
+            var xe_tags = xml.Element("tags");
+            lib._Tags = TagList.Parse(xe_tags);
+            var xes = xml.Element("methods").Elements("method");
+            foreach (var xe in xes)
             {
-                var mt = Method.Parse(xml_mt);
+                var mt = Method.Parse(xe);
                 mt.Library = lib;
                 lib.Methods.Add(mt);
             }
@@ -96,7 +93,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 将库描述序列化成XML元素
+        /// output schema to XML
         /// </summary>
         public XElement ToXML()
         {
@@ -107,16 +104,16 @@ namespace Vapula.Model
                 _Tags.ToXML());
             foreach (var mt in _Methods)
             {
-                var xml_mt = mt.ToXML();
-                xml.Element("methods").Add(xml_mt);
+                var xe = mt.ToXML();
+                xml.Element("methods").Add(xe);
             }
             return xml;
         }
         #endregion
 
-        #region 集合
+        #region Collection
         /// <summary>
-        /// 清理库描述
+        /// clear schema
         /// </summary>
         public void Clear()
         {
@@ -124,23 +121,16 @@ namespace Vapula.Model
                 mt.Clear();
             Methods.Clear();
             Tags.Clear();
-            if (_Attach != null)
-                _Attach.Clear();
         }
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
-        /// 获取或设置库的标识
+        /// get or set id
         /// </summary>
         public string Id
         {
-            get
-            {
-                if (_Id == null)
-                    return "";
-                return _Id;
-            }
+            get { return _Id; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -150,16 +140,11 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置库的运行时
+        /// get or set runtime
         /// </summary>
         public string Runtime
         {
-            get
-            {
-                if (_Runtime == null)
-                    return "";
-                return _Runtime;
-            }
+            get { return _Runtime; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -169,15 +154,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取库的标签表
-        /// </summary>
-        public TagList Tags
-        {
-            get { return _Tags; }
-        }
-
-        /// <summary>
-        /// 获取库的功能集合
+        /// get methods
         /// </summary>
         public List<Method> Methods
         {
@@ -185,7 +162,15 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取库的路径
+        /// get tags
+        /// </summary>
+        public TagList Tags
+        {
+            get { return _Tags; }
+        }
+
+        /// <summary>
+        /// get schema path
         /// </summary>
         public string Path
         {
@@ -194,20 +179,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置库的附加数据
-        /// </summary>
-        public TagList Attach
-        {
-            get
-            {
-                if (_Attach == null)
-                    _Attach = new TagList();
-                return _Attach;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置库的名称
+        /// get or set name
         /// </summary>
         public string Name
         {
@@ -227,7 +199,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置库的发布方
+        /// get or set publisher
         /// </summary>
         public string Publisher
         {
@@ -247,7 +219,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置库的描述
+        /// get or set description
         /// </summary>
         public string Description
         {
@@ -267,7 +239,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置库的版本
+        /// get or set version
         /// </summary>
         public string Version
         {

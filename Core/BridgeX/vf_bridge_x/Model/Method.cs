@@ -4,107 +4,107 @@ using System.Xml.Linq;
 namespace Vapula.Model
 {
     /// <summary>
-    /// Vapula模型的方法描述
+    /// schema for Vapula method
     /// </summary>
     public class Method
     {
-        #region 字段
+        #region Fields
         private string _Id;
-        private string _Entry;
+        private bool _Protect;
+        private string _ProcessSym;
+        private string _RollbackSym;
         private Library _Library;
+        private List<Field> _Fields
+            = new List<Field>();
         private TagList _Tags
             = new TagList();
-        private List<Parameter> _Parameters 
-            = new List<Parameter>();
-        private TagList _Attach 
-            = null;
         #endregion
 
-        #region 构造
+        #region Ctor
         public Method() { }
         #endregion
 
-        #region 索引器
+        #region Indexer
         /// <summary>
-        /// 根据指定标识获取参数
+        /// get field by id
         /// </summary>
-        public Parameter this[int id]
+        public Field this[int id]
         {
             get
             {
-                foreach (var param in Parameters)
-                    if (param.Id == id)
-                        return param;
+                foreach (var field in Fields)
+                    if (field.Id == id)
+                        return field;
                 return null;
             }
         }
         #endregion
 
-        #region 序列化
+        #region Serialization
         /// <summary>
-        /// 由XML解析功能描述
+        /// parse schema from XML
         /// </summary>
         public static Method Parse(XElement xml)
         {
             Method mt = new Method();
             mt._Id = xml.Element("id").Value;
-            mt._Entry = xml.Element("entry").Value;
-            var xml_tags = xml.Element("tags");
-            mt._Tags = TagList.Parse(xml_tags);
-            var xml_params = xml.Element("params").Elements("param");
-            foreach (var xml_param in xml_params)
+            mt._Protect = (xml.Element("protect").Value == "true");
+            mt._ProcessSym = xml.Element("entry").Element("process").Value;
+            mt._RollbackSym = xml.Element("entry").Element("rollback").Value;
+            var xe_tags = xml.Element("tags");
+            mt._Tags = TagList.Parse(xe_tags);
+            var xes = xml.Element("schema").Elements("fields");
+            foreach (var xe in xes)
             {
-                var param = Parameter.Parse(xml_param);
+                var param = Field.Parse(xe);
                 param.Method = mt;
-                mt.Parameters.Add(param);
+                mt.Fields.Add(param);
             }
             return mt;
         }
 
         /// <summary>
-        /// 将功能描述序列化为XML元素
+        /// output schema to XML
         /// </summary>
         public XElement ToXML()
         {
             XElement xml = new XElement("method",
-                new XElement("params"),
+                new XElement("schema"),
                 new XElement("id", Id),
-                new XElement("entry", Entry),
+                new XElement("protect", _Protect ? "true" : "false"),
+                new XElement("symbols",
+                    new XElement("process", ProcessSym),
+                    new XElement("rollback", RollbackSym)),
                 _Tags.ToXML());
-            foreach (var param in Parameters)
+            foreach (var field in Fields)
             {
-                var xml_param = param.ToXML();
-                xml.Element("params").Add(xml_param);
+                var xe = field.ToXML();
+                xml.Element("schema").Add(xe);
             }
             return xml;
         }
         #endregion
 
-        #region 集合
+        #region Collection
         /// <summary>
-        /// 清理功能描述
+        /// clear schema
         /// </summary>
         public void Clear()
         {
-            foreach(var param in Parameters)
-                param.Clear();
-            Parameters.Clear();
+            foreach(var field in Fields)
+                field.Clear();
+            Fields.Clear();
             Tags.Clear();
         }
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
-        /// 获取或设置功能的标识
+        /// get or set id
         /// </summary>
         public string Id
         {
-            get
-            {
-                if (_Id == null)
-                    return "";
-                return _Id;
-            }
+            get { return _Id; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -114,26 +114,44 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置功能的入口
+        /// get or set process symbol
         /// </summary>
-        public string Entry
+        public string ProcessSym
         {
-            get
-            {
-                if (_Entry == null)
-                    return "";
-                return _Entry;
-            }
+            get { return _ProcessSym; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    _Entry = null;
-                else _Entry = value;
+                    _ProcessSym = null;
+                else _ProcessSym = value;
             }
         }
 
         /// <summary>
-        /// 获取功能所在的组件
+        /// get or set rollback symbol
+        /// </summary>
+        public string RollbackSym
+        {
+            get { return _RollbackSym; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    _RollbackSym = null;
+                else _RollbackSym = value;
+            }
+        }
+
+        /// <summary>
+        /// get or set protect
+        /// </summary>
+        public bool Protect 
+        {
+            get { return _Protect; }
+            set { _Protect = value; }
+        }
+
+        /// <summary>
+        /// get or set library
         /// </summary>
         public Library Library
         {
@@ -141,8 +159,16 @@ namespace Vapula.Model
             set { _Library = value; }
         }
 
+                /// <summary>
+        /// get fields
+        /// </summary>
+        public List<Field> Fields
+        {
+            get { return _Fields; }
+        }
+        
         /// <summary>
-        /// 获取功能的标签表
+        /// get tags
         /// </summary>
         public TagList Tags
         {
@@ -150,28 +176,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取功能的参数集合
-        /// </summary>
-        public List<Parameter> Parameters
-        {
-            get { return _Parameters; }
-        }
-
-        /// <summary>
-        /// 获取功能的附加数据
-        /// </summary>
-        public TagList Attach 
-        {
-            get
-            {
-                if (_Attach == null)
-                    _Attach = new TagList();
-                return _Attach;
-            }
-        }
-
-        /// <summary>
-        /// 获取或设置功能的名称
+        /// get or set name
         /// </summary>
         public string Name
         {
@@ -191,7 +196,7 @@ namespace Vapula.Model
         }
 
         /// <summary>
-        /// 获取或设置功能的描述
+        /// get or set description
         /// </summary>
         public string Description
         {

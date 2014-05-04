@@ -71,22 +71,24 @@ Driver* GetDriverInstance()
 	return driver;
 }
 
-int DriverCLR::CallBridge(pcwstr name, pcwstr arg)
+int DriverCLR::CallBridge(pcstr name, pcstr args)
 {
 	DWORD ret = 0;
+	pcwstr cs16_name = str::ToStrW(name);
+	pcwstr cs16_args = str::ToStrW(args);
 	HRESULT hr = _RuntimeHost->ExecuteInDefaultAppDomain(
-		_BridgePath, 
+		_BridgePath,
 		L"Vapula.Runtime.DriverEntry",
-		name, arg, &ret);
+		cs16_name, cs16_args, &ret);
 	if(hr != S_OK)
 	{
-		if(Setting::GetInstance()->IsSilent())
-		{
-			ostringstream oss;
-			oss<<"error occured at [CallBridge]\n";
-			oss<<"code:"<<hr;
-			ShowMsgbox(oss.str().c_str(), _vf_clr);
-		}
+		ostringstream oss;
+		oss << "error occured at [CallBridge]\n";
+		oss << "method:" << name << "\n";
+		oss << "code:" << hr;
+		ShowMsgbox(oss.str().c_str(), _vf_clr);
 	}
+	delete cs16_name;
+	delete cs16_args;
 	return ret;
 }
