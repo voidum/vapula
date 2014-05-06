@@ -42,13 +42,13 @@ namespace vapula
 		StackHub* stack_hub = StackHub::GetInstance();
 		stack_hub->Link(stack);
 		try {
-			if(stack->IsProtected())
+			if (stack->HasProtect())
 				inv->OnSafeProcess();
 			else
 				inv->OnProcess();
 		} catch (Error*) {
 			ctx->SetState(VF_STATE_ROLLBACK, inv);
-			if(stack->IsProtected())
+			if (stack->HasProtect())
 				inv->OnSafeRollback();
 			else
 				inv->OnRollback();
@@ -66,9 +66,9 @@ namespace vapula
 			OnProcess();
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {
-			if(_Stack != null) {
+			if (_Stack != null) {
 				Context* ctx = _Stack->GetContext();
-				if(ctx != null) {
+				if (ctx != null) {
 					ctx->SetReturnCode(VF_RETURN_UNHANDLED);
 				}
 			}
@@ -82,9 +82,9 @@ namespace vapula
 			OnRollback();
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER) {
-			if(_Stack != null) {
+			if (_Stack != null) {
 				Context* ctx = _Stack->GetContext();
-				if(ctx != null) {
+				if (ctx != null) {
 					ctx->SetReturnCode(VF_RETURN_UNHANDLED);
 				}
 			}
@@ -109,7 +109,7 @@ namespace vapula
 		ctx->SetState(VF_STATE_BUSY_BACK, this);
 
 		_Thread = (HANDLE)_beginthreadex(null, 0, Entry, this, 0, null);
-		if(_Thread <= 0)
+		if (_Thread <= 0)
 			return false;
 		return true;
 	}

@@ -12,7 +12,7 @@ namespace vapula
 		_Contact = null;
 		_LibraryId = null;
 		_MethodId = null;
-		_Mode = VF_ASPECT_SYNC;
+		_Async = false;
 		_Invoker = null;
 	}
 
@@ -45,7 +45,7 @@ namespace vapula
 		aspect->_LibraryId = XML::ValStr(xe_lib);
 		aspect->_MethodId = XML::ValStr(xe_mt);
 		aspect->_Contact = XML::ValStr(xe_contact);
-		aspect->_Mode = (int8)XML::ValInt(xe_mode);
+		aspect->_Async = XML::ValBool(xe_mode, "true");
 		return aspect;
 	}
 

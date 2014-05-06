@@ -64,7 +64,6 @@
     <Compile Include="Runtime\DriverHub.cs" />
     <Compile Include="Runtime\Pipe.cs" />
     <Compile Include="Model\TagList.cs" />
-    <Compile Include="Runtime\StackHub.cs" />
     <Compile Include="Runtime\Weaver.cs" />
   </ItemGroup>
   <ItemGroup>

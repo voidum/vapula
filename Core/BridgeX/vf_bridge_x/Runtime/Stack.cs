@@ -16,13 +16,7 @@ namespace Vapula.Runtime
             get  
             {
                 IntPtr ptr = Bridge.GetCurrentStack();
-                StackHub hub = StackHub.Instance;
-                Stack stack = hub[ptr];
-                if (stack == null)
-                {
-                    stack = new Stack(ptr);
-                    hub.Link(stack);
-                }
+                Stack stack = new Stack(ptr);
                 return stack; 
             }
         }
@@ -84,6 +78,13 @@ namespace Vapula.Runtime
         public Error Error
         {
             get { return new Error(Bridge.GetError(Handle)); }
+        }
+
+        /// <summary>
+        /// clear data in CLR
+        /// </summary>
+        public void Clear() 
+        {
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Vapula.Runtime
         #region Fields
         protected IntPtr _Handle;
         protected Stack _Stack = null;
+        protected readonly object _SyncRoot = new object();
         #endregion
 
         #region Ctor
@@ -30,8 +31,11 @@ namespace Vapula.Runtime
             {
                 if (_Stack == null)
                 {
-                    IntPtr ptr = Bridge.GetStack(_Handle);
-                    _Stack = new Stack(ptr);
+                    lock (_SyncRoot) 
+                    {
+                        IntPtr ptr = Bridge.GetStack(_Handle);
+                        _Stack = new Stack(ptr);
+                    }
                 }
                 return _Stack;
             }
@@ -84,8 +88,9 @@ namespace Vapula.Runtime
         /// </summary>
         public virtual void Dispose()
         {
-            StackHub hub = StackHub.Instance;
-            hub.Kick(Stack);
+            Stack.Clear();
+            _Stack = null;
+            _Handle = IntPtr.Zero;
             Bridge.DeleteRaw(_Handle);
         }
         #endregion

@@ -19,7 +19,7 @@ namespace vapula
 	private:
 		uint32 _StackId;
 		pcstr _MethodId;
-		bool _IsProtected;
+		bool _HasProtect;
 		Context* _Context;
 		Dataset* _Dataset;
 		Error* _Error;
@@ -34,7 +34,7 @@ namespace vapula
 		//set method id
 		void SetMethodId(pcstr id, Invoker* owner);
 
-		//set protected flag
+		//set protect flag
 		void SetProtect(bool protect, Invoker* owner);
 
 		//set context
@@ -53,8 +53,8 @@ namespace vapula
 		//get method id
 		pcstr GetMethodId();
 
-		//get protected flag
-		bool IsProtected();
+		//get protect flag
+		bool HasProtect();
 
 		//get context
 		Context* GetContext();

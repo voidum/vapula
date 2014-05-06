@@ -148,6 +148,29 @@ namespace vapula
 		return str::Copy(oss.str().c_str());
 	}
 
+	uint32 GetValueUnit(uint8 type)
+	{
+		switch (type)
+		{
+		case VF_VALUE_INT8:
+		case VF_VALUE_UINT8:
+			return 1;
+		case VF_VALUE_INT16:
+		case VF_VALUE_UINT16:
+			return 2;
+		case VF_VALUE_INT32:
+		case VF_VALUE_UINT32:
+		case VF_VALUE_REAL32:
+			return 4;
+		case VF_VALUE_INT64:
+		case VF_VALUE_UINT64:
+		case VF_VALUE_REAL64:
+			return 8;
+		default:
+			return 0;
+		}
+	}
+
 	void ShowMsgbox(pcstr value, pcstr caption)
 	{
 		Setting* setting = Setting::GetInstance();

@@ -5,12 +5,14 @@
 namespace vapula
 {
 	class Aspect;
+	class Library;
 
 	//weaver (hub for aspect)
 	class VAPULA_API Weaver
 	{
 	private:
 		list<Aspect*> _Aspects;
+		list<Library*> _Libraries;
 
 	private:
 		static Weaver* _Instance;

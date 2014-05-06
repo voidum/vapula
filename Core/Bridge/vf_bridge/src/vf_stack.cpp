@@ -10,7 +10,7 @@ namespace vapula
 	{
 		_StackId = 0;
 		_MethodId = null;
-		_IsProtected = false;
+		_HasProtect = false;
 		_Context = null;
 		_Dataset = null;
 		_Error = null;
@@ -54,15 +54,15 @@ namespace vapula
 			_MethodId = id;
 	}
 
-	bool Stack::IsProtected()
+	bool Stack::HasProtect()
 	{
-		return _IsProtected;
+		return _HasProtect;
 	}
 
 	void Stack::SetProtect(bool protect, Invoker* owner)
 	{
 		if(owner->GetStack() == this)
-			_IsProtected = protect;
+			_HasProtect = protect;
 	}
 
 	Context* Stack::GetContext()

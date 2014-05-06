@@ -12,9 +12,10 @@ namespace vapula
 	private:
 		pcstr _Id;
 		pcstr _Contact;
-		pcstr _LibraryId;
-		pcstr _MethodId;
-		uint8 _Mode;
+		bool _Async;
+		Library* _Library;
+		Invoker* _Invoker;
+	
 	private:
 		Invoker* _Invoker;
 
@@ -30,17 +31,17 @@ namespace vapula
 		//get aspect id
 		pcstr GetAspectId();
 
-		//get aspect mode
-		uint8 GetMode();
+		//get async mode
+		bool IsAsync();
 
 		//get key frame regex pattern
 		pcstr GetContact();
 
-		//get library id
-		pcstr GetLibraryId();
+		//get library
+		pcstr GetLibrary();
 
-		//get method id
-		pcstr GetMethodId();
+		//get method
+		pcstr GetMethod();
 
 		//get invoker
 		Invoker* GetInvoker();

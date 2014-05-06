@@ -107,12 +107,6 @@ namespace vapula
 		VF_RETURN_UNHANDLED = 5
 	}; //context return code
 
-	enum AspectMode
-	{
-		VF_ASPECT_SYNC = 0,
-		VF_ASPECT_ASYNC = 1
-	}; //aspect mode
-
 	//define error
 	pcstr const _vf_err_0 = "invalid data type";
 	pcstr const _vf_err_1 = "invalid access";

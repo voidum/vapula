@@ -77,11 +77,17 @@ namespace vapula
 		bool Valid(int flag);
 	};
 
+	//init bridge
+	VAPULA_API bool InitBridge();
+
 	//get Vapula core version
 	VAPULA_API pcstr GetVersion();
 
 	//generate local unique id
 	VAPULA_API pcstr GetLUID(bool logo = false);
+
+	//get value unit
+	VAPULA_API uint32 GetValueUnit(uint8 type);
 
 	//convert raw data to base64 string
 	VAPULA_API pcstr RawToBase64(raw data, uint32 size);

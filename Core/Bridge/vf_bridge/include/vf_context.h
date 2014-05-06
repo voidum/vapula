@@ -11,6 +11,7 @@ namespace vapula
 	{
 	private:
 		Lock* _Lock;
+
 	private:
 		uint8 _LastState;
 		uint8 _CurrentState;

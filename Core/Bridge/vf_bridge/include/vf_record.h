@@ -4,9 +4,6 @@
 
 namespace vapula
 {
-	//get value unit
-	VAPULA_API uint32 GetValueUnit(uint8 type);
-
 	//record
 	class VAPULA_API Record
 	{

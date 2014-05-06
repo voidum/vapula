@@ -56,40 +56,4 @@ namespace vapula
 		//unmount library
 		virtual void Unmount() = 0;
 	};
-
-	//hub for library
-	class VAPULA_API LibraryHub
-	{
-	private:
-		list<Library*> _Libraries;
-
-	private:
-		static LibraryHub* _Instance;
-
-	public:
-		//get instance of library hub
-		static LibraryHub* GetInstance();
-
-	private:
-		LibraryHub();
-	public:
-		~LibraryHub();
-
-	public:
-		//link library
-		void Link(Library* library);
-
-		//kick out library by id
-		void Kick(pcstr id);
-
-		//kick out all drivers
-		void KickAll();
-
-	public:
-		//get library by id
-		Library* GetLibrary(pcstr id);
-
-		//get count of linked libraries
-		int GetCount();
-	};
 }
