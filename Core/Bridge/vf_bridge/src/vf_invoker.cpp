@@ -13,14 +13,11 @@ namespace vapula
 	Invoker::Invoker()
 	{
 		_Stack = null;
-		_Thread = null;
 		_IsSuspend = false;
 	}
 
 	Invoker::~Invoker()
 	{
-		if(_Thread != null)
-			CloseHandle(_Thread);
 		Clear(_Stack);
 	}
 
@@ -34,19 +31,23 @@ namespace vapula
 		return true;
 	}
 
-	uint32 Invoker::Entry()
+	void Invoker::Entry()
 	{
-		_Stack->SetStackId(GetCurrentThreadId(), this);
-		Context* context = _Stack->GetContext();
-
 		Runtime* runtime = Runtime::Instance();
 		runtime->Link(_Stack);
+		_Stack->SetStackId(Stack::CurrentId(), this);
+
+		Context* context = _Stack->GetContext();
 		try {
+			context->SetCtrlCode(VF_CTRL_NULL, this);
+			context->SetReturnCode(VF_RETURN_NULLTASK);
+			context->SetState(VF_STATE_BUSY_BACK, this);
 			if (_Stack->HasProtect())
 				OnSafeProcess();
 			else
 				OnProcess();
-		} catch (Error*) {
+			context->SetReturnCode(VF_RETURN_NORMAL);
+  		} catch (Error*) {
 			context->SetState(VF_STATE_ROLLBACK, this);
 			if (_Stack->HasProtect())
 				OnSafeRollback();
@@ -54,10 +55,10 @@ namespace vapula
 				OnRollback();
 			context->SetReturnCode(VF_RETURN_ERROR);
 		}
-		runtime->Kick(_Stack);
-
 		context->SetState(VF_STATE_IDLE, this);
-		return null;
+
+		_Stack->SetStackId(0, this);
+		runtime->Kick(_Stack);
 	}
 
 	void Invoker::OnSafeProcess()
@@ -92,20 +93,6 @@ namespace vapula
 		}
 	}
 
-	raw Invoker::GetEntry(Worker* worker)
-	{
-		//valid worker
-		//test if can be use
-		//!! MAGIC CODE !!
-		union FuncPtr
-		{
-			uint32(ptr1)();
-			raw ptr2;
-		}ptr;
-		ptr.ptr1 = Invoker::Entry;
-		return ptr.ptr2;
-	}
-	
 	Stack* Invoker::GetStack()
 	{
 		return _Stack;
@@ -113,17 +100,6 @@ namespace vapula
 
 	bool Invoker::Start()
 	{
-		if(_Thread != null)
-			CloseHandle(_Thread);
-
-		Context* ctx = _Stack->GetContext();
-		ctx->SetCtrlCode(VF_CTRL_NULL, this);
-		ctx->SetReturnCode(VF_RETURN_NULLTASK);
-		ctx->SetState(VF_STATE_BUSY_BACK, this);
-
-		_Thread = (HANDLE)_beginthreadex(null, 0, Entry, this, 0, null);
-		if (_Thread <= 0)
-			return false;
 		return true;
 	}
 

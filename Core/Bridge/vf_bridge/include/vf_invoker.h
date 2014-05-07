@@ -13,7 +13,6 @@ namespace vapula
 	{
 	protected:
 		bool _IsSuspend;
-		HANDLE _Thread;
 		Stack* _Stack;
 
 	protected:
@@ -26,10 +25,10 @@ namespace vapula
 		//bind invoker with method
 		virtual bool Bind(Method* mt);
 
-	protected:
 		//invoke routine
-		uint32 Entry();
+		void Invoke();
 
+	protected:
 		//invoke custom process
 		virtual void OnProcess() = 0;
 
@@ -43,9 +42,6 @@ namespace vapula
 		void OnSafeRollback();
 
 	public:
-		//get entry
-		raw GetEntry(Worker* worker);
-
 		//get stack for invoker
 		Stack* GetStack();
 

@@ -46,6 +46,9 @@ namespace vapula
 		//cancel task
 		void Cancel(Invoker* task);
 
+		//
+		void HasTask();
+
 		//clear tasks
 		void Clear();
 	};

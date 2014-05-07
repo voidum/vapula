@@ -25,9 +25,9 @@ namespace vapula
 		Error* _Error;
 
 	public:
+		//get current stack
 		static Stack* Instance();
 	
-	private:
 		//get current stack id
 		static uint32 CurrentId();
 
