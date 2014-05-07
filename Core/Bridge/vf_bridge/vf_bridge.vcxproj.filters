@@ -112,6 +112,12 @@
     <ClInclude Include="include\vf_record.h">
       <Filter>core\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_runtime.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_worker.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -172,6 +178,12 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_record.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_runtime.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_worker.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>

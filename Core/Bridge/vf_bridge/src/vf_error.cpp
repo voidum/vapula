@@ -18,7 +18,7 @@ namespace vapula
 	void Error::Throw(int what)
 	{
 		Error* err = new Error(what);
-		Stack* stack = Stack::GetInstance();
+		Stack* stack = Stack::Instance();
 		if(stack != null)
 			stack->SetError(err);
 		throw err;

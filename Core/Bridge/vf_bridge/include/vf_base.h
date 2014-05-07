@@ -15,15 +15,9 @@ namespace vapula
 	private:
 		uint64* _Core; //TRUE - Lock , FALSE - Unlock
 
-	private:
-		static Lock* _CtorLock;
-
 	public:
 		Lock();
 		~Lock();
-
-	public:
-		static Lock* GetCtorLock();
 
 	public:
 		//capture lock
@@ -37,6 +31,7 @@ namespace vapula
 	class VAPULA_API Once : Uncopiable
 	{
 	private:
+		Lock* _Lock;
 		raw _Data;
 		raw _Seal;
 
@@ -77,15 +72,6 @@ namespace vapula
 		bool Valid(int flag);
 	};
 
-	//init bridge
-	VAPULA_API bool InitBridge();
-
-	//get Vapula core version
-	VAPULA_API pcstr GetVersion();
-
-	//generate local unique id
-	VAPULA_API pcstr GetLUID(bool logo = false);
-
 	//get value unit
 	VAPULA_API uint32 GetValueUnit(uint8 type);
 
@@ -105,18 +91,9 @@ namespace vapula
 	//show string by simple message box
 	VAPULA_API void ShowMsgbox(pcstr value, pcstr caption);
 
-	//get runtime directory
-	VAPULA_API pcstr GetRuntimeDir();
-
-	//get process directory
-	VAPULA_API pcstr GetProcessDir();
-
-	//get process name
-	VAPULA_API pcstr GetProcessName();
-
 	//get path directory
-	VAPULA_API pcstr GetDirPath(pcstr path, bool file = false);
+	VAPULA_API pcstr GetPathDir(pcstr path, bool file = false);
 
 	//test if file can be opened as read
-	VAPULA_API bool CanOpenRead(pcstr file);
+	VAPULA_API bool TryOpenRead(pcstr file);
 }

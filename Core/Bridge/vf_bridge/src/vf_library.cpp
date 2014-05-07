@@ -21,7 +21,7 @@ namespace vapula
 	{
 		XML* xml = XML::Load(path);
 		Scoped autop_xml(xml);
-		if(xml == null)
+		if (xml == null)
 			return null;
 
 		raw xdoc = xml->GetEntity();
@@ -32,7 +32,7 @@ namespace vapula
 
 		DriverHub* drv_hub = DriverHub::GetInstance();
 		Driver* drv = drv_hub->GetDriver(cs8_rt);
-		if(drv == null && !drv_hub->Link(cs8_rt))
+		if (drv == null && !drv_hub->Link(cs8_rt))
 			return null;
 
 		Library* lib = drv->CreateLibrary();
@@ -41,14 +41,14 @@ namespace vapula
 		raw xe_lib_id = XML::XElem(xe_lib, "id");
 		lib->_Id = XML::ValStr(xe_lib_id);
 
-		pcstr path_dir = GetDirPath(path, true);
-		Scoped autop2((raw)path_dir);
+		pcstr cs8_dir = GetPathDir(path, true);
+		Scoped autop2((raw)cs8_dir);
 		ostringstream oss;
-		oss<<path_dir<<lib->_Id<<"."<<drv->GetBinExt();
+		oss << cs8_dir << lib->_Id << "." << drv->GetBinExt();
 		lib->_Path = str::Copy(oss.str().c_str());
 
 		raw xe_mt = XML::XPath(xe_lib, 2, "methods", "method");
-		while(xe_mt != null)
+		while (xe_mt != null)
 		{
 			Method* mt = Method::Parse(xe_mt);
 			mt->SetLibrary(lib);
@@ -61,7 +61,7 @@ namespace vapula
 	void Library::ClearAll()
 	{
 		typedef list<Method*>::iterator iter;
-		for(iter i=_Methods.begin(); i!=_Methods.end(); i++)
+		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
 			Clear(*i);
 		_Methods.clear();
 	}
@@ -79,10 +79,10 @@ namespace vapula
 	Method* Library::GetMethod(pcstr id)
 	{
 		typedef list<Method*>::iterator iter;
-		for(iter i=_Methods.begin(); i!=_Methods.end(); i++)
+		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
 		{
 			Method* mt = *i;
-			if(strcmp(mt->GetMethodId(), id) == 0)
+			if (strcmp(mt->GetMethodId(), id) == 0)
 				return mt;
 		}
 		return null;
@@ -92,79 +92,12 @@ namespace vapula
 	{
 		Invoker* inv = _Driver->CreateInvoker();
 		Method* mt = GetMethod(id);
-		if(inv->Bind(mt))
+		if (inv->Bind(mt))
 			return inv;
 		else
 		{
 			delete inv;
 			return null;
 		}
-	}
-
-
-	LibraryHub* LibraryHub::_Instance = null;
-
-	LibraryHub* LibraryHub::GetInstance()
-	{
-		Lock* lock = Lock::GetCtorLock();
-		lock->Enter();
-		if(LibraryHub::_Instance == null)
-			LibraryHub::_Instance = new LibraryHub();
-		lock->Leave();
-		return LibraryHub::_Instance;
-	}
-
-	LibraryHub::LibraryHub() { }
-
-	LibraryHub::~LibraryHub()
-	{
-		KickAll();
-	}
-
-	Library* LibraryHub::GetLibrary(pcstr id)
-	{
-		typedef list<Library*>::iterator iter;
-		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
-		{
-			Library* lib = *i;
-			if(strcmp(lib->GetLibraryId(), id) == 0)
-				return lib;
-		}
-		return null;
-	}
-
-	int LibraryHub::GetCount()
-	{
-		return _Libraries.size();
-	}
-
-	void LibraryHub::Link(Library* library)
-	{
-		Library* lib = GetLibrary(library->GetLibraryId());
-		if(lib == null)
-			_Libraries.push_back(library);
-	}
-
-	void LibraryHub::Kick(pcstr id)
-	{
-		typedef list<Library*>::iterator iter;
-		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
-		{
-			Library* lib = *i;
-			if(strcmp(lib->GetLibraryId(), id) == 0)
-			{
-				_Libraries.erase(i);
-				Clear(lib);
-				break;
-			}
-		}
-	}
-
-	void LibraryHub::KickAll()
-	{
-		typedef list<Library*>::iterator iter;
-		for(iter i = _Libraries.begin(); i != _Libraries.end(); i++)
-			Clear(*i);
-		_Libraries.clear();
 	}
 }

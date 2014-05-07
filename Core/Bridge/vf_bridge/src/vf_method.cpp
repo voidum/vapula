@@ -9,7 +9,8 @@ namespace vapula
 	Method::Method()
 	{
 		_Id = null;
-		_IsProtected = false;
+		_HasProtect = false;
+		_IsAdvice = false;
 		_ProcessSym = null;
 		_RollbackSym = null;
 		_Dataset = null;
@@ -26,7 +27,8 @@ namespace vapula
 	Method* Method::Parse(raw xml)
 	{
 		raw xe_id = XML::XElem(xml, "id");
-		raw xe_protected = XML::XElem(xml, "protect");
+		raw xe_protect = XML::XElem(xml, "protect");
+		raw xe_advice = XML::XElem(xml, "advice");
 		raw xe_symbols = XML::XElem(xml, "symbols");
 		raw xe_sym_process = XML::XElem(xe_symbols, "process");
 		raw xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
@@ -34,7 +36,8 @@ namespace vapula
 
 		Method* mt = new Method();
 		mt->_Id = XML::ValStr(xe_id);
-		mt->_IsProtected = XML::ValBool(xe_protected, "true");
+		mt->_HasProtect = XML::ValBool(xe_protect, "true");
+		mt->_IsAdvice = XML::ValBool(xe_advice, "true");
 		mt->_ProcessSym = XML::ValStr(xe_sym_process);
 		mt->_RollbackSym = XML::ValStr(xe_sym_rollback);
 		mt->_Dataset = Dataset::Parse(xe_schema);
@@ -57,9 +60,14 @@ namespace vapula
 		return _Id;
 	}
 
-	bool Method::IsProtected()
+	bool Method::HasProtect()
 	{
-		return _IsProtected;
+		return _HasProtect;
+	}
+
+	bool Method::IsAdvice()
+	{
+		return _IsAdvice;
 	}
 	
 	pcstr Method::GetProcessSym()

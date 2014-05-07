@@ -6,6 +6,7 @@ namespace vapula
 {
 	class Stack;
 	class Method;
+	class Worker;
 
 	//invoker
 	class VAPULA_API Invoker
@@ -17,6 +18,7 @@ namespace vapula
 
 	protected:
 		Invoker();
+
 	public:
 		virtual ~Invoker();
 
@@ -26,7 +28,7 @@ namespace vapula
 
 	protected:
 		//invoke routine
-		static uint32 WINAPI Entry(raw sender);
+		uint32 Entry();
 
 		//invoke custom process
 		virtual void OnProcess() = 0;
@@ -41,6 +43,9 @@ namespace vapula
 		void OnSafeRollback();
 
 	public:
+		//get entry
+		raw GetEntry(Worker* worker);
+
 		//get stack for invoker
 		Stack* GetStack();
 

@@ -5,21 +5,16 @@
 namespace vapula
 {
 	class Aspect;
-	class Library;
 
-	//weaver (hub for aspect)
-	class VAPULA_API Weaver
+	//weaver
+	class Weaver
 	{
-	private:
-		list<Aspect*> _Aspects;
-		list<Library*> _Libraries;
-
 	private:
 		static Weaver* _Instance;
 
 	public:
 		//get instance of weaver
-		static Weaver* GetInstance();
+		static Weaver* Instance();
 
 	private:
 		Weaver();
@@ -27,27 +22,6 @@ namespace vapula
 		~Weaver();
 
 	public:
-		//link aspect
-		void Link(Aspect* aspect);
-
-		//kick out aspect by id
-		void Kick(pcstr id);
-
-		//kick out all aspects
-		void KickAll();
-
-	public:
-		//get aspect by id
-		Aspect* GetAspect(pcstr id);
-
-		//get count of linked aspects
-		int GetCount();
-
-	public:
-		//reach frame
-		void Reach(pcstr frame);
-
-	private:
 		//invoke aspect
 		void Invoke(Aspect* aspect);
 

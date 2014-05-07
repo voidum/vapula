@@ -1,4 +1,5 @@
 #include "vf_stack.h"
+#include "vf_runtime.h"
 #include "vf_invoker.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
@@ -24,11 +25,16 @@ namespace vapula
 		Clear(_Error);
 	}
 
-	Stack* Stack::GetInstance()
+	uint32 Stack::CurrentId()
 	{
-		StackHub* stackhub = StackHub::GetInstance();
-		uint32 id = GetCurrentThreadId();
-		Stack* stack = stackhub->GetStack(id);
+		return GetCurrentThreadId();
+	}
+
+	Stack* Stack::Instance()
+	{
+		Runtime* runtime = Runtime::Instance();
+		uint32 id = CurrentId();
+		Stack* stack = runtime->GetStack(id);
 		return stack;
 	}
 
@@ -96,84 +102,5 @@ namespace vapula
 	{
 		Clear(_Error);
 		_Error = err;
-	}
-
-
-	StackHub* StackHub::_Instance = null;
-
-	StackHub* StackHub::GetInstance()
-	{
-		Lock* lock = Lock::GetCtorLock();
-		lock->Enter();
-		if(StackHub::_Instance == null)
-			StackHub::_Instance = new StackHub();
-		lock->Leave();
-		return StackHub::_Instance;
-	}
-
-	StackHub::StackHub()
-	{
-		_Lock = new Lock();
-	}
-
-	StackHub::~StackHub()
-	{
-		KickAll();
-		delete _Lock;
-	}
-
-	Stack* StackHub::GetStack(uint32 id)
-	{
-		typedef list<Stack*>::iterator iter;
-		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
-		{
-			Stack* stack = *i;
-			if(stack->GetStackId() == id)
-				return stack;
-		}
-		return null;
-	}
-
-	int StackHub::GetCount()
-	{
-		return _Stacks.size();
-	}
-
-	void StackHub::Link(Stack* stack)
-	{
-		typedef list<Stack*>::iterator iter;
-		_Lock->Enter();
-		iter i = _Stacks.begin();
-		while(i != _Stacks.end())
-		{
-			if(*i == stack)
-				break;
-			i++;
-		}
-		if(i == _Stacks.end())
-			_Stacks.push_back(stack);
-		_Lock->Leave();
-	}
-
-	void StackHub::Kick(Stack* stack)
-	{
-		typedef list<Stack*>::iterator iter;
-		_Lock->Enter();
-		for(iter i = _Stacks.begin(); i != _Stacks.end(); i++)
-		{
-			if(*i == stack)
-			{
-				_Stacks.erase(i);
-				break;
-			}
-		}
-		_Lock->Leave();
-	}
-
-	void StackHub::KickAll()
-	{
-		_Lock->Enter();
-		_Stacks.clear();
-		_Lock->Leave();
 	}
 }

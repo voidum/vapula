@@ -17,13 +17,6 @@ namespace vapula
 		_aligned_free(_Core);
 	}
 
-	Lock* Lock::_CtorLock = new Lock();
-
-	Lock* Lock::GetCtorLock()
-	{
-		return _CtorLock;
-	}
-
 	void Lock::Enter()
 	{
 		while(InterlockedExchange(_Core, TRUE) == TRUE)
@@ -37,6 +30,7 @@ namespace vapula
 
 	Once::Once()
 	{
+		_Lock = new Lock();
 		_Seal = new byte[1];
 		_Data = null;
 	}
@@ -45,6 +39,7 @@ namespace vapula
 	{
 		Clear(_Seal);
 		Clear(_Data);
+		delete _Lock;
 	}
 
 	bool Once::CanSet()
@@ -54,12 +49,11 @@ namespace vapula
 
 	void Once::Set(raw data, uint32 size)
 	{
-		Lock* lock = Lock::GetCtorLock();
-		lock->Enter();
+		_Lock->Enter();
 		if(!CanSet())
 			return;
 		_Data = new byte[size];
-		lock->Leave();
+		_Lock->Leave();
 		memcpy(_Data, data, size);
 		delete _Seal;
 	}
@@ -98,12 +92,6 @@ namespace vapula
 		return ((v & flag) == flag);
 	}
 
-
-	pcstr GetVersion()
-	{
-		return _vf_version;
-	}
-
 	pcstr RawToBase64(raw data, uint32 size)
 	{
 		uint32 dst_size = modp_b64_encode_len(size);
@@ -131,23 +119,6 @@ namespace vapula
 		return dst;
 	}
 
-	pcstr GetLUID(bool logo)
-	{
-		std::ostringstream oss;
-		oss.imbue(std::locale("C"));
-		const time_t t = time(null);
-		if(logo)
-			oss<<"VAPULA_";
-		oss<<t<<"_";
-		srand((uint32)time(null));
-		for(uint8 i=0; i<16; i++)
-		{
-			int rnd = rand() % 10;
-			oss<<rnd;
-		}
-		return str::Copy(oss.str().c_str());
-	}
-
 	uint32 GetValueUnit(uint8 type)
 	{
 		switch (type)
@@ -173,7 +144,7 @@ namespace vapula
 
 	void ShowMsgbox(pcstr value, pcstr caption)
 	{
-		Setting* setting = Setting::GetInstance();
+		Setting* setting = Setting::Instance();
 		if(!setting->IsSilent())
 			MessageBoxA(null, value, 
 			caption == null ? _vf_bridge : caption, 0);
@@ -181,77 +152,37 @@ namespace vapula
 
 	void ShowMsgbox(pcwstr value, pcwstr caption)
 	{
-		Setting* setting = Setting::GetInstance();
+		Setting* setting = Setting::Instance();
 		if(!setting->IsSilent())
 			MessageBoxW(null, value,
 			caption == null ? str::ToStrW(_vf_bridge) : caption, 0);
 	}
 
-	pcstr GetRuntimeDir()
-	{
-		HMODULE mod = GetModuleHandle(L"vf_bridge");
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(mod, s16_path, _vf_path_len);
-		pcstr cs8_path = str::ToStr(s16_path);
-		delete s16_path;
-		Scoped autop1((raw)cs8_path);
-		string str_full = cs8_path;
-		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		pcstr ret = str::Copy(str_fix.c_str());
-		return ret;
-	}
-
-	pcstr GetProcessDir()
-	{
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, s16_path, _vf_path_len);
-		pcstr cs8_path = str::ToStr(s16_path);
-		delete s16_path;
-		Scoped autop1((raw)cs8_path);
-		string str_full = cs8_path;
-		string str_fix = str_full.substr(0, str_full.rfind(L'\\') + 1);
-		pcstr ret = str::Copy(str_fix.c_str());
-		return ret;
-	}
-
-	pcstr GetProcessName()
-	{
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, s16_path, _vf_path_len);
-		pcstr cs8_path = str::ToStr(s16_path);
-		delete s16_path;
-		Scoped autop1((raw)cs8_path);
-		string str_full = cs8_path;
-		string str_fix = str_full.substr(str_full.rfind(L'\\') + 1);
-		pcstr ret = str::Copy(str_fix.c_str());
-		return ret;
-	}
-
-	pcstr GetDirPath(pcstr path, bool isfile)
+	pcstr GetPathDir(pcstr path, bool file)
 	{
 		uint32 len = strlen(path);
 		if(len < 1) 
 			return str::Copy("\\");
-		pcstr s8_fix = str::Replace(path, "/", "\\");
-		string str = s8_fix;
+		pcstr cs8_fix = str::Replace(path, "/", "\\");
+		string str = cs8_fix;
 		uint32 pos = str.rfind('\\');
-		if(!isfile)
+		if(!file)
 		{
 			if(pos == string::npos || len != pos + 1)
-				str += L'\\';
+				str += "\\";
 		}
 		else
 		{
 			if(pos == string::npos)
 				str = "\\";
-			else if(pos != str.size() - 1) 
+			else
 				str = str.substr(0, pos + 1);
 		}
-		pcstr s8_ret = str::Copy(str.c_str());
-		return s8_ret;
+		pcstr cs8_ret = str::Copy(str.c_str());
+		return cs8_ret;
 	}
 
-	bool CanOpenRead(pcstr file)
+	bool TryOpenRead(pcstr file)
 	{
 		pcwstr cs16_file(str::ToStrW(file));
 		HANDLE handle = 

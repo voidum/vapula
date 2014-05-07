@@ -24,8 +24,11 @@ namespace vapula
 		//method id
 		pcstr _Id;
 
-		//protected flag
-		bool _IsProtected;
+		//protect flag
+		bool _HasProtect;
+
+		//advice flag : AOP
+		bool _IsAdvice;
 
 		//entry symbol
 		pcstr _RollbackSym;
@@ -46,8 +49,11 @@ namespace vapula
 		//get method id
 		pcstr GetMethodId();
 
-		//get protected flag
-		bool IsProtected();
+		//get protect flag
+		bool HasProtect();
+
+		//get advice flag
+		bool IsAdvice();
 
 		//get dataset
 		Dataset* GetDataset();

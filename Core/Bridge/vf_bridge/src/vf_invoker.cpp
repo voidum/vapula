@@ -4,6 +4,8 @@
 #include "vf_context.h"
 #include "vf_dataset.h"
 #include "vf_driver.h"
+#include "vf_runtime.h"
+#include "vf_worker.h"
 #include "process.h"
 
 namespace vapula
@@ -28,35 +30,33 @@ namespace vapula
 		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
 		_Stack->SetDataset(mt->GetDataset()->Copy(), this);
 		_Stack->SetContext(new Context(), this);
-		_Stack->SetProtect(mt->IsProtected(), this);
+		_Stack->SetProtect(mt->HasProtect(), this);
 		return true;
 	}
 
-	uint32 WINAPI Invoker::Entry(raw sender)
+	uint32 Invoker::Entry()
 	{
-		Invoker* inv = (Invoker*)sender;
-		Stack* stack = inv->GetStack();
-		stack->SetStackId(GetCurrentThreadId(), inv);
-		Context* ctx = stack->GetContext();
+		_Stack->SetStackId(GetCurrentThreadId(), this);
+		Context* context = _Stack->GetContext();
 
-		StackHub* stack_hub = StackHub::GetInstance();
-		stack_hub->Link(stack);
+		Runtime* runtime = Runtime::Instance();
+		runtime->Link(_Stack);
 		try {
-			if (stack->HasProtect())
-				inv->OnSafeProcess();
+			if (_Stack->HasProtect())
+				OnSafeProcess();
 			else
-				inv->OnProcess();
+				OnProcess();
 		} catch (Error*) {
-			ctx->SetState(VF_STATE_ROLLBACK, inv);
-			if (stack->HasProtect())
-				inv->OnSafeRollback();
+			context->SetState(VF_STATE_ROLLBACK, this);
+			if (_Stack->HasProtect())
+				OnSafeRollback();
 			else
-				inv->OnRollback();
-			ctx->SetReturnCode(VF_RETURN_ERROR);
+				OnRollback();
+			context->SetReturnCode(VF_RETURN_ERROR);
 		}
-		stack_hub->Kick(stack);
+		runtime->Kick(_Stack);
 
-		ctx->SetState(VF_STATE_IDLE, inv);
+		context->SetState(VF_STATE_IDLE, this);
 		return null;
 	}
 
@@ -92,7 +92,20 @@ namespace vapula
 		}
 	}
 
-
+	raw Invoker::GetEntry(Worker* worker)
+	{
+		//valid worker
+		//test if can be use
+		//!! MAGIC CODE !!
+		union FuncPtr
+		{
+			uint32(ptr1)();
+			raw ptr2;
+		}ptr;
+		ptr.ptr1 = Invoker::Entry;
+		return ptr.ptr2;
+	}
+	
 	Stack* Invoker::GetStack()
 	{
 		return _Stack;

@@ -1,4 +1,5 @@
 #include "vf_pipe.h"
+#include "vf_runtime.h"
 
 namespace vapula
 {
@@ -18,12 +19,13 @@ namespace vapula
 	bool Pipe::_CreateMapping(uint32 vol)
 	{
 		int tried = 0;
+		Runtime* runtime = Runtime::Instance();
 		do
 		{
 			Clear(_Id);
 			if(tried++ > 10)
 				return false;
-			_Id = GetLUID(true);
+			_Id = runtime->NewLUID();
 			pcwstr cs16_id = str::ToStrW(_Id);
 			_Mapping = CreateFileMapping(
 				INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 

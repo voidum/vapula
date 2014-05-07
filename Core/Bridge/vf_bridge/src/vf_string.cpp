@@ -1,50 +1,37 @@
 #include "vf_string.h"
-#include "unicode\ucnv.h"
 
 namespace vapula
 {
 	namespace str
 	{
-		pcstr ToStr(pcwstr src, pcstr cp)
+		pcstr ToStr(pcwstr src, uint32 cp)
 		{
-			if(src == null) 
+			if (src == null)
 				return null;
-			UErrorCode err = U_ZERO_ERROR;
-			UConverter* conv = ucnv_open(cp, &err);
-			if(conv == null) 
-				return null;
-			int len = ucnv_fromUChars(conv, null, 0, src, -1, &err) + 1;
+			int len = WideCharToMultiByte(cp, NULL, src, -1, NULL, 0, NULL, NULL);
 			char* dst = new char[len];
 			memset(dst, 0, len);
-			err = U_ZERO_ERROR;
-			len = ucnv_fromUChars(conv, dst, len, src, -1, &err);
-			ucnv_close(conv);
+			WideCharToMultiByte(cp, NULL, src, -1, dst, len, NULL, NULL);
 			return dst;
 		}
 
-		pcwstr ToStrW(pcstr src, pcstr cp)
+		pcwstr ToStrW(pcstr src, uint32 cp)
 		{
 			if(src == null) 
 				return null;
-			UErrorCode err = U_ZERO_ERROR;
-			UConverter* conv = ucnv_open(cp, &err);
-			if(conv == null) 
-				return null;
-			int len = ucnv_toUChars(conv, null, 0, src, -1, &err) + 1;
+			int len = MultiByteToWideChar(cp, NULL, src, -1, NULL, 0);
 			wchar_t* dst = new wchar_t[len];
 			memset(dst, 0, len * 2);
-			err = U_ZERO_ERROR;
-			ucnv_toUChars(conv, dst, len, src, -1, &err);
-			ucnv_close(conv);
+			MultiByteToWideChar(cp, NULL, src, -1, dst, len);
 			return dst;
 		}
 
-		pcstr Encode(pcstr src, pcstr cp_from, pcstr cp_to)
+		pcstr Encode(pcstr src, uint32 cp_from, uint32 cp_to)
 		{
-			pcwstr s16 = ToStrW(src, cp_from);
-			pcstr s8 = ToStr(s16, cp_to);
-			delete s16;
-			return s8;
+			pcwstr cs16 = ToStrW(src, cp_from);
+			pcstr cs8 = ToStr(cs16, cp_to);
+			delete cs16;
+			return cs8;
 		}
 
 		pcstr Copy(pcstr src)
@@ -52,7 +39,7 @@ namespace vapula
 			if(src == null)
 				return null;
 			size_t len = strlen(src);
-			pstr dst = new char[len + 1];
+			char* dst = new char[len + 1];
 			memcpy(dst, src, len);
 			dst[len] = 0;
 			return const_cast<pcstr>(dst);
@@ -71,16 +58,16 @@ namespace vapula
 
 		pcstr Replace(pcstr src, pcstr from, pcstr to)
 		{
-			pcwstr src16 = ToStrW(src, _vf_msg_cp);
-			pcwstr from16 = ToStrW(from, _vf_msg_cp);
-			pcwstr to16 = ToStrW(to, _vf_msg_cp);
-			pcwstr ret16 = Replace(src16, from16, to16);
-			pcstr ret = ToStr(ret16, _vf_msg_cp);
-			delete src16;
-			delete from16;
-			delete to16;
-			delete ret16;
-			return ret;
+			pcwstr cs16_src = ToStrW(src, _vf_msg_cp);
+			pcwstr cs16_from = ToStrW(from, _vf_msg_cp);
+			pcwstr cs16_to = ToStrW(to, _vf_msg_cp);
+			pcwstr cs16_ret = Replace(cs16_src, cs16_from, cs16_to);
+			pcstr cs8_ret = ToStr(cs16_ret, _vf_msg_cp);
+			delete cs16_src;
+			delete cs16_from;
+			delete cs16_to;
+			delete cs16_ret;
+			return cs8_ret;
 		}
 
 		pcwstr Replace(pcwstr src, pcwstr from, pcwstr to)

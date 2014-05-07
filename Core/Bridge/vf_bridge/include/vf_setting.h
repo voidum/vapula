@@ -4,13 +4,13 @@
 
 namespace vapula
 {
-	enum SettingItem
+	enum Settings
 	{
 		VF_SETTING_SILENT = 1,
 		VF_SETTING_RTMON = 2
 	};
 
-	//setting for Vapula
+	//runtime setting
 	class VAPULA_API Setting : Uncopiable
 	{
 	private:
@@ -20,7 +20,7 @@ namespace vapula
 	private:
 		static Setting* _Instance;
 	public:
-		static Setting* GetInstance();
+		static Setting* Instance();
 	private:
 		Flag* _Flag;
 	public:

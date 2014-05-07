@@ -82,10 +82,11 @@ namespace vapula
 	enum State
 	{
 		VF_STATE_IDLE = 0,
-		VF_STATE_PAUSE = 1,
+		VF_STATE_QUEUE = 1,
 		VF_STATE_BUSY_BACK = 2,
 		VF_STATE_BUSY_FRONT = 3,
-		VF_STATE_ROLLBACK = 4
+		VF_STATE_ROLLBACK = 4,
+		VF_STATE_PAUSE = 5
 	}; //context state
 
 	enum ControlCode
@@ -115,7 +116,8 @@ namespace vapula
 
 	pcstr const _vf_bridge = "Vapula Bridge";
 	pcstr const _vf_version = "2.1.3.2";
-	pcstr const _vf_msg_cp = "utf8";
+	uint32 const _vf_oem_cp = CP_OEMCP;
+	uint32 const _vf_msg_cp = CP_UTF8;
 
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";
 

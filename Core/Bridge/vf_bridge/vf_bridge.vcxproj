@@ -61,7 +61,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VAPULA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VapulaRef);$(VapulaRef)icu\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VapulaRef);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
@@ -75,8 +75,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VapulaRef)icu\lib;$(VapulaRef)modp_b64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>icuuc.lib;modp_b64_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VapulaRef)modp_b64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>modp_b64_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,6 +116,7 @@
     <ClInclude Include="include\vf_dev_lib.h" />
     <ClInclude Include="include\vf_const.h" />
     <ClInclude Include="include\vf_library.h" />
+    <ClInclude Include="include\vf_runtime.h" />
     <ClInclude Include="include\vf_setting.h" />
     <ClInclude Include="include\vf_context.h" />
     <ClInclude Include="include\vf_dev_drv.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="include\vf_string.h" />
     <ClInclude Include="include\vf_record.h" />
     <ClInclude Include="include\vf_weaver.h" />
+    <ClInclude Include="include\vf_worker.h" />
     <ClInclude Include="include\vf_xml.h" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +139,7 @@
     <ClCompile Include="src\vf_debug.cpp" />
     <ClCompile Include="src\vf_error.cpp" />
     <ClCompile Include="src\vf_record.cpp" />
+    <ClCompile Include="src\vf_runtime.cpp" />
     <ClCompile Include="src\vf_weaver.cpp" />
     <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="src\vf_pipe.cpp" />
     <ClCompile Include="src\vf_stack.cpp" />
     <ClCompile Include="src\vf_string.cpp" />
+    <ClCompile Include="src\vf_worker.cpp" />
     <ClCompile Include="src\vf_xml.cpp" />
   </ItemGroup>
   <ItemGroup>

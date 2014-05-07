@@ -12,10 +12,10 @@ namespace vapula
 	private:
 		pcstr _Id;
 		pcstr _Contact;
+		pcstr _LibraryId;
+		pcstr _MethodId;
 		bool _Async;
-		Library* _Library;
-		Invoker* _Invoker;
-	
+
 	private:
 		Invoker* _Invoker;
 
@@ -37,11 +37,11 @@ namespace vapula
 		//get key frame regex pattern
 		pcstr GetContact();
 
-		//get library
-		pcstr GetLibrary();
+		//get library id
+		pcstr GetLibraryId();
 
-		//get method
-		pcstr GetMethod();
+		//get method id
+		pcstr GetMethodId();
 
 		//get invoker
 		Invoker* GetInvoker();

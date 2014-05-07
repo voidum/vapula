@@ -25,7 +25,11 @@ namespace vapula
 		Error* _Error;
 
 	public:
-		static Stack* GetInstance();
+		static Stack* Instance();
+	
+	private:
+		//get current stack id
+		static uint32 CurrentId();
 
 	public:
 		//set stack id
@@ -64,39 +68,5 @@ namespace vapula
 
 		//get error
 		Error* GetError();
-	};
-
-	//stack hub
-	class VAPULA_API StackHub
-	{
-	private:
-		StackHub();
-	public:
-		~StackHub();
-
-	private:
-		static StackHub* _Instance;
-	public:
-		static StackHub* GetInstance();
-
-	private:
-		Lock* _Lock;
-		list<Stack*> _Stacks;
-	public:
-		//get stack by id
-		Stack* GetStack(uint32 id);
-
-	public:
-		//link stack
-		void Link(Stack* stack);
-
-		//kick stack
-		void Kick(Stack* stack);
-
-		//kick all stacks
-		void KickAll();
-
-		//get count of linked stack
-		int GetCount();
 	};
 }
