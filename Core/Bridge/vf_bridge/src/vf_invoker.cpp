@@ -3,7 +3,6 @@
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
-#include "vf_driver.h"
 #include "vf_runtime.h"
 #include "vf_worker.h"
 #include "process.h"
@@ -31,7 +30,7 @@ namespace vapula
 		return true;
 	}
 
-	void Invoker::Entry()
+	void Invoker::Invoke()
 	{
 		Runtime* runtime = Runtime::Instance();
 		runtime->Link(_Stack);
@@ -98,75 +97,33 @@ namespace vapula
 		return _Stack;
 	}
 
-	bool Invoker::Start()
+	bool Invoker::Start(uint32 wait)
 	{
-		return true;
+		Worker* worker = Worker::Instance();
+		return worker->Start(this, wait);
 	}
 
 	void Invoker::Stop(uint32 wait)
 	{
-		Context* ctx = _Stack->GetContext();
-		bool finish = false;
-		if(wait != 0)
-		{
-			ctx->SetCtrlCode(VF_CTRL_CANCEL, this);
-			DWORD dw = WaitForSingleObject(_Thread, wait);
-			if(dw == WAIT_OBJECT_0)
-				finish = true;
-		}
-		if(!finish)
-		{
-			TerminateThread(_Thread, 1);
-			WaitForSingleObject(_Thread, INFINITE);
-			ctx->SetReturnCode(VF_RETURN_TERMINATE);
-			ctx->SetState(VF_STATE_IDLE, this);
-		}
-		CloseHandle(_Thread);
-		_Thread = null;
+		Worker* worker = Worker::Instance();
+		worker->Stop(this, wait);
 	}
 
 	void Invoker::Pause(uint32 wait)
 	{
-		Context* ctx = _Stack->GetContext();
-		_IsSuspend = false;
-		if(wait != 0)
-		{
-			int times = wait / 25;
-			if(wait % 25 != 0) 
-				times++;
-
-			ctx->SetCtrlCode(VF_CTRL_PAUSE, this);
-			for(int i=0; i<times; i++)
-			{
-				byte state = ctx->GetCurrentState();
-				if(state == VF_STATE_PAUSE)
-					return;
-				Sleep(25);
-			}
-		}
-		_IsSuspend = true;
-		SuspendThread(_Thread);
-		ctx->SwitchHold();
+		Worker* worker = Worker::Instance();
+		worker->Pause(this, wait);
 	}
 
 	void Invoker::Resume()
 	{
-		Context* ctx = _Stack->GetContext();
-		if(_IsSuspend)
-		{
-			_IsSuspend = false;
-			ResumeThread(_Thread);
-			ctx->SwitchHold();
-		}
-		else
-		{
-			ctx->SetCtrlCode(VF_CTRL_RESUME, this);
-		}
+		Worker* worker = Worker::Instance();
+		worker->Resume(this);
 	}
 
 	bool Invoker::Restart(uint32 wait)
 	{
-		Stop(wait);
-		return Start();
+		Worker* worker = Worker::Instance();
+		return worker->Restart(this, wait);
 	}
 }

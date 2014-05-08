@@ -7,16 +7,15 @@
 namespace vapula
 {
 	Runtime* Runtime::_Instance = null;
+	Lock* Runtime::_CtorLock = new Lock();
 
 	Runtime* Runtime::Instance()
 	{
 		if (Runtime::_Instance == null)
 		{
-			Lock* lock = new Lock();
-			lock->Enter();
+			Runtime::_CtorLock->Enter();
 			Runtime::_Instance = new Runtime();
-			lock->Leave();
-			delete lock;
+			Runtime::_CtorLock->Leave();
 		}
 		return Runtime::_Instance;
 	}

@@ -25,29 +25,35 @@ namespace vapula
 
 	private:
 		Lock* _Lock;
-		HANDLE* _Threads;
-		uint32 _ThreadCount;
+		list<HANDLE> _FrontThreads;
+		list<HANDLE> _RearThreads;
 		queue<Invoker*> _Tasks;
 
 	protected:
 		static uint32 WINAPI Entry(raw sender);
 
 	public:
-		//start worker
-		bool Start();
+		//online worker
+		bool Online();
 
-		//stop worker
-		void Stop();
+		//offline worker
+		void Offline();
 
 	public:
-		//assign task
-		void Assign(Invoker* task);
+		//start invoker
+		bool Start(Invoker* task, uint32 wait);
 
-		//cancel task
-		void Cancel(Invoker* task);
+		//stop invoker
+		void Stop(Invoker* task, uint32 wait);
 
-		//
-		void HasTask();
+		//pause invoker
+		void Pause(Invoker* task, uint32 wait);
+
+		//resume invoker
+		void Resume(Invoker* task);
+
+		//restart invoker
+		bool Restart(Invoker* task, uint32 wait);
 
 		//clear tasks
 		void Clear();

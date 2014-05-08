@@ -18,6 +18,7 @@ namespace vapula
 		~Runtime();
 
 	private:
+		static Lock* _CtorLock;
 		static Runtime* _Instance;
 
 	public:
@@ -30,11 +31,11 @@ namespace vapula
 		list<Stack*> _Stacks;
 
 	public:
-		//init runtime
-		void Initialize();
+		//start runtime
+		void Start();
 
-		//terminate runtime
-		void Terminate();
+		//stop runtime
+		void Stop();
 
 	public:
 		//reach frame

@@ -127,6 +127,7 @@
     <ClInclude Include="include\vf_stack.h" />
     <ClInclude Include="include\vf_string.h" />
     <ClInclude Include="include\vf_record.h" />
+    <ClInclude Include="include\vf_thread.h" />
     <ClInclude Include="include\vf_weaver.h" />
     <ClInclude Include="include\vf_worker.h" />
     <ClInclude Include="include\vf_xml.h" />

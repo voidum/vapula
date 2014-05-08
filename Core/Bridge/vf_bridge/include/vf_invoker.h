@@ -11,6 +11,8 @@ namespace vapula
 	//invoker
 	class VAPULA_API Invoker
 	{
+	friend class Worker;
+
 	protected:
 		bool _IsSuspend;
 		Stack* _Stack;
@@ -25,10 +27,10 @@ namespace vapula
 		//bind invoker with method
 		virtual bool Bind(Method* mt);
 
+	protected:
 		//invoke routine
 		void Invoke();
 
-	protected:
 		//invoke custom process
 		virtual void OnProcess() = 0;
 
@@ -46,7 +48,7 @@ namespace vapula
 		Stack* GetStack();
 
 		//start
-		bool Start();
+		bool Start(uint32 wait = 0);
 
 		//stop
 		void Stop(uint32 wait = 0);

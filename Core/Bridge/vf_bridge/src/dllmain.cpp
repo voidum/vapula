@@ -1,4 +1,5 @@
 #include "windows.h"
+#include "vf_runtime.h"
 
 #pragma warning(disable:4100)
 

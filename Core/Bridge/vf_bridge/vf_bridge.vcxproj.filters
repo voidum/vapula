@@ -103,9 +103,6 @@
     <ClInclude Include="include\vf_aspect.h">
       <Filter>library\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_weaver.h">
-      <Filter>library\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_dataset.h">
       <Filter>core\header</Filter>
     </ClInclude>
@@ -116,6 +113,12 @@
       <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_worker.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_thread.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_weaver.h">
       <Filter>core\header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,9 +174,6 @@
     <ClCompile Include="src\vf_aspect.cpp">
       <Filter>library\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_weaver.cpp">
-      <Filter>library\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_dataset.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
@@ -184,6 +184,9 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_worker.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_weaver.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>
