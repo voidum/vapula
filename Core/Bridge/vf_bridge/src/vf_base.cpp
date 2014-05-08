@@ -5,6 +5,13 @@
 
 namespace vapula
 {
+	Lock* Lock::_CtorLock = new Lock();
+
+	Lock* Lock::GetCtorLock()
+	{
+		return _CtorLock;
+	}
+
 	Lock::Lock()
 	{
 		_Core = (uint64*)_aligned_malloc(1, sizeof(uint64));

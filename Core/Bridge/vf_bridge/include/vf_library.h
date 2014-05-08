@@ -6,7 +6,7 @@ namespace vapula
 {
 	class Driver;
 	class Method;
-	class Invoker;
+	class Task;
 
 	//library {base}
 	class VAPULA_API Library
@@ -46,8 +46,8 @@ namespace vapula
 		//get method by id
 		Method* GetMethod(pcstr id);
 
-		//create invoker by id
-		Invoker* CreateInvoker(pcstr id);
+		//create task by id
+		Task* CreateTask(pcstr id);
 
 	public:
 		//mount library

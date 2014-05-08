@@ -1,5 +1,5 @@
 #include "vf_context.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 #include "vf_stack.h"
 
 namespace vapula
@@ -21,7 +21,7 @@ namespace vapula
 		Clear(_KeyFrame);
 	}
 
-	void Context::SetState(uint8 value, Invoker* owner)
+	void Context::SetState(uint8 value, Task* owner)
 	{
 		if(owner->GetStack()->GetContext() != this)
 			return;
@@ -62,7 +62,7 @@ namespace vapula
 		return v;
 	}
 
-	void Context::SetCtrlCode(uint8 value, Invoker* owner)
+	void Context::SetControlCode(uint8 value, Task* owner)
 	{
 		if(owner->GetStack()->GetContext() != this)
 			return;

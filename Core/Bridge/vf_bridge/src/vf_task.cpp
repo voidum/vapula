@@ -1,26 +1,24 @@
-#include "vf_invoker.h"
-#include "vf_method.h"
+#include "vf_task.h"
+#include "vf_runtime.h"
 #include "vf_stack.h"
+#include "vf_method.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
-#include "vf_runtime.h"
 #include "vf_worker.h"
-#include "process.h"
 
 namespace vapula
 {
-	Invoker::Invoker()
+	Task::Task()
 	{
 		_Stack = null;
-		_IsSuspend = false;
 	}
 
-	Invoker::~Invoker()
+	Task::~Task()
 	{
 		Clear(_Stack);
 	}
 
-	bool Invoker::Bind(Method* mt)
+	bool Task::Bind(Method* mt)
 	{
 		_Stack = new Stack();
 		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
@@ -30,15 +28,15 @@ namespace vapula
 		return true;
 	}
 
-	void Invoker::Invoke()
+	void Task::Invoke()
 	{
 		Runtime* runtime = Runtime::Instance();
-		runtime->Link(_Stack);
+		runtime->LinkStack(_Stack);
 		_Stack->SetStackId(Stack::CurrentId(), this);
 
 		Context* context = _Stack->GetContext();
 		try {
-			context->SetCtrlCode(VF_CTRL_NULL, this);
+			context->SetControlCode(VF_CTRL_NULL, this);
 			context->SetReturnCode(VF_RETURN_NULLTASK);
 			context->SetState(VF_STATE_BUSY_BACK, this);
 			if (_Stack->HasProtect())
@@ -57,10 +55,10 @@ namespace vapula
 		context->SetState(VF_STATE_IDLE, this);
 
 		_Stack->SetStackId(0, this);
-		runtime->Kick(_Stack);
+		runtime->KickStack(_Stack);
 	}
 
-	void Invoker::OnSafeProcess()
+	void Task::OnSafeProcess()
 	{
 		__try {
 			OnProcess();
@@ -76,7 +74,7 @@ namespace vapula
 		}
 	}
 
-	void Invoker::OnSafeRollback()
+	void Task::OnSafeRollback()
 	{
 		__try {
 			OnRollback();
@@ -92,36 +90,36 @@ namespace vapula
 		}
 	}
 
-	Stack* Invoker::GetStack()
+	Stack* Task::GetStack()
 	{
 		return _Stack;
 	}
 
-	bool Invoker::Start(uint32 wait)
+	bool Task::Start(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
 		return worker->Start(this, wait);
 	}
 
-	void Invoker::Stop(uint32 wait)
+	void Task::Stop(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
 		worker->Stop(this, wait);
 	}
 
-	void Invoker::Pause(uint32 wait)
+	void Task::Pause(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
 		worker->Pause(this, wait);
 	}
 
-	void Invoker::Resume()
+	void Task::Resume()
 	{
 		Worker* worker = Worker::Instance();
 		worker->Resume(this);
 	}
 
-	bool Invoker::Restart(uint32 wait)
+	bool Task::Restart(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
 		return worker->Restart(this, wait);

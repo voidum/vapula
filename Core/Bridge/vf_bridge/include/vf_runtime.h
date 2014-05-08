@@ -18,7 +18,6 @@ namespace vapula
 		~Runtime();
 
 	private:
-		static Lock* _CtorLock;
 		static Runtime* _Instance;
 
 	public:
@@ -26,9 +25,9 @@ namespace vapula
 
 	private:
 		list<Driver*> _Drivers;
-		list<Aspect*> _Aspects;
 		list<Library*> _Libraries;
 		list<Stack*> _Stacks;
+		list<Aspect*> _Aspects;
 
 	public:
 		//start runtime
@@ -42,20 +41,68 @@ namespace vapula
 		void Reach(pcstr frame);
 
 	public:
+		//get count of drivers
+		int CountDriver();
+
+		//get driver by id
 		Driver* GetDriver(pcstr id);
-		Aspect* GetAspect(pcstr id);
+
+		//link driver
+		void LinkDriver(Driver* driver);
+
+		//kick driver
+		void KickDriver(pcstr id);
+
+		//kick all drivers
+		void KickAllDrivers();
+
+	public:
+		//get count of libraries
+		int CountLibrary();
+
+		//get library by id
 		Library* GetLibrary(pcstr id);
+
+		//link library
+		void LinkLibrary(Library* library);
+
+		//kick library
+		void KickLibrary(Library* library);
+
+		//kick all libraries
+		void KickAllLibraries();
+
+	public:
+		//get count of stacks
+		int CountStack();
+
+		//get stack by id
 		Stack* GetStack(uint32 id);
 
-		void Link(Driver* driver);
-		void Link(Aspect* aspect);
-		void Link(Library* library);
-		void Link(Stack* stack);
+		//link stack
+		void LinkStack(Stack* stack);
 
-		void Kick(Driver* driver);
-		void Kick(Aspect* aspect);
-		void Kick(Library* library);
-		void Kick(Stack* stack);
+		//kick stack
+		void KickStack(Stack* stack);
+
+		//kick all stacks
+		void KickAllStacks();
+
+	public:
+		//get count of aspects
+		int CountAspect();
+
+		//get aspect by id
+		Aspect* GetAspect(pcstr id);
+
+		//link aspect
+		void LinkAspect(Aspect* aspect);
+
+		//kick aspect
+		void KickAspect(Aspect* aspect);
+
+		//kick all aspects
+		void KickAllAspects();
 
 	public:
 		//get process name
@@ -67,7 +114,7 @@ namespace vapula
 		//get runtime directory
 		pcstr GetRuntimeDir();
 
-		//get Vapula core version
+		//get vapula core version
 		pcstr GetVersion();
 
 	public:

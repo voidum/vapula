@@ -1,23 +1,95 @@
 #include "vf_runtime.h"
+#include "vf_driver.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_aspect.h"
+#include "vf_worker.h"
 #include "vf_weaver.h"
 
 namespace vapula
 {
 	Runtime* Runtime::_Instance = null;
-	Lock* Runtime::_CtorLock = new Lock();
 
 	Runtime* Runtime::Instance()
 	{
 		if (Runtime::_Instance == null)
 		{
-			Runtime::_CtorLock->Enter();
-			Runtime::_Instance = new Runtime();
-			Runtime::_CtorLock->Leave();
+			Lock* lock = Lock::GetCtorLock();
+			lock->Enter();
+			if (Runtime::_Instance == null)
+				Runtime::_Instance = new Runtime();
+			lock->Leave();
 		}
 		return Runtime::_Instance;
+	}
+
+	Runtime::Runtime()
+	{
+	}
+
+	Runtime::~Runtime()
+	{
+	}
+
+	void Runtime::Start()
+	{
+		Worker::Instance()->Online();
+	}
+
+	void Runtime::Stop()
+	{
+		Worker::Instance()->Offline();
+		KickAllDrivers();
+		KickAllLibraries();
+		KickAllStacks();
+		KickAllAspects();
+	}
+
+	int Runtime::CountDriver()
+	{
+		return _Drivers.size();
+	}
+
+	Driver* Runtime::GetDriver(pcstr id)
+	{
+		typedef list<Driver*>::iterator iter;
+		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
+		{
+			Driver* driver = *i;
+			if (strcmp(driver->GetRuntimeId(), id) == 0)
+				return driver;
+		}
+		return null;
+	}
+
+	void Runtime::LinkDriver(Driver* driver)
+	{
+		Driver* driver_tmp = GetDriver(driver->GetRuntimeId());
+		if (driver_tmp == null)
+			_Drivers.push_back(driver);
+	}
+
+	void Runtime::KickDriver(pcstr id)
+	{
+		typedef list<Driver*>::iterator iter;
+		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
+		{
+			Driver* driver = *i;
+			if (strcmp(driver->GetRuntimeId(), id) == 0)
+			{
+				_Drivers.erase(i);
+				Clear(driver);
+				break;
+			}
+		}
+	}
+
+	void Runtime::KickAllDrivers()
+	{
+		typedef list<Driver*>::iterator iter;
+		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
+			Clear(*i);
+		_Drivers.clear();
 	}
 
 	void Runtime::Reach(pcstr frame)
@@ -29,18 +101,19 @@ namespace vapula
 		Weaver* weaver = Weaver::Instance();
 
 		typedef list<Aspect*>::iterator iter;
-		list<Aspect*> reqs;
+		list<Aspect*> joins;
 		for (iter i = _Aspects.begin(); i != _Aspects.end(); i++)
 		{
-			Aspect* aspe = *i;
-			if (aspe->TryMatch(frame))
+			Aspect* aspect = *i;
+			if (aspect->TryMatch(frame))
 			{
-				reqs.push_back(aspe);
-				weaver->Invoke(aspe);
+				weaver->Invoke(aspect);
+				if (!aspect->IsAsync())
+					joins.push_back(aspect);
 			}
 		}
-		for (iter i = reqs.begin(); i != reqs.end(); i++)
-			weaver->Wait(*i);
+		for (iter i = joins.begin(); i != joins.end(); i++)
+			weaver->Join(*i);
 	}
 
 	pcstr Runtime::GetRuntimeDir()

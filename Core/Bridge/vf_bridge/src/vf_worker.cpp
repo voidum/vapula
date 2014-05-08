@@ -1,28 +1,25 @@
 #include "vf_worker.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 
 namespace vapula
 {
 	Worker::Worker()
 	{
 		_Lock = new Lock();
-		_Threads = null;
-		_ThreadCount = 0;
 	}
 
 	Worker::~Worker()
 	{
-		Stop();
-		Clear();
+		Offline();
 	}
 
 	uint32 Worker::Entry(raw sender)
 	{
-		Worker* worker = (Worker*)sender;
+		//Worker* worker = (Worker*)sender;
 
 	}
 
-	bool Worker::Start(Invoker* task, uint32 wait)
+	bool Worker::Online()
 	{
 		SYSTEM_INFO system;
 		GetSystemInfo(&system);
@@ -31,8 +28,14 @@ namespace vapula
 		}
 	}
 
-	void Worker::Stop(Invoker* task, uint32 wait)
+	bool Worker::Start(Task* task, uint32 wait)
 	{
+		return false;
+	}
+
+	void Worker::Stop(Task* task, uint32 wait)
+	{
+		/*
 		Context* ctx = _Stack->GetContext();
 		bool finish = false;
 		if (wait != 0)
@@ -51,10 +54,12 @@ namespace vapula
 		}
 		CloseHandle(_Thread);
 		_Thread = null;
+		*/
 	}
 
-	void Worker::Pause(Invoker* task, uint32 wait)
+	void Worker::Pause(Task* task, uint32 wait)
 	{
+		/*
 		Context* ctx = _Stack->GetContext();
 		_IsSuspend = false;
 		if (wait != 0)
@@ -75,10 +80,12 @@ namespace vapula
 		_IsSuspend = true;
 		SuspendThread(_Thread);
 		ctx->SwitchHold();
+		*/
 	}
 
-	void Worker::Resume(Invoker* task)
+	void Worker::Resume(Task* task)
 	{
+		/*
 		Context* ctx = _Stack->GetContext();
 		if (_IsSuspend)
 		{
@@ -90,9 +97,11 @@ namespace vapula
 		{
 			ctx->SetCtrlCode(VF_CTRL_RESUME, this);
 		}
+		*/
 	}
 
-	bool Worker::Restart(Invoker* task, uint32 wait)
+	bool Worker::Restart(Task* task, uint32 wait)
 	{
+		return false;
 	}
 }

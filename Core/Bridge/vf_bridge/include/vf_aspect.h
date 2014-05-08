@@ -4,7 +4,7 @@
 
 namespace vapula
 {
-	class Invoker;
+	class Task;
 
 	//aspect
 	class VAPULA_API Aspect
@@ -17,7 +17,7 @@ namespace vapula
 		bool _Async;
 
 	private:
-		Invoker* _Invoker;
+		Task* _Task;
 
 	public:
 		Aspect();
@@ -44,7 +44,7 @@ namespace vapula
 		pcstr GetMethodId();
 
 		//get invoker
-		Invoker* GetInvoker();
+		Task* GetTask();
 
 		//test if frame match with contact
 		bool TryMatch(pcstr frame);

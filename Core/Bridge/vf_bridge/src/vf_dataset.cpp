@@ -33,23 +33,23 @@ namespace vapula
 	Dataset* Dataset::Parse(raw xml)
 	{
 		list<int> ids;
-		list<PRecord> recs;
+		list<PRecord> records;
 		raw xe = XML::XElem(xml, "field");
 		while(xe != null)
 		{
-			PRecord rec = Record::Parse(xe);
+			PRecord record = Record::Parse(xe);
 			int id = XML::ValInt(XML::XAttr(xe, "id"));
 			ids.push_back(id);
-			recs.push_back(rec);
+			records.push_back(record);
 			xe = XML::Next(xe);
 		}
 
 		Dataset* ds = new Dataset();
-		ds->_Records = new PRecord[recs.size()];
-		ds->_Total = recs.size();
+		ds->_Records = new PRecord[records.size()];
+		ds->_Total = records.size();
 
 		list<int>::iterator i1 = ids.begin();
-		list<PRecord>::iterator i2 = recs.begin();
+		list<PRecord>::iterator i2 = records.begin();
 		for(;;)
 		{
 			if(i1 == ids.end())

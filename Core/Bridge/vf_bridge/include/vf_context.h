@@ -4,7 +4,7 @@
 
 namespace vapula
 {
-	class Invoker;
+	class Task;
 
 	//routine context
 	class VAPULA_API Context
@@ -26,13 +26,13 @@ namespace vapula
 
 	public:
 		//set state
-		void SetState(uint8 value, Invoker* owner);
+		void SetState(uint8 value, Task* owner);
 
 		//set return code
 		void SetReturnCode(uint8 value);
 
 		//set control code
-		void SetCtrlCode(uint8 value, Invoker* owner);
+		void SetControlCode(uint8 value, Task* owner);
 
 		//set progress
 		void SetProgress(float value);

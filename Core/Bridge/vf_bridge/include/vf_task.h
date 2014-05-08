@@ -8,27 +8,26 @@ namespace vapula
 	class Method;
 	class Worker;
 
-	//invoker
-	class VAPULA_API Invoker
+	//task
+	class VAPULA_API Task
 	{
 	friend class Worker;
 
 	protected:
-		bool _IsSuspend;
 		Stack* _Stack;
 
 	protected:
-		Invoker();
+		Task();
 
 	public:
-		virtual ~Invoker();
+		virtual ~Task();
 
 	public:
-		//bind invoker with method
+		//bind task with method
 		virtual bool Bind(Method* mt);
 
 	protected:
-		//invoke routine
+		//invoke task
 		void Invoke();
 
 		//invoke custom process
@@ -44,7 +43,7 @@ namespace vapula
 		void OnSafeRollback();
 
 	public:
-		//get stack for invoker
+		//get stack for task
 		Stack* GetStack();
 
 		//start

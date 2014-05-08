@@ -6,7 +6,7 @@ namespace vapula
 {
 	class Context;
 	class Dataset;
-	class Invoker;
+	class Task;
 	class Error;
 
 	//stack
@@ -33,22 +33,22 @@ namespace vapula
 
 	public:
 		//set stack id
-		void SetStackId(uint32 id, Invoker* owner);
+		void SetStackId(uint32 id, Task* owner);
 
 		//set method id
-		void SetMethodId(pcstr id, Invoker* owner);
+		void SetMethodId(pcstr id, Task* owner);
 
 		//set protect flag
-		void SetProtect(bool protect, Invoker* owner);
+		void SetProtect(bool protect, Task* owner);
 
 		//set context
-		void SetContext(Context* ctx, Invoker* owner);
+		void SetContext(Context* context, Task* owner);
 
 		//set dataset
-		void SetDataset(Dataset* ds, Invoker* owner);
+		void SetDataset(Dataset* dataset, Task* owner);
 
 		//set error
-		void SetError(Error* err);
+		void SetError(Error* error);
 
 	public:
 		//get stack id

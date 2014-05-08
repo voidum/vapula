@@ -1,7 +1,9 @@
 #include "vf_aspect.h"
-#include "vf_xml.h"
+#include "vf_runtime.h"
 #include "vf_library.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
+#include "vf_xml.h"
+
 #include <regex>
 
 namespace vapula
@@ -13,7 +15,7 @@ namespace vapula
 		_LibraryId = null;
 		_MethodId = null;
 		_Async = false;
-		_Invoker = null;
+		_Task = null;
 	}
 
 	Aspect::~Aspect()
@@ -22,7 +24,7 @@ namespace vapula
 		Clear(_Contact);
 		Clear(_LibraryId);
 		Clear(_MethodId);
-		Clear(_Invoker);
+		Clear(_Task);
 	}
 
 	Aspect* Aspect::Load(pcstr path)
@@ -33,19 +35,19 @@ namespace vapula
 			return null;
 
 		raw xdoc = xml->GetEntity();
-		raw xe_aspe = XML::XElem(xdoc, "aspect");
-		raw xe_aspe_id = XML::XElem(xe_aspe, "id");
-		raw xe_lib = XML::XElem(xe_aspe, "library");
-		raw xe_mt = XML::XElem(xe_aspe, "method");
-		raw xe_mode = XML::XElem(xe_aspe, "mode");
-		raw xe_contact = XML::XElem(xe_aspe, "contact");
+		raw xe_aspect = XML::XElem(xdoc, "aspect");
+		raw xe_id = XML::XElem(xe_aspect, "id");
+		raw xe_library = XML::XElem(xe_aspect, "library");
+		raw xe_method = XML::XElem(xe_aspect, "method");
+		raw xe_async = XML::XElem(xe_aspect, "async");
+		raw xe_contact = XML::XElem(xe_aspect, "contact");
 		
 		Aspect* aspect = new Aspect();
-		aspect->_Id = XML::ValStr(xe_aspe_id);
-		aspect->_LibraryId = XML::ValStr(xe_lib);
-		aspect->_MethodId = XML::ValStr(xe_mt);
+		aspect->_Id = XML::ValStr(xe_id);
+		aspect->_LibraryId = XML::ValStr(xe_library);
+		aspect->_MethodId = XML::ValStr(xe_method);
 		aspect->_Contact = XML::ValStr(xe_contact);
-		aspect->_Async = XML::ValBool(xe_mode, "true");
+		aspect->_Async = XML::ValBool(xe_async, "true");
 		return aspect;
 	}
 
@@ -54,9 +56,9 @@ namespace vapula
 		return _Id;
 	}
 
-	uint8 Aspect::GetMode()
+	bool Aspect::IsAsync()
 	{
-		return _Mode;
+		return _Async;
 	}
 
 	pcstr Aspect::GetContact()
@@ -74,16 +76,16 @@ namespace vapula
 		return _MethodId;
 	}
 
-	Invoker* Aspect::GetInvoker()
+	Task* Aspect::GetTask()
 	{
-		if(_Invoker == null)
+		if(_Task == null)
 		{
-			LibraryHub* lib_hub = LibraryHub::GetInstance();
-			Library* lib = lib_hub->GetLibrary(_LibraryId);
-			if(lib != null)
-				_Invoker = lib->CreateInvoker(_MethodId);
+			Runtime* runtime = Runtime::Instance();
+			Library* library = runtime->GetLibrary(_LibraryId);
+			if (library != null)
+				_Task = library->CreateTask(_MethodId);
 		}
-		return _Invoker;
+		return _Task;
 	}
 
 	bool Aspect::TryMatch(pcstr frame)

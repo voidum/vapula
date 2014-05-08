@@ -2,15 +2,15 @@ vPLAN
 +)support json - reduce inter file size ?
 +)support smart pointer with GC?
 +)support logger
-+)support virtual thread?
-+)support thread pool?
 +)support dynamic envelope
 
 
 v2.1.4.0
-=)adjust design
+*)adjust design
+*)=)rename Invoker => Task
 +)add runtime
 +)add worker
++)+)add thread pool
 -)remove ICU for Windows
 
 

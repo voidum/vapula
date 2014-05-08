@@ -1,7 +1,8 @@
-#include "vf_driver.h"
 #include "vf_library.h"
+#include "vf_runtime.h"
+#include "vf_driver.h"
 #include "vf_method.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 #include "vf_xml.h"
 
 namespace vapula
@@ -25,37 +26,37 @@ namespace vapula
 			return null;
 
 		raw xdoc = xml->GetEntity();
-		raw xe_lib = XML::XElem(xdoc, "library");
+		raw xe_library = XML::XElem(xdoc, "library");
 
-		pcstr cs8_rt = XML::ValStr(XML::XElem(xe_lib, "runtime"));
-		Scoped autop1((raw)cs8_rt);
+		pcstr cs8_runtime = XML::ValStr(XML::XElem(xe_library, "runtime"));
+		Scoped autop1((raw)cs8_runtime);
 
-		DriverHub* drv_hub = DriverHub::GetInstance();
-		Driver* drv = drv_hub->GetDriver(cs8_rt);
-		if (drv == null && !drv_hub->Link(cs8_rt))
+		Runtime* runtime = Runtime::Instance();
+		Driver* driver = runtime->GetDriver(cs8_runtime);
+		if (driver == null)
 			return null;
 
-		Library* lib = drv->CreateLibrary();
-		lib->_Driver = drv;
+		Library* library = driver->CreateLibrary();
+		library->_Driver = driver;
 
-		raw xe_lib_id = XML::XElem(xe_lib, "id");
-		lib->_Id = XML::ValStr(xe_lib_id);
+		raw xe_id = XML::XElem(xe_library, "id");
+		library->_Id = XML::ValStr(xe_id);
 
 		pcstr cs8_dir = GetPathDir(path, true);
 		Scoped autop2((raw)cs8_dir);
 		ostringstream oss;
-		oss << cs8_dir << lib->_Id << "." << drv->GetBinExt();
-		lib->_Path = str::Copy(oss.str().c_str());
+		oss << cs8_dir << library->_Id << "." << driver->GetBinExt();
+		library->_Path = str::Copy(oss.str().c_str());
 
-		raw xe_mt = XML::XPath(xe_lib, 2, "methods", "method");
-		while (xe_mt != null)
+		raw xe_method = XML::XPath(xe_library, 2, "methods", "method");
+		while (xe_method != null)
 		{
-			Method* mt = Method::Parse(xe_mt);
-			mt->SetLibrary(lib);
-			lib->_Methods.push_back(mt);
-			xe_mt = XML::Next(xe_mt);
+			Method* method = Method::Parse(xe_method);
+			method->SetLibrary(library);
+			library->_Methods.push_back(method);
+			xe_method = XML::Next(xe_method);
 		}
-		return lib;
+		return library;
 	}
 
 	void Library::ClearAll()
@@ -81,22 +82,22 @@ namespace vapula
 		typedef list<Method*>::iterator iter;
 		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
 		{
-			Method* mt = *i;
-			if (strcmp(mt->GetMethodId(), id) == 0)
-				return mt;
+			Method* method = *i;
+			if (strcmp(method->GetMethodId(), id) == 0)
+				return method;
 		}
 		return null;
 	}
 
-	Invoker* Library::CreateInvoker(pcstr id)
+	Task* Library::CreateTask(pcstr id)
 	{
-		Invoker* inv = _Driver->CreateInvoker();
-		Method* mt = GetMethod(id);
-		if (inv->Bind(mt))
-			return inv;
+		Task* task = _Driver->CreateTask();
+		Method* method = GetMethod(id);
+		if (task->Bind(method))
+			return task;
 		else
 		{
-			delete inv;
+			delete task;
 			return null;
 		}
 	}

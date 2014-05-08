@@ -5,7 +5,8 @@
 
 namespace vapula
 {
-	class Invoker;
+	class Thread;
+	class Task;
 
 	using std::queue;
 
@@ -25,9 +26,11 @@ namespace vapula
 
 	private:
 		Lock* _Lock;
-		list<HANDLE> _FrontThreads;
-		list<HANDLE> _RearThreads;
-		queue<Invoker*> _Tasks;
+		list<Thread*> _HeadThreads;
+		list<Thread*> _RearThreads;
+		queue<Task*> _Tasks;
+		uint32 _DoneCount;
+		uint32 _QueueCount;
 
 	protected:
 		static uint32 WINAPI Entry(raw sender);
@@ -40,22 +43,27 @@ namespace vapula
 		void Offline();
 
 	public:
-		//start invoker
-		bool Start(Invoker* task, uint32 wait);
+		//start task
+		bool Start(Task* task, uint32 wait);
 
-		//stop invoker
-		void Stop(Invoker* task, uint32 wait);
+		//stop task
+		void Stop(Task* task, uint32 wait);
 
-		//pause invoker
-		void Pause(Invoker* task, uint32 wait);
+		//pause task
+		void Pause(Task* task, uint32 wait);
 
-		//resume invoker
-		void Resume(Invoker* task);
+		//resume task
+		void Resume(Task* task);
 
-		//restart invoker
-		bool Restart(Invoker* task, uint32 wait);
+		//restart task
+		bool Restart(Task* task, uint32 wait);
 
-		//clear tasks
-		void Clear();
+	public:
+		//get count of done tasks
+		//maybe overflow !!
+		uint32 CountDoneTasks();
+
+		//get count of queue tasks
+		uint32 CountQueueTasks();
 	};
 }

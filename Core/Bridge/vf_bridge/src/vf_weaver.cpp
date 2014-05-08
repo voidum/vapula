@@ -1,6 +1,6 @@
 #include "vf_weaver.h"
 #include "vf_aspect.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 #include "vf_stack.h"
 #include "vf_dataset.h"
 #include "vf_context.h"
@@ -23,28 +23,26 @@ namespace vapula
 
 	void Weaver::Invoke(Aspect* aspect)
 	{
-		Invoker* inv = aspect->GetInvoker();
-		Stack* stk_aspe = inv->GetStack();
-		Dataset* ds = stk_aspe->GetDataset();
-		Record* rec = (*ds)[1];
-		if(rec != null)
+		Task* task = aspect->GetTask();
+		Stack* stack_aspect = task->GetStack();
+		Dataset* dataset = stack_aspect->GetDataset();
+		Record* record = (*dataset)[1];
+		if(record != null)
 		{
-			Stack* stk = Stack::Instance();
-			rec->WriteAt(stk->GetStackId());
+			Stack* stack_current = Stack::Instance();
+			record->WriteAt(stack_current->GetStackId());
 		}
-		inv->Start();
+		task->Start();
 	}
 
-	void Weaver::Wait(Aspect* aspect)
+	void Weaver::Join(Aspect* aspect)
 	{
-		if(aspect->IsAsync())
-			return;
-		Invoker* inv = aspect->GetInvoker();
-		Stack* stk = inv->GetStack();
-		Context* ctx = stk->GetContext();
+		Task* task = aspect->GetTask();
+		Stack* stack = task->GetStack();
+		Context* context = stack->GetContext();
 		Setting* setting = Setting::Instance();
 		int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
-		while(ctx->GetCurrentState() != VF_STATE_IDLE)
+		while(context->GetCurrentState() != VF_STATE_IDLE)
 			Sleep(freq_monitor);
 	}
 }

@@ -76,9 +76,6 @@
     <ClInclude Include="include\vf_stack.h">
       <Filter>core\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_invoker.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_pipe.h">
       <Filter>core\header</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
     <ClInclude Include="include\vf_weaver.h">
       <Filter>core\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_task.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -151,9 +151,6 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_driver.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_invoker.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_pipe.cpp">
@@ -187,6 +184,9 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_weaver.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_task.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>

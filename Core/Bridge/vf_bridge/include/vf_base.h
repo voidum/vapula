@@ -25,6 +25,13 @@ namespace vapula
 
 		//release lock
 		void Leave();
+
+	private:
+		static Lock* _CtorLock;
+
+	public:
+		//get lock for ctor
+		static Lock* GetCtorLock();
 	};
 
 	//can be set only once

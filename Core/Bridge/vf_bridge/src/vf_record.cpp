@@ -21,10 +21,10 @@ namespace vapula
 		raw xe_type = XML::XElem(xml, "type");
 		raw xe_access = XML::XElem(xml, "access");
 		
-		Record* rec = new Record();
-		rec->_Type = (uint8)XML::ValInt(xe_type);
-		rec->_Access = (uint8)XML::ValInt(xe_access);
-		return rec;
+		Record* record = new Record();
+		record->_Type = (uint8)XML::ValInt(xe_type);
+		record->_Access = (uint8)XML::ValInt(xe_access);
+		return record;
 	}
 	
 	uint8 Record::GetType()
@@ -49,10 +49,10 @@ namespace vapula
 
 	Record* Record::Copy()
 	{
-		Record* rec = new Record();
-		rec->_Type = _Type;
-		rec->_Access = _Access;
-		return rec;
+		Record* record = new Record();
+		record->_Type = _Type;
+		record->_Access = _Access;
+		return record;
 	}
 
 	raw Record::Read(bool copy)

@@ -5,7 +5,7 @@
 namespace vapula
 {
 	class Library;
-	class Invoker;
+	class Task;
 
 	//driver {base}
 	class VAPULA_API Driver
@@ -36,46 +36,7 @@ namespace vapula
 			CreateLibrary() = 0;
 
 		//create invoker
-		virtual Invoker*
-			CreateInvoker() = 0;
-	};
-
-	//driver hub
-	class VAPULA_API DriverHub
-	{
-	private:
-		list<Driver*> _Drivers;
-
-	private:
-		static DriverHub* _Instance;
-
-	public:
-		//get instance of driver hub
-		static DriverHub* GetInstance();
-
-	private:
-		DriverHub();
-	public:
-		~DriverHub();
-
-	public:
-		//link driver
-		void Link(Driver* driver);
-
-		//try to load & link driver by id
-		bool Link(pcstr id);
-
-		//kick out driver by id
-		void Kick(pcstr id);
-
-		//kick out all drivers
-		void KickAll();
-
-	public:
-		//get driver by id
-		Driver* GetDriver(pcstr id);
-
-		//get count of linked drivers
-		int GetCount();
+		virtual Task*
+			CreateTask() = 0;
 	};
 }

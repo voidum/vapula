@@ -7,7 +7,7 @@
 
 namespace vapula
 {
-	//全双工跨进程信道
+	//full-duplex data pipe
 	class VAPULA_API Pipe
 	{
 	public:
@@ -20,14 +20,14 @@ namespace vapula
 		uint32 _Volume;
  		bool _IsServer;
 
-	//物理实现
+	//physical
 	private:
 		bool _CreateMapping(uint32 vol);
 		void _CloseMapping();
 		bool _BeginUpdate();
 		void _EndUpdate();
 	
-	//协议
+	//action
 	private:
 		uint8 _GetFlag(uint32 offset);
 		void _SetFlag(uint32 offset, uint8 value);
@@ -36,39 +36,39 @@ namespace vapula
 		void _Write(raw data, uint32 len);
 		raw _Read();
 
-	//链路
+	//link
 	public: 
-		//获取信道标识;
+		//get pipe id
 		pcstr GetPipeId();
 
-		//获取数据容量
+		//get pipe volume
 		int GetVolume();
 		
-		//检测信道是否关闭
+		//test if pipe is closed
 		bool IsClose();
 
-		//启动监听
-		//可指定信道的数据容量
+		//listen pipe
+		//vol = volume
 		bool Listen(uint32 vol = VF_PIPE_DATASIZE);
 
-		//连接指定的信道
+		//connect pipe
 		bool Connect(pcstr pid);
 
-		//关闭信道
+		//close pipe
 		void Close();
 
-	//应用
+	//utility
 	public:
-		//检查新消息
+		//test if has new data
 		bool HasNewData();
 
-		//获取可读有效数据的大小
+		//get size of data to read
 		uint32 GetReadSize();
 
-		//写入数据
+		//write data
 		void Write(pcstr data);
 
-		//读取数据
+		//read data
 		pcstr Read();
 	};
 }

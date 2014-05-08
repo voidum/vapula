@@ -14,6 +14,7 @@ namespace vapula
 		HANDLE _Handle;
 		bool _IsLoop;
 		bool _IsBusy;
+		bool _IsSuspend;
 
 	public:
 		void Suspend();

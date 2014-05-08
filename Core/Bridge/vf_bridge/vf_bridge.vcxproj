@@ -121,7 +121,7 @@
     <ClInclude Include="include\vf_context.h" />
     <ClInclude Include="include\vf_dev_drv.h" />
     <ClInclude Include="include\vf_dataset.h" />
-    <ClInclude Include="include\vf_invoker.h" />
+    <ClInclude Include="include\vf_task.h" />
     <ClInclude Include="include\vf_driver.h" />
     <ClInclude Include="include\vf_pipe.h" />
     <ClInclude Include="include\vf_stack.h" />
@@ -149,7 +149,7 @@
     <ClCompile Include="src\vf_context.cpp" />
     <ClCompile Include="src\vf_driver.cpp" />
     <ClCompile Include="src\vf_dataset.cpp" />
-    <ClCompile Include="src\vf_invoker.cpp" />
+    <ClCompile Include="src\vf_task.cpp" />
     <ClCompile Include="src\vf_pipe.cpp" />
     <ClCompile Include="src\vf_stack.cpp" />
     <ClCompile Include="src\vf_string.cpp" />

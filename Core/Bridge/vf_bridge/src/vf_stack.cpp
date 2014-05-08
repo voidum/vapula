@@ -1,6 +1,6 @@
 #include "vf_stack.h"
 #include "vf_runtime.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
 #include "vf_error.h"
@@ -43,7 +43,7 @@ namespace vapula
 		return _StackId;
 	}
 
-	void Stack::SetStackId(uint32 id, Invoker* owner)
+	void Stack::SetStackId(uint32 id, Task* owner)
 	{
 		if(owner->GetStack() == this)
 			_StackId = id;
@@ -54,7 +54,7 @@ namespace vapula
 		return _MethodId;
 	}
 
-	void Stack::SetMethodId(pcstr id, Invoker* owner)
+	void Stack::SetMethodId(pcstr id, Task* owner)
 	{
 		if(owner->GetStack() == this)
 			_MethodId = id;
@@ -65,7 +65,7 @@ namespace vapula
 		return _HasProtect;
 	}
 
-	void Stack::SetProtect(bool protect, Invoker* owner)
+	void Stack::SetProtect(bool protect, Task* owner)
 	{
 		if(owner->GetStack() == this)
 			_HasProtect = protect;
@@ -76,10 +76,10 @@ namespace vapula
 		return _Context;
 	}
 
-	void Stack::SetContext(Context* ctx, Invoker* owner)
+	void Stack::SetContext(Context* context, Task* owner)
 	{
 		if(owner->GetStack() == this)
-			_Context = ctx;
+			_Context = context;
 	}
 
 	Dataset* Stack::GetDataset()
@@ -87,10 +87,10 @@ namespace vapula
 		return _Dataset;
 	}
 
-	void Stack::SetDataset(Dataset* ds, Invoker* owner)
+	void Stack::SetDataset(Dataset* dataset, Task* owner)
 	{
 		if(owner->GetStack() == this)
-			_Dataset = ds;
+			_Dataset = dataset;
 	}
 
 	Error* Stack::GetError()
@@ -98,9 +98,9 @@ namespace vapula
 		return _Error;
 	}
 
-	void Stack::SetError(Error* err)
+	void Stack::SetError(Error* error)
 	{
 		Clear(_Error);
-		_Error = err;
+		_Error = error;
 	}
 }

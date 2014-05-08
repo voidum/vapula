@@ -26,6 +26,6 @@ namespace vapula
 		void Invoke(Aspect* aspect);
 
 		//wait for aspect
-		void Wait(Aspect* aspect);
+		void Join(Aspect* aspect);
 	};
 }
