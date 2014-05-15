@@ -1,5 +1,6 @@
 #include "vf_runtime.h"
 #include "vf_driver.h"
+#include "vf_library.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_aspect.h"
@@ -31,65 +32,52 @@ namespace vapula
 	{
 	}
 
-	void Runtime::Start()
+	raw Runtime::List(int8 type)
+	{
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			return &_Drivers;
+		case VF_CORE_LIBRARY:
+			return &_Libraries;
+		case VF_CORE_STACK:
+			return &_Stacks;
+		case VF_CORE_ASPECT:
+			return &_Aspects;
+		default:
+			throw std::exception(_vf_err_2);
+		}
+	}
+
+	pcstr Runtime::IndexOf(raw target, int8 type)
+	{
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			return ((Driver*)target)->GetRuntimeId();
+		case VF_CORE_LIBRARY:
+			return ((Library*)target)->GetLibraryId();
+		case VF_CORE_STACK:
+			return ((Stack*)target)->GetStackId();
+		case VF_CORE_ASPECT:
+			return ((Aspect*)target)->GetAspectId();
+		default:
+			throw std::exception(_vf_err_2);
+		}
+	}
+
+	void Runtime::Activate()
 	{
 		Worker::Instance()->Online();
 	}
 
-	void Runtime::Stop()
+	void Runtime::Deactivate()
 	{
 		Worker::Instance()->Offline();
-		KickAllDrivers();
-		KickAllLibraries();
-		KickAllStacks();
-		KickAllAspects();
-	}
-
-	int Runtime::CountDriver()
-	{
-		return _Drivers.size();
-	}
-
-	Driver* Runtime::GetDriver(pcstr id)
-	{
-		typedef list<Driver*>::iterator iter;
-		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
-		{
-			Driver* driver = *i;
-			if (strcmp(driver->GetRuntimeId(), id) == 0)
-				return driver;
-		}
-		return null;
-	}
-
-	void Runtime::LinkDriver(Driver* driver)
-	{
-		Driver* driver_tmp = GetDriver(driver->GetRuntimeId());
-		if (driver_tmp == null)
-			_Drivers.push_back(driver);
-	}
-
-	void Runtime::KickDriver(pcstr id)
-	{
-		typedef list<Driver*>::iterator iter;
-		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
-		{
-			Driver* driver = *i;
-			if (strcmp(driver->GetRuntimeId(), id) == 0)
-			{
-				_Drivers.erase(i);
-				Clear(driver);
-				break;
-			}
-		}
-	}
-
-	void Runtime::KickAllDrivers()
-	{
-		typedef list<Driver*>::iterator iter;
-		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
-			Clear(*i);
-		_Drivers.clear();
+		KickAll<Driver>();
+		KickAll<Library>();
+		KickAll<Stack>();
+		KickAll<Aspect>();
 	}
 
 	void Runtime::Reach(pcstr frame)

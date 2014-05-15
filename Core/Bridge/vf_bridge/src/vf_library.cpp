@@ -32,7 +32,7 @@ namespace vapula
 		Scoped autop1((raw)cs8_runtime);
 
 		Runtime* runtime = Runtime::Instance();
-		Driver* driver = runtime->GetDriver(cs8_runtime);
+		Driver* driver = runtime->Select<Driver>(cs8_runtime);
 		if (driver == null)
 			return null;
 

@@ -12,14 +12,13 @@ namespace vapula
 	class VAPULA_API Library
 	{
 	protected:
+		pcstr _Id;
+
 		//driver
 		Driver* _Driver;
 
 		//library bin path
 		pcstr _Path;
-
-		//library id
-		pcstr _Id; 
 
 		//methods
 		list<Method*> _Methods;
@@ -37,11 +36,11 @@ namespace vapula
 		void ClearAll();
 
 	public:
-		//get driver
-		Driver* GetDriver();
-
 		//get library id
 		pcstr GetLibraryId();
+
+		//get driver
+		Driver* GetDriver();
 
 		//get method by id
 		Method* GetMethod(pcstr id);

@@ -17,7 +17,7 @@ namespace vapula
 		~Stack();
 
 	private:
-		uint32 _StackId;
+		pcstr _StackId;
 		pcstr _MethodId;
 		bool _HasProtect;
 		Context* _Context;
@@ -29,11 +29,11 @@ namespace vapula
 		static Stack* Instance();
 	
 		//get current stack id
-		static uint32 CurrentId();
+		static pcstr CurrentId();
 
 	public:
 		//set stack id
-		void SetStackId(uint32 id, Task* owner);
+		void SetStackId(pcstr id, Task* owner);
 
 		//set method id
 		void SetMethodId(pcstr id, Task* owner);
@@ -52,7 +52,7 @@ namespace vapula
 
 	public:
 		//get stack id
-		uint32 GetStackId();
+		pcstr GetStackId();
 
 		//get method id
 		pcstr GetMethodId();

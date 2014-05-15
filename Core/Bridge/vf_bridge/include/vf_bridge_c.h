@@ -12,7 +12,7 @@ extern "C"
 	VAPULA_API raw vfeNewData(uint8 type, uint32 count);
 	VAPULA_API void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value);
 	VAPULA_API pcstr vfeReadAt(raw data, uint8 type, uint32 at);
-	VAPULA_API void vfeDeleteRaw(raw ptr);
+	VAPULA_API void vfeDeleteRaw(raw data);
 
 	VAPULA_API raw vfeBase64ToRaw(pcstr data);
 	VAPULA_API pcstr vfeRawToBase64(raw data, uint32 size);
@@ -21,68 +21,70 @@ extern "C"
 	VAPULA_API int vfeWhatError(raw err);
 	VAPULA_API void vfeThrowError(int what);
 
-	//DriverHub
-	VAPULA_API int vfeGetDriverCount();
-	VAPULA_API int vfeLinkDriver(pcstr path);
+	//Runtime
+	VAPULA_API void vfeActivateRuntime();
+	VAPULA_API void vfeDeactivateRuntime();
+	VAPULA_API int vfeCountDriver();
+	VAPULA_API void vfeLinkDriver(raw driver);
 	VAPULA_API void vfeKickDriver(pcstr id);
 	VAPULA_API void vfeKickAllDrivers();
+	VAPULA_API int vfeCountAspect();
+	VAPULA_API void vfeLinkAspect(raw aspect);
+	VAPULA_API void vfeKickAspect(pcstr id);
+	VAPULA_API void vfeKickAllAspects();
+	VAPULA_API void vfeReachFrame(pcstr frame);
 
 	//Library
 	VAPULA_API raw vfeLoadLibrary(pcstr path);
 	VAPULA_API raw vfeLoadLibraryW(pcwstr path);
-	VAPULA_API pcstr vfeGetRuntime(raw lib);
-	VAPULA_API pcstr vfeGetLibraryId(raw lib);
-	VAPULA_API pcstr vfeGetProcessSym(raw lib, pcstr id);
-	VAPULA_API pcstr vfeGetRollbackSym(raw lib, pcstr id);
-	VAPULA_API int vfeMountLibrary(raw lib);
-	VAPULA_API void vfeUnmountLibrary(raw lib);
-	VAPULA_API raw vfeCreateInvoker(raw lib, pcstr id);
+	VAPULA_API pcstr vfeGetRuntime(raw library);
+	VAPULA_API pcstr vfeGetLibraryId(raw library);
+	VAPULA_API pcstr vfeGetProcessSym(raw library, pcstr id);
+	VAPULA_API pcstr vfeGetRollbackSym(raw library, pcstr id);
+	VAPULA_API int vfeMountLibrary(raw library);
+	VAPULA_API void vfeUnmountLibrary(raw library);
+	VAPULA_API raw vfeCreateInvoker(raw library, pcstr id);
 
-	//Weaver
-	VAPULA_API int vfeLinkAspect(pcstr path);
-	VAPULA_API int vfeLinkAspectW(pcwstr path);
-	VAPULA_API void vfeReachFrame(pcstr frame);
-
-	//Invoker
-	VAPULA_API int vfeStartInvoker(raw inv);
-	VAPULA_API void vfeStopInvoker(raw inv, uint32 wait);
-	VAPULA_API void vfePauseInvoker(raw inv, uint32 wait);
-	VAPULA_API void vfeResumeInvoker(raw inv);
-	VAPULA_API int vfeRestartInvoker(raw inv, uint32 wait);
-	VAPULA_API raw vfeGetStack(raw inv);
+	//Task
+	VAPULA_API int vfeStartTask(raw task, uint32 wait);
+	VAPULA_API void vfeStopTask(raw task, uint32 wait);
+	VAPULA_API void vfePauseTask(raw task, uint32 wait);
+	VAPULA_API void vfeResumeTask(raw task);
+	VAPULA_API int vfeRestartTask(raw task, uint32 wait);
+	VAPULA_API raw vfeGetStackOfTask(raw task);
 
 	//Stack
 	VAPULA_API raw vfeGetCurrentStack();
-	VAPULA_API pcstr vfeGetMethodId(raw stk);
-	VAPULA_API raw vfeGetContext(raw stk);
-	VAPULA_API raw vfeGetDataset(raw stk);
-	VAPULA_API int vfeIsProtected(raw stk);
-	VAPULA_API raw vfeGetError(raw stk);
+	VAPULA_API pcstr vfeGetMethodId(raw stack);
+	VAPULA_API raw vfeGetContext(raw stack);
+	VAPULA_API raw vfeGetDataset(raw stack);
+	VAPULA_API int vfeIsProtected(raw stack);
+	VAPULA_API raw vfeGetError(raw stack);
 	
 	//Context
-	VAPULA_API uint8 vfeGetCurrentState(raw ctx);
-	VAPULA_API uint8 vfeGetLastState(raw ctx);
-	VAPULA_API uint8 vfeGetReturnCode(raw ctx);
-	VAPULA_API uint8 vfeGetControlCode(raw ctx);
-	VAPULA_API float vfeGetProgress(raw ctx);
-	VAPULA_API pcstr vfeGetKeyFrame(raw ctx);
-	VAPULA_API void vfeSetReturnCode(raw ctx, uint8 ret);
-	VAPULA_API void vfeSetProgress(raw ctx, float prog);
-	VAPULA_API void vfeSetKeyFrame(raw ctx, pcstr frame);
-	VAPULA_API void vfeSwitchHold(raw ctx);
-	VAPULA_API void vfeSwitchBusy(raw ctx);
+	VAPULA_API uint8 vfeGetCurrentState(raw context);
+	VAPULA_API uint8 vfeGetLastState(raw context);
+	VAPULA_API uint8 vfeGetReturnCode(raw context);
+	VAPULA_API uint8 vfeGetControlCode(raw context);
+	VAPULA_API float vfeGetProgress(raw context);
+	VAPULA_API pcstr vfeGetKeyFrame(raw context);
+	VAPULA_API void vfeSetReturnCode(raw context, uint8 code);
+	VAPULA_API void vfeSetProgress(raw context, float progress);
+	VAPULA_API void vfeSetKeyFrame(raw context, pcstr frame);
+	VAPULA_API void vfeSwitchHold(raw context);
+	VAPULA_API void vfeSwitchBusy(raw context);
 
 	//Dataset
 	VAPULA_API raw vfeParseDataset(pcstr xml);
 	VAPULA_API raw vfeParseDatasetW(pcwstr xml);
-	VAPULA_API void vfeZeroDataset(raw ds);
-	VAPULA_API raw vfeCopyDataset(raw ds);
-	VAPULA_API raw vfeGetRecord(raw ds, int id);
+	VAPULA_API void vfeZeroDataset(raw dataset);
+	VAPULA_API raw vfeCopyDataset(raw dataset);
+	VAPULA_API raw vfeGetRecord(raw dataset, int id);
 
 	//Record
-	VAPULA_API uint32 vfeGetRecordSize(raw rec);
-	VAPULA_API void vfeWriteRecord(raw rec, raw data, uint32 size);
-	VAPULA_API raw vfeReadRecord(raw rec);
+	VAPULA_API uint32 vfeGetRecordSize(raw record);
+	VAPULA_API void vfeWriteRecord(raw record, raw data, uint32 size);
+	VAPULA_API raw vfeReadRecord(raw record);
 	VAPULA_API void vfeDeliverRecord(raw src, raw dst);
 
 	//Pipe

@@ -32,15 +32,6 @@
     <Filter Include="sdk\source">
       <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="library">
-      <UniqueIdentifier>{6553cd31-ea23-421c-8cee-cf1085676b89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="library\header">
-      <UniqueIdentifier>{76379c23-f05c-4dda-993f-5b7491d8ca45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="library\source">
-      <UniqueIdentifier>{e65d3346-5c3c-40d4-aa81-baa811d694df}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_base.h">
@@ -79,9 +70,6 @@
     <ClInclude Include="include\vf_pipe.h">
       <Filter>core\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_library.h">
-      <Filter>library\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_context.h">
       <Filter>core\header</Filter>
     </ClInclude>
@@ -91,22 +79,13 @@
     <ClInclude Include="include\vf_assist.h">
       <Filter>base\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_method.h">
-      <Filter>library\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_error.h">
       <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_aspect.h">
-      <Filter>library\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_dataset.h">
       <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_record.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_runtime.h">
       <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_worker.h">
@@ -119,6 +98,18 @@
       <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_task.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_runtime.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_aspect.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_library.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_method.h">
       <Filter>core\header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -141,9 +132,6 @@
     <ClCompile Include="src\vf_setting.cpp">
       <Filter>base\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_library.cpp">
-      <Filter>library\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_context.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
@@ -162,14 +150,8 @@
     <ClCompile Include="src\vf_assist.cpp">
       <Filter>base\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_method.cpp">
-      <Filter>library\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_error.cpp">
       <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_aspect.cpp">
-      <Filter>library\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_dataset.cpp">
       <Filter>core\source</Filter>
@@ -187,6 +169,15 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_task.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_aspect.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_library.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_method.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
   </ItemGroup>

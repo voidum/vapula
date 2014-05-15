@@ -9,7 +9,7 @@ namespace vapula
 {
 	Stack::Stack() 
 	{
-		_StackId = 0;
+		_StackId = null;
 		_MethodId = null;
 		_HasProtect = false;
 		_Context = null;
@@ -19,31 +19,32 @@ namespace vapula
 
 	Stack::~Stack()
 	{
+		Clear(_StackId);
 		Clear(_MethodId);
 		Clear(_Context);
 		Clear(_Dataset);
 		Clear(_Error);
 	}
 
-	uint32 Stack::CurrentId()
+	pcstr Stack::CurrentId()
 	{
-		return GetCurrentThreadId();
+		return str::Value(GetCurrentThreadId());
 	}
 
 	Stack* Stack::Instance()
 	{
 		Runtime* runtime = Runtime::Instance();
-		uint32 id = CurrentId();
-		Stack* stack = runtime->GetStack(id);
+		pcstr id = CurrentId();
+		Stack* stack = runtime->Select<Stack>(id);
 		return stack;
 	}
 
-	uint32 Stack::GetStackId()
+	pcstr Stack::GetStackId()
 	{
 		return _StackId;
 	}
 
-	void Stack::SetStackId(uint32 id, Task* owner)
+	void Stack::SetStackId(pcstr id, Task* owner)
 	{
 		if(owner->GetStack() == this)
 			_StackId = id;

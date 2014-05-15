@@ -11,6 +11,7 @@ namespace vapula
 	protected:
 		Uncopiable();
 		~Uncopiable();
+
 	private:
 		Uncopiable(const Uncopiable&);
 		Uncopiable& operator=(const Uncopiable&);
@@ -47,5 +48,12 @@ namespace vapula
 		void Ref(raw ptr);
 
 		void DeRef();
+	};
+
+	template<typename T>
+	class Traits
+	{
+	public:
+		enum { TypeId = VF_CORE_UNKNOWN };
 	};
 }

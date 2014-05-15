@@ -1,24 +1,23 @@
 #include "vf_bridge_c.h"
+#include "vf_runtime.h"
 #include "vf_driver.h"
 #include "vf_library.h"
 #include "vf_weaver.h"
 #include "vf_aspect.h"
 #include "vf_method.h"
-#include "vf_invoker.h"
+#include "vf_task.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
 #include "vf_error.h"
 #include "vf_pipe.h"
 
-using namespace vapula;
-
-
 //Base
 
 pcstr vfeGetVersion()
 {
-	return vapula::GetVersion();
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	return runtime->GetVersion();
 }
 
 raw vfeNewData(uint8 type, uint32 count)
@@ -119,30 +118,72 @@ void vfeThrowError(int what)
 }
 
 
-//Driver
+//Runtime
 
-int vfeGetDriverCount()
+void vfeActivateRuntime()
 {
-	DriverHub* obj = DriverHub::GetInstance();
-	return obj->GetCount();
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Activate();
 }
 
-int vfeLinkDriver(pcstr path)
+void vfeDeactivateRuntime()
 {
-	DriverHub* obj = DriverHub::GetInstance();
-	return obj->Link(path) ? 1 : 0;
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Deactivate();
+}
+
+int vfeCountDriver()
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	return runtime->Count<Driver>();
+}
+
+void vfeLinkDriver(raw driver)
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Link<Driver>((Driver*)driver);
 }
 
 void vfeKickDriver(pcstr id)
 {
-	DriverHub* obj = DriverHub::GetInstance();
-	obj->Kick(id);
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Kick<Driver>(id);
 }
 
 void vfeKickAllDrivers()
 {
-	DriverHub* obj = DriverHub::GetInstance();
-	obj->KickAll();
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->KickAll<Driver>();
+}
+
+int vfeCountAspect()
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	return runtime->Count<Aspect>();
+}
+
+void vfeLinkAspect(raw aspect)
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Link<Aspect>((Aspect*)aspect);
+}
+
+void vfeKickAspect(pcstr id)
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Kick<Aspect>(id);
+}
+
+void vfeKickAllAspects()
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->KickAll<Aspect>();
+}
+
+void vfeReachFrame(pcstr frame)
+{
+	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	runtime->Reach(frame);
 }
 
 
@@ -195,32 +236,6 @@ void vfeUnmountLibrary(raw lib)
 {
 	Library* obj = (Library*)lib;
 	obj->Unmount();
-}
-
-
-//Weaver
-
-int vfeLinkAspect(pcstr path)
-{
-	Weaver* weaver = Weaver::GetInstance();
-	Aspect* aspect = Aspect::Load(path);
-	if (aspect == null)
-		return FALSE;
-	weaver->Link(aspect);
-	return TRUE;
-}
-
-int vfeLinkAspectW(pcwstr path)
-{
-	pcstr cs8_path = str::ToStr(path);
-	Scoped autop((raw)cs8_path);
-	return vfeLinkAspect(cs8_path);
-}
-
-void vfeReachFrame(pcstr frame)
-{
-	Weaver* weaver = Weaver::GetInstance();
-	weaver->Reach(frame);
 }
 
 

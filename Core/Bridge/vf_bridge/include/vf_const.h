@@ -108,6 +108,15 @@ namespace vapula
 		VF_RETURN_UNHANDLED = 5
 	}; //context return code
 
+	enum CoreObject
+	{
+		VF_CORE_UNKNOWN = 0,
+		VF_CORE_DRIVER = 1,
+		VF_CORE_LIBRARY = 2,
+		VF_CORE_STACK = 3,
+		VF_CORE_ASPECT = 4
+	};
+
 	//define error
 	pcstr const _vf_err_0 = "invalid data type";
 	pcstr const _vf_err_1 = "invalid access";

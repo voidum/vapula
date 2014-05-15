@@ -29,80 +29,96 @@ namespace vapula
 		list<Stack*> _Stacks;
 		list<Aspect*> _Aspects;
 
-	public:
-		//start runtime
-		void Start();
+	private:
+		raw List(int8 type);
 
-		//stop runtime
-		void Stop();
+		pcstr IndexOf(raw target, int8 type);
+
+		template<typename T>
+		list<T*> List()
+		{
+			Traits<T>* traits = new Traits<T>();
+			Scoped autop(traits);
+			return *((list<T*>*)List(traits->TypeId));
+		}
+
+		template<typename T>
+		pcstr IndexOf(T* target)
+		{
+			Traits<T>* traits = new Traits<T>();
+			Scoped autop(traits);
+			return IndexOf(target, traits->TypeId);
+		}
 
 	public:
+		//activate runtime
+		void Activate();
+
+		//deactivate runtime
+		void Deactivate();
+
 		//reach frame
 		void Reach(pcstr frame);
 
 	public:
-		//get count of drivers
-		int CountDriver();
+		template<typename T>
+		int Count() 
+		{
+			list<T*> list = List<T>();
+			return list->size();
+		}
 
-		//get driver by id
-		Driver* GetDriver(pcstr id);
+		template<typename T>
+		T* Select(pcstr id) 
+		{
+			typedef list<T*>::iterator iter;
+			list<T*> list = List<T>();
+			for (iter i = list.begin(); i != list.end(); i++)
+			{
+				T* entity = *i;
+				if (strcmp(id, IndexOf(entity)) == 0)
+					return entity;
+			}
+			return null;
+		}
 
-		//link driver
-		void LinkDriver(Driver* driver);
+		template<typename T>
+		void Link(T* target) 
+		{
+			T* entity = Select<T>(IndexOf(target));
+			if (entity == null)
+			{
+				list<T*> list = List<T>();
+				list.push_back(target);
+			}
+		}
+		
+		template<typename T>
+		void Kick(pcstr id)
+		{
+			typedef list<T*>::iterator iter;
+			list<T*> list = List<T>();
+			for (iter i = list.begin(); i != list.end(); i++)
+			{
+				T* entity = *i;
+				if (strcmp(id, IndexOf(entity)) == 0)
+				{
+					list.erase(i);
+					Clear(entity);
+					break;
+				}
+			}
+		}
 
-		//kick driver
-		void KickDriver(pcstr id);
-
-		//kick all drivers
-		void KickAllDrivers();
-
-	public:
-		//get count of libraries
-		int CountLibrary();
-
-		//get library by id
-		Library* GetLibrary(pcstr id);
-
-		//link library
-		void LinkLibrary(Library* library);
-
-		//kick library
-		void KickLibrary(Library* library);
-
-		//kick all libraries
-		void KickAllLibraries();
-
-	public:
-		//get count of stacks
-		int CountStack();
-
-		//get stack by id
-		Stack* GetStack(uint32 id);
-
-		//link stack
-		void LinkStack(Stack* stack);
-
-		//kick stack
-		void KickStack(Stack* stack);
-
-		//kick all stacks
-		void KickAllStacks();
-
-	public:
-		//get count of aspects
-		int CountAspect();
-
-		//get aspect by id
-		Aspect* GetAspect(pcstr id);
-
-		//link aspect
-		void LinkAspect(Aspect* aspect);
-
-		//kick aspect
-		void KickAspect(Aspect* aspect);
-
-		//kick all aspects
-		void KickAllAspects();
+		template<typename T>
+		void KickAll()
+		{
+			typedef list<T*>::iterator iter;
+			list<T*> list = List<T>();
+			for (iter i = list.begin(); i != list.end(); i++)
+				Clear(*i);
+			list.clear();
+		}
 
 	public:
 		//get process name
