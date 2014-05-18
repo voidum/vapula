@@ -1,13 +1,12 @@
 #pragma once
 
-#include <sstream>
-#include <vector>
 #include <list>
+#include <queue>
+#include <sstream>
 #include <iostream>
 #include <ctime>
 #include <random>
-#include <stdexcept>
-#include <ctime>
+#include <exception>
 
 #include "windows.h"
 
@@ -20,13 +19,11 @@
 namespace vapula
 {
 	//using namespace
-	using std::vector;
 	using std::list;
+	using std::queue;
 	using std::string;
 	using std::wstring;
 	using std::ostringstream;
-	using std::invalid_argument;
-	using std::bad_exception;
 
 	//define null
 	#define null 0

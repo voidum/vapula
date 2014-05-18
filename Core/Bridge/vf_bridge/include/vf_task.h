@@ -12,6 +12,7 @@ namespace vapula
 	class VAPULA_API Task
 	{
 	friend class Worker;
+	friend class Thread;
 
 	protected:
 		Stack* _Stack;

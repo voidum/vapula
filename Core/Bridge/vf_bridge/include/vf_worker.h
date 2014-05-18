@@ -8,8 +8,6 @@ namespace vapula
 	class Thread;
 	class Task;
 
-	using std::queue;
-
 	class Worker : Uncopiable
 	{
 	private:
@@ -26,18 +24,15 @@ namespace vapula
 
 	private:
 		Lock* _Lock;
-		list<Thread*> _HeadThreads;
-		list<Thread*> _RearThreads;
+		queue<Thread*> _HeadThreads;
+		queue<Thread*> _BackThreads;
 		queue<Task*> _Tasks;
 		uint32 _DoneCount;
 		uint32 _QueueCount;
 
-	protected:
-		static uint32 WINAPI Entry(raw sender);
-
 	public:
 		//online worker
-		bool Online();
+		void Online();
 
 		//offline worker
 		void Offline();
@@ -64,6 +59,7 @@ namespace vapula
 		uint32 CountDoneTasks();
 
 		//get count of queue tasks
+		//maybe overflow !!
 		uint32 CountQueueTasks();
 	};
 }

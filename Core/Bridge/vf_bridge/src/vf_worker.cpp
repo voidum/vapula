@@ -1,5 +1,6 @@
 #include "vf_worker.h"
 #include "vf_task.h"
+#include "vf_thread.h"
 
 namespace vapula
 {
@@ -11,25 +12,43 @@ namespace vapula
 	Worker::~Worker()
 	{
 		Offline();
+		Clear(_Lock);
 	}
 
-	uint32 Worker::Entry(raw sender)
-	{
-		//Worker* worker = (Worker*)sender;
-
-	}
-
-	bool Worker::Online()
+	void Worker::Online()
 	{
 		SYSTEM_INFO system;
 		GetSystemInfo(&system);
 		for (uint32 i = 0; i < system.dwNumberOfProcessors; i++)
 		{
+			Thread* thread = new Thread();
+			thread->SetRole(VF_THREAD_HEAD);
 		}
+	}
+
+	void Worker::Offline()
+	{
+		uint32 head_total = _HeadThreads.size();
+		for (uint32 i = 0; i < head_total; i++)
+			Clear(_HeadThreads.front());
+		_HeadThreads.empty();
+		uint32 back_total = _BackThreads.size();
+		for (uint32 i = 0; i < back_total; i++)
+			Clear(_BackThreads.front());
+		_BackThreads.empty();
+		_Tasks.empty();
 	}
 
 	bool Worker::Start(Task* task, uint32 wait)
 	{
+		if (wait == 0)
+		{
+
+		}
+		else
+		{
+
+		}
 		return false;
 	}
 
