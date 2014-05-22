@@ -95,33 +95,57 @@ namespace vapula
 		return _Stack;
 	}
 
-	bool Task::Start(uint32 wait)
+	void Task::Start()
 	{
 		Worker* worker = Worker::Instance();
-		return worker->Start(this, wait);
+		worker->StartTask(this);
 	}
 
 	void Task::Stop(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
-		worker->Stop(this, wait);
+		Context* context = _Stack->GetContext();
+		if (wait != 0)
+		{
+			context->SetControlCode(VF_CTRL_CANCEL, this);
+			uint32 time0 = GetTickCount();
+			uint32 time1 = time0;
+			while (time1 - time0 < wait)
+			{
+				if (context->GetCurrentState() == VF_STATE_IDLE)
+					return;
+				Sleep(20);
+			}
+		}
+		worker->StopTask(this);
 	}
 
 	void Task::Pause(uint32 wait)
 	{
 		Worker* worker = Worker::Instance();
-		worker->Pause(this, wait);
+		Context* context = _Stack->GetContext();
+		if (wait != 0)
+		{
+			context->SetControlCode(VF_CTRL_PAUSE, this);
+			uint32 time0 = GetTickCount();
+			uint32 time1 = time0;
+			while (time1 - time0 < wait)
+			{
+				if (context->GetCurrentState() == VF_STATE_PAUSE)
+					return;
+				Sleep(20);
+			}
+		}
+		worker->PauseTask(this);
 	}
 
 	void Task::Resume()
 	{
 		Worker* worker = Worker::Instance();
-		worker->Resume(this);
-	}
-
-	bool Task::Restart(uint32 wait)
-	{
-		Worker* worker = Worker::Instance();
-		return worker->Restart(this, wait);
+		if (!worker->ResumeTask(this))
+		{
+			Context* context = _Stack->GetContext();
+			context->SetControlCode(VF_CTRL_RESUME, this);
+		}
 	}
 }

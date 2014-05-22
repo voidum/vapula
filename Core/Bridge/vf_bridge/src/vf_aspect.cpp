@@ -81,7 +81,7 @@ namespace vapula
 		if(_Task == null)
 		{
 			Runtime* runtime = Runtime::Instance();
-			Library* library = runtime->GetLibrary(_LibraryId);
+			Library* library = runtime->Select<Library>(_LibraryId);
 			if (library != null)
 				_Task = library->CreateTask(_MethodId);
 		}

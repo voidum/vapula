@@ -48,7 +48,7 @@ namespace vapula
 		Stack* GetStack();
 
 		//start
-		bool Start(uint32 wait = 0);
+		void Start();
 
 		//stop
 		void Stop(uint32 wait = 0);
@@ -58,8 +58,5 @@ namespace vapula
 
 		//resume
 		void Resume();
-
-		//restart
-		bool Restart(uint32 wait = 0);
 	};
 }

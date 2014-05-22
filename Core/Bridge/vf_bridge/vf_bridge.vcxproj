@@ -141,6 +141,7 @@
     <ClCompile Include="src\vf_error.cpp" />
     <ClCompile Include="src\vf_record.cpp" />
     <ClCompile Include="src\vf_runtime.cpp" />
+    <ClCompile Include="src\vf_thread.cpp" />
     <ClCompile Include="src\vf_weaver.cpp" />
     <ClCompile Include="src\vf_method.cpp" />
     <ClCompile Include="src\vf_assist.cpp" />

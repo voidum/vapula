@@ -103,4 +103,7 @@ namespace vapula
 
 	//test if file can be opened as read
 	VAPULA_API bool TryOpenRead(pcstr file);
+
+	//wait for a moment by ms
+	VAPULA_API void WaitSpan(uint32 wait);
 }

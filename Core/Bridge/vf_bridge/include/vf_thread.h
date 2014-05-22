@@ -6,13 +6,6 @@ namespace vapula
 {
 	class Task;
 
-	enum ThreadRole
-	{
-		VF_THREAD_HEAD = 0,
-		VF_THREAD_BACK = 1,
-		VF_THREAD_DEAD = 2
-	};
-
 	class Thread
 	{
 	public:
@@ -21,18 +14,27 @@ namespace vapula
 
 	private:
 		HANDLE _Handle;
-		bool _IsSuspend;
-		uint8 _Role;
 		Task* _Task;
+		uint32 _CPUMask;
+		bool _IsTemp;
+		bool _IsSuspend;
 
 	private:
-		static uint32 WINAPI Entry();
+		static uint32 WINAPI Handler(raw sender);
 
 	public:
-		uint8 GetRole();
-		void SetRole(uint8 role);
+		bool IsTemp();
+		bool IsSuspend();
+		uint32 GetCPUs();
+
+	public:
+		void SetTemp(bool temp);
+		void SetCPUs(uint32 mask);
+		void SetTask(Task* task);
 
 	public:
 		void Suspend();
+		void Terminate();
+		bool Resume();
 	};
 }

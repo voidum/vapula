@@ -51,16 +51,6 @@ namespace vapula
 		}
 
 	public:
-		//activate runtime
-		void Activate();
-
-		//deactivate runtime
-		void Deactivate();
-
-		//reach frame
-		void Reach(pcstr frame);
-
-	public:
 		template<typename T>
 		int Count() 
 		{
@@ -121,6 +111,10 @@ namespace vapula
 		}
 
 	public:
+		//reach frame
+		void Reach(pcstr frame);
+
+	public:
 		//get process name
 		pcstr GetProcessName();
 
@@ -133,7 +127,6 @@ namespace vapula
 		//get vapula core version
 		pcstr GetVersion();
 
-	public:
 		//create local unique id
 		pcstr NewLUID();
 	};

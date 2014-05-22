@@ -180,6 +180,9 @@
     <ClCompile Include="src\vf_method.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
+    <ClCompile Include="src\vf_thread.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt">

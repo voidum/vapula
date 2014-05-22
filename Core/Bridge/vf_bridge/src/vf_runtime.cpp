@@ -30,6 +30,8 @@ namespace vapula
 
 	Runtime::~Runtime()
 	{
+		Worker* worker = Worker::Instance();
+		worker->Offline();
 	}
 
 	raw Runtime::List(int8 type)
@@ -64,20 +66,6 @@ namespace vapula
 		default:
 			throw std::exception(_vf_err_2);
 		}
-	}
-
-	void Runtime::Activate()
-	{
-		Worker::Instance()->Online();
-	}
-
-	void Runtime::Deactivate()
-	{
-		Worker::Instance()->Offline();
-		KickAll<Driver>();
-		KickAll<Library>();
-		KickAll<Stack>();
-		KickAll<Aspect>();
 	}
 
 	void Runtime::Reach(pcstr frame)

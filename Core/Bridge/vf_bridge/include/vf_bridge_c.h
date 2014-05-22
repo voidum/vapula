@@ -18,7 +18,7 @@ extern "C"
 	VAPULA_API pcstr vfeRawToBase64(raw data, uint32 size);
 
 	//Error
-	VAPULA_API int vfeWhatError(raw err);
+	VAPULA_API int vfeWhatError(raw error);
 	VAPULA_API void vfeThrowError(int what);
 
 	//Runtime

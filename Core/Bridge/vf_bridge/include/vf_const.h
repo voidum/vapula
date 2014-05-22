@@ -91,8 +91,7 @@ namespace vapula
 		VF_CTRL_NULL = 0,
 		VF_CTRL_PAUSE = 1,
 		VF_CTRL_RESUME = 2,
-		VF_CTRL_CANCEL = 3,
-		VF_CTRL_RESTART = 4
+		VF_CTRL_CANCEL = 3
 	}; //context control code
 
 	enum ReturnCode

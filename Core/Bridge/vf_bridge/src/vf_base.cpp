@@ -201,4 +201,12 @@ namespace vapula
 		CloseHandle(handle);
 		return true;
 	}
+
+	void WaitSpan(uint32 wait)
+	{
+		uint32 time0 = GetTickCount();
+		uint32 time1 = time0;
+		while (time1 - time0 > wait)
+			Sleep(10);
+	}
 }
