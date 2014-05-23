@@ -24,14 +24,10 @@ extern "C"
 	//Runtime
 	VAPULA_API void vfeActivateRuntime();
 	VAPULA_API void vfeDeactivateRuntime();
-	VAPULA_API int vfeCountDriver();
-	VAPULA_API void vfeLinkDriver(raw driver);
-	VAPULA_API void vfeKickDriver(pcstr id);
-	VAPULA_API void vfeKickAllDrivers();
-	VAPULA_API int vfeCountAspect();
-	VAPULA_API void vfeLinkAspect(raw aspect);
-	VAPULA_API void vfeKickAspect(pcstr id);
-	VAPULA_API void vfeKickAllAspects();
+	VAPULA_API int vfeCountObjects(uint8 type);
+	VAPULA_API void vfeLinkObject(uint8 type, raw target);
+	VAPULA_API void vfeKickObject(uint8 type, pcstr id);
+	VAPULA_API void vfeKickAllObjects(uint8 type);
 	VAPULA_API void vfeReachFrame(pcstr frame);
 
 	//Library
@@ -43,22 +39,21 @@ extern "C"
 	VAPULA_API pcstr vfeGetRollbackSym(raw library, pcstr id);
 	VAPULA_API int vfeMountLibrary(raw library);
 	VAPULA_API void vfeUnmountLibrary(raw library);
-	VAPULA_API raw vfeCreateInvoker(raw library, pcstr id);
+	VAPULA_API raw vfeCreateTask(raw library, pcstr id);
 
 	//Task
-	VAPULA_API int vfeStartTask(raw task, uint32 wait);
+	VAPULA_API void vfeStartTask(raw task);
 	VAPULA_API void vfeStopTask(raw task, uint32 wait);
 	VAPULA_API void vfePauseTask(raw task, uint32 wait);
 	VAPULA_API void vfeResumeTask(raw task);
-	VAPULA_API int vfeRestartTask(raw task, uint32 wait);
-	VAPULA_API raw vfeGetStackOfTask(raw task);
+	VAPULA_API raw vfeGetTaskStack(raw task);
 
 	//Stack
 	VAPULA_API raw vfeGetCurrentStack();
 	VAPULA_API pcstr vfeGetMethodId(raw stack);
 	VAPULA_API raw vfeGetContext(raw stack);
 	VAPULA_API raw vfeGetDataset(raw stack);
-	VAPULA_API int vfeIsProtected(raw stack);
+	VAPULA_API int vfeHasProtect(raw stack);
 	VAPULA_API raw vfeGetError(raw stack);
 	
 	//Context
@@ -94,8 +89,8 @@ extern "C"
 	VAPULA_API pcstr vfeListenPipe(raw pipe);
 	VAPULA_API int vfeConnectPipe(raw pipe, pcstr id);
 	VAPULA_API void vfeClosePipe(raw pipe);
-	VAPULA_API void vfeWritePipe(raw pipe, pcstr value);
-	VAPULA_API void vfeWritePipeW(raw pipe, pcwstr value);
+	VAPULA_API void vfeWritePipe(raw pipe, pcstr data);
+	VAPULA_API void vfeWritePipeW(raw pipe, pcwstr data);
 	VAPULA_API pcstr vfeReadPipe(raw pipe);
 	VAPULA_API pcwstr vfeReadPipeW(raw pipe);
 }

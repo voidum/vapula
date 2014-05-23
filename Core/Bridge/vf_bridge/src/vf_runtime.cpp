@@ -34,38 +34,161 @@ namespace vapula
 		worker->Offline();
 	}
 
-	raw Runtime::List(int8 type)
+	int Runtime::CountObjects(uint8 type)
 	{
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
-			return &_Drivers;
+			return _Drivers.size();
 		case VF_CORE_LIBRARY:
-			return &_Libraries;
+			return _Libraries.size();
 		case VF_CORE_STACK:
-			return &_Stacks;
+			return _Stacks.size();
 		case VF_CORE_ASPECT:
-			return &_Aspects;
+			return _Aspects.size();
 		default:
-			throw std::exception(_vf_err_2);
+			return 0;
 		}
 	}
 
-	pcstr Runtime::IndexOf(raw target, int8 type)
+	raw Runtime::SelectObject(uint8 type, pcstr id)
 	{
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
-			return ((Driver*)target)->GetRuntimeId();
+			typedef list<Driver*>::iterator iter1;
+			for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
+			{
+				Driver* entity = *i;
+				if (strcmp(id, entity->GetRuntimeId()) == 0)
+					return entity;
+			}
+			return null;
 		case VF_CORE_LIBRARY:
-			return ((Library*)target)->GetLibraryId();
+			typedef list<Library*>::iterator iter2;
+			for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
+			{
+				Library* entity = *i;
+				if (strcmp(id, entity->GetLibraryId()) == 0)
+					return entity;
+			}
+			return null;
 		case VF_CORE_STACK:
-			return ((Stack*)target)->GetStackId();
+			typedef list<Stack*>::iterator iter3;
+			for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
+			{
+				Stack* entity = *i;
+				if (strcmp(id, entity->GetStackId()) == 0)
+					return entity;
+			}
+			return null;
 		case VF_CORE_ASPECT:
-			return ((Aspect*)target)->GetAspectId();
+			typedef list<Aspect*>::iterator iter4;
+			for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
+			{
+				Aspect* entity = *i;
+				if (strcmp(id, entity->GetAspectId()) == 0)
+					return entity;
+			}
+			return null;
 		default:
-			throw std::exception(_vf_err_2);
+			return null;
 		}
+	}
+
+	void Runtime::LinkObject(uint8 type, raw target)
+	{
+		pcstr id = IndexOfObject(type, target);
+		raw object = SelectObject(type, id);
+		if (object != null)
+			return;
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			_Drivers.push_back((Driver*)target);
+			break;
+		case VF_CORE_LIBRARY:
+			_Libraries.push_back((Library*)target);
+			break;
+		case VF_CORE_STACK:
+			_Stacks.push_back((Stack*)target);
+			break;
+		case VF_CORE_ASPECT:
+			_Aspects.push_back((Aspect*)target);
+			break;
+		default:
+			break;
+		}
+	}
+
+	void Runtime::KickObject(uint8 type, pcstr id)
+	{
+		raw object = SelectObject(type, id);
+		if (object == null)
+			return;
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			_Drivers.remove((Driver*)object);
+			break;
+		case VF_CORE_LIBRARY:
+			_Libraries.remove((Library*)object);
+			break;
+		case VF_CORE_STACK:
+			_Stacks.remove((Stack*)object);
+			break;
+		case VF_CORE_ASPECT:
+			_Aspects.remove((Aspect*)object);
+			break;
+		default:
+			break;
+		}
+		Clear(object);
+	}
+
+	void Runtime::KickAllObjects(uint8 type)
+	{
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			typedef list<Driver*>::iterator iter1;
+			for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
+				Clear(*i);
+			_Drivers.clear();
+			break;
+		case VF_CORE_LIBRARY:
+			typedef list<Library*>::iterator iter2;
+			for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
+				Clear(*i);
+			_Libraries.clear();
+			break;
+		case VF_CORE_STACK:
+			typedef list<Stack*>::iterator iter3;
+			for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
+				Clear(*i);
+			_Stacks.clear();
+			break;
+		case VF_CORE_ASPECT:
+			typedef list<Aspect*>::iterator iter4;
+			for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
+				Clear(*i);
+			_Aspects.clear();
+			break;
+		default:
+			break;
+		}
+	}
+
+	void Runtime::Activate()
+	{
+		Worker* worker = Worker::Instance();
+		worker->Offline();
+	}
+
+	void Runtime::Deactivate()
+	{
+		Worker* worker = Worker::Instance();
+		worker->Offline();
 	}
 
 	void Runtime::Reach(pcstr frame)
@@ -124,6 +247,11 @@ namespace vapula
 		string str_fix = str_full.substr(str_full.rfind(L'\\') + 1);
 		pcstr ret = str::Copy(str_fix.c_str());
 		return ret;
+	}
+
+	pcstr Runtime::GetVersion()
+	{
+		return _vf_version;
 	}
 
 	pcstr Runtime::NewLUID()

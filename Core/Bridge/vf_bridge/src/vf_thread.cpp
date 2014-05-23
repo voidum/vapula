@@ -17,7 +17,6 @@ namespace vapula
 			thread->_Task->Invoke();
 			thread->_Task = null;
 		}
-		return 0;
 	}
 
 	void Thread::SetCPUs(uint32 mask)

@@ -30,87 +30,26 @@ namespace vapula
 		list<Aspect*> _Aspects;
 
 	private:
-		raw List(int8 type);
-
-		pcstr IndexOf(raw target, int8 type);
-
-		template<typename T>
-		list<T*> List()
-		{
-			Traits<T>* traits = new Traits<T>();
-			Scoped autop(traits);
-			return *((list<T*>*)List(traits->TypeId));
-		}
-
-		template<typename T>
-		pcstr IndexOf(T* target)
-		{
-			Traits<T>* traits = new Traits<T>();
-			Scoped autop(traits);
-			return IndexOf(target, traits->TypeId);
-		}
+		pcstr IndexOfObject(uint8 type, raw target);
 
 	public:
-		template<typename T>
-		int Count() 
-		{
-			list<T*> list = List<T>();
-			return list->size();
-		}
+		int CountObjects(uint8 type);
 
-		template<typename T>
-		T* Select(pcstr id) 
-		{
-			typedef list<T*>::iterator iter;
-			list<T*> list = List<T>();
-			for (iter i = list.begin(); i != list.end(); i++)
-			{
-				T* entity = *i;
-				if (strcmp(id, IndexOf(entity)) == 0)
-					return entity;
-			}
-			return null;
-		}
+		raw SelectObject(uint8 type, pcstr id);
 
-		template<typename T>
-		void Link(T* target) 
-		{
-			T* entity = Select<T>(IndexOf(target));
-			if (entity == null)
-			{
-				list<T*> list = List<T>();
-				list.push_back(target);
-			}
-		}
+		void LinkObject(uint8 type, raw target);
 		
-		template<typename T>
-		void Kick(pcstr id)
-		{
-			typedef list<T*>::iterator iter;
-			list<T*> list = List<T>();
-			for (iter i = list.begin(); i != list.end(); i++)
-			{
-				T* entity = *i;
-				if (strcmp(id, IndexOf(entity)) == 0)
-				{
-					list.erase(i);
-					Clear(entity);
-					break;
-				}
-			}
-		}
+		void KickObject(uint8 type, pcstr id);
 
-		template<typename T>
-		void KickAll()
-		{
-			typedef list<T*>::iterator iter;
-			list<T*> list = List<T>();
-			for (iter i = list.begin(); i != list.end(); i++)
-				Clear(*i);
-			list.clear();
-		}
+		void KickAllObjects(uint8 type);
 
 	public:
+		//activate runtime
+		void Activate();
+
+		//deactivate runtime
+		void Deactivate();
+		
 		//reach frame
 		void Reach(pcstr frame);
 

@@ -31,7 +31,7 @@ namespace vapula
 	void Task::Invoke()
 	{
 		Runtime* runtime = Runtime::Instance();
-		runtime->Link(_Stack);
+		runtime->LinkObject(VF_CORE_STACK, _Stack);
 		_Stack->SetStackId(Stack::CurrentId(), this);
 
 		Context* context = _Stack->GetContext();
@@ -55,7 +55,7 @@ namespace vapula
 		context->SetState(VF_STATE_IDLE, this);
 
 		_Stack->SetStackId(0, this);
-		runtime->Kick<Stack>(_Stack->GetStackId());
+		runtime->KickObject(VF_CORE_STACK, _Stack->GetStackId());
 	}
 
 	void Task::OnSafeProcess()

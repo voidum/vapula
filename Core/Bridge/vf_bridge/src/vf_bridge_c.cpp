@@ -1,22 +1,22 @@
 #include "vf_bridge_c.h"
+#include "vf_error.h"
 #include "vf_runtime.h"
 #include "vf_driver.h"
 #include "vf_library.h"
-#include "vf_weaver.h"
-#include "vf_aspect.h"
 #include "vf_method.h"
+#include "vf_aspect.h"
 #include "vf_task.h"
 #include "vf_stack.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
-#include "vf_error.h"
+#include "vf_record.h"
 #include "vf_pipe.h"
 
 //Base
 
 pcstr vfeGetVersion()
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	Runtime* runtime = Runtime::Instance();
 	return runtime->GetVersion();
 }
 
@@ -86,9 +86,9 @@ pcstr vfeReadAt(raw data, uint8 type, uint32 at)
 	}
 }
 
-void vfeDeleteRaw(raw ptr)
+void vfeDeleteRaw(raw data)
 {
-	Clear(ptr);
+	Clear(data);
 }
 
 raw vfeBase64ToRaw(pcstr data)
@@ -106,10 +106,10 @@ pcstr vfeRawToBase64(raw data, uint32 size)
 
 //Error
 
-int vfeWhatError(raw err)
+int vfeWhatError(raw error)
 {
-	Error* obj = (Error*)err;
-	return obj->What();
+	Error* object = (Error*)error;
+	return object->What();
 }
 
 void vfeThrowError(int what)
@@ -122,67 +122,43 @@ void vfeThrowError(int what)
 
 void vfeActivateRuntime()
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	Runtime* runtime = Runtime::Instance();
 	runtime->Activate();
 }
 
 void vfeDeactivateRuntime()
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	Runtime* runtime = Runtime::Instance();
 	runtime->Deactivate();
 }
 
-int vfeCountDriver()
+int vfeCountObjects(uint8 type)
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	return runtime->Count<Driver>();
+	Runtime* runtime = Runtime::Instance();
+	return runtime->CountObjects(type);
 }
 
-void vfeLinkDriver(raw driver)
+void vfeLinkObject(uint8 type, raw target)
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->Link<Driver>((Driver*)driver);
+	Runtime* runtime = Runtime::Instance();
+	return runtime->LinkObject(type, target);
 }
 
-void vfeKickDriver(pcstr id)
+void vfeKickObject(uint8 type, pcstr id)
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->Kick<Driver>(id);
+	Runtime* runtime = Runtime::Instance();
+	return runtime->KickObject(type, id);
 }
 
-void vfeKickAllDrivers()
+void vfeKickAllObjects(uint8 type)
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->KickAll<Driver>();
-}
-
-int vfeCountAspect()
-{
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	return runtime->Count<Aspect>();
-}
-
-void vfeLinkAspect(raw aspect)
-{
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->Link<Aspect>((Aspect*)aspect);
-}
-
-void vfeKickAspect(pcstr id)
-{
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->Kick<Aspect>(id);
-}
-
-void vfeKickAllAspects()
-{
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
-	runtime->KickAll<Aspect>();
+	Runtime* runtime = Runtime::Instance();
+	return runtime->KickAllObjects(type);
 }
 
 void vfeReachFrame(pcstr frame)
 {
-	vapula::Runtime* runtime = vapula::Runtime::Instance();
+	Runtime* runtime = Runtime::Instance();
 	runtime->Reach(frame);
 }
 
@@ -202,193 +178,187 @@ raw vfeLoadLibraryW(pcwstr path)
 	return lib;
 }
 
-pcstr vfeGetRuntime(raw lib)
+pcstr vfeGetRuntime(raw library)
 {
-	Library* obj = (Library*)lib;
-	return obj->GetDriver()->GetRuntimeId();
+	Library* object = (Library*)library;
+	return object->GetDriver()->GetRuntimeId();
 }
 
-pcstr vfeGetLibraryId(raw lib)
+pcstr vfeGetLibraryId(raw library)
 {
-	Library* obj = (Library*)lib;
-	return obj->GetLibraryId();
+	Library* object = (Library*)library;
+	return object->GetLibraryId();
 }
 
-pcstr vfeGetProcessSym(raw lib, pcstr id)
+pcstr vfeGetProcessSym(raw library, pcstr id)
 {
-	Library* obj = (Library*)lib;
-	return obj->GetMethod(id)->GetProcessSym();
+	Library* object = (Library*)library;
+	return object->GetMethod(id)->GetProcessSym();
 }
 
-pcstr vfeGetRollbackSym(raw lib, pcstr id)
+pcstr vfeGetRollbackSym(raw library, pcstr id)
 {
-	Library* obj = (Library*)lib;
-	return obj->GetMethod(id)->GetRollbackSym();
+	Library* object = (Library*)library;
+	return object->GetMethod(id)->GetRollbackSym();
 }
 
-int vfeMountLibrary(raw lib)
+int vfeMountLibrary(raw library)
 {
-	Library* obj = (Library*)lib;
-	return obj->Mount() ? TRUE : FALSE;
+	Library* object = (Library*)library;
+	return object->Mount() ? TRUE : FALSE;
 }
 
-void vfeUnmountLibrary(raw lib)
+void vfeUnmountLibrary(raw library)
 {
-	Library* obj = (Library*)lib;
-	obj->Unmount();
+	Library* object = (Library*)library;
+	object->Unmount();
+}
+
+raw vfeCreateTask(raw library, pcstr id)
+{
+	Library* object = (Library*)library;
+	return object->CreateTask(id);
 }
 
 
-//Invoker
+//Task
 
-raw vfeCreateInvoker(raw lib, pcstr id)
+void vfeStartTask(raw task)
 {
-	Library* obj = (Library*)lib;
-	return obj->CreateInvoker(id);
+	Task* object = (Task*)task;
+	object->Start();
 }
 
-int vfeStartInvoker(raw inv)
+void vfeStopTask(raw task, uint32 wait)
 {
-	Invoker* obj = (Invoker*)inv;
-	return obj->Start() ? TRUE : FALSE;
+	Task* object = (Task*)task;
+	object->Stop(wait);
 }
 
-void vfeStopInvoker(raw inv, uint32 wait)
+void vfePauseTask(raw task, uint32 wait)
 {
-	Invoker* obj = (Invoker*)inv;
-	obj->Stop(wait);
+	Task* object = (Task*)task;
+	object->Pause(wait);
 }
 
-void vfePauseInvoker(raw inv, uint32 wait)
+void vfeResumeTask(raw task)
 {
-	Invoker* obj = (Invoker*)inv;
-	obj->Pause(wait);
+	Task* object = (Task*)task;
+	object->Resume();
 }
 
-void vfeResumeInvoker(raw inv)
+raw vfeGetTaskStack(raw task)
 {
-	Invoker* obj = (Invoker*)inv;
-	obj->Resume();
-}
-
-int vfeRestartInvoker(raw inv, uint32 wait)
-{
-	Invoker* obj = (Invoker*)inv;
-	return obj->Restart(wait) ? TRUE : FALSE;
+	Task* object = (Task*)task;
+	return object->GetStack();
 }
 
 
 //Stack
 
-raw vfeGetStack(raw inv)
-{
-	Invoker* obj = (Invoker*)inv;
-	return obj->GetStack();
-}
-
 raw vfeGetCurrentStack()
 {
-	Stack* stack = Stack::GetInstance();
+	Stack* stack = Stack::Instance();
 	return stack;
 }
 
-pcstr vfeGetMethodId(raw stk)
+pcstr vfeGetMethodId(raw stack)
 {
-	Stack* obj = (Stack*)stk;
-	return obj->GetMethodId();
+	Stack* object = (Stack*)stack;
+	return object->GetMethodId();
 }
 
-raw vfeGetContext(raw stk)
+raw vfeGetContext(raw stack)
 {
-	Stack* obj = (Stack*)stk;
-	return obj->GetContext();
+	Stack* object = (Stack*)stack;
+	return object->GetContext();
 }
 
-raw vfeGetDataset(raw stk)
+raw vfeGetDataset(raw stack)
 {
-	Stack* obj = (Stack*)stk;
-	return obj->GetDataset();
+	Stack* object = (Stack*)stack;
+	return object->GetDataset();
 }
 
-int vfeIsProtected(raw stk)
+int vfeHasProtect(raw stack)
 {
-	Stack* obj = (Stack*)stk;
-	return obj->IsProtected() ? TRUE : FALSE;
+	Stack* object = (Stack*)stack;
+	return object->HasProtect() ? TRUE : FALSE;
 }
 
-raw vfeGetError(raw stk)
+raw vfeGetError(raw stack)
 {
-	Stack* obj = (Stack*)stk;
-	return obj->GetError();
+	Stack* object = (Stack*)stack;
+	return object->GetError();
 }
 
 
 //Context
 
-uint8 vfeGetCurrentState(raw ctx)
+uint8 vfeGetCurrentState(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetCurrentState();
+	Context* object = (Context*)context;
+	return object->GetCurrentState();
 }
 
-uint8 vfeGetLastState(raw ctx)
+uint8 vfeGetLastState(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetLastState();
+	Context* object = (Context*)context;
+	return object->GetLastState();
 }
 
-uint8 vfeGetReturnCode(raw ctx)
+uint8 vfeGetReturnCode(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetReturnCode();
+	Context* object = (Context*)context;
+	return object->GetReturnCode();
 }
 
-uint8 vfeGetControlCode(raw ctx)
+uint8 vfeGetControlCode(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetControlCode();
+	Context* object = (Context*)context;
+	return object->GetControlCode();
 }
 
-float vfeGetProgress(raw ctx)
+float vfeGetProgress(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetProgress();
+	Context* object = (Context*)context;
+	return object->GetProgress();
 }
 
-pcstr vfeGetKeyFrame(raw ctx)
+pcstr vfeGetKeyFrame(raw context)
 {
-	Context* obj = (Context*)ctx;
-	return obj->GetKeyFrame();
+	Context* object = (Context*)context;
+	return object->GetKeyFrame();
 }
 
-void vfeSetReturnCode(raw ctx, uint8 ret)
+void vfeSetReturnCode(raw context, uint8 code)
 {
-	Context* obj = (Context*)ctx;
-	obj->SetReturnCode(ret);
+	Context* object = (Context*)context;
+	object->SetReturnCode(code);
 }
 
-void vfeSetProgress(raw ctx, float prog)
+void vfeSetProgress(raw context, float progress)
 {
-	Context* obj = (Context*)ctx;
-	obj->SetProgress(prog);
+	Context* object = (Context*)context;
+	object->SetProgress(progress);
 }
 
-void vfeSetKeyFrame(raw ctx, pcstr frame)
+void vfeSetKeyFrame(raw context, pcstr frame)
 {
-	Context* obj = (Context*)ctx;
-	obj->SetKeyFrame(frame);
+	Context* object = (Context*)context;
+	object->SetKeyFrame(frame);
 }
 
-void vfeSwitchHold(raw ctx)
+void vfeSwitchHold(raw context)
 {
-	Context* obj = (Context*)ctx;
-	obj->SwitchHold();
+	Context* object = (Context*)context;
+	object->SwitchHold();
 }
 
-void vfeSwitchBusy(raw ctx)
+void vfeSwitchBusy(raw context)
 {
-	Context* obj = (Context*)ctx;
-	obj->SwitchBusy();
+	Context* object = (Context*)context;
+	object->SwitchBusy();
 }
 
 
@@ -401,55 +371,55 @@ raw vfeParseDataset(pcstr xml)
 
 raw vfeParseDatasetW(pcwstr xml)
 {
-	pcstr s8 = str::ToStr(xml, _vf_msg_cp);
-	raw ds = Dataset::Parse(s8);
-	delete s8;
-	return ds;
+	pcstr cs8_xml = str::ToStr(xml, _vf_msg_cp);
+	raw dataset = Dataset::Parse(cs8_xml);
+	delete cs8_xml;
+	return dataset;
 }
 
-void vfeZeroDataset(raw ds)
+void vfeZeroDataset(raw dataset)
 {
-	Dataset* obj = (Dataset*)ds;
-	obj->Zero();
+	Dataset* object = (Dataset*)dataset;
+	object->Zero();
 }
 
-raw vfeCopyDataset(raw ds)
+raw vfeCopyDataset(raw dataset)
 {
-	Dataset* obj = (Dataset*)ds;
-	return obj->Copy();
+	Dataset* object = (Dataset*)dataset;
+	return object->Copy();
 }
 
-raw vfeGetRecord(raw ds, int id)
+raw vfeGetRecord(raw dataset, int id)
 {
-	Dataset* obj = (Dataset*)ds;
-	return (*obj)[id];
+	Dataset* object = (Dataset*)dataset;
+	return (*object)[id];
 }
 
 
 //Record
 
-uint32 vfeGetRecordSize(raw rec)
+uint32 vfeGetRecordSize(raw record)
 {
-	Record* obj = (Record*)rec;
-	return obj->GetSize();
+	Record* object = (Record*)record;
+	return object->GetSize();
 }
 
-void vfeWriteRecord(raw rec, raw data, uint32 size)
+void vfeWriteRecord(raw record, raw data, uint32 size)
 {
-	Record* obj = (Record*)rec;
-	obj->Write(data, size);
+	Record* object = (Record*)record;
+	object->Write(data, size);
 }
 
-raw vfeReadRecord(raw rec)
+raw vfeReadRecord(raw record)
 {
-	Record* obj = (Record*)rec;
-	return obj->Read();
+	Record* object = (Record*)record;
+	return object->Read();
 }
 
 void vfeDeliverRecord(raw src, raw dst)
 {
-	Record* obj = (Record*)src;
-	obj->Deliver((Record*)dst);
+	Record* object = (Record*)src;
+	object->Deliver((Record*)dst);
 }
 
 
@@ -463,48 +433,48 @@ raw vfeCreatePipe()
 
 int vfePipeIsClose(raw pipe)
 {
-	Pipe* obj = (Pipe*)pipe;
-	return obj->IsClose() ? TRUE : FALSE;
+	Pipe* object = (Pipe*)pipe;
+	return object->IsClose() ? TRUE : FALSE;
 }
 
 int vfePipeHasNewData(raw pipe)
 {
-	Pipe* obj = (Pipe*)pipe;
-	return obj->HasNewData() ? TRUE : FALSE;
+	Pipe* object = (Pipe*)pipe;
+	return object->HasNewData() ? TRUE : FALSE;
 }
 
 pcstr vfeListenPipe(raw pipe)
 {
-	Pipe* obj = (Pipe*)pipe;
-	if(!obj->Listen()) 
+	Pipe* object = (Pipe*)pipe;
+	if (!object->Listen())
 		return null;
-	return obj->GetPipeId();
+	return object->GetPipeId();
 }
 
 int vfeConnectPipe(raw pipe, pcstr id)
 {
-	Pipe* obj = (Pipe*)pipe;
-	return (obj->Connect(id) ? TRUE : FALSE);
+	Pipe* object = (Pipe*)pipe;
+	return (object->Connect(id) ? TRUE : FALSE);
 }
 
 void vfeClosePipe(raw pipe)
 {
-	Pipe* obj = (Pipe*)pipe;
-	obj->Close();
+	Pipe* object = (Pipe*)pipe;
+	object->Close();
 }
 
-void vfeWritePipe(raw pipe, pcstr value)
+void vfeWritePipe(raw pipe, pcstr data)
 {
-	Pipe* obj = (Pipe*)pipe;
-	obj->Write(value);
+	Pipe* object = (Pipe*)pipe;
+	object->Write(data);
 }
 
-void vfeWritePipeW(raw pipe, pcwstr value)
+void vfeWritePipeW(raw pipe, pcwstr data)
 {
-	Pipe* obj = (Pipe*)pipe;
-	pcstr s8 = str::ToStr(value, _vf_msg_cp);
-	obj->Write(s8);
-	delete s8;
+	Pipe* object = (Pipe*)pipe;
+	pcstr cs8_data = str::ToStr(data, _vf_msg_cp);
+	object->Write(cs8_data);
+	delete cs8_data;
 }
 
 pcstr vfeReadPipe(raw pipe)
@@ -516,8 +486,8 @@ pcstr vfeReadPipe(raw pipe)
 pcwstr vfeReadPipeW(raw pipe)
 {
 	Pipe* obj =(Pipe*)pipe;
-	pcstr s8 = obj->Read();
-	pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
-	delete s8;
-	return s16;
+	pcstr data = obj->Read();
+	pcwstr cs16_data = str::ToStrW(data, _vf_msg_cp);
+	delete data;
+	return cs16_data;
 }

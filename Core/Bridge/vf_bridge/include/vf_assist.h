@@ -49,11 +49,4 @@ namespace vapula
 
 		void DeRef();
 	};
-
-	template<typename T>
-	class Traits
-	{
-	public:
-		enum { TypeId = VF_CORE_UNKNOWN };
-	};
 }

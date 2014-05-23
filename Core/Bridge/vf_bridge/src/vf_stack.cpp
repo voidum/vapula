@@ -35,7 +35,7 @@ namespace vapula
 	{
 		Runtime* runtime = Runtime::Instance();
 		pcstr id = CurrentId();
-		Stack* stack = runtime->Select<Stack>(id);
+		Stack* stack = (Stack*)runtime->SelectObject(VF_CORE_STACK, id);
 		return stack;
 	}
 
