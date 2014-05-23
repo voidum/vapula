@@ -25,7 +25,7 @@ namespace vapula
 
 	public:
 		//bind task with method
-		virtual bool Bind(Method* mt);
+		virtual bool Bind(Method* method);
 
 	protected:
 		//invoke task

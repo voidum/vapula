@@ -25,11 +25,9 @@ namespace vapula
 	private:
 		Lock* _Lock;
 		uint32 _LoadFactor;
-		list<Thread*> _LiveThreads;
-		list<Thread*> _TempThreads;
-		queue<Task*> _Tasks;
+		list<Thread*> _IdleThreads;
+		list<Thread*> _BusyThreads;
 		uint32 _DoneCount;
-		uint32 _QueueCount;
 
 	public:
 		//online worker
@@ -39,14 +37,11 @@ namespace vapula
 		void Offline();
 
 	public:
-		//get idle thread
+		//get thread with no task
 		Thread* GetIdleThread();
 
-		//get thread for task
+		//get thread with task
 		Thread* GetBusyThread(Task* task);
-
-		//remove thread
-		void RemoveThread(Thread* thread);
 
 	public:
 		//start task
@@ -65,9 +60,5 @@ namespace vapula
 		//get count of done tasks
 		//maybe overflow !!
 		uint32 CountDoneTasks();
-
-		//get count of queue tasks
-		//maybe overflow !!
-		uint32 CountQueueTasks();
 	};
 }

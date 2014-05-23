@@ -6,6 +6,21 @@
 
 namespace vapula
 {
+	Worker* Worker::_Instance = null;
+
+	Worker* Worker::Instance()
+	{
+		if (Worker::_Instance == null)
+		{
+			Lock* lock = Lock::GetCtorLock();
+			lock->Enter();
+			if (Worker::_Instance == null)
+				Worker::_Instance = new Worker();
+			lock->Leave();
+		}
+		return Worker::_Instance;
+	}
+
 	Worker::Worker()
 	{
 		_Lock = new Lock();
@@ -23,6 +38,7 @@ namespace vapula
 		SYSTEM_INFO system;
 		GetSystemInfo(&system);
 		uint32 cpu_total = system.dwNumberOfProcessors;
+		_Lock->Enter();
 		for (uint32 i = 0; i < _LoadFactor; i++)
 		{
 			uint32 mask = 0x1;
@@ -32,21 +48,60 @@ namespace vapula
 				Thread* thread = new Thread();
 				thread->SetTemp(false);
 				thread->SetCPUs(mask);
-				_LiveThreads.push_back(thread);
+				thread->Start();
+				_IdleThreads.push_back(thread);
 			}
 		}
+		_Lock->Leave();
 	}
 
 	void Worker::Offline()
 	{
 		typedef list<Thread*>::iterator iter;
-		for (iter i = _LiveThreads.begin(); i != _LiveThreads.end(); i++)
+		_Lock->Enter();
+		for (iter i = _BusyThreads.begin(); i != _BusyThreads.end(); i++)
+		{
+			Thread* thread = *i;
+			thread->Terminate();
+			Clear(thread);
+		}
+		_BusyThreads.empty();
+		for (iter i = _IdleThreads.begin(); i != _IdleThreads.end(); i++)
+		{
+			Thread* thread = *i;
+			if (!thread->IsTemp())
+				thread->Terminate();
 			Clear(*i);
-		_LiveThreads.empty();
-		for (iter i = _TempThreads.begin(); i != _TempThreads.end(); i++)
-			Clear(*i);
-		_TempThreads.empty();
-		_Tasks.empty();
+		}
+		_IdleThreads.empty();
+		_Lock->Leave();
+	}
+
+	Thread* Worker::GetIdleThread()
+	{
+		if (_IdleThreads.size() > 0)
+			return *(_IdleThreads.begin());
+		return null;
+	}
+
+	Thread* Worker::GetBusyThread(Task* task)
+	{
+		typedef list<Thread*>::iterator iter;
+		for (iter i = _BusyThreads.begin(); i != _BusyThreads.end();)
+		{
+			Thread* thread = *i;
+			Task* cur_task = thread->GetTask();
+			if (cur_task == null)
+			{
+				i = _BusyThreads.erase(i);
+				_IdleThreads.push_back(thread);
+			}
+			else if (cur_task == task)
+				return thread;
+			else
+				i++;
+		}
+		return null;
 	}
 
 	void Worker::StartTask(Task* task)
@@ -59,9 +114,19 @@ namespace vapula
 			if (thread == null)
 			{
 				thread = new Thread();
-				_TempThreads.push_back(thread);
+				thread->SetTemp(true);
+				thread->Start();
 			}
+			else
+			{
+				_IdleThreads.remove(thread);
+			}
+			Stack* stack = task->GetStack();
+			Context* context = stack->GetContext();
+			context->SetState(VF_STATE_QUEUE, task);
 			thread->SetTask(task);
+			_BusyThreads.push_back(thread);
+			std::cout << "new task" << std::endl;
 		}
 		_Lock->Leave();
 	}
@@ -77,10 +142,12 @@ namespace vapula
 				Thread* thread2 = new Thread();
 				thread2->SetTemp(false);
 				thread2->SetCPUs(thread->GetCPUs());
-				_LiveThreads.push_back(thread2);
+				thread2->Start();
+				_IdleThreads.push_back(thread2);
+				thread->SetTemp(true);
 			}
-			RemoveThread(thread);
 			thread->Terminate();
+			Clear(thread);
 			Stack* stack = task->GetStack();
 			Context* context = stack->GetContext();
 			context->SetReturnCode(VF_RETURN_TERMINATE);
@@ -100,9 +167,8 @@ namespace vapula
 				Thread* thread2 = new Thread();
 				thread2->SetTemp(false);
 				thread2->SetCPUs(thread->GetCPUs());
-				_LiveThreads.push_back(thread2);
+				_IdleThreads.push_back(thread2);
 			}
-			RemoveThread(thread);
 			thread->Suspend();
 			Stack* stack = task->GetStack();
 			Context* context = stack->GetContext();

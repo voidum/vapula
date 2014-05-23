@@ -1,6 +1,6 @@
-#include "vf_drv_crt.h"
-#include "vf_lib_crt.h"
-#include "vf_inv_crt.h"
+#include "vf_driver_crt.h"
+#include "vf_library_crt.h"
+#include "vf_task_crt.h"
 
 DriverCRT::DriverCRT() { }
 
@@ -22,10 +22,10 @@ Library* DriverCRT::CreateLibrary()
 	return lib;
 }
 
-Invoker* DriverCRT::CreateInvoker()
+Task* DriverCRT::CreateTask()
 {
-	InvokerCRT* inv = new InvokerCRT();
-	return inv;
+	TaskCRT* task = new TaskCRT();
+	return task;
 }
 
 Driver* GetDriverInstance()

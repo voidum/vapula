@@ -18,21 +18,22 @@ namespace vapula
 		Clear(_Stack);
 	}
 
-	bool Task::Bind(Method* mt)
+	bool Task::Bind(Method* method)
 	{
 		_Stack = new Stack();
-		_Stack->SetMethodId(str::Copy(mt->GetMethodId()), this);
-		_Stack->SetDataset(mt->GetDataset()->Copy(), this);
+		_Stack->SetMethodId(str::Copy(method->GetMethodId()), this);
+		_Stack->SetDataset(method->GetDataset()->Copy(), this);
 		_Stack->SetContext(new Context(), this);
-		_Stack->SetProtect(mt->HasProtect(), this);
+		_Stack->SetProtect(method->HasProtect(), this);
 		return true;
 	}
 
 	void Task::Invoke()
 	{
 		Runtime* runtime = Runtime::Instance();
+		pcstr stack_id = Stack::CurrentId();
+		_Stack->SetStackId(stack_id, this);
 		runtime->LinkObject(VF_CORE_STACK, _Stack);
-		_Stack->SetStackId(Stack::CurrentId(), this);
 
 		Context* context = _Stack->GetContext();
 		try {
@@ -54,8 +55,7 @@ namespace vapula
 		}
 		context->SetState(VF_STATE_IDLE, this);
 
-		_Stack->SetStackId(0, this);
-		runtime->KickObject(VF_CORE_STACK, _Stack->GetStackId());
+		runtime->KickObject(VF_CORE_STACK, stack_id);
 	}
 
 	void Task::OnSafeProcess()

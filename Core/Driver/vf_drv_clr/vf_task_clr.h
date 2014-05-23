@@ -2,14 +2,14 @@
 
 #include "vf_clr.h"
 
-class InvokerCLR : public Invoker
+class TaskCLR : public Task
 {
 private:
 	pcstr _Handle;
 
 public:
-	InvokerCLR();
-	~InvokerCLR();
+	TaskCLR();
+	~TaskCLR();
 
 protected:
 	void OnProcess();
@@ -17,5 +17,5 @@ protected:
 
 public:
 	pcstr GetHandle();
-	bool Bind(Method* mt);
+	bool Bind(Method* method);
 };

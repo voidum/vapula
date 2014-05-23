@@ -14,7 +14,7 @@ public:
 	pcstr GetRuntimeId();
 	pcstr GetBinExt();
 	Library* CreateLibrary();
-	Invoker* CreateInvoker();
+	Task* CreateTask();
 };
 
 extern "C" __declspec(dllexport) Driver* GetDriverInstance();

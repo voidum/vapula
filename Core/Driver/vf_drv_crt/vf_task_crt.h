@@ -4,20 +4,20 @@
 
 typedef void (*Action)();
 
-class InvokerCRT : public Invoker
+class TaskCRT : public Task
 {
 private:
 	Action _EntryProcess;
 	Action _EntryRollback;
 
 public:
-	InvokerCRT();
-	~InvokerCRT();
+	TaskCRT();
+	~TaskCRT();
 
 protected:
 	void OnProcess();
 	void OnRollback();
 
 public:
-	bool Bind(Method* mt);
+	bool Bind(Method* method);
 };

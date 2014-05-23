@@ -30,8 +30,24 @@ namespace vapula
 
 	Runtime::~Runtime()
 	{
-		Worker* worker = Worker::Instance();
-		worker->Offline();
+		Deactivate();
+	}
+
+	pcstr Runtime::IndexOfObject(uint8 type, raw target)
+	{
+		switch (type)
+		{
+		case VF_CORE_DRIVER:
+			return ((Driver*)target)->GetRuntimeId();
+		case VF_CORE_LIBRARY:
+			return ((Library*)target)->GetLibraryId();
+		case VF_CORE_STACK:
+			return ((Stack*)target)->GetStackId();
+		case VF_CORE_ASPECT:
+			return ((Aspect*)target)->GetAspectId();
+		default:
+			return null;
+		}
 	}
 
 	int Runtime::CountObjects(uint8 type)
@@ -53,42 +69,52 @@ namespace vapula
 
 	raw Runtime::SelectObject(uint8 type, pcstr id)
 	{
+		if (id == null)
+			return null;
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
 			typedef list<Driver*>::iterator iter1;
 			for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
 			{
-				Driver* entity = *i;
-				if (strcmp(id, entity->GetRuntimeId()) == 0)
-					return entity;
+				pcstr cur_id = IndexOfObject(type, *i);
+				if (cur_id == null)
+					continue;
+				if (strcmp(id, cur_id) == 0)
+					return *i;
 			}
 			return null;
 		case VF_CORE_LIBRARY:
 			typedef list<Library*>::iterator iter2;
 			for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
 			{
-				Library* entity = *i;
-				if (strcmp(id, entity->GetLibraryId()) == 0)
-					return entity;
+				pcstr cur_id = IndexOfObject(type, *i);
+				if (cur_id == null)
+					continue;
+				if (strcmp(id, cur_id) == 0)
+					return *i;
 			}
 			return null;
 		case VF_CORE_STACK:
 			typedef list<Stack*>::iterator iter3;
 			for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
 			{
-				Stack* entity = *i;
-				if (strcmp(id, entity->GetStackId()) == 0)
-					return entity;
+				pcstr cur_id = IndexOfObject(type, *i);
+				if (cur_id == null)
+					continue;
+				if (strcmp(id, cur_id) == 0)
+					return *i;
 			}
 			return null;
 		case VF_CORE_ASPECT:
 			typedef list<Aspect*>::iterator iter4;
 			for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
 			{
-				Aspect* entity = *i;
-				if (strcmp(id, entity->GetAspectId()) == 0)
-					return entity;
+				pcstr cur_id = IndexOfObject(type, *i);
+				if (cur_id == null)
+					continue;
+				if (strcmp(id, cur_id) == 0)
+					return *i;
 			}
 			return null;
 		default:
@@ -143,7 +169,6 @@ namespace vapula
 		default:
 			break;
 		}
-		Clear(object);
 	}
 
 	void Runtime::KickAllObjects(uint8 type)
@@ -182,13 +207,17 @@ namespace vapula
 	void Runtime::Activate()
 	{
 		Worker* worker = Worker::Instance();
-		worker->Offline();
+		worker->Online();
 	}
 
 	void Runtime::Deactivate()
 	{
 		Worker* worker = Worker::Instance();
 		worker->Offline();
+		KickAllObjects(VF_CORE_DRIVER);
+		KickAllObjects(VF_CORE_LIBRARY);
+		KickAllObjects(VF_CORE_STACK);
+		KickAllObjects(VF_CORE_ASPECT);
 	}
 
 	void Runtime::Reach(pcstr frame)

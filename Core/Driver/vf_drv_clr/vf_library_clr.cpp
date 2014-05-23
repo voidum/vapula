@@ -1,5 +1,5 @@
-#include "vf_drv_clr.h"
-#include "vf_lib_clr.h"
+#include "vf_driver_clr.h"
+#include "vf_library_clr.h"
 
 LibraryCLR::LibraryCLR() 
 {

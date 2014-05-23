@@ -26,6 +26,7 @@ namespace vapula
 		bool IsTemp();
 		bool IsSuspend();
 		uint32 GetCPUs();
+		Task* GetTask();
 
 	public:
 		void SetTemp(bool temp);
@@ -33,8 +34,9 @@ namespace vapula
 		void SetTask(Task* task);
 
 	public:
-		void Suspend();
+		void Start();
 		void Terminate();
+		void Suspend();
 		bool Resume();
 	};
 }

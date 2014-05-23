@@ -1,12 +1,13 @@
-#include "vf_drv_clr.h"
-#include "vf_lib_clr.h"
-#include "vf_inv_clr.h"
+#include "vf_driver_clr.h"
+#include "vf_library_clr.h"
+#include "vf_task_clr.h"
 
 using namespace vapula;
 
 DriverCLR::DriverCLR()
 {
-	pcstr cs8_dir = GetRuntimeDir();
+	Runtime* runtime = Runtime::Instance();
+	pcstr cs8_dir = runtime->GetRuntimeDir();
 	string str1 = cs8_dir;
 	str1 += "vf_bridge_x.dll";
 	_BridgePath = str::ToStrW(str1.c_str());
@@ -47,22 +48,22 @@ pcstr DriverCLR::GetBinExt()
 
 Library* DriverCLR::CreateLibrary()
 {
-	LibraryCLR* lib = new LibraryCLR();
-	return lib;
+	LibraryCLR* library = new LibraryCLR();
+	return library;
 }
 
-Invoker* DriverCLR::CreateInvoker()
+Task* DriverCLR::CreateTask()
 {
-	InvokerCLR* inv = new InvokerCLR();
-	return inv;
+	TaskCLR* task = new TaskCLR();
+	return task;
 }
 
 DriverCLR* DriverCLR::GetInstance()
 {
-	DriverHub* drv_hub = DriverHub::GetInstance();
-	DriverCLR* drv = 
-		dynamic_cast<DriverCLR*>(drv_hub->GetDriver(_vf_runtime_id));
-	return drv;
+	Runtime* runtime = Runtime::Instance();
+	DriverCLR* driver = 
+		(DriverCLR*)runtime->SelectObject(VF_CORE_DRIVER, _vf_runtime_id);
+	return driver;
 }
 
 Driver* GetDriverInstance()

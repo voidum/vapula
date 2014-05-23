@@ -46,8 +46,11 @@ namespace vapula
 
 	void Stack::SetStackId(pcstr id, Task* owner)
 	{
-		if(owner->GetStack() == this)
+		if (owner->GetStack() == this)
+		{
+			Clear(_StackId);
 			_StackId = id;
+		}
 	}
 
 	pcstr Stack::GetMethodId()

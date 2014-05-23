@@ -21,13 +21,13 @@
     <ClInclude Include="vf_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vf_drv_crt.h">
+    <ClInclude Include="vf_driver_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vf_inv_crt.h">
+    <ClInclude Include="vf_task_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="vf_lib_crt.h">
+    <ClInclude Include="vf_library_crt.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_drv_crt.cpp">
+    <ClCompile Include="vf_driver_crt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_inv_crt.cpp">
+    <ClCompile Include="vf_task_crt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_lib_crt.cpp">
+    <ClCompile Include="vf_library_crt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

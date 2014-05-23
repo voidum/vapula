@@ -18,16 +18,16 @@
     <ClInclude Include="resource.h">
       <Filter>资源文件</Filter>
     </ClInclude>
-    <ClInclude Include="vf_drv_clr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="vf_inv_clr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="vf_lib_clr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="vf_clr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vf_driver_clr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vf_task_clr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vf_library_clr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_drv_clr.cpp">
+    <ClCompile Include="vf_driver_clr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_inv_clr.cpp">
+    <ClCompile Include="vf_library_clr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="vf_lib_clr.cpp">
+    <ClCompile Include="vf_task_clr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

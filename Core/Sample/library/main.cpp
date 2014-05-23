@@ -4,122 +4,122 @@
 //1st
 void Process_Math()
 {
-	Stack* stack = Stack::GetInstance();
-	Dataset* ds = stack->GetDataset();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Dataset* dataset = stack->GetDataset();
+	Context* context = stack->GetContext();
 
-	int a = (*ds)[1]->ReadAt<int>();
-	int b = (*ds)[2]->ReadAt<int>();
+	int a = (*dataset)[1]->ReadAt<int>();
+	int b = (*dataset)[2]->ReadAt<int>();
 
 	int c = a + b;
 
-	(*ds)[3]->WriteAt(c);
+	(*dataset)[3]->WriteAt(c);
 
-	ctx->SetProgress(100);
-	ctx->SetReturnCode(VF_RETURN_NORMAL);
+	context->SetProgress(100);
+	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //2nd
 void Process_Out()
 {
-	Stack* stack = Stack::GetInstance();
-	Dataset* ds = stack->GetDataset();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Dataset* dataset = stack->GetDataset();
+	Context* context = stack->GetContext();
 
 	pcwstr str = L"中文Engligh日本語テスト";
-	(*ds)[1]->Write(str);
+	(*dataset)[1]->Write(str);
 
-	ctx->SetProgress(100);
-	ctx->SetReturnCode(VF_RETURN_NORMAL);
+	context->SetProgress(100);
+	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //3rd
 void Process_Array()
 {
-	Stack* stack = Stack::GetInstance();
-	Dataset* ds = stack->GetDataset();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Dataset* dataset = stack->GetDataset();
+	Context* context = stack->GetContext();
 
-	Record* rec = (*ds)[1];
-	int* data = (int*)(rec->Read());
-	int count = rec->GetSize() / sizeof(int);
+	Record* record = (*dataset)[1];
+	int* data = (int*)(record->Read());
+	int count = record->GetSize() / sizeof(int);
 
 	int result = 0;
 	for(int i=0; i<count; i++)
 		result += data[i];
 
-	(*ds)[2]->WriteAt(result);
+	(*dataset)[2]->WriteAt(result);
 
-	ctx->SetProgress(100);
-	ctx->SetReturnCode(VF_RETURN_NORMAL);
+	context->SetProgress(100);
+	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //4th
 void Process_Object()
 {
-	Stack* stack = Stack::GetInstance();
-	Dataset* ds = stack->GetDataset();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Dataset* dataset = stack->GetDataset();
+	Context* context = stack->GetContext();
 
-	ClassA* obj = (ClassA*)(*ds)[1]->Read();
-	bool ifinc = (*ds)[2]->ReadAt<bool>();
+	ClassA* object = (ClassA*)(*dataset)[1]->Read();
+	bool inc = (*dataset)[2]->ReadAt<bool>();
 
-	if(ifinc) obj->Inc();
-	else obj->Dec();
+	if (inc) object->Inc();
+	else object->Dec();
 
-	ctx->SetProgress(100);
-	ctx->SetReturnCode(VF_RETURN_NORMAL);
+	context->SetProgress(100);
+	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //5th
 void Process_Context()
 {
-	Stack* stack = Stack::GetInstance();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Context* context = stack->GetContext();
 
 	for(int i=0;i<1000;i++)
 	{
-		int ctrl = ctx->GetCtrlCode();
-		if(ctrl == VF_CTRL_CANCEL)
+		int code = context->GetControlCode();
+		if (code == VF_CTRL_CANCEL)
 		{
-			ctx->SetProgress(100);
-			ctx->SetReturnCode(VF_RETURN_CANCEL);
+			context->SetProgress(100);
+			context->SetReturnCode(VF_RETURN_CANCEL);
 			return;
 		}
-		if(ctrl == VF_CTRL_PAUSE)
+		if(code == VF_CTRL_PAUSE)
 		{
-			ctx->SwitchHold();
+			context->SwitchHold();
 			for(;;)
 			{
-				int ctrl = ctx->GetCtrlCode();
-				if(ctrl == VF_CTRL_RESUME)
+				int code = context->GetControlCode();
+				if(code == VF_CTRL_RESUME)
 				{
-					ctx->SwitchHold();
+					context->SwitchHold();
 					break;
 				}
 				Sleep(20);
 			}
 		}
-		ctx->SetProgress(i / 10.0f);
+		context->SetProgress(i / 10.0f);
 		Sleep(20);
 	}
 
-	ctx->SetProgress(100);
-	ctx->SetReturnCode(VF_RETURN_NORMAL);
+	context->SetProgress(100);
+	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //6th
 void Process_Context2()
 {
-	Stack* stack = Stack::GetInstance();
-	Context* ctx = stack->GetContext();
+	Stack* stack = Stack::Instance();
+	Context* context = stack->GetContext();
 
 	int custom_error = 1001;
 	for(int i=0; i<1000; i++)
 	{
 		if(i == 500)
 			Error::Throw(custom_error);
-		ctx->SetProgress(i / 10.0f);
+		context->SetProgress(i / 10.0f);
 		Sleep(20);
 	}
 }
@@ -127,12 +127,12 @@ void Process_Context2()
 //6th rollback
 void Rollback_Context2()
 {
-	Stack* stack = Stack::GetInstance();
-	Context* ctx = stack->GetContext();
-	float prog = ctx->GetProgress();
-	for(float i = prog; i > 0; i--)
+	Stack* stack = Stack::Instance();
+	Context* context = stack->GetContext();
+	float progress = context->GetProgress();
+	for (float i = progress; i > 0; i--)
 	{
-		ctx->SetProgress(i);
+		context->SetProgress(i);
 		Sleep(20);
 	}
 }
@@ -140,8 +140,8 @@ void Rollback_Context2()
 //7th
 void Process_Protect()
 {
-	Weaver* weaver = Weaver::GetInstance();
-	weaver->Reach("msg");
+	Runtime* runtime = Runtime::Instance();
+	runtime->Reach("msg");
 	int* err_ptr = null;
 	err_ptr[0] = 42;
 }
@@ -156,14 +156,10 @@ void Rollback_Protect()
 //8th
 void Process_Msgbox()
 {
-	Stack* stack = Stack::GetInstance();
-	Dataset* ds = stack->GetDataset();
-	uint32 target = (*ds)[1]->ReadAt<uint32>();
+	Stack* stack = Stack::Instance();
+	Dataset* dataset = stack->GetDataset();
+	pcstr target = (pcstr)(*dataset)[1]->Read();
 
-	StackHub* stack_hub = StackHub::GetInstance();
-	Stack* stack_tar = stack_hub->GetStack(target);
-
-	pcstr ptrs = str::Value((uint32)stack_tar);
-	ShowMsgbox(ptrs);
-	ShowMsgbox("hello, world.");
+	Runtime* runtime = Runtime::Instance();
+	Stack* stack_tar = (Stack*)runtime->SelectObject(VF_CORE_STACK, target);
 }

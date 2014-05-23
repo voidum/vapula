@@ -100,9 +100,9 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="vf_clr.h" />
-    <ClInclude Include="vf_drv_clr.h" />
-    <ClInclude Include="vf_inv_clr.h" />
-    <ClInclude Include="vf_lib_clr.h" />
+    <ClInclude Include="vf_driver_clr.h" />
+    <ClInclude Include="vf_task_clr.h" />
+    <ClInclude Include="vf_library_clr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -113,9 +113,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="vf_drv_clr.cpp" />
-    <ClCompile Include="vf_inv_clr.cpp" />
-    <ClCompile Include="vf_lib_clr.cpp" />
+    <ClCompile Include="vf_driver_clr.cpp" />
+    <ClCompile Include="vf_task_clr.cpp" />
+    <ClCompile Include="vf_library_clr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vf_drv_clr.rc" />

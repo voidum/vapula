@@ -98,9 +98,9 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="vf_crt.h" />
-    <ClInclude Include="vf_lib_crt.h" />
-    <ClInclude Include="vf_drv_crt.h" />
-    <ClInclude Include="vf_inv_crt.h" />
+    <ClInclude Include="vf_library_crt.h" />
+    <ClInclude Include="vf_driver_crt.h" />
+    <ClInclude Include="vf_task_crt.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -111,9 +111,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="vf_lib_crt.cpp" />
-    <ClCompile Include="vf_drv_crt.cpp" />
-    <ClCompile Include="vf_inv_crt.cpp" />
+    <ClCompile Include="vf_library_crt.cpp" />
+    <ClCompile Include="vf_driver_crt.cpp" />
+    <ClCompile Include="vf_task_crt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vf_drv_crt.rc" />

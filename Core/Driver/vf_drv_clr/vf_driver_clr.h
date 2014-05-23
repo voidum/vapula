@@ -26,7 +26,7 @@ public:
 	pcstr GetRuntimeId();
 	pcstr GetBinExt();
 	Library* CreateLibrary();
-	Invoker* CreateInvoker();
+	Task* CreateTask();
 
 public:
 	int CallBridge(pcstr name, pcstr args);

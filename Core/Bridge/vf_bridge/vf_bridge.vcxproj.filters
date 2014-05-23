@@ -52,15 +52,6 @@
     <ClInclude Include="include\vf_bridge_c.h">
       <Filter>sdk\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_dev_lib.h">
-      <Filter>sdk\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dev_drv.h">
-      <Filter>sdk\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dev_inv.h">
-      <Filter>sdk\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_driver.h">
       <Filter>core\header</Filter>
     </ClInclude>
@@ -111,6 +102,15 @@
     </ClInclude>
     <ClInclude Include="include\vf_method.h">
       <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_driver.h">
+      <Filter>sdk\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_library.h">
+      <Filter>sdk\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_invoker.h">
+      <Filter>sdk\header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
