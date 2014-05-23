@@ -25,12 +25,15 @@ namespace vapula
 		{
 			if (thread->_Task == null)
 			{
+				if (thread->_IsTemp)
+					break;
 				Sleep(25);
 				continue;
 			}
 			thread->_Task->Invoke();
 			thread->_Task = null;
 		}
+		return 0;
 	}
 
 	bool Thread::IsTemp()
@@ -61,7 +64,6 @@ namespace vapula
 	void Thread::SetCPUs(uint32 mask)
 	{
 		_CPUMask = mask;
-		SetThreadAffinityMask(_Handle, mask);
 	}
 
 	void Thread::SetTask(Task* task)
@@ -72,6 +74,9 @@ namespace vapula
 	void Thread::Start()
 	{
 		_Handle = (HANDLE)_beginthreadex(null, 0, Thread::Handler, this, 0, 0);
+		SetThreadAffinityMask(_Handle, _CPUMask);
+		if (_Handle == null)
+			std::cout << "create thread error" << std::endl;
 	}
 
 	void Thread::Terminate()

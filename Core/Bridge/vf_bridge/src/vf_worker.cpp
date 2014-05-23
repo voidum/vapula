@@ -94,7 +94,10 @@ namespace vapula
 			if (cur_task == null)
 			{
 				i = _BusyThreads.erase(i);
-				_IdleThreads.push_back(thread);
+				if (!thread->IsTemp())
+					_IdleThreads.push_back(thread);
+				else
+					Clear(thread);
 			}
 			else if (cur_task == task)
 				return thread;
@@ -115,18 +118,24 @@ namespace vapula
 			{
 				thread = new Thread();
 				thread->SetTemp(true);
+
+				Stack* stack = task->GetStack();
+				Context* context = stack->GetContext();
+				context->SetState(VF_STATE_QUEUE, task);
+				thread->SetTask(task);
+
 				thread->Start();
 			}
 			else
 			{
+				Stack* stack = task->GetStack();
+				Context* context = stack->GetContext();
+				context->SetState(VF_STATE_QUEUE, task);
+				thread->SetTask(task);
+
 				_IdleThreads.remove(thread);
 			}
-			Stack* stack = task->GetStack();
-			Context* context = stack->GetContext();
-			context->SetState(VF_STATE_QUEUE, task);
-			thread->SetTask(task);
 			_BusyThreads.push_back(thread);
-			std::cout << "new task" << std::endl;
 		}
 		_Lock->Leave();
 	}

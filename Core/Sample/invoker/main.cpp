@@ -107,7 +107,7 @@ void Test2(Library* library)
 		while (context->GetCurrentState() != VF_STATE_IDLE)
 			Sleep(0);
 		int result = (*dataset)[3]->ReadAt<int>();
-		cout << "<valid> - out:" << result << endl;
+		//cout << "<valid> - out:" << result << endl;
 	}
 
 	QueryPerformanceCounter(&t2);
@@ -207,8 +207,8 @@ int main()
 	oss.str("");
 	oss << runtime->GetProcessDir() << "sample_lib.library";
 	Library* library = Library::Load(oss.str().c_str());
-	runtime->LinkObject(VF_CORE_LIBRARY, library);
 	Assert(library != NULL);
+	runtime->LinkObject(VF_CORE_LIBRARY, library);
 
 	cout << "[mount library] ... ";
 	Assert(library->Mount());

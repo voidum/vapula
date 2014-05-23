@@ -26,11 +26,13 @@ namespace vapula
 
 	Runtime::Runtime()
 	{
+		_Lock = new Lock();
 	}
 
 	Runtime::~Runtime()
 	{
 		Deactivate();
+		Clear(_Lock);
 	}
 
 	pcstr Runtime::IndexOfObject(uint8 type, raw target)
@@ -69,63 +71,81 @@ namespace vapula
 
 	raw Runtime::SelectObject(uint8 type, pcstr id)
 	{
-		if (id == null)
-			return null;
-		switch (type)
+		_Lock->Enter();
+		raw object = null;
+		if (id != null)
 		{
-		case VF_CORE_DRIVER:
-			typedef list<Driver*>::iterator iter1;
-			for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
+			switch (type)
 			{
-				pcstr cur_id = IndexOfObject(type, *i);
-				if (cur_id == null)
-					continue;
-				if (strcmp(id, cur_id) == 0)
-					return *i;
+			case VF_CORE_DRIVER:
+				typedef list<Driver*>::iterator iter1;
+				for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
+				{
+					pcstr cur_id = IndexOfObject(type, *i);
+					if (cur_id == null)
+						continue;
+					if (strcmp(id, cur_id) == 0)
+					{
+						object = *i;
+						break;
+					}
+				}
+				break;
+			case VF_CORE_LIBRARY:
+				typedef list<Library*>::iterator iter2;
+				for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
+				{
+					pcstr cur_id = IndexOfObject(type, *i);
+					if (cur_id == null)
+						continue;
+					if (strcmp(id, cur_id) == 0)
+					{
+						object = *i;
+						break;
+					}
+				}
+				break;
+			case VF_CORE_STACK:
+				typedef list<Stack*>::iterator iter3;
+				for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
+				{
+					pcstr cur_id = IndexOfObject(type, *i);
+					if (cur_id == null)
+						continue;
+					if (strcmp(id, cur_id) == 0)
+					{
+						object = *i;
+						break;
+					}
+				}
+				break;
+			case VF_CORE_ASPECT:
+				typedef list<Aspect*>::iterator iter4;
+				for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
+				{
+					pcstr cur_id = IndexOfObject(type, *i);
+					if (cur_id == null)
+						continue;
+					if (strcmp(id, cur_id) == 0)
+					{
+						object = *i;
+						break;
+					}
+				}
+				break;
+			default:
+				break;
 			}
-			return null;
-		case VF_CORE_LIBRARY:
-			typedef list<Library*>::iterator iter2;
-			for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
-			{
-				pcstr cur_id = IndexOfObject(type, *i);
-				if (cur_id == null)
-					continue;
-				if (strcmp(id, cur_id) == 0)
-					return *i;
-			}
-			return null;
-		case VF_CORE_STACK:
-			typedef list<Stack*>::iterator iter3;
-			for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
-			{
-				pcstr cur_id = IndexOfObject(type, *i);
-				if (cur_id == null)
-					continue;
-				if (strcmp(id, cur_id) == 0)
-					return *i;
-			}
-			return null;
-		case VF_CORE_ASPECT:
-			typedef list<Aspect*>::iterator iter4;
-			for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
-			{
-				pcstr cur_id = IndexOfObject(type, *i);
-				if (cur_id == null)
-					continue;
-				if (strcmp(id, cur_id) == 0)
-					return *i;
-			}
-			return null;
-		default:
-			return null;
 		}
+		_Lock->Leave();
+		return object;
 	}
 
 	void Runtime::LinkObject(uint8 type, raw target)
 	{
 		pcstr id = IndexOfObject(type, target);
 		raw object = SelectObject(type, id);
+		_Lock->Enter();
 		if (object != null)
 			return;
 		switch (type)
@@ -145,6 +165,7 @@ namespace vapula
 		default:
 			break;
 		}
+		_Lock->Leave();
 	}
 
 	void Runtime::KickObject(uint8 type, pcstr id)
@@ -152,6 +173,7 @@ namespace vapula
 		raw object = SelectObject(type, id);
 		if (object == null)
 			return;
+		_Lock->Enter();
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
@@ -169,10 +191,12 @@ namespace vapula
 		default:
 			break;
 		}
+		_Lock->Leave();
 	}
 
 	void Runtime::KickAllObjects(uint8 type)
 	{
+		_Lock->Enter();
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
@@ -202,6 +226,7 @@ namespace vapula
 		default:
 			break;
 		}
+		_Lock->Leave();
 	}
 
 	void Runtime::Activate()

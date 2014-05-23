@@ -24,6 +24,7 @@ namespace vapula
 		static Runtime* Instance();
 
 	private:
+		Lock* _Lock;
 		list<Driver*> _Drivers;
 		list<Library*> _Libraries;
 		list<Stack*> _Stacks;

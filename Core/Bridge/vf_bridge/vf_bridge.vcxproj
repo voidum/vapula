@@ -111,6 +111,7 @@
     <ClInclude Include="include\vf_debug.h" />
     <ClInclude Include="include\vf_dev_invoker.h" />
     <ClInclude Include="include\vf_error.h" />
+    <ClInclude Include="include\vf_list.h" />
     <ClInclude Include="include\vf_method.h" />
     <ClInclude Include="include\vf_assist.h" />
     <ClInclude Include="include\vf_dev_library.h" />

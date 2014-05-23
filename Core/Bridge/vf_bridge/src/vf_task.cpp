@@ -34,7 +34,6 @@ namespace vapula
 		pcstr stack_id = Stack::CurrentId();
 		_Stack->SetStackId(stack_id, this);
 		runtime->LinkObject(VF_CORE_STACK, _Stack);
-
 		Context* context = _Stack->GetContext();
 		try {
 			context->SetControlCode(VF_CTRL_NULL, this);
@@ -53,9 +52,8 @@ namespace vapula
 				OnRollback();
 			context->SetReturnCode(VF_RETURN_ERROR);
 		}
-		context->SetState(VF_STATE_IDLE, this);
-
 		runtime->KickObject(VF_CORE_STACK, stack_id);
+		context->SetState(VF_STATE_IDLE, this);
 	}
 
 	void Task::OnSafeProcess()

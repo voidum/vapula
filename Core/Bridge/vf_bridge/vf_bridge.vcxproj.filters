@@ -112,6 +112,9 @@
     <ClInclude Include="include\vf_dev_invoker.h">
       <Filter>sdk\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_list.h">
+      <Filter>base\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
