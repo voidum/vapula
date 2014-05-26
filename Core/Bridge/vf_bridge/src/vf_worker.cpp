@@ -87,24 +87,27 @@ namespace vapula
 	Thread* Worker::GetBusyThread(Task* task)
 	{
 		typedef list<Thread*>::iterator iter;
+		Thread* thread = null;
 		for (iter i = _BusyThreads.begin(); i != _BusyThreads.end();)
 		{
-			Thread* thread = *i;
-			Task* cur_task = thread->GetTask();
-			if (cur_task == null)
+			Thread* temp_thread = *i;
+			Task* temp_task = temp_thread->GetTask();
+			if (temp_task == null)
 			{
 				i = _BusyThreads.erase(i);
-				if (!thread->IsTemp())
-					_IdleThreads.push_back(thread);
+				if (!temp_thread->IsTemp())
+					_IdleThreads.push_back(temp_thread);
 				else
-					Clear(thread);
+					Clear(temp_thread);
 			}
-			else if (cur_task == task)
-				return thread;
-			else
+			else 
+			{
+				if (temp_task == task)
+					thread = temp_thread;
 				i++;
+			}
 		}
-		return null;
+		return thread;
 	}
 
 	void Worker::StartTask(Task* task)
@@ -113,28 +116,21 @@ namespace vapula
 		Thread* thread = GetBusyThread(task);
 		if (thread == null)
 		{
+			Stack* stack = task->GetStack();
+			Context* context = stack->GetContext();
+			context->SetState(VF_STATE_QUEUE, task);
 			thread = GetIdleThread();
 			if (thread == null)
 			{
 				thread = new Thread();
 				thread->SetTemp(true);
-
-				Stack* stack = task->GetStack();
-				Context* context = stack->GetContext();
-				context->SetState(VF_STATE_QUEUE, task);
-				thread->SetTask(task);
-
-				thread->Start();
 			}
 			else
 			{
-				Stack* stack = task->GetStack();
-				Context* context = stack->GetContext();
-				context->SetState(VF_STATE_QUEUE, task);
-				thread->SetTask(task);
-
 				_IdleThreads.remove(thread);
 			}
+			thread->SetTask(task);
+			thread->Start();
 			_BusyThreads.push_back(thread);
 		}
 		_Lock->Leave();
@@ -148,11 +144,11 @@ namespace vapula
 		{
 			if (!thread->IsTemp())
 			{
-				Thread* thread2 = new Thread();
-				thread2->SetTemp(false);
-				thread2->SetCPUs(thread->GetCPUs());
-				thread2->Start();
-				_IdleThreads.push_back(thread2);
+				Thread* thread_new = new Thread();
+				thread_new->SetTemp(false);
+				thread_new->SetCPUs(thread->GetCPUs());
+				thread_new->Start();
+				_IdleThreads.push_back(thread_new);
 				thread->SetTemp(true);
 			}
 			thread->Terminate();
@@ -173,10 +169,12 @@ namespace vapula
 		{
 			if (!thread->IsTemp())
 			{
-				Thread* thread2 = new Thread();
-				thread2->SetTemp(false);
-				thread2->SetCPUs(thread->GetCPUs());
-				_IdleThreads.push_back(thread2);
+				Thread* thread_new = new Thread();
+				thread_new->SetTemp(false);
+				thread_new->SetCPUs(thread->GetCPUs());
+				thread_new->Start();
+				_IdleThreads.push_back(thread_new);
+				thread->SetTemp(true);
 			}
 			thread->Suspend();
 			Stack* stack = task->GetStack();

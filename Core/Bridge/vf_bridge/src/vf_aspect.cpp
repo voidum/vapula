@@ -96,4 +96,14 @@ namespace vapula
 		bool match = std::regex_match(str_frame, pattern);
 		return match;
 	}
+
+	uint8 Aspect::GetType()
+	{
+		return VF_CORE_ASPECT;
+	}
+
+	pcstr Aspect::GetCoreId()
+	{
+		return GetAspectId();
+	}
 }

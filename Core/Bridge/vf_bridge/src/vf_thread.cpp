@@ -64,6 +64,8 @@ namespace vapula
 	void Thread::SetCPUs(uint32 mask)
 	{
 		_CPUMask = mask;
+		if (_Handle != null)
+			SetThreadAffinityMask(_Handle, _CPUMask);
 	}
 
 	void Thread::SetTask(Task* task)
@@ -73,17 +75,20 @@ namespace vapula
 
 	void Thread::Start()
 	{
-		_Handle = (HANDLE)_beginthreadex(null, 0, Thread::Handler, this, 0, 0);
-		SetThreadAffinityMask(_Handle, _CPUMask);
 		if (_Handle == null)
-			std::cout << "create thread error" << std::endl;
+		{
+			_Handle = (HANDLE)_beginthreadex(null, 0, Thread::Handler, this, 0, 0);
+			SetCPUs(_CPUMask);
+		}
 	}
 
 	void Thread::Terminate()
 	{
-		TerminateThread(_Handle, 0);
-		WaitForSingleObject(_Handle, INFINITE);
-		CloseHandle(_Handle);
+		if (TerminateThread(_Handle, 0) != 0)
+		{
+			WaitForSingleObject(_Handle, INFINITE);
+			CloseHandle(_Handle);
+		}
 	}
 
 	void Thread::Suspend()

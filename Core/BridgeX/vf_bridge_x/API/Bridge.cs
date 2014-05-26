@@ -5,17 +5,23 @@ namespace Vapula.API
 {
     public class Bridge
     {
+        #region Helper
         /// <summary>
-        /// convert IntPtr from PInvoke into string
+        /// convert IntPtr from PInvoke into unicode string
         /// </summary>
-        public static string ToString(IntPtr ptr, bool unicode = true)
+        public static string ToStringUni(IntPtr ptr)
         {
-            string ret =
-                unicode ?
-                    Marshal.PtrToStringUni(ptr) :
-                    Marshal.PtrToStringAnsi(ptr);
-            return ret;
+            return Marshal.PtrToStringUni(ptr);
         }
+
+        /// <summary>
+        /// convert IntPtr from PInvoke into ansi string
+        /// </summary>
+        public static string ToStringAnsi(IntPtr ptr) 
+        {
+            return Marshal.PtrToStringAnsi(ptr);
+        }
+        #endregion
 
         #region Base
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetVersion",

@@ -10,7 +10,7 @@ namespace vapula
 	class Error;
 
 	//stack
-	class VAPULA_API Stack
+	class VAPULA_API Stack : public Core
 	{
 	public:
 		Stack();
@@ -68,5 +68,10 @@ namespace vapula
 
 		//get error
 		Error* GetError();
+
+	public:
+		uint8 GetType();
+
+		pcstr GetCoreId();
 	};
 }

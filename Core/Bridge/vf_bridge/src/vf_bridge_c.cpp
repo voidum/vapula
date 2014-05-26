@@ -138,10 +138,16 @@ int vfeCountObjects(uint8 type)
 	return runtime->CountObjects(type);
 }
 
-void vfeLinkObject(uint8 type, raw target)
+raw vfeSelectObject(uint8 type, pcstr id)
 {
 	Runtime* runtime = Runtime::Instance();
-	return runtime->LinkObject(type, target);
+	return runtime->SelectObject(type, id);
+}
+
+void vfeLinkObject(raw target)
+{
+	Runtime* runtime = Runtime::Instance();
+	return runtime->LinkObject((Core*)target);
 }
 
 void vfeKickObject(uint8 type, pcstr id)

@@ -7,7 +7,7 @@ namespace vapula
 	class Task;
 
 	//aspect
-	class VAPULA_API Aspect
+	class VAPULA_API Aspect : public Core
 	{
 	private:
 		pcstr _Id;
@@ -48,5 +48,10 @@ namespace vapula
 
 		//test if frame match with contact
 		bool TryMatch(pcstr frame);
+
+	public:
+		uint8 GetType();
+
+		pcstr GetCoreId();
 	};
 }

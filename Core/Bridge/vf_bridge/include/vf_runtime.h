@@ -31,14 +31,15 @@ namespace vapula
 		list<Aspect*> _Aspects;
 
 	private:
-		pcstr IndexOfObject(uint8 type, raw target);
+		pcstr IndexOfObject(Core* target);
+		list<Core*>* ListObjects(uint8 type);
 
 	public:
 		int CountObjects(uint8 type);
 
-		raw SelectObject(uint8 type, pcstr id);
+		Core* SelectObject(uint8 type, pcstr id);
 
-		void LinkObject(uint8 type, raw target);
+		void LinkObject(Core* target);
 		
 		void KickObject(uint8 type, pcstr id);
 

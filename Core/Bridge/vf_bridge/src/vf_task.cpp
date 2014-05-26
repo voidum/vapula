@@ -33,7 +33,7 @@ namespace vapula
 		Runtime* runtime = Runtime::Instance();
 		pcstr stack_id = Stack::CurrentId();
 		_Stack->SetStackId(stack_id, this);
-		runtime->LinkObject(VF_CORE_STACK, _Stack);
+		runtime->LinkObject(_Stack);
 		Context* context = _Stack->GetContext();
 		try {
 			context->SetControlCode(VF_CTRL_NULL, this);

@@ -158,7 +158,7 @@ void Test5(Library* library)
 	Aspect* aspect = Aspect::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\aspect.xml");
 	Assert(aspect != null);
 	Runtime* runtime = Runtime::Instance();
-	runtime->LinkObject(VF_CORE_ASPECT, aspect);
+	runtime->LinkObject(aspect);
 	Task* task = library->CreateTask("protect");
 	task->Start();
 	Stack* stack = task->GetStack();
@@ -199,7 +199,7 @@ int main()
 	oss << runtime->GetProcessDir() << "crt.driver";
 	Driver* driver = Driver::Load(oss.str().c_str());
 	Assert(driver != null);
-	runtime->LinkObject(VF_CORE_DRIVER, driver);
+	runtime->LinkObject(driver);
 	//cout<<"[register driver clr] ... ";
 	//Assert(drv_hub->Link("clr"));
 
@@ -208,7 +208,7 @@ int main()
 	oss << runtime->GetProcessDir() << "sample_lib.library";
 	Library* library = Library::Load(oss.str().c_str());
 	Assert(library != NULL);
-	runtime->LinkObject(VF_CORE_LIBRARY, library);
+	runtime->LinkObject(library);
 
 	cout << "[mount library] ... ";
 	Assert(library->Mount());

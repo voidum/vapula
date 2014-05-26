@@ -25,7 +25,8 @@ extern "C"
 	VAPULA_API void vfeActivateRuntime();
 	VAPULA_API void vfeDeactivateRuntime();
 	VAPULA_API int vfeCountObjects(uint8 type);
-	VAPULA_API void vfeLinkObject(uint8 type, raw target);
+	VAPULA_API raw vfeSelectObject(uint8 type, pcstr id);
+	VAPULA_API void vfeLinkObject(raw target);
 	VAPULA_API void vfeKickObject(uint8 type, pcstr id);
 	VAPULA_API void vfeKickAllObjects(uint8 type);
 	VAPULA_API void vfeReachFrame(pcstr frame);

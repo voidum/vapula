@@ -107,4 +107,14 @@ namespace vapula
 		Clear(_Error);
 		_Error = error;
 	}
+
+	uint8 Stack::GetType()
+	{
+		return VF_CORE_STACK;
+	}
+
+	pcstr Stack::GetCoreId()
+	{
+		return GetStackId();
+	}
 }

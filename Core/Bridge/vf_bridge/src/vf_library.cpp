@@ -101,4 +101,14 @@ namespace vapula
 			return null;
 		}
 	}
+
+	uint8 Library::GetType()
+	{
+		return VF_CORE_LIBRARY;
+	}
+
+	pcstr Library::GetCoreId()
+	{
+		return GetLibraryId();
+	}
 }

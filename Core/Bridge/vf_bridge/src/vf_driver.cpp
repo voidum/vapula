@@ -26,4 +26,14 @@ namespace vapula
 		drv->_Module = module;
 		return drv;
 	}
+
+	uint8 Driver::GetType()
+	{
+		return VF_CORE_DRIVER;
+	}
+
+	pcstr Driver::GetCoreId()
+	{
+		return GetRuntimeId();
+	}
 }

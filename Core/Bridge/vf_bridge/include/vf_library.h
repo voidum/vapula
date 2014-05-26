@@ -9,7 +9,7 @@ namespace vapula
 	class Task;
 
 	//library {base}
-	class VAPULA_API Library
+	class VAPULA_API Library : public Core
 	{
 	protected:
 		pcstr _Id;
@@ -54,5 +54,10 @@ namespace vapula
 
 		//unmount library
 		virtual void Unmount() = 0;
+
+	public:
+		uint8 GetType();
+
+		pcstr GetCoreId();
 	};
 }

@@ -35,18 +35,23 @@ namespace vapula
 		Clear(_Lock);
 	}
 
-	pcstr Runtime::IndexOfObject(uint8 type, raw target)
+	pcstr Runtime::IndexOfObject(Core* target)
+	{
+		return target->GetCoreId();
+	}
+
+	list<Core*>* Runtime::ListObjects(uint8 type)
 	{
 		switch (type)
 		{
 		case VF_CORE_DRIVER:
-			return ((Driver*)target)->GetRuntimeId();
+			return (list<Core*>*)(&_Drivers);
 		case VF_CORE_LIBRARY:
-			return ((Library*)target)->GetLibraryId();
+			return (list<Core*>*)(&_Libraries);
 		case VF_CORE_STACK:
-			return ((Stack*)target)->GetStackId();
+			return (list<Core*>*)(&_Stacks);
 		case VF_CORE_ASPECT:
-			return ((Aspect*)target)->GetAspectId();
+			return (list<Core*>*)(&_Aspects);
 		default:
 			return null;
 		}
@@ -54,178 +59,68 @@ namespace vapula
 
 	int Runtime::CountObjects(uint8 type)
 	{
-		switch (type)
-		{
-		case VF_CORE_DRIVER:
-			return _Drivers.size();
-		case VF_CORE_LIBRARY:
-			return _Libraries.size();
-		case VF_CORE_STACK:
-			return _Stacks.size();
-		case VF_CORE_ASPECT:
-			return _Aspects.size();
-		default:
-			return 0;
-		}
+		_Lock->Enter();
+		list<Core*>* cores = ListObjects(type);
+		int count = cores->size();
+		_Lock->Leave();
+		return count;
 	}
 
-	raw Runtime::SelectObject(uint8 type, pcstr id)
+	Core* Runtime::SelectObject(uint8 type, pcstr id)
 	{
 		_Lock->Enter();
-		raw object = null;
+		Core* object = null;
 		if (id != null)
 		{
-			switch (type)
+			typedef list<Core*>::iterator iter;
+			list<Core*>* cores = ListObjects(type);
+			for (iter i = cores->begin(); i != cores->end(); i++)
 			{
-			case VF_CORE_DRIVER:
-				typedef list<Driver*>::iterator iter1;
-				for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
+				pcstr cur_id = IndexOfObject(*i);
+				if (cur_id == null)
+					continue;
+				if (strcmp(id, cur_id) == 0)
 				{
-					pcstr cur_id = IndexOfObject(type, *i);
-					if (cur_id == null)
-						continue;
-					if (strcmp(id, cur_id) == 0)
-					{
-						object = *i;
-						break;
-					}
+					object = *i;
+					break;
 				}
-				break;
-			case VF_CORE_LIBRARY:
-				typedef list<Library*>::iterator iter2;
-				for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
-				{
-					pcstr cur_id = IndexOfObject(type, *i);
-					if (cur_id == null)
-						continue;
-					if (strcmp(id, cur_id) == 0)
-					{
-						object = *i;
-						break;
-					}
-				}
-				break;
-			case VF_CORE_STACK:
-				typedef list<Stack*>::iterator iter3;
-				for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
-				{
-					pcstr cur_id = IndexOfObject(type, *i);
-					if (cur_id == null)
-						continue;
-					if (strcmp(id, cur_id) == 0)
-					{
-						object = *i;
-						break;
-					}
-				}
-				break;
-			case VF_CORE_ASPECT:
-				typedef list<Aspect*>::iterator iter4;
-				for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
-				{
-					pcstr cur_id = IndexOfObject(type, *i);
-					if (cur_id == null)
-						continue;
-					if (strcmp(id, cur_id) == 0)
-					{
-						object = *i;
-						break;
-					}
-				}
-				break;
-			default:
-				break;
 			}
 		}
 		_Lock->Leave();
 		return object;
 	}
 
-	void Runtime::LinkObject(uint8 type, raw target)
+	void Runtime::LinkObject(Core* target)
 	{
-		pcstr id = IndexOfObject(type, target);
-		raw object = SelectObject(type, id);
-		_Lock->Enter();
+		pcstr id = IndexOfObject(target);
+		raw object = SelectObject(target->GetType(), id);
 		if (object != null)
 			return;
-		switch (type)
-		{
-		case VF_CORE_DRIVER:
-			_Drivers.push_back((Driver*)target);
-			break;
-		case VF_CORE_LIBRARY:
-			_Libraries.push_back((Library*)target);
-			break;
-		case VF_CORE_STACK:
-			_Stacks.push_back((Stack*)target);
-			break;
-		case VF_CORE_ASPECT:
-			_Aspects.push_back((Aspect*)target);
-			break;
-		default:
-			break;
-		}
+		_Lock->Enter();
+		list<Core*>* cores = ListObjects(target->GetType());
+		cores->push_back(target);
 		_Lock->Leave();
 	}
 
 	void Runtime::KickObject(uint8 type, pcstr id)
 	{
-		raw object = SelectObject(type, id);
+		Core* object = SelectObject(type, id);
 		if (object == null)
 			return;
 		_Lock->Enter();
-		switch (type)
-		{
-		case VF_CORE_DRIVER:
-			_Drivers.remove((Driver*)object);
-			break;
-		case VF_CORE_LIBRARY:
-			_Libraries.remove((Library*)object);
-			break;
-		case VF_CORE_STACK:
-			_Stacks.remove((Stack*)object);
-			break;
-		case VF_CORE_ASPECT:
-			_Aspects.remove((Aspect*)object);
-			break;
-		default:
-			break;
-		}
+		list<Core*>* cores = ListObjects(type);
+		cores->remove(object);
 		_Lock->Leave();
 	}
 
 	void Runtime::KickAllObjects(uint8 type)
 	{
 		_Lock->Enter();
-		switch (type)
-		{
-		case VF_CORE_DRIVER:
-			typedef list<Driver*>::iterator iter1;
-			for (iter1 i = _Drivers.begin(); i != _Drivers.end(); i++)
-				Clear(*i);
-			_Drivers.clear();
-			break;
-		case VF_CORE_LIBRARY:
-			typedef list<Library*>::iterator iter2;
-			for (iter2 i = _Libraries.begin(); i != _Libraries.end(); i++)
-				Clear(*i);
-			_Libraries.clear();
-			break;
-		case VF_CORE_STACK:
-			typedef list<Stack*>::iterator iter3;
-			for (iter3 i = _Stacks.begin(); i != _Stacks.end(); i++)
-				Clear(*i);
-			_Stacks.clear();
-			break;
-		case VF_CORE_ASPECT:
-			typedef list<Aspect*>::iterator iter4;
-			for (iter4 i = _Aspects.begin(); i != _Aspects.end(); i++)
-				Clear(*i);
-			_Aspects.clear();
-			break;
-		default:
-			break;
-		}
+		typedef list<Core*>::iterator iter;
+		list<Core*>* cores = (list<Core*>*)ListObjects(type);
+		for (iter i = cores->begin(); i != cores->end(); i++)
+			Clear(*i);
+		cores->clear();
 		_Lock->Leave();
 	}
 
@@ -257,7 +152,7 @@ namespace vapula
 		list<Aspect*> joins;
 		for (iter i = _Aspects.begin(); i != _Aspects.end(); i++)
 		{
-			Aspect* aspect = *i;
+			Aspect* aspect = (Aspect*)(*i);
 			if (aspect->TryMatch(frame))
 			{
 				weaver->Invoke(aspect);
