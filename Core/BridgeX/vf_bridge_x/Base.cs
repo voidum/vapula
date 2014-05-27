@@ -3,33 +3,6 @@ using System.IO;
 
 namespace Vapula
 {
-    public enum State
-    {
-        Idle = 0,
-        Pause = 1,
-        BusyBack = 2,
-        BusyFront = 3,
-        Rollback = 4
-    }
-
-    public enum ControlCode
-    {
-        Null = 0,
-        Pause = 1,
-        Resume = 2,
-        Cancel = 3,
-        Restart = 4
-    }
-
-    public enum ReturnCode
-    {
-        Error = 0,
-        Normal = 1,
-        Cancel = 2,
-        Terminate = 3,
-        NullTask = 4
-    }
-
     public enum DataType
     {
         Raw = 0,
@@ -57,6 +30,42 @@ namespace Vapula
         Out = 1,
         InOut = 2
     }
+
+    public enum State
+    {
+        Idle = 0,
+        Queue = 1,
+        BusyBack = 2,
+        BusyFront = 3,
+        Rollback = 4,
+        Pause = 5
+    }
+
+    public enum ControlCode
+    {
+        Null = 0,
+        Pause = 1,
+        Resume = 2,
+        Cancel = 3
+    }
+
+    public enum ReturnCode
+    {
+        Error = 0,
+        Normal = 1,
+        Cancel = 2,
+        Terminate = 3,
+        NullTask = 4,
+        Unhandled = 5
+    }
+    public enum CoreObject
+    {
+        Unknown = 0,
+        Driver = 1,
+        Library = 2,
+        Stack = 3,
+        Aspect = 4
+    };
 
     public class Base
     {
@@ -121,6 +130,64 @@ namespace Vapula
                 case ValueType.Real64: return typeof(Nullable<double>);
                 default: return typeof(Nullable<IntPtr>);
             }
+        }
+
+        /// <summary>
+        /// get Vapula value type for CLR type
+        /// </summary>
+        public static ValueType GetVapulaType(Type type)
+        {
+            if (!type.IsValueType)
+                return ValueType.UInt32;
+            if (type == typeof(SByte))
+                return ValueType.Int8;
+            else if (type == typeof(Int16))
+                return ValueType.Int16;
+            else if (type == typeof(Int32))
+                return ValueType.Int32;
+            else if (type == typeof(Int64))
+                return ValueType.Int64;
+            else if (type == typeof(Byte))
+                return ValueType.UInt8;
+            else if (type == typeof(UInt16))
+                return ValueType.UInt16;
+            else if (type == typeof(UInt32))
+                return ValueType.UInt32;
+            else if (type == typeof(UInt64))
+                return ValueType.UInt64;
+            else if (type == typeof(Single))
+                return ValueType.Real32;
+            else if (type == typeof(Double))
+                return ValueType.Real64;
+            else
+                return ValueType.UInt32;
+        }
+
+        public static T ConvertTo<T>(string src) where T : struct
+        {
+            Type type = typeof(T);
+            if (type == typeof(SByte))
+                return (T)(object)SByte.Parse(src);
+            else if (type == typeof(Int16))
+                return (T)(object)Int16.Parse(src);
+            else if (type == typeof(Int32))
+                return (T)(object)Int32.Parse(src);
+            else if (type == typeof(Int64))
+                return (T)(object)Int64.Parse(src);
+            else if (type == typeof(Byte))
+                return (T)(object)Byte.Parse(src);
+            else if (type == typeof(UInt16))
+                return (T)(object)UInt16.Parse(src);
+            else if (type == typeof(UInt32))
+                return (T)(object)UInt32.Parse(src);
+            else if (type == typeof(UInt64))
+                return (T)(object)UInt64.Parse(src);
+            else if (type == typeof(Single))
+                return (T)(object)Single.Parse(src);
+            else if (type == typeof(Double))
+                return (T)(object)Double.Parse(src);
+            else
+                return default(T);
         }
     }
 }

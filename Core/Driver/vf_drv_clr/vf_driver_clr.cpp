@@ -9,7 +9,7 @@ DriverCLR::DriverCLR()
 	Runtime* runtime = Runtime::Instance();
 	pcstr cs8_dir = runtime->GetRuntimeDir();
 	string str1 = cs8_dir;
-	str1 += "vf_bridge_x.dll";
+	str1 += "clr.driver.dll";
 	_BridgePath = str::ToStrW(str1.c_str());
 	delete cs8_dir;
 
@@ -58,7 +58,7 @@ Task* DriverCLR::CreateTask()
 	return task;
 }
 
-DriverCLR* DriverCLR::GetInstance()
+DriverCLR* DriverCLR::Instance()
 {
 	Runtime* runtime = Runtime::Instance();
 	DriverCLR* driver = 
@@ -72,24 +72,25 @@ Driver* GetDriverInstance()
 	return driver;
 }
 
-int DriverCLR::CallBridge(pcstr name, pcstr args)
+int DriverCLR::CallBridge(pcstr cmd, pcstr args)
 {
 	DWORD ret = 0;
-	pcwstr cs16_name = str::ToStrW(name);
+	pcwstr cs16_cmd = str::ToStrW(cmd);
 	pcwstr cs16_args = str::ToStrW(args);
 	HRESULT hr = _RuntimeHost->ExecuteInDefaultAppDomain(
 		_BridgePath,
-		L"Vapula.Runtime.DriverEntry",
-		cs16_name, cs16_args, &ret);
+		L"Vapula.Driver.Entry",
+		cs16_cmd, cs16_args, &ret);
 	if(hr != S_OK)
 	{
 		ostringstream oss;
 		oss << "error occured at [CallBridge]\n";
-		oss << "method:" << name << "\n";
+		oss << "command:" << cmd << "\n";
+		oss << "arguments:" << args << "\n";
 		oss << "code:" << hr;
 		ShowMsgbox(oss.str().c_str(), _vf_clr);
 	}
-	delete cs16_name;
+	delete cs16_cmd;
 	delete cs16_args;
 	return ret;
 }

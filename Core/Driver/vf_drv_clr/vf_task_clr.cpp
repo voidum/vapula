@@ -1,49 +1,46 @@
 #include "vf_driver_clr.h"
 #include "vf_task_clr.h"
 #include "vf_library_clr.h"
+#include "vf_stack.h"
 
 TaskCLR::TaskCLR()
 {
-	_Handle = null;
+	_Method = null;
 }
 
 TaskCLR::~TaskCLR()
 {
-	Clear(_Handle);
 }
 
 pcstr TaskCLR::GetHandle()
 {
-	if(_Handle == null) 
-	{
-		uint64 v = (uint64)this;
-		_Handle = str::Value(v);
-	}
-	return _Handle;
+	LibraryCLR* library = (LibraryCLR*)_Method->GetLibrary();
+	return library->GetHandle();
 }
 
 bool TaskCLR::Bind(Method* method)
 {
 	Task::Bind(method);
-	DriverCLR* driver = DriverCLR::GetInstance();
-	LibraryCLR* library = (LibraryCLR*)method->GetLibrary();
-
-	string args = GetHandle();
-	args += "|";
-	args += library->GetHandle();
-
-	driver->CallBridge("InitInvoker", args.c_str());
+	_Method = method;
 	return true;
 }
 
 void TaskCLR::OnProcess()
 {
-	DriverCLR* driver = DriverCLR::GetInstance();
-	driver->CallBridge("OnProcess", GetHandle());
+	string args = GetHandle();
+	args += "|";
+	args += _Method->GetProcessSym();
+
+	DriverCLR* driver = DriverCLR::Instance();
+	driver->CallBridge("OnProcess", args.c_str());
 }
 
 void TaskCLR::OnRollback()
 {
-	DriverCLR* driver = DriverCLR::GetInstance();
-	driver->CallBridge("OnRollback", GetHandle());
+	string args = GetHandle();
+	args += "|";
+	args += _Method->GetRollbackSym();
+
+	DriverCLR* driver = DriverCLR::Instance();
+	driver->CallBridge("OnRollback", args.c_str());
 }

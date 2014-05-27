@@ -1,27 +1,20 @@
 ﻿using System;
-using Vapula.API;
 
 namespace Vapula.Runtime
 {
     /// <summary>
-    /// 全双工信道
+    /// full-duplex data pipe
     /// </summary>
     public class Pipe : IDisposable
     {
         private IntPtr _Handle = IntPtr.Zero;
         private string _Id = null;
 
-        /// <summary>
-        /// 构造信道
-        /// </summary>
         public Pipe()
         {
             _Handle = Bridge.CreatePipe();
         }
 
-        /// <summary>
-        /// 释放信道对象
-        /// </summary>
         public void Dispose()
         {
             if (_Handle != IntPtr.Zero)
@@ -29,7 +22,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取内核句柄
+        /// get handle
         /// </summary>
         public IntPtr Handle
         {
@@ -37,7 +30,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取信道标识
+        /// get pipe id
         /// </summary>
         public string Id
         {
@@ -45,7 +38,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 获取信道是否关闭
+        /// get if pipe is closed
         /// </summary>
         public bool IsClose
         {
@@ -53,7 +46,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 检测信道是否收到新消息
+        /// get if pipe has new data
         /// </summary>
         public bool HasNewData
         {
@@ -61,7 +54,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 关闭信道
+        /// close pipe
         /// </summary>
         public void Close()
         {
@@ -69,24 +62,25 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 启动并监听信道
+        /// listen pipe
         /// </summary>
         public void Listen()
         {
-            _Id = Bridge.ToString(
-                Bridge.ListenPipe(_Handle), false);
+            _Id = 
+                Bridge.ToStringAnsi(
+                Bridge.ListenPipe(_Handle));
         }
 
         /// <summary>
-        /// 连接到指定信道
+        /// connect to pipe
         /// </summary>
-        public bool Connect(string pid)
+        public bool Connect(string id)
         {
-            return Bridge.ConnectPipe(_Handle, pid);
+            return Bridge.ConnectPipe(_Handle, id);
         }
 
         /// <summary>
-        /// 向信道写入数据
+        /// write data to pipe
         /// </summary>
         public void Write(string data) 
         {
@@ -94,11 +88,12 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 从信道读出数据
+        /// read data from pipe
         /// </summary>
         public string Read() 
         {
-            return Bridge.ToString(
+            return 
+                Bridge.ToStringAnsi(
                 Bridge.ReadPipe(_Handle));
         }
     }

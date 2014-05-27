@@ -9,16 +9,16 @@ namespace sample_xinvoker
 {
     public partial class FrmMain : Form
     {
-        private DriverHub drv_hub = null;
+        private Runtime drv_hub = null;
 
         public FrmMain()
         {
             InitializeComponent();
-            drv_hub = DriverHub.Instance;
-            if (!drv_hub.Link("crt")) 
-                return;
-            if (!drv_hub.Link("clr")) 
-                return;
+            Runtime runtime = Runtime.Instance;
+            IntPtr driver = Bridge.LoadDriver("");
+            runtime.LinkObject(driver);
+            driver = Bridge.LoadDriver("");
+            runtime.LinkObject(driver);
         }
 
         private void UpdateLog(string log)
@@ -34,21 +34,21 @@ namespace sample_xinvoker
             }
         }
 
-        void Test1(Library lib)
+        void Test1(Library library)
         {
-            Invoker inv = lib.CreateInvoker("context");
-            if (inv == null) 
+            Task task = library.CreateTask("context");
+            if (task == null) 
                 return;
-            if (!inv.Start()) return;
-            Stack stk = inv.Stack;
-            Context ctx = stk.Context;
-            while (ctx.CurrentState != State.Idle)
+            task.Start();
+            Stack stack = task.Stack;
+            Context context = stack.Context;
+            while (context.CurrentState != State.Idle)
             {
-                float prog = ctx.Progress;
-                if (prog > 10)
+                float progress = context.Progress;
+                if (progress > 10)
                 {
                     UpdateLog("进度超过10%，暂停");
-                    inv.Pause(50);
+                    task.Pause(50);
                     break;
                 }
                 Thread.Sleep(50);
@@ -60,56 +60,55 @@ namespace sample_xinvoker
                 step++;
                 Thread.Sleep(50);
             }
-            inv.Resume();
-            UpdateLog("已恢复，进度：" + ctx.Progress.ToString() + "%");
-            while (ctx.CurrentState != State.Idle)
+            task.Resume();
+            UpdateLog("已恢复，进度：" + context.Progress.ToString() + "%");
+            while (context.CurrentState != State.Idle)
                 Thread.Sleep(50);
             UpdateLog("测试1完成");
             UpdateLog("-------------");
-            inv.Dispose();
+            task.Dispose();
         }
 
-        void Test2(Library lib)
+        void Test2(Library library)
         {
             UpdateLog("获取用于功能1的调用器对象");
-            Invoker inv = lib.CreateInvoker("math");
-            if (inv == null)
+            Task task = library.CreateTask("math");
+            if (task == null)
                 return;
-            Stack stk = inv.Stack;
+            Stack stack = task.Stack;
 
             UpdateLog("获取信封对象");
-            Envelope env = stk.Envelope;
-            if (env == null) 
+            Dataset dataset = stack.Dataset;
+            if (dataset == null) 
                 return;
 
             UpdateLog("设置参数");
-            env.Write(1, "12");
-            env.Write(2, "23");
+            dataset[1].WriteAt(12);
+            dataset[2].WriteAt(23);
 
             UpdateLog("执行功能");
-            if (!inv.Start())
-                return;
+            task.Start();
 
-            Context ctx = stk.Context;
-            while (ctx.CurrentState != State.Idle)
+            Context context = stack.Context;
+            while (context.CurrentState != State.Idle)
                 Thread.Sleep(50);
 
-            UpdateLog("验证输出：" + env.Read(3));
+            UpdateLog("验证输出：" + dataset[3].ReadAt<int>().ToString());
 
             //double td_time = 0;
             for (int i = 0; i < 2000; i++)
             {
-                env.Write(1, "12");
-                env.Write(2, "23");
-                inv.Start();
-                ctx = stk.Context;
+                dataset[1].WriteAt(12);
+                dataset[2].WriteAt(23);
+                task.Start();
+                context = stack.Context;
                 //sw = ctx.GetStopwatch();
-                while (ctx.CurrentState != State.Idle) 
+                while (context.CurrentState != State.Idle) 
                     Thread.Sleep(0);
                 //td_time += sw.GetElapsedTime();
-                int.Parse(env.Read(3));
+                dataset[3].ReadAt<int>();
             }
-            inv.Dispose();
+            task.Dispose();
         }
 
         private void BtRun1_Click(object sender, EventArgs e)

@@ -1,5 +1,4 @@
 ﻿using System;
-using Vapula.API;
 
 namespace Vapula.Runtime
 {
@@ -21,14 +20,7 @@ namespace Vapula.Runtime
             IntPtr ptr = Bridge.LoadLibrary(path);
             if (ptr == IntPtr.Zero)
                 return null;
-            Library lib = null;
-            string runtime =
-                Bridge.ToString(
-                Bridge.GetRuntime(ptr), false);
-            if (runtime == Base.RuntimeId)
-                lib = new LibraryCLR(ptr);
-            else
-                lib = new Library(ptr);
+            Library lib = new Library(ptr);
             return lib;
         }
 
@@ -40,8 +32,8 @@ namespace Vapula.Runtime
             get 
             {
                 string value = 
-                    Bridge.ToString(
-                    Bridge.GetLibraryId(_Handle), false);
+                    Bridge.ToStringAnsi(
+                    Bridge.GetLibraryId(_Handle));
                 return value;
             }
         }
@@ -54,23 +46,19 @@ namespace Vapula.Runtime
             get 
             { 
                 string value = 
-                    Bridge.ToString(
-                    Bridge.GetRuntime(_Handle), false);
+                    Bridge.ToStringAnsi(
+                    Bridge.GetRuntime(_Handle));
                 return value;
             }
         }
 
 		/// <summary>
-        /// create invoker for method
+        /// create task for method
 		/// </summary>
-        public Invoker CreateInvoker(string id)
+        public Task CreateTask(string id)
         {
-            IntPtr ptr = Bridge.CreateInvoker(_Handle, id);
-            Invoker inv = null;
-            if (RuntimeId == Base.RuntimeId)
-                inv = InvokerCLR.GetInvoker(ptr);
-            else
-                inv = new Invoker(ptr);
+            IntPtr ptr = Bridge.CreateTask(_Handle, id);
+            Task inv = new Task(ptr);
             return inv;
         }
 
@@ -80,8 +68,8 @@ namespace Vapula.Runtime
         public string GetProcessSym(string id)
         {
             string sym = 
-                Bridge.ToString(
-                Bridge.GetProcessSym(_Handle, id), false);
+                Bridge.ToStringAnsi(
+                Bridge.GetProcessSym(_Handle, id));
             return sym;
         }
 
@@ -91,15 +79,15 @@ namespace Vapula.Runtime
         public string GetRollbackSym(string id)
         {
             string sym =
-                Bridge.ToString(
-                Bridge.GetRollbackSym(_Handle, id), false);
+                Bridge.ToStringAnsi(
+                Bridge.GetRollbackSym(_Handle, id));
             return sym;
         }
 
 		/// <summary>
 		/// mount library
 		/// </summary>
-        public virtual bool Mount()
+        public bool Mount()
         {
             return Bridge.MountLibrary(_Handle);
         }
@@ -107,7 +95,7 @@ namespace Vapula.Runtime
 		/// <summary>
         /// unmount library
 		/// </summary>
-        public virtual void Unmount()
+        public void Unmount()
         {
             Bridge.UnmountLibrary(_Handle);
         }
@@ -115,7 +103,7 @@ namespace Vapula.Runtime
         /// <summary>
         /// dispose library
         /// </summary>
-        public virtual void Dispose()
+        public void Dispose()
         {
             Unmount();
             Bridge.DeleteRaw(_Handle);

@@ -5,7 +5,7 @@
 class TaskCLR : public Task
 {
 private:
-	pcstr _Handle;
+	Method* _Method;
 
 public:
 	TaskCLR();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Linq;
-using Vapula.API;
 
 namespace Vapula.Runtime
 {
@@ -30,9 +29,9 @@ namespace Vapula.Runtime
         public static Dataset Parse(XElement xml)
         {
             string s = xml.ToString();
-            IntPtr hds = Bridge.ParseDataset(s);
-            Dataset ds = new Dataset(hds);
-            return ds;
+            IntPtr ptr = Bridge.ParseDataset(s);
+            Dataset dataset = new Dataset(ptr);
+            return dataset;
         }
 
         public Record this[int id]
@@ -40,7 +39,8 @@ namespace Vapula.Runtime
             get
             {
                 IntPtr ptr = Bridge.GetRecord(Handle, id);
-                return null;
+                Record record = new Record(ptr);
+                return record;
             }
         }
 
@@ -51,9 +51,9 @@ namespace Vapula.Runtime
 
         public Dataset Copy() 
         {
-            IntPtr hds = Bridge.CopyDataset(Handle);
-            Dataset ds = new Dataset(hds);
-            return ds;
+            IntPtr handle = Bridge.CopyDataset(Handle);
+            Dataset dataset = new Dataset(handle);
+            return dataset;
         }
     }
 }

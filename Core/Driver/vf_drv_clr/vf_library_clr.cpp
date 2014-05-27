@@ -26,14 +26,16 @@ bool LibraryCLR::Mount()
 	string args = GetHandle();
 	args += "|";
 	args += _Path;
+	args += "|";
+	args += _Id;
 
-	DriverCLR* drv = DriverCLR::GetInstance();
+	DriverCLR* drv = DriverCLR::Instance();
 	int ret = drv->CallBridge("Mount", args.c_str());
 	return ret == TRUE;
 }
 
 void LibraryCLR::Unmount()
 {
-	DriverCLR* drv = DriverCLR::GetInstance();
+	DriverCLR* drv = DriverCLR::Instance();
 	drv->CallBridge("Unmount", GetHandle());
 }

@@ -59,7 +59,7 @@ namespace vapula
 		void Write(pcwstr data);
 
 		//write data at offset (at) by type (T)
-		//write new data when diff size
+		//write new data when size is not enough
 		template<typename T>
 		void WriteAt(T data, uint32 at = 0)
 		{

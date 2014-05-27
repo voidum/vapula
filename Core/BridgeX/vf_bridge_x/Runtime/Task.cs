@@ -1,21 +1,20 @@
 ﻿using System;
-using Vapula.API;
 
 namespace Vapula.Runtime
 {
     /// <summary>
-    /// invoker
+    /// task
     /// </summary>
-    public class Invoker : IDisposable
+    public class Task : IDisposable
     {
         #region Fields
         protected IntPtr _Handle;
         protected Stack _Stack = null;
-        protected readonly object _SyncRoot = new object();
+        protected object _SyncRoot = new object();
         #endregion
 
         #region Ctor
-        public Invoker(IntPtr handle)
+        public Task(IntPtr handle)
         {
             _Handle = handle;
         }
@@ -33,8 +32,11 @@ namespace Vapula.Runtime
                 {
                     lock (_SyncRoot) 
                     {
-                        IntPtr ptr = Bridge.GetStack(_Handle);
-                        _Stack = new Stack(ptr);
+                        if(_Stack == null)
+                        {
+                            IntPtr ptr = Bridge.GetTaskStack(_Handle);
+                            _Stack = new Stack(ptr);
+                        }
                     }
                 }
                 return _Stack;
@@ -42,54 +44,47 @@ namespace Vapula.Runtime
         }
         #endregion
 
-        #region 方法
+        #region Methods
         /// <summary>
-        /// start invoker
+        /// start task
         /// </summary>
-        public virtual bool Start()
+        public void Start()
         {
-            return Bridge.StartInvoker(_Handle);
+            Bridge.StartTask(_Handle);
         }
 
         /// <summary>
-        /// stop invoker
+        /// stop task
         /// </summary>
-        public virtual void Stop(uint wait)
+        public void Stop(uint wait)
         {
-            Bridge.StopInvoker(_Handle, wait);
+            Bridge.StopTask(_Handle, wait);
         }
 
         /// <summary>
-        /// pause invoker
+        /// pause task
         /// </summary>
-        public virtual void Pause(uint wait)
+        public void Pause(uint wait)
         {
-            Bridge.PauseInvoker(_Handle, wait);
+            Bridge.PauseTask(_Handle, wait);
         }
 
         /// <summary>
-        /// resume invoker
+        /// resume task
         /// </summary>
-        public virtual void Resume() 
+        public void Resume() 
         {
-            Bridge.ResumeInvoker(_Handle);
-        }
-
-        /// <summary>
-        /// restart invoker
-        /// </summary>
-        public virtual void Restart(uint wait) 
-        {
-            Bridge.RestartInvoker(_Handle, wait);
+            Bridge.ResumeTask(_Handle);
         }
 
         /// <summary>
         /// dispose invoker
         /// </summary>
-        public virtual void Dispose()
+        public void Dispose()
         {
-            Stack.Clear();
+            Stack.Dispose();
             _Stack = null;
+            _SyncRoot = null;
             _Handle = IntPtr.Zero;
             Bridge.DeleteRaw(_Handle);
         }

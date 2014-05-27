@@ -14,6 +14,7 @@
     <ProjectGuid>{6BA97AFC-B1B4-4C02-BE06-88B2FC7AD3E2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vfe_bridge_idl</RootNamespace>
+    <ProjectName>vf_drv_idl_bin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

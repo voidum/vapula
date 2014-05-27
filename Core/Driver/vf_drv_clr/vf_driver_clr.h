@@ -20,7 +20,7 @@ private:
 	ICLRRuntimeInfo* _RuntimeInfo;
 	ICLRRuntimeHost* _RuntimeHost;
 public:
-	static DriverCLR* GetInstance();
+	static DriverCLR* Instance();
 
 public:
 	pcstr GetRuntimeId();

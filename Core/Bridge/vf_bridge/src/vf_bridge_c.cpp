@@ -20,6 +20,11 @@ pcstr vfeGetVersion()
 	return runtime->GetVersion();
 }
 
+uint32 vfeGetTypeUnit(uint8 type)
+{
+	return GetValueUnit(type);
+}
+
 raw vfeNewData(uint8 type, uint32 count)
 {
 	raw data = new vapula::byte[GetValueUnit(type) * count];

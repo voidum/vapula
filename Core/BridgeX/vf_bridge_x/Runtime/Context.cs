@@ -1,5 +1,4 @@
 ﻿using System;
-using Vapula.API;
 
 namespace Vapula.Runtime
 {
@@ -66,7 +65,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 切换暂停/恢复
+        /// switch pause/resume
         /// </summary>
         public void SwitchHold()
         {
@@ -74,7 +73,7 @@ namespace Vapula.Runtime
         }
 
         /// <summary>
-        /// 切换占用状态的后端/前端标记
+        /// switch back/front busy
         /// </summary>
         public void SwitchBusy()
         {

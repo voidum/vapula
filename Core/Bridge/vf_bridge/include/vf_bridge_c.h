@@ -9,6 +9,7 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 
+	VAPULA_API uint32 vfeGetTypeUnit(uint8 type);
 	VAPULA_API raw vfeNewData(uint8 type, uint32 count);
 	VAPULA_API void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value);
 	VAPULA_API pcstr vfeReadAt(raw data, uint8 type, uint32 at);
@@ -30,6 +31,11 @@ extern "C"
 	VAPULA_API void vfeKickObject(uint8 type, pcstr id);
 	VAPULA_API void vfeKickAllObjects(uint8 type);
 	VAPULA_API void vfeReachFrame(pcstr frame);
+
+	VAPULA_API raw vfeLoadDriver(pcstr path);
+	VAPULA_API raw vfeLoadDriverW(pcwstr path);
+	VAPULA_API raw vfeLoadAspect(pcstr path);
+	VAPULA_API raw vfeLoadAspectW(pcwstr path);
 
 	//Library
 	VAPULA_API raw vfeLoadLibrary(pcstr path);

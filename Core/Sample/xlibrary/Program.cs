@@ -9,19 +9,19 @@ namespace sample_xlib
         public void Function_Math()
         {
             Stack stack = Stack.Instance;
-            Dataset ds = stack.Dataset;
-            int a = int.Parse(ds[1].ReadAt());
-            int b = int.Parse(ds[2].ReadAt());
+            Dataset dataset = stack.Dataset;
+            int a = dataset[1].ReadAt<int>();
+            int b = dataset[2].ReadAt<int>();
             int c = a + b;
-            ds[3].WriteAt(c.ToString());
+            dataset[3].WriteAt(c);
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
         public void Function_Out()
         {
             Stack stack = Stack.Instance;
-            Dataset ds = stack.Dataset;
-            ds[1].Write("中文English日本語テスト");
+            Dataset dataset = stack.Dataset;
+            dataset[1].WriteText("中文English日本語テスト");
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
