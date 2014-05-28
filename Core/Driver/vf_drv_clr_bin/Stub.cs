@@ -28,6 +28,7 @@ namespace Vapula.Driver
 
         public Stub(IntPtr handle)
         {
+            _Handle = handle;
             _Stubs.Add(this);
         }
 

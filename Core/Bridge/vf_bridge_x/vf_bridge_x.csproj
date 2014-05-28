@@ -18,15 +18,16 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\OutDir\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\OutDir\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,7 +44,7 @@
     <Compile Include="Base.cs" />
     <Compile Include="Runtime\Error.cs" />
     <Compile Include="Runtime\Record.cs" />
-    <Compile Include="Helper\AppHelper.cs" />
+    <Compile Include="Helper\Setting.cs" />
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />
     <Compile Include="Helper\Logger\ILogger.cs" />
@@ -60,14 +61,20 @@
     <Compile Include="Runtime\Library.cs" />
     <Compile Include="Runtime\Runtime.cs" />
     <Compile Include="Runtime\Pipe.cs" />
-    <Compile Include="Model\TagList.cs" />
+    <Compile Include="Table.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="XSD\library.xsd">
+    <None Include="library.xsd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

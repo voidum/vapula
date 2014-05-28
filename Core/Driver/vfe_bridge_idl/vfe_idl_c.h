@@ -10,4 +10,4 @@ typedef struct {
 	char *s;
 } IDL_STRING;
 
-extern "C" VAPULA_API int vfeEntry_IDL(int argc, object argv[]);
+extern "C" VAPULA_API int vfeEntry_IDL(int argc, raw argv[]);

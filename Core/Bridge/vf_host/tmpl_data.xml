@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<data>
-  <params>
-    <param id="{param id}">{param value}</param>
-  </params>
-  <tags>
-    <tag key="{tag id}">{tag value}</tag>
-  </tags>
-</data>

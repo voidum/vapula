@@ -16,11 +16,10 @@ namespace Vapula.Runtime
         {
             get
             {
-                if (_Instance == null)
-                {
-                    lock (_CtorLock) 
-                    {
-                        _Instance = new Runtime();
+                if (_Instance == null) {
+                    lock (_CtorLock)  {
+                        if (_Instance == null)
+                            _Instance = new Runtime();
                     }
                 }
                 return _Instance;

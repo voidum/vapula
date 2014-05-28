@@ -16,8 +16,8 @@ namespace Vapula.Model
         private Library _Library;
         private List<Field> _Fields
             = new List<Field>();
-        private TagList _Tags
-            = new TagList();
+        private Table<string> _Tags
+            = new Table<string>();
         #endregion
 
         #region Ctor
@@ -46,21 +46,22 @@ namespace Vapula.Model
         /// </summary>
         public static Method Parse(XElement xml)
         {
-            Method mt = new Method();
-            mt._Id = xml.Element("id").Value;
-            mt._HasProtect = (xml.Element("protect").Value == "true");
-            mt._ProcessSym = xml.Element("entry").Element("process").Value;
-            mt._RollbackSym = xml.Element("entry").Element("rollback").Value;
-            var xe_tags = xml.Element("tags");
-            mt._Tags = TagList.Parse(xe_tags);
+            Method method = new Method();
+            method._Id = xml.Element("id").Value;
+            method._HasProtect = (xml.Element("protect").Value == "true");
+            method._ProcessSym = xml.Element("entry").Element("process").Value;
+            method._RollbackSym = xml.Element("entry").Element("rollback").Value;
+            var xes_tag = xml.Element("tags").Elements("tag");
+            foreach (var xe in xes_tag)
+                method._Tags[xe.Attribute("key").Value] = xe.Value;
             var xes = xml.Element("schema").Elements("fields");
             foreach (var xe in xes)
             {
                 var param = Field.Parse(xe);
-                param.Method = mt;
-                mt.Fields.Add(param);
+                param.Method = method;
+                method.Fields.Add(param);
             }
-            return mt;
+            return method;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Vapula.Model
                 new XElement("symbols",
                     new XElement("process", ProcessSym),
                     new XElement("rollback", RollbackSym)),
-                _Tags.ToXML());
+                _Tags.ToXML("tags", "tag", "key"));
             foreach (var field in Fields)
             {
                 var xe = field.ToXML();
@@ -170,7 +171,7 @@ namespace Vapula.Model
         /// <summary>
         /// get tags
         /// </summary>
-        public TagList Tags
+        internal Table<string> Tags
         {
             get { return _Tags; }
         }
@@ -185,7 +186,7 @@ namespace Vapula.Model
                 var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
@@ -205,7 +206,7 @@ namespace Vapula.Model
                 var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {

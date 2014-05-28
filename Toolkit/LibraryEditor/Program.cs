@@ -13,7 +13,13 @@ namespace Vapula.Toolkit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+
+            FrmMain form = new FrmMain();
+            form.Show();
+
+            Application.Run();
+
+
         }
     }
 }

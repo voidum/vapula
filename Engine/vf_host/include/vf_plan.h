@@ -7,7 +7,7 @@ namespace vapula
 	class Worker;
 
 	//task
-	class Task
+	class Plan
 	{
 	private:
 		pcstr _Path;
@@ -17,9 +17,9 @@ namespace vapula
 		pcstr _CtrlSetting;
 
 	private:
-		Task();
+		Plan();
 	public:
-		~Task();
+		~Plan();
 
 	public:
 		//load task from XML file

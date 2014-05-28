@@ -20,7 +20,7 @@ pcstr vfeGetVersion()
 	return runtime->GetVersion();
 }
 
-uint32 vfeGetTypeUnit(uint8 type)
+uint32 vfeGetValueUnit(uint8 type)
 {
 	return GetValueUnit(type);
 }

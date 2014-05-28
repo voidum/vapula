@@ -16,7 +16,7 @@ void Pipe_Server()
 		cin>>input;
 		if(input == "quit")
 			break;
-		pipe->Write(str::Encode(input.c_str(), null, "utf8"));
+		pipe->Write(str::Encode(input.c_str(), _vf_oem_cp, _vf_msg_cp));
 	}
 	pipe->Close();
 }

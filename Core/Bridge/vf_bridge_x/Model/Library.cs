@@ -15,8 +15,8 @@ namespace Vapula.Model
         private string _Runtime;
         private List<Method> _Methods
             = new List<Method>();
-        private TagList _Tags
-            = new TagList();
+        private Table<string> _Tags
+            = new Table<string>();
         private object _Attach
             = null;
         #endregion
@@ -77,19 +77,20 @@ namespace Vapula.Model
         /// </summary>
         public static Library Parse(XElement xml)
         {
-            Library lib = new Library();
-            lib.Id = xml.Element("id").Value;
-            lib.Runtime = xml.Element("runtime").Value;
-            var xe_tags = xml.Element("tags");
-            lib._Tags = TagList.Parse(xe_tags);
+            Library library = new Library();
+            library.Id = xml.Element("id").Value;
+            library.Runtime = xml.Element("runtime").Value;
+            var xes_tag = xml.Element("tags").Elements("tag");
+            foreach (var xe in xes_tag)
+                library._Tags[xe.Attribute("key").Value] = xe.Value;
             var xes = xml.Element("methods").Elements("method");
             foreach (var xe in xes)
             {
-                var mt = Method.Parse(xe);
-                mt.Library = lib;
-                lib.Methods.Add(mt);
+                var method = Method.Parse(xe);
+                method.Library = library;
+                library.Methods.Add(method);
             }
-            return lib;
+            return library;
         }
 
         /// <summary>
@@ -101,10 +102,10 @@ namespace Vapula.Model
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
                 new XElement("methods"),
-                _Tags.ToXML());
-            foreach (var mt in _Methods)
+                _Tags.ToXML("tags", "tag", "key"));
+            foreach (var method in _Methods)
             {
-                var xe = mt.ToXML();
+                var xe = method.ToXML();
                 xml.Element("methods").Add(xe);
             }
             return xml;
@@ -164,9 +165,18 @@ namespace Vapula.Model
         /// <summary>
         /// get tags
         /// </summary>
-        public TagList Tags
+        public Table<string> Tags
         {
             get { return _Tags; }
+        }
+
+        /// <summary>
+        /// get or set attach
+        /// </summary>
+        public object Attach 
+        {
+            get { return _Attach; }
+            set { _Attach = value; }
         }
 
         /// <summary>
@@ -179,7 +189,7 @@ namespace Vapula.Model
                 var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
@@ -199,7 +209,7 @@ namespace Vapula.Model
                 var tag = _Tags["publisher"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
@@ -219,7 +229,7 @@ namespace Vapula.Model
                 var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
@@ -239,7 +249,7 @@ namespace Vapula.Model
                 var tag = _Tags["version"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {

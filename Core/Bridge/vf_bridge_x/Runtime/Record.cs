@@ -52,9 +52,10 @@ namespace Vapula.Runtime
         {
             byte[] bytes_src = Encoding.Unicode.GetBytes(text);
             byte[] bytes_dst = Encoding.Convert(Encoding.Unicode, Encoding.UTF8, bytes_src);
-            IntPtr ptr = Bridge.NewData((byte)ValueType.UInt8, (uint)bytes_dst.Length);
+            IntPtr ptr = Bridge.NewData((byte)ValueType.UInt8, (uint)bytes_dst.Length + 1);
+            Bridge.WriteAt(ptr, (byte)ValueType.UInt8, (uint)bytes_dst.Length, "0");
             Marshal.Copy(bytes_dst, 0, ptr, bytes_dst.Length);
-            Write(ptr, (uint)bytes_dst.Length);
+            Write(ptr, (uint)bytes_dst.Length + 1);
             Bridge.DeleteRaw(ptr);
         }
 

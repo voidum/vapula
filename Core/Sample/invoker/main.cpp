@@ -80,8 +80,6 @@ void Test2(Library* library)
 	int result = (*dataset)[3]->ReadAt<int>();
 	cout << "<valid> - out:" << result << endl;
 
-
-
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
 	QueryPerformanceCounter(&t1);
@@ -101,6 +99,7 @@ void Test2(Library* library)
 	for (iter i = tasks.begin(); i != tasks.end(); i++)
 	{
 		Task* task = *i;
+
 		Stack* stack = task->GetStack();
 		Dataset* dataset = stack->GetDataset();
 		Context* context = stack->GetContext();
@@ -108,10 +107,37 @@ void Test2(Library* library)
 			Sleep(0);
 		int result = (*dataset)[3]->ReadAt<int>();
 		//cout << "<valid> - out:" << result << endl;
+
+		Clear(task);
+	}
+	tasks.clear();
+
+	QueryPerformanceCounter(&t2);
+	cout << "worker time:" << (t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart << " (ms)" << endl;
+
+
+	QueryPerformanceCounter(&t1);
+	for (int i = 0; i < 10000; i++)
+	{
+		Task* task = library->CreateTask("math");
+		Stack* stack = task->GetStack();
+		Dataset* dataset = stack->GetDataset();
+		(*dataset)[1]->WriteAt(12);
+		(*dataset)[2]->WriteAt(23);
+		task->Start();
+
+		Context* context = stack->GetContext();
+		while (context->GetCurrentState() != VF_STATE_IDLE)
+			Sleep(0);
+		int result = (*dataset)[3]->ReadAt<int>();
+		//cout << "<valid> - out:" << result << endl;
+
+		Clear(task);
 	}
 
 	QueryPerformanceCounter(&t2);
-	cout << "adv time:" << (t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart << " (ms)" << endl;
+	cout << "serial time:" << (t2.QuadPart - t1.QuadPart) * 1000.0 / (float)freq.QuadPart << " (ms)" << endl;
+
 	Clear(task);
 }
 
@@ -129,7 +155,11 @@ void Test3(Library* library)
 	task->Start();
 	while (context->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
-	ShowMsgbox((pcstr)(*dataset)[1]->Read());
+
+	pcstr data = (pcstr)(*dataset)[1]->Read();
+	pcstr cs8_oem = str::Encode(data, _vf_msg_cp, _vf_oem_cp);
+	ShowMsgbox(cs8_oem);
+	delete cs8_oem;
 	Clear(task);
 }
 
@@ -196,7 +226,7 @@ int main()
 	//load & link driver manually
 	cout << "[load & link driver crt] ... ";
 	ostringstream oss;
-	oss << runtime->GetProcessDir() << "crt.driver";
+	oss << runtime->GetProcessDir() << "clr.driver";
 	Driver* driver = Driver::Load(oss.str().c_str());
 	Assert(driver != null);
 	runtime->LinkObject(driver);
@@ -205,7 +235,7 @@ int main()
 
 	cout << "[load library] ... ";
 	oss.str("");
-	oss << runtime->GetProcessDir() << "sample_lib.library";
+	oss << runtime->GetProcessDir() << "sample_xlib.library";
 	Library* library = Library::Load(oss.str().c_str());
 	Assert(library != NULL);
 	runtime->LinkObject(library);
@@ -214,8 +244,8 @@ int main()
 	Assert(library->Mount());
 
 	//Test1(library);
-	Test2(library);
-	//Test3(library);
+	//Test2(library);
+	Test3(library);
 	//Test4(library);
 	//Test5(library);
 	//Test6();

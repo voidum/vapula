@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_host.h" />
-    <ClInclude Include="include\vf_task.h" />
+    <ClInclude Include="include\vf_plan.h" />
     <ClInclude Include="include\vf_worker.h" />
     <ClInclude Include="include\worker_null.h" />
     <ClInclude Include="include\worker_pipe.h" />

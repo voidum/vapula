@@ -191,12 +191,6 @@
     <None Include="Resources\function_s.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
-      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
-      <Name>vf_bridge_x</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\library_s.png" />
   </ItemGroup>
   <ItemGroup>

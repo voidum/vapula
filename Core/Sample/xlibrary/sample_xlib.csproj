@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\OutDir\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\OutDir\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,18 +51,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sample_xlib.library" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\BridgeX\vf_bridge_x\vf_bridge_x.csproj">
-      <Project>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</Project>
-      <Name>vf_bridge_x</Name>
-    </ProjectReference>
+    <None Include="sample_xlib.library">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UctMath.resx">
       <DependentUpon>UctMath.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bridge\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24da7d2b-5931-49ce-bd0a-74b460fdc192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

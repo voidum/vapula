@@ -12,8 +12,10 @@ namespace Vapula.Model
         private DataType _Type;
         private AccessMode _Access;
         private Method _Method;
-        private TagList _Tags
-            = new TagList();
+        private Table<string> _Tags
+            = new Table<string>();
+        private object _Attach
+            = null;
         #endregion
 
         #region Ctor
@@ -30,8 +32,9 @@ namespace Vapula.Model
             field.Id = int.Parse(xml.Attribute("id").Value);
             field.Type = (DataType)int.Parse(xml.Element("type").Value);
             field.Access = (AccessMode)int.Parse(xml.Element("access").Value);
-            var xe_tags = xml.Element("tags");
-            field._Tags = TagList.Parse(xe_tags);
+            var xes_tag = xml.Element("tags").Elements("tag");
+            foreach (var xe in xes_tag)
+                field._Tags[xe.Attribute("key").Value] = xe.Value;
             return field;
         }
 
@@ -44,7 +47,7 @@ namespace Vapula.Model
                 new XAttribute("id", Id),
                 new XElement("type", (int)Type),
                 new XElement("access", (int)Access),
-                _Tags.ToXML());
+                _Tags.ToXML("tags", "tag", "key"));
             return xml;
         }
         #endregion
@@ -99,9 +102,15 @@ namespace Vapula.Model
         /// <summary>
         /// get or set tags
         /// </summary>
-        public TagList Tags
+        public Table<string> Tags
         {
             get { return _Tags; }
+        }
+
+        public object Attach 
+        {
+            get { return _Attach; }
+            set { _Attach = value; }
         }
 
         /// <summary>
@@ -114,7 +123,7 @@ namespace Vapula.Model
                 var tag = _Tags["name"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
@@ -134,7 +143,7 @@ namespace Vapula.Model
                 var tag = _Tags["description"];
                 if (tag == null)
                     return "";
-                return (string)tag;
+                return tag;
             }
             set
             {
