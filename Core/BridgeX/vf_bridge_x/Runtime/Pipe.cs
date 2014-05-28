@@ -67,7 +67,7 @@ namespace Vapula.Runtime
         public void Listen()
         {
             _Id = 
-                Bridge.ToStringAnsi(
+                Base.ToStringAnsi(
                 Bridge.ListenPipe(_Handle));
         }
 
@@ -93,7 +93,7 @@ namespace Vapula.Runtime
         public string Read() 
         {
             return 
-                Bridge.ToStringAnsi(
+                Base.ToStringAnsi(
                 Bridge.ReadPipe(_Handle));
         }
     }

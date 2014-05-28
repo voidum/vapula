@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Vapula
 {
@@ -133,9 +135,9 @@ namespace Vapula
         }
 
         /// <summary>
-        /// get Vapula value type for CLR type
+        /// get value type for CLR type
         /// </summary>
-        public static ValueType GetVapulaType(Type type)
+        public static ValueType GetValueType(Type type)
         {
             if (!type.IsValueType)
                 return ValueType.UInt32;
@@ -163,6 +165,9 @@ namespace Vapula
                 return ValueType.UInt32;
         }
 
+        /// <summary>
+        /// convert string to value
+        /// </summary>
         public static T ConvertTo<T>(string src) where T : struct
         {
             Type type = typeof(T);
@@ -188,6 +193,22 @@ namespace Vapula
                 return (T)(object)Double.Parse(src);
             else
                 return default(T);
+        }
+
+        /// <summary>
+        /// convert IntPtr into unicode string
+        /// </summary>
+        public static string ToStringUni(IntPtr ptr)
+        {
+            return Marshal.PtrToStringUni(ptr);
+        }
+
+        /// <summary>
+        /// convert IntPtr into ansi string
+        /// </summary>
+        public static string ToStringAnsi(IntPtr ptr)
+        {
+            return Marshal.PtrToStringAnsi(ptr);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Vapula.Runtime
             get 
             { 
                 return 
-                    Bridge.ToStringAnsi(
+                    Base.ToStringAnsi(
                     Bridge.GetMethodId(Handle)); 
             }
         }

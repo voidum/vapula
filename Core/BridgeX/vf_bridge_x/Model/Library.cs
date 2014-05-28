@@ -17,7 +17,8 @@ namespace Vapula.Model
             = new List<Method>();
         private TagList _Tags
             = new TagList();
-        private string _Path;
+        private object _Attach
+            = null;
         #endregion
 
         #region Ctor
@@ -61,7 +62,6 @@ namespace Vapula.Model
                 {
                     XElement xeroot = xml.Element("library");
                     Library library = Parse(xeroot);
-                    library.Path = path;
                     return library;
                 }
             }
@@ -167,15 +167,6 @@ namespace Vapula.Model
         public TagList Tags
         {
             get { return _Tags; }
-        }
-
-        /// <summary>
-        /// get schema path
-        /// </summary>
-        public string Path
-        {
-            get { return _Path; }
-            set { _Path = value; }
         }
 
         /// <summary>

@@ -41,22 +41,22 @@ namespace vapula
 		void Zero();
 
 	public:
-		//read data
-		raw Read(bool copy = false);
-
 		//write data by copy
 		void Write(raw data, uint32 size);
+
+		//read data
+		raw Read(bool copy = false);
 
 		//deliver this to whom
 		void Deliver(Record* who);
 
 	//candy for C++
 	public:
-		//write string as 8-bit (UTF-8)
-		void Write(pcstr data);
+		//write string as 8-bit (UTF8)
+		void WriteText(pcstr data);
 
-		//write string as 16-bit (UTF-16)
-		void Write(pcwstr data);
+		//read string as 8-bit (UTF8)
+		pcstr ReadText();
 
 		//write data at offset (at) by type (T)
 		//write new data when size is not enough

@@ -10,7 +10,7 @@ namespace Vapula.Model
     {
         #region Fields
         private string _Id;
-        private bool _Protect;
+        private bool _HasProtect;
         private string _ProcessSym;
         private string _RollbackSym;
         private Library _Library;
@@ -48,7 +48,7 @@ namespace Vapula.Model
         {
             Method mt = new Method();
             mt._Id = xml.Element("id").Value;
-            mt._Protect = (xml.Element("protect").Value == "true");
+            mt._HasProtect = (xml.Element("protect").Value == "true");
             mt._ProcessSym = xml.Element("entry").Element("process").Value;
             mt._RollbackSym = xml.Element("entry").Element("rollback").Value;
             var xe_tags = xml.Element("tags");
@@ -71,7 +71,7 @@ namespace Vapula.Model
             XElement xml = new XElement("method",
                 new XElement("schema"),
                 new XElement("id", Id),
-                new XElement("protect", _Protect ? "true" : "false"),
+                new XElement("protect", _HasProtect ? "true" : "false"),
                 new XElement("symbols",
                     new XElement("process", ProcessSym),
                     new XElement("rollback", RollbackSym)),
@@ -144,10 +144,10 @@ namespace Vapula.Model
         /// <summary>
         /// get or set protect
         /// </summary>
-        public bool Protect 
+        public bool HasProtect 
         {
-            get { return _Protect; }
-            set { _Protect = value; }
+            get { return _HasProtect; }
+            set { _HasProtect = value; }
         }
 
         /// <summary>

@@ -50,28 +50,17 @@ namespace vapula
 	Record* Record::Copy()
 	{
 		Record* record = new Record();
-		record->_Type = _Type;
-		record->_Access = _Access;
 		return record;
-	}
-
-	raw Record::Read(bool copy)
-	{
-		if(!copy)
-			return _Data;
-		raw data = new byte[_Size];
-		memcpy(data, _Data, _Size);
-		return data;
 	}
 
 	void Record::Write(raw data, uint32 size)
 	{
 		//null data
-		if(data == null)
+		if (data == null)
 			return;
 
 		//same address
-		if(_Data == data)
+		if (_Data == data)
 			return;
 
 		//write data
@@ -85,16 +74,13 @@ namespace vapula
 		_Size = size;
 	}
 
-	void Record::Write(pcstr data)
+	raw Record::Read(bool copy)
 	{
-		uint32 size = strlen(data) + 1;
-		Write((raw)data, size);
-	}
-
-	void Record::Write(pcwstr data)
-	{
-		uint32 size = wcslen(data) * 2 + 2;
-		Write((raw)data, size);
+		if (!copy)
+			return _Data;
+		raw data = new byte[_Size];
+		memcpy(data, _Data, _Size);
+		return data;
 	}
 
 	void Record::Deliver(Record* who)
@@ -102,5 +88,17 @@ namespace vapula
 		if (_Data == null)
 			return;
 		who->Write(_Data, _Size);
+	}
+
+	void Record::WriteText(pcstr data)
+	{
+		uint32 size = strlen(data) + 1;
+		Write((raw)data, size);
+	}
+
+	pcstr Record::ReadText()
+	{
+		raw data = Read();
+		return (pcstr)data;
 	}
 }

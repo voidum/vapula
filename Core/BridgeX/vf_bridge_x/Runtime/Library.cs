@@ -32,7 +32,7 @@ namespace Vapula.Runtime
             get 
             {
                 string value = 
-                    Bridge.ToStringAnsi(
+                    Base.ToStringAnsi(
                     Bridge.GetLibraryId(_Handle));
                 return value;
             }
@@ -46,7 +46,7 @@ namespace Vapula.Runtime
             get 
             { 
                 string value = 
-                    Bridge.ToStringAnsi(
+                    Base.ToStringAnsi(
                     Bridge.GetRuntime(_Handle));
                 return value;
             }
@@ -68,7 +68,7 @@ namespace Vapula.Runtime
         public string GetProcessSym(string id)
         {
             string sym = 
-                Bridge.ToStringAnsi(
+                Base.ToStringAnsi(
                 Bridge.GetProcessSym(_Handle, id));
             return sym;
         }
@@ -79,7 +79,7 @@ namespace Vapula.Runtime
         public string GetRollbackSym(string id)
         {
             string sym =
-                Bridge.ToStringAnsi(
+                Base.ToStringAnsi(
                 Bridge.GetRollbackSym(_Handle, id));
             return sym;
         }

@@ -9,15 +9,15 @@ namespace sample_xinvoker
 {
     public partial class FrmMain : Form
     {
-        private Runtime drv_hub = null;
+        private Runtime runtime = null;
 
         public FrmMain()
         {
             InitializeComponent();
-            Runtime runtime = Runtime.Instance;
-            IntPtr driver = Bridge.LoadDriver("");
+            runtime = Runtime.Instance;
+            IntPtr driver = Bridge.LoadDriver("clr.driver");
             runtime.LinkObject(driver);
-            driver = Bridge.LoadDriver("");
+            driver = Bridge.LoadDriver("crt.driver");
             runtime.LinkObject(driver);
         }
 
@@ -114,20 +114,20 @@ namespace sample_xinvoker
         private void BtRun1_Click(object sender, EventArgs e)
         {
             string path = Path.Combine(Application.StartupPath, @"sample_xlib.library");
-            Library lib = Library.Load(path);
-            if (lib == null) 
+            Library library = Library.Load(path);
+            if (library == null) 
                 return;
             Thread thread = new Thread(
                 new ThreadStart(() => 
                 {
-                    if (!lib.Mount())
+                    if (!library.Mount())
                     {
                         UpdateLog("加载库发生问题");
                         return;
                     }
-                    Test1(lib);
-                    Test2(lib);
-                    lib.Unmount();
+                    Test1(library);
+                    Test2(library);
+                    library.Unmount();
                 }));
             thread.Start();
         }

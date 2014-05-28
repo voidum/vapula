@@ -8,85 +8,105 @@
     <tag key="version">1.0</tag>
     <tag key="publisher"></tag>
   </tags>
-  <functions>
-    <function>
+  <methods>
+    <method>
       <id>math</id>
-      <entry>Sample.Function_Math</entry>
-      <params>
-        <param id="1">
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Function_Math</process>
+        <rollback />
+      </symbols>
+      <schema>
+        <field id="1">
           <type>3</type>
-          <mode>0</mode>
+          <access>0</access>
           <tags>
             <tag key="name">加数1</tag>
             <tag key="description">参与运算的第1个加数</tag>
           </tags>
-        </param>
-        <param id="2">
+        </field>
+        <field id="2">
           <type>3</type>
-          <mode>0</mode>
+          <access>0</access>
           <tags>
             <tag key="name">加数2</tag>
             <tag key="description">参与运算的第2个加数</tag>
           </tags>
-        </param>
-        <param id="3">
+        </field>
+        <field id="3">
           <type>3</type>
-          <mode>1</mode>
+          <access>1</access>
           <tags>
             <tag key="name">和</tag>
             <tag key="description">两个加数的和</tag>
           </tags>
-        </param>
-      </params>
+        </field>
+      </schema>
       <tags>
         <tag key="name">运算示例</tag>
         <tag key="description"></tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>output</id>
-      <entry>Sample.Function_Out</entry>
-      <params>
-        <param id="1">
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Function_Out</process>
+        <rollback />
+      </symbols>
+      <schema>
+        <field id="1">
           <type>21</type>
-          <mode>1</mode>
+          <access>1</access>
           <tags>
             <tag key="name">输出</tag>
             <tag key="description">输出的字符串</tag>
           </tags>
-        </param>
-      </params>
+        </field>
+      </schema>
       <tags>
         <tag key="name">输出示例</tag>
         <tag key="description">输出一个字符串</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>array</id>
-      <entry>Sample.Function_Array</entry>
-      <params />
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Function_Array</process>
+        <rollback />
+      </symbols>
+      <schema />
       <tags>
         <tag key="name">数组操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>object</id>
-      <entry>Sample.Function_Object</entry>
-      <params />
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Function_Object</process>
+        <rollback />
+      </symbols>
+      <schema />
       <tags>
         <tag key="name">对象操作</tag>
         <tag key="description">暂未实现</tag>
       </tags>
-    </function>
-    <function>
+    </method>
+    <method>
       <id>context</id>
-      <entry>Sample.Function_Context</entry>
-      <params />
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Function_Context</process>
+        <rollback />
+      </symbols>
+      <schema />
       <tags>
         <tag key="name">上下文示例</tag>
         <tag key="description">示例上下文控制</tag>
       </tags>
-    </function>
-  </functions>
+    </method>
+  </methods>
 </library>

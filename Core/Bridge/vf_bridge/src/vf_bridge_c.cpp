@@ -173,8 +173,18 @@ void vfeReachFrame(pcstr frame)
 	runtime->Reach(frame);
 }
 
+raw vfeLoadDriver(pcstr path)
+{
+	return Driver::Load(path);
+}
 
-//Library
+raw vfeLoadDriverW(pcwstr path)
+{
+	pcstr cs8_path = str::ToStr(path);
+	raw driver = Driver::Load(cs8_path);
+	delete cs8_path;
+	return driver;
+}
 
 raw vfeLoadLibrary(pcstr path)
 {
@@ -183,11 +193,27 @@ raw vfeLoadLibrary(pcstr path)
 
 raw vfeLoadLibraryW(pcwstr path)
 {
-	pcstr path8 = str::ToStr(path);
-	raw lib = Library::Load(path8);
-	delete path8;
-	return lib;
+	pcstr cs8_path = str::ToStr(path);
+	raw library = Library::Load(cs8_path);
+	delete cs8_path;
+	return library;
 }
+
+raw vfeLoadAspect(pcstr path)
+{
+	return Aspect::Load(path);
+}
+
+raw vfeLoadAspectW(pcwstr path)
+{
+	pcstr cs8_path = str::ToStr(path);
+	raw aspect = Aspect::Load(cs8_path);
+	delete cs8_path;
+	return aspect;
+}
+
+
+//Library
 
 pcstr vfeGetRuntime(raw library)
 {

@@ -26,8 +26,9 @@ void Process_Out()
 	Dataset* dataset = stack->GetDataset();
 	Context* context = stack->GetContext();
 
-	pcwstr str = L"中文Engligh日本語テスト";
-	(*dataset)[1]->Write(str);
+	pcwstr cs16 = L"中文Engligh日本語テスト";
+	pcstr cs8 = str::ToStr(cs16);
+	(*dataset)[1]->WriteText(cs8);
 
 	context->SetProgress(100);
 	context->SetReturnCode(VF_RETURN_NORMAL);

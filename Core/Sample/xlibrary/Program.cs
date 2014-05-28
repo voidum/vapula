@@ -56,7 +56,7 @@ namespace sample_xlib
 
             envelope->Write(2, (LPVOID)obj);
              */
-            //TODO: 实现结构探测
+            //TODO: 实现序列化
         }
 
         //第五个任务

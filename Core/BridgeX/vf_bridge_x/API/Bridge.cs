@@ -5,24 +5,6 @@ namespace Vapula
 {
     public class Bridge
     {
-        #region Helper
-        /// <summary>
-        /// convert IntPtr from PInvoke into unicode string
-        /// </summary>
-        public static string ToStringUni(IntPtr ptr)
-        {
-            return Marshal.PtrToStringUni(ptr);
-        }
-
-        /// <summary>
-        /// convert IntPtr from PInvoke into ansi string
-        /// </summary>
-        public static string ToStringAnsi(IntPtr ptr) 
-        {
-            return Marshal.PtrToStringAnsi(ptr);
-        }
-        #endregion
-
         #region Base
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetVersion",
             CallingConvention = CallingConvention.Cdecl)]
@@ -103,14 +85,24 @@ namespace Vapula
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void ReachFrame(string frame);
-        #endregion
 
-        #region Library
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeLoadDriverW",
+            CharSet = CharSet.Unicode,
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr LoadDriver(string path);
+
         [DllImport("vf_bridge.dll", EntryPoint = "vfeLoadLibraryW",
             CharSet = CharSet.Unicode,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr LoadLibrary(string path);
 
+        [DllImport("vf_bridge.dll", EntryPoint = "vfeLoadAspectW",
+            CharSet = CharSet.Unicode,
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr LoadAspect(string path);
+        #endregion
+
+        #region Library
         [DllImport("vf_bridge.dll", EntryPoint = "vfeGetRuntime",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetRuntime(IntPtr library);

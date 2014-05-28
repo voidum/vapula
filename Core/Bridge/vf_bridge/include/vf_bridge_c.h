@@ -34,12 +34,12 @@ extern "C"
 
 	VAPULA_API raw vfeLoadDriver(pcstr path);
 	VAPULA_API raw vfeLoadDriverW(pcwstr path);
+	VAPULA_API raw vfeLoadLibrary(pcstr path);
+	VAPULA_API raw vfeLoadLibraryW(pcwstr path);
 	VAPULA_API raw vfeLoadAspect(pcstr path);
 	VAPULA_API raw vfeLoadAspectW(pcwstr path);
 
 	//Library
-	VAPULA_API raw vfeLoadLibrary(pcstr path);
-	VAPULA_API raw vfeLoadLibraryW(pcwstr path);
 	VAPULA_API pcstr vfeGetRuntime(raw library);
 	VAPULA_API pcstr vfeGetLibraryId(raw library);
 	VAPULA_API pcstr vfeGetProcessSym(raw library, pcstr id);
