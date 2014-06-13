@@ -20,92 +20,15 @@ pcstr vfeGetVersion()
 	return runtime->GetVersion();
 }
 
-uint32 vfeGetValueUnit(uint8 type)
+raw vfeNewData(uint32 size)
 {
-	return GetValueUnit(type);
-}
-
-raw vfeNewData(uint8 type, uint32 count)
-{
-	raw data = new vapula::byte[GetValueUnit(type) * count];
+	raw data = new vapula::byte[size];
 	return data;
-}
-
-void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value)
-{
-	if (data == null)
-		return;
-	switch (type)
-	{
-	case VF_VALUE_INT8: 
-		((int8*)data)[at] = (int8)atoi(value); break;
-	case VF_VALUE_INT16: 
-		((int16*)data)[at] = (int16)atoi(value); break;
-	case VF_VALUE_INT32:
-		((int32*)data)[at] = atoi(value); break;
-	case VF_VALUE_INT64:
-		((int64*)data)[at] = atoll(value); break;
-	case VF_VALUE_UINT8:
-		((uint8*)data)[at] = (uint8)atoi(value); break;
-	case VF_VALUE_UINT16:
-		((uint16*)data)[at] = (uint16)atoi(value); break;
-	case VF_VALUE_UINT32:
-		((uint32*)data)[at] = (uint32)atoi(value); break;
-	case VF_VALUE_UINT64:
-		((uint64*)data)[at] = (uint64)atoll(value); break;
-	case VF_VALUE_REAL32:
-		((float*)data)[at] = (float)atof(value); break;
-	case VF_VALUE_REAL64:
-		((double*)data)[at] = atof(value); break;
-	}
-}
-
-pcstr vfeReadAt(raw data, uint8 type, uint32 at)
-{
-	if (data == null)
-		return null;
-	switch (type)
-	{
-	case VF_VALUE_INT8:
-		return str::Value(((int8*)data)[at]);
-	case VF_VALUE_INT16:
-		return str::Value(((int16*)data)[at]);
-	case VF_VALUE_INT32:
-		return str::Value(((int32*)data)[at]);
-	case VF_VALUE_INT64:
-		return str::Value(((int64*)data)[at]);
-	case VF_VALUE_UINT8:
-		return str::Value(((uint8*)data)[at]);
-	case VF_VALUE_UINT16:
-		return str::Value(((uint16*)data)[at]);
-	case VF_VALUE_UINT32:
-		return str::Value(((uint32*)data)[at]);
-	case VF_VALUE_UINT64:
-		return str::Value(((uint64*)data)[at]);
-	case VF_VALUE_REAL32:
-		return str::Value(((float*)data)[at]);
-	case VF_VALUE_REAL64:
-		return str::Value(((double*)data)[at]);
-	default:
-		return null;
-	}
 }
 
 void vfeDeleteRaw(raw data)
 {
 	Clear(data);
-}
-
-raw vfeBase64ToRaw(pcstr data)
-{
-	raw out = Base64ToRaw(data);
-	return out;
-}
-
-pcstr vfeRawToBase64(raw data, uint32 size)
-{
-	pcstr out = RawToBase64(data, size);
-	return out;
 }
 
 
@@ -408,7 +331,7 @@ raw vfeParseDataset(pcstr xml)
 
 raw vfeParseDatasetW(pcwstr xml)
 {
-	pcstr cs8_xml = str::ToStr(xml, _vf_msg_cp);
+	pcstr cs8_xml = str::ToStr(xml, _vf_cp_msg);
 	raw dataset = Dataset::Parse(cs8_xml);
 	delete cs8_xml;
 	return dataset;
@@ -509,7 +432,7 @@ void vfeWritePipe(raw pipe, pcstr data)
 void vfeWritePipeW(raw pipe, pcwstr data)
 {
 	Pipe* object = (Pipe*)pipe;
-	pcstr cs8_data = str::ToStr(data, _vf_msg_cp);
+	pcstr cs8_data = str::ToStr(data, _vf_cp_msg);
 	object->Write(cs8_data);
 	delete cs8_data;
 }
@@ -524,7 +447,7 @@ pcwstr vfeReadPipeW(raw pipe)
 {
 	Pipe* obj =(Pipe*)pipe;
 	pcstr data = obj->Read();
-	pcwstr cs16_data = str::ToStrW(data, _vf_msg_cp);
+	pcwstr cs16_data = str::ToStrW(data, _vf_cp_msg);
 	delete data;
 	return cs16_data;
 }

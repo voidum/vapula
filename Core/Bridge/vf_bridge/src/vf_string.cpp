@@ -58,11 +58,11 @@ namespace vapula
 
 		pcstr Replace(pcstr src, pcstr from, pcstr to)
 		{
-			pcwstr cs16_src = ToStrW(src, _vf_msg_cp);
-			pcwstr cs16_from = ToStrW(from, _vf_msg_cp);
-			pcwstr cs16_to = ToStrW(to, _vf_msg_cp);
+			pcwstr cs16_src = ToStrW(src, _vf_cp_msg);
+			pcwstr cs16_from = ToStrW(from, _vf_cp_msg);
+			pcwstr cs16_to = ToStrW(to, _vf_cp_msg);
 			pcwstr cs16_ret = Replace(cs16_src, cs16_from, cs16_to);
-			pcstr cs8_ret = ToStr(cs16_ret, _vf_msg_cp);
+			pcstr cs8_ret = ToStr(cs16_ret, _vf_cp_msg);
 			delete cs16_src;
 			delete cs16_from;
 			delete cs16_to;

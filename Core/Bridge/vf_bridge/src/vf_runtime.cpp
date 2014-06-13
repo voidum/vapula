@@ -167,8 +167,8 @@ namespace vapula
 	pcstr Runtime::GetRuntimeDir()
 	{
 		HMODULE hmod = GetModuleHandle(L"vf_bridge");
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(hmod, s16_path, _vf_path_len);
+		pwstr s16_path = new wchar_t[_vf_size_path];
+		GetModuleFileName(hmod, s16_path, _vf_size_path);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
 		Scoped autop((raw)cs8_path);
@@ -177,8 +177,8 @@ namespace vapula
 
 	pcstr Runtime::GetProcessDir()
 	{
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, s16_path, _vf_path_len);
+		pwstr s16_path = new wchar_t[_vf_size_path];
+		GetModuleFileName(null, s16_path, _vf_size_path);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
 		Scoped autop1((raw)cs8_path);
@@ -187,8 +187,8 @@ namespace vapula
 
 	pcstr Runtime::GetProcessName()
 	{
-		pwstr s16_path = new wchar_t[_vf_path_len];
-		GetModuleFileName(null, s16_path, _vf_path_len);
+		pwstr s16_path = new wchar_t[_vf_size_path];
+		GetModuleFileName(null, s16_path, _vf_size_path);
 		pcstr cs8_path = str::ToStr(s16_path);
 		delete s16_path;
 		Scoped autop1((raw)cs8_path);

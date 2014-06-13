@@ -8,7 +8,6 @@ namespace vapula
 	class VAPULA_API Record
 	{
 	protected:
-		uint8 _Type; //data type
 		uint8 _Access; //access mode
 		uint32 _Size; //data size by byte
 		raw _Data; //raw data
@@ -24,9 +23,6 @@ namespace vapula
 		static Record* Parse(raw xml);
 
 	public:
-		//get data type
-		uint8 GetType();
-		
 		//get access mode
 		uint8 GetAccess();
 
@@ -47,42 +43,8 @@ namespace vapula
 		//read data
 		raw Read(bool copy = false);
 
-		//deliver this to whom
-		void Deliver(Record* who);
-
-	//candy for C++
-	public:
-		//write string as 8-bit (UTF8)
-		void WriteText(pcstr data);
-
-		//read string as 8-bit (UTF8)
-		pcstr ReadText();
-
-		//write data at offset (at) by type (T)
-		//write new data when size is not enough
-		template<typename T>
-		void WriteAt(T data, uint32 at = 0)
-		{
-			uint32 x = (at + 1) * sizeof(T);
-			if (_Size >= x)
-				((T*)_Data)[at] = data;
-			else
-			{
-				T* mem = new T[at + 1];
-				mem[at] = data;
-				Write(mem, x);
-				Clear(mem, true);
-			}
-		}
-
-		//read data at offset (at) by type (T)
-		template<typename T>
-		T ReadAt(uint32 at = 0)
-		{
-			if (_Size >= sizeof(T)* (at + 1))
-				return ((T*)_Data)[at];
-			return null;
-		}
+		//deliver this to target
+		void Deliver(Record* target);
 	};
 
 	typedef Record* PRecord;

@@ -46,7 +46,6 @@
   
   <xs:complexType name="field">
     <xs:all>
-      <xs:element name="type" type="xs:int" />
       <xs:element name="access" type="xs:int" />
       <xs:element name="tags" type="tags" />
     </xs:all>

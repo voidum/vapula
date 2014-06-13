@@ -5,7 +5,6 @@ namespace vapula
 {
 	Record::Record()
 	{
-		_Type = VF_DATA_RAW;
 		_Access = VF_ACCESS_INOUT;
 		_Data = null;
 		_Size = 0;
@@ -18,20 +17,12 @@ namespace vapula
 
 	Record* Record::Parse(raw xml)
 	{
-		raw xe_type = XML::XElem(xml, "type");
-		raw xe_access = XML::XElem(xml, "access");
-		
 		Record* record = new Record();
-		record->_Type = (uint8)XML::ValInt(xe_type);
+		raw xe_access = XML::XElem(xml, "access");
 		record->_Access = (uint8)XML::ValInt(xe_access);
 		return record;
 	}
 	
-	uint8 Record::GetType()
-	{
-		return _Type;
-	}
-
 	uint8 Record::GetAccess()
 	{
 		return _Access;
@@ -45,6 +36,7 @@ namespace vapula
 	void Record::Zero()
 	{
 		Clear(_Data);
+		_Size = 0;
 	}
 
 	Record* Record::Copy()
@@ -87,18 +79,11 @@ namespace vapula
 	{
 		if (_Data == null)
 			return;
+
+		if (_Access == VF_ACCESS_IN 
+			|| who->_Access == VF_ACCESS_OUT)
+			return;
+
 		who->Write(_Data, _Size);
-	}
-
-	void Record::WriteText(pcstr data)
-	{
-		uint32 size = strlen(data) + 1;
-		Write((raw)data, size);
-	}
-
-	pcstr Record::ReadText()
-	{
-		raw data = Read();
-		return (pcstr)data;
 	}
 }

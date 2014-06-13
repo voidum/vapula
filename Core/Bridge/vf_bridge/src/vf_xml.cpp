@@ -106,7 +106,7 @@ namespace vapula
 	pcwstr XML::ValStrW(raw xml)
 	{
 		pcstr s8 = ValStr(xml);
-		pcwstr s16 = str::ToStrW(s8, _vf_msg_cp);
+		pcwstr s16 = str::ToStrW(s8, _vf_cp_msg);
 		delete s8;
 		return s16;
 	}

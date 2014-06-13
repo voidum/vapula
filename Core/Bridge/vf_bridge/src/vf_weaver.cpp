@@ -29,8 +29,8 @@ namespace vapula
 		Record* record = (*dataset)[1];
 		if(record != null)
 		{
-			Stack* stack_current = Stack::Instance();
-			record->WriteAt(stack_current->GetStackId());
+			//Stack* stack_current = Stack::Instance();
+			//record->WriteAt(stack_current->GetStackId());
 		}
 		task->Start();
 	}

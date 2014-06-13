@@ -9,7 +9,6 @@ namespace Vapula.Model
     {
         #region Fields
         private int _Id;
-        private DataType _Type;
         private AccessMode _Access;
         private Method _Method;
         private Table<string> _Tags
@@ -30,7 +29,6 @@ namespace Vapula.Model
         {
             Field field = new Field();
             field.Id = int.Parse(xml.Attribute("id").Value);
-            field.Type = (DataType)int.Parse(xml.Element("type").Value);
             field.Access = (AccessMode)int.Parse(xml.Element("access").Value);
             var xes_tag = xml.Element("tags").Elements("tag");
             foreach (var xe in xes_tag)
@@ -45,7 +43,6 @@ namespace Vapula.Model
         {
             XElement xml = new XElement("field",
                 new XAttribute("id", Id),
-                new XElement("type", (int)Type),
                 new XElement("access", (int)Access),
                 _Tags.ToXML("tags", "tag", "key"));
             return xml;
@@ -70,15 +67,6 @@ namespace Vapula.Model
         {
             get { return _Id; }
             set { _Id = value; }
-        }
-
-        /// <summary>
-        /// get or set data type
-        /// </summary>
-        public DataType Type
-        {
-            get { return _Type; }
-            set { _Type = value; }
         }
 
         /// <summary>

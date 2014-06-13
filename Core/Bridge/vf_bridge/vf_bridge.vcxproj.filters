@@ -203,4 +203,9 @@
       <Filter>res</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="design.txt">
+      <Filter>res</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

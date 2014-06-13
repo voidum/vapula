@@ -9,14 +9,8 @@ extern "C"
 	//Base
 	VAPULA_API pcstr vfeGetVersion();
 
-	VAPULA_API uint32 vfeGetValueUnit(uint8 type);
-	VAPULA_API raw vfeNewData(uint8 type, uint32 count);
-	VAPULA_API void vfeWriteAt(raw data, uint8 type, uint32 at, pcstr value);
-	VAPULA_API pcstr vfeReadAt(raw data, uint8 type, uint32 at);
+	VAPULA_API raw vfeNewData(uint32 size);
 	VAPULA_API void vfeDeleteRaw(raw data);
-
-	VAPULA_API raw vfeBase64ToRaw(pcstr data);
-	VAPULA_API pcstr vfeRawToBase64(raw data, uint32 size);
 
 	//Error
 	VAPULA_API int vfeWhatError(raw error);

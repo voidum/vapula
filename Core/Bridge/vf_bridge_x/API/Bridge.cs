@@ -10,34 +10,13 @@ namespace Vapula
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetVersion();
 
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeGetValueUnit",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 GetValueUnit(Byte type);
-
         [DllImport("vf_bridge.dll", EntryPoint = "vfeNewData",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr NewData(Byte type, UInt32 count);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeWriteAt",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WriteAt(IntPtr data, Byte type, UInt32 at, string value);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeReadAt",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ReadAt(IntPtr data, Byte type, UInt32 at);
+        public static extern IntPtr NewData(UInt32 size);
 
         [DllImport("vf_bridge.dll", EntryPoint = "vfeDeleteRaw",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeleteRaw(IntPtr obj);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeBase64ToRaw",
-            CharSet = CharSet.Ansi,
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Base64ToRaw(string data);
-
-        [DllImport("vf_bridge.dll", EntryPoint = "vfeRawToBase64",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr RawToBase64(IntPtr data, UInt32 size);
         #endregion
 
         #region Error
