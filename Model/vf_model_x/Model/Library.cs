@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
@@ -51,7 +52,8 @@ namespace Vapula.Model
             var xrs = new XmlReaderSettings();
             xrs.ValidationType = ValidationType.Schema;
             xrs.Schemas.Add(null,
-                System.IO.Path.Combine(Base.RuntimeDir, "library.xsd"));
+                System.IO.Path.Combine(
+                IOHelper.GetTypeDirectory(typeof(Library)), "library.xsd"));
             try
             {
                 XmlReader xr = XmlReader.Create(path, xrs);

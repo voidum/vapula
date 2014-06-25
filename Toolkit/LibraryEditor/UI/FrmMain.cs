@@ -8,11 +8,6 @@ namespace Vapula.Toolkit
 {
     public partial class FrmMain : Form
     {
-        private AppData App 
-        {
-            get { return AppData.Instance; }
-        }
-
         private UctUI _UctUI = new UctUI();
         private UctCore _UctCore = new UctCore();
         private UctLicence _UctLic = new UctLicence();

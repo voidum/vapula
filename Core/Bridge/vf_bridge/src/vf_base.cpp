@@ -1,7 +1,6 @@
 #include "vf_base.h"
 #include "vf_stack.h"
 #include "vf_setting.h"
-#include "modp_b64\modp_b64.h"
 
 namespace vapula
 {
@@ -33,36 +32,6 @@ namespace vapula
 	void Lock::Leave()
 	{
 		InterlockedExchange(_Core, FALSE);
-	}
-
-	Once::Once()
-	{
-		_Lock = new Lock();
-		_Seal = new byte[1];
-		_Data = null;
-	}
-
-	Once::~Once()
-	{
-		Clear(_Seal);
-		Clear(_Data);
-		delete _Lock;
-	}
-
-	bool Once::CanSet()
-	{
-		return (_Seal != null);
-	}
-
-	void Once::Set(raw data, uint32 size)
-	{
-		_Lock->Enter();
-		if(!CanSet())
-			return;
-		_Data = new byte[size];
-		_Lock->Leave();
-		memcpy(_Data, data, size);
-		delete _Seal;
 	}
 
 	Flag::Flag()
@@ -97,33 +66,6 @@ namespace vapula
 		int v = _Value;
 		_Lock->Leave();
 		return ((v & flag) == flag);
-	}
-
-	pcstr RawToBase64(raw data, uint32 size)
-	{
-		uint32 dst_size = modp_b64_encode_len(size);
-		pstr dst = new char[dst_size];
-		int ret = modp_b64_encode(dst, (pcstr)data, size);
-		if (ret == -1)
-		{
-			delete dst;
-			dst = null;
-		}
-		return dst;
-	}
-
-	raw Base64ToRaw(pcstr data)
-	{
-		uint32 src_size = strlen(data);
-		uint32 dst_size = modp_b64_decode_len(src_size);
-		pstr dst = new char[dst_size];
-		int ret = modp_b64_decode(dst, data, src_size);
-		if (ret == -1)
-		{
-			delete dst;
-			dst = null;
-		}
-		return dst;
 	}
 
 	void ShowMsgbox(pcstr value, pcstr caption)
@@ -177,13 +119,5 @@ namespace vapula
 			return false;
 		CloseHandle(handle);
 		return true;
-	}
-
-	void WaitSpan(uint32 wait)
-	{
-		uint32 time0 = GetTickCount();
-		uint32 time1 = time0;
-		while (time1 - time0 > wait)
-			Sleep(10);
 	}
 }

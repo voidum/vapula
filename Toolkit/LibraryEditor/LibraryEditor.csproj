@@ -76,7 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
+    <Compile Include="Runtime.cs" />
     <Compile Include="UI\FrmLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +198,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\open_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sartrey\Sartrey\Sartrey.csproj">
+      <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
+      <Name>Sartrey</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Bridge\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24da7d2b-5931-49ce-bd0a-74b460fdc192}</Project>
+      <Name>vf_bridge_x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Model\vf_model_x\vf_model_x.csproj">
+      <Project>{5df12dad-e5bf-4101-aaed-a7519ad0606c}</Project>
+      <Name>vf_model_x</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

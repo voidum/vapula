@@ -6,7 +6,6 @@
 #include "vf_assist.h"
 #include "vf_core.h"
 #include "vf_string.h"
-#include "vf_debug.h"
 
 namespace vapula
 {
@@ -14,7 +13,8 @@ namespace vapula
 	class VAPULA_API Lock : Uncopiable
 	{
 	private:
-		uint64* _Core; //TRUE - Lock , FALSE - Unlock
+		//TRUE - Lock , FALSE - Unlock
+		uint64* _Core;
 
 	public:
 		Lock();
@@ -33,29 +33,6 @@ namespace vapula
 	public:
 		//get lock for ctor
 		static Lock* GetCtorLock();
-	};
-
-	//can be set only once
-	class VAPULA_API Once : Uncopiable
-	{
-	private:
-		Lock* _Lock;
-		raw _Data;
-		raw _Seal;
-
-	public:
-		Once();
-		~Once();
-
-	public:
-		//test if can be set
-		bool CanSet();
-
-		//set value
-		void Set(raw data, uint32 size);
-
-		//get value
-		raw Get();
 	};
 
 	//flag
@@ -79,15 +56,6 @@ namespace vapula
 		//valid flag
 		bool Valid(int flag);
 	};
-
-	//get value unit
-	VAPULA_API uint32 GetValueUnit(uint8 type);
-
-	//convert raw data to base64 string
-	VAPULA_API pcstr RawToBase64(raw data, uint32 size);
-
-	//convert base64 string to raw data
-	VAPULA_API raw Base64ToRaw(pcstr data);
 
 	//show value by simple message box
 	template<typename T>

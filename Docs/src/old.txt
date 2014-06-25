@@ -1,0 +1,67 @@
+
+	Once::Once()
+	{
+		_Lock = new Lock();
+		_Seal = new byte[1];
+		_Data = null;
+	}
+
+	Once::~Once()
+	{
+		Clear(_Seal);
+		Clear(_Data);
+		delete _Lock;
+	}
+
+	bool Once::CanSet()
+	{
+		return (_Seal != null);
+	}
+
+	void Once::Set(raw data, uint32 size)
+	{
+		_Lock->Enter();
+		if(!CanSet())
+			return;
+		_Data = new byte[size];
+		_Lock->Leave();
+		memcpy(_Data, data, size);
+		delete _Seal;
+	}
+
+	
+	pcstr RawToBase64(raw data, uint32 size)
+	{
+		uint32 dst_size = modp_b64_encode_len(size);
+		pstr dst = new char[dst_size];
+		int ret = modp_b64_encode(dst, (pcstr)data, size);
+		if (ret == -1)
+		{
+			delete dst;
+			dst = null;
+		}
+		return dst;
+	}
+
+	raw Base64ToRaw(pcstr data)
+	{
+		uint32 src_size = strlen(data);
+		uint32 dst_size = modp_b64_decode_len(src_size);
+		pstr dst = new char[dst_size];
+		int ret = modp_b64_decode(dst, data, src_size);
+		if (ret == -1)
+		{
+			delete dst;
+			dst = null;
+		}
+		return dst;
+	}
+
+	
+	void WaitSpan(uint32 wait)
+	{
+		uint32 time0 = GetTickCount();
+		uint32 time1 = time0;
+		while (time1 - time0 > wait)
+			Sleep(10);
+	}

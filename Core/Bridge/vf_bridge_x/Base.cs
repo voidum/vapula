@@ -1,17 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Vapula
 {
-    public enum AccessMode
-    {
-        In = 0,
-        Out = 1,
-        InOut = 2
-    }
-
     public enum State
     {
         Idle = 0,
@@ -41,11 +33,10 @@ namespace Vapula
     }
     public enum CoreObject
     {
-        Unknown = 0,
-        Driver = 1,
-        Library = 2,
-        Stack = 3,
-        Aspect = 4
+        Driver = 0,
+        Library = 1,
+        Stack = 2,
+        Aspect = 3
     };
 
     public class Base
@@ -56,19 +47,11 @@ namespace Vapula
         public const string RuntimeId = "clr";
 
         /// <summary>
-        /// get directory for assembly with type
-        /// </summary>
-        public static string GetTypeDir(Type type)
-        {
-            return Path.GetDirectoryName(type.Assembly.Location);
-        }
-
-        /// <summary>
         /// get runtime directory
         /// </summary>
         public static string RuntimeDir
         {
-            get { return GetTypeDir(typeof(Base)); }
+            get { return Sartrey.IOHelper.GetTypeDirectory(typeof(Base)); }
         }
 
         public static byte[] ToBytes(IntPtr ptr, int size) 

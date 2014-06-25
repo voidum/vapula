@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 using System.IO;
 
 namespace Vapula.Helper
 {
     /// <summary>
-    /// 文件日志器
+    /// logger by file
     /// </summary>
     public class FileLogger : ILogger
     {
@@ -33,10 +34,10 @@ namespace Vapula.Helper
         }
 
         /// <summary>
-        /// <para>输入1个参数或3个参数</para>
-        /// <para>输入3个参数请按照 类、方法、消息 组合内容</para>
+        /// <para>accept 1 or 3 value(s)</para>
+        /// <para>3 values as class/method/message</para>
         /// </summary>
-        public void WriteLog(LogType type, params object[] values)
+        public void WriteLog(params object[] values)
         {
             if (values.Length == 1)
                 File.AppendAllText(
@@ -48,10 +49,7 @@ namespace Vapula.Helper
                     new object[] {
                         DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         Environment.NewLine,
-                        type,
-                        values[0],
-                        values[1],
-                        values[2]
+                        values[0], values[1], values[2]
                 });
             }
         }

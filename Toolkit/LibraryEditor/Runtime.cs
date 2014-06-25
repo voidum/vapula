@@ -1,36 +1,39 @@
-﻿using System.IO;
+﻿using Sartrey;
+using System.IO;
 using Vapula.Helper;
 using Vapula.Model;
 
 namespace Vapula.Toolkit
 {
-    public class AppData
+    public class Runtime
     {
-        private static AppData _Instance = null;
-        /// <summary>
-        /// 获取应用程序数据的实例
-        /// </summary>
-        public static AppData Instance
+        private static Runtime _Instance 
+            = null;
+        private static object _CtorLock 
+            = new object();
+
+        public static Runtime Instance
         {
             get 
             {
                 if (_Instance == null)
-                    _Instance = new AppData();
+                    lock (_CtorLock) {
+                        if (_Instance == null)
+                            _Instance = new Runtime();
+                    }
                 return _Instance;
             }
         }
 
-        private AppConfig _Config = null;
-        /// <summary>
-        /// 获取应用程序配置
-        /// </summary>
-        public AppConfig Config
+        private Setting _Setting = null;
+
+        public Setting Setting
         {
             get 
             {
-                if (_Config == null)
-                    _Config = new AppConfig(); ;
-                return _Config;
+                if (_Setting == null)
+                    _Setting = new Setting(); ;
+                return _Setting;
             }
         }
 

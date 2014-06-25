@@ -43,7 +43,7 @@ namespace vapula
 		//get method id
 		pcstr GetMethodId();
 
-		//get invoker
+		//get task
 		Task* GetTask();
 
 		//test if frame match with contact

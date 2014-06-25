@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B1F183AE-6997-48EA-A444-875A15A3D0BA}</ProjectGuid>
+    <ProjectGuid>{5DF12DAD-E5BF-4101-AAED-A7519AD0606C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula.MDE.UI</RootNamespace>
-    <AssemblyName>vf_mde.ui</AssemblyName>
+    <RootNamespace>Vapula</RootNamespace>
+    <AssemblyName>vf_model_x</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,38 +33,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Canvas.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GDIHelper.cs" />
-    <Compile Include="GDICache.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="GraphCanvas\Connection.cs" />
-    <Compile Include="GraphCanvas\Connector.cs" />
-    <Compile Include="GraphCanvas\GraphCanvas.Action.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GraphCanvas\GraphCanvas.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GraphCanvas\Shape.cs" />
-    <Compile Include="GraphCanvas\Shape\ShapeDecision.cs" />
-    <Compile Include="GraphCanvas\Shape\ShapeProcess.cs" />
-    <Compile Include="GraphCanvas\Shape\ShapeStart.cs" />
+    <Compile Include="Model\Base.cs" />
+    <Compile Include="Model\Field.cs" />
+    <Compile Include="Model\Library.cs" />
+    <Compile Include="Model\Method.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\vf_flow_x\vf_flow_x.csproj">
-      <Project>{B22FA0B0-7573-4F67-B9B7-60922C04B8BF}</Project>
-      <Name>vf_flow_x</Name>
+    <ProjectReference Include="..\..\..\sartrey\Sartrey\Sartrey.csproj">
+      <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
+      <Name>Sartrey</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

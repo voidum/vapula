@@ -50,11 +50,10 @@ namespace vapula
 
 	enum CoreType
 	{
-		VF_CORE_UNKNOWN = 0,
-		VF_CORE_DRIVER = 1,
-		VF_CORE_LIBRARY = 2,
-		VF_CORE_STACK = 3,
-		VF_CORE_ASPECT = 4
+		VF_CORE_DRIVER = 0,
+		VF_CORE_LIBRARY = 1,
+		VF_CORE_STACK = 2,
+		VF_CORE_ASPECT = 3
 	};
 
 	//define enum
@@ -98,7 +97,7 @@ namespace vapula
 	pcstr const _vf_error_2 = "invalid invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.4.0";
+	pcstr const _vf_version = "2.1.4.1";
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";
 
 	uint32 const _vf_cp_oem = CP_OEMCP;

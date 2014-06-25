@@ -19,11 +19,11 @@ namespace vapula
 
 	//clear target
 	template<typename T>
-	void Clear(T& target, bool arr = false)
+	void Clear(T& target, bool array = false)
 	{
 		if(target == null)
 			return;
-		if (arr)
+		if (array)
 			delete[] target;
 		else
 			delete target;

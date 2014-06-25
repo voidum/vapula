@@ -67,3 +67,27 @@ State ControlCode ReturnCode 用于Context对象
 				return ((T*)_Data)[at];
 			return null;
 		}
+
+		
+	//can be set only once
+	class VAPULA_API Once : Uncopiable
+	{
+	private:
+		Lock* _Lock;
+		raw _Data;
+		raw _Seal;
+
+	public:
+		Once();
+		~Once();
+
+	public:
+		//test if can be set
+		bool CanSet();
+
+		//set value
+		void Set(raw data, uint32 size);
+
+		//get value
+		raw Get();
+	};
