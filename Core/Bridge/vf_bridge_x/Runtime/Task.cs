@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 
 namespace Vapula.Runtime
 {
     /// <summary>
     /// task
     /// </summary>
-    public class Task : IDisposable
+    public class Task : DisposableObject
     {
         #region Fields
         protected IntPtr _Handle;
@@ -28,12 +29,9 @@ namespace Vapula.Runtime
         {
             get
             {
-                if (_Stack == null)
-                {
-                    lock (_SyncRoot) 
-                    {
-                        if(_Stack == null)
-                        {
+                if (_Stack == null) {
+                    lock (_SyncRoot) {
+                        if(_Stack == null) {
                             IntPtr ptr = Bridge.GetTaskStack(_Handle);
                             _Stack = new Stack(ptr);
                         }
@@ -76,17 +74,22 @@ namespace Vapula.Runtime
         {
             Bridge.ResumeTask(_Handle);
         }
+        #endregion
 
-        /// <summary>
-        /// dispose invoker
-        /// </summary>
-        public void Dispose()
+        #region DisposableObject
+        protected override void DisposeManaged()
         {
-            Stack.Dispose();
             _Stack = null;
             _SyncRoot = null;
-            _Handle = IntPtr.Zero;
-            Bridge.DeleteRaw(_Handle);
+        }
+
+        protected override void DisposeNative()
+        {
+            if (_Handle != IntPtr.Zero) 
+            {
+                Bridge.DeleteRaw(_Handle);
+                _Handle = IntPtr.Zero;
+            }
         }
         #endregion
     }

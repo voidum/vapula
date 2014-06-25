@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 
 namespace Vapula.Runtime
 {
-    public class Library : IDisposable
+    public class Library : DisposableObject
     {
         protected IntPtr _Handle 
             = IntPtr.Zero;
@@ -97,16 +98,22 @@ namespace Vapula.Runtime
 		/// </summary>
         public void Unmount()
         {
-            Bridge.UnmountLibrary(_Handle);
+            if (_Handle != IntPtr.Zero)
+                Bridge.UnmountLibrary(_Handle);
         }
 
-        /// <summary>
-        /// dispose library
-        /// </summary>
-        public void Dispose()
+        protected override void DisposeManaged()
+        {
+        }
+
+        protected override void DisposeNative()
         {
             Unmount();
-            Bridge.DeleteRaw(_Handle);
+            if (_Handle != IntPtr.Zero)
+            {
+                Bridge.DeleteRaw(_Handle);
+                _Handle = IntPtr.Zero;
+            }
         }
     }
 }

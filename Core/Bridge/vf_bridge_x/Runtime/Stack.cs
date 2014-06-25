@@ -5,35 +5,42 @@ namespace Vapula.Runtime
     /// <summary>
     /// stack
     /// </summary>
-    public class Stack : IDisposable
+    public class Stack
     {
+        #region Static
+        /// <summary>
+        /// get stack for current thread
+        /// </summary>
+        public static Stack Instance
+        {
+            get
+            {
+                IntPtr ptr = Bridge.GetCurrentStack();
+                Stack stack = new Stack(ptr);
+                return stack;
+            }
+        }
+        #endregion
+
+        #region Fields
         private Dataset _Dataset 
             = null;
         private Context _Context
             = null;
         private Error _Error
             = null;
+        private IntPtr _Handle
+            = IntPtr.Zero;
+        #endregion
 
-        /// <summary>
-        /// get stack for current thread
-        /// </summary>
-        public static Stack Instance
-        {
-            get  
-            {
-                IntPtr ptr = Bridge.GetCurrentStack();
-                Stack stack = new Stack(ptr);
-                return stack; 
-            }
-        }
-
-        private IntPtr _Handle;
-
+        #region Ctor
         public Stack(IntPtr handle)
         {
             _Handle = handle;
         }
+        #endregion
 
+        #region Properties
         /// <summary>
         /// get handle
         /// </summary>
@@ -110,12 +117,6 @@ namespace Vapula.Runtime
                 return _Error;
             }
         }
-
-        public void Dispose()
-        {
-            _Context = null;
-            _Dataset = null;
-            _Error = null;
-        }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 
 namespace Vapula.Runtime
 {
@@ -33,7 +34,7 @@ namespace Vapula.Runtime
         /// <summary>
         /// count core objects
         /// </summary>
-        public int CountObjects(CoreObject type)
+        public int CountObjects(CoreType type)
         {
             return Bridge.CountObjects((byte)type);
         }
@@ -49,7 +50,7 @@ namespace Vapula.Runtime
         /// <summary>
         /// kick out object from runtime
         /// </summary>
-        public void KickObject(CoreObject type, string id)
+        public void KickObject(CoreType type, string id)
         {
             Bridge.KickObject((byte)type, id);
         }
@@ -57,7 +58,7 @@ namespace Vapula.Runtime
         /// <summary>
         /// kick out all objects
         /// </summary>
-        public void KickAllObects(CoreObject type)
+        public void KickAllObects(CoreType type)
         {
             Bridge.KickAllObjects((byte)type);
         }

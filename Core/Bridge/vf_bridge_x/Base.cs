@@ -4,6 +4,14 @@ using System.Runtime.InteropServices;
 
 namespace Vapula
 {
+    public enum CoreType
+    {
+        Driver = 0,
+        Library = 1,
+        Stack = 2,
+        Aspect = 3
+    };
+
     public enum State
     {
         Idle = 0,
@@ -31,13 +39,6 @@ namespace Vapula
         NullTask = 4,
         Unhandled = 5
     }
-    public enum CoreObject
-    {
-        Driver = 0,
-        Library = 1,
-        Stack = 2,
-        Aspect = 3
-    };
 
     public class Base
     {

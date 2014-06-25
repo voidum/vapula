@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Sartrey;
+using System;
 
 namespace Vapula.Runtime
 {
     /// <summary>
     /// full-duplex data pipe
     /// </summary>
-    public class Pipe : IDisposable
+    public class Pipe : DisposableObject
     {
-        private IntPtr _Handle = IntPtr.Zero;
-        private string _Id = null;
+        private IntPtr _Handle 
+            = IntPtr.Zero;
+        private string _Id 
+            = null;
 
         public Pipe()
         {
             _Handle = Bridge.CreatePipe();
-        }
-
-        public void Dispose()
-        {
-            if (_Handle != IntPtr.Zero)
-                Bridge.DeleteRaw(_Handle);
         }
 
         /// <summary>
@@ -95,6 +92,20 @@ namespace Vapula.Runtime
             return 
                 Base.ToStringAnsi(
                 Bridge.ReadPipe(_Handle));
+        }
+
+        protected override void DisposeManaged()
+        {
+        }
+
+        protected override void DisposeNative()
+        {
+            if (_Handle != IntPtr.Zero)
+            {
+                Close();
+                Bridge.DeleteRaw(_Handle);
+                _Handle = IntPtr.Zero;
+            }
         }
     }
 }
