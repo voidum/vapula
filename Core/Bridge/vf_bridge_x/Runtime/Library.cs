@@ -1,9 +1,8 @@
-﻿using Sartrey;
-using System;
+﻿using System;
 
 namespace Vapula.Runtime
 {
-    public class Library : DisposableObject
+    public class Library : Sartrey.DisposableObject
     {
         protected IntPtr _Handle 
             = IntPtr.Zero;

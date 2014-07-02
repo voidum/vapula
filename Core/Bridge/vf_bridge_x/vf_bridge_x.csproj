@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base.cs" />
+    <Compile Include="Runtime\Aspect.cs" />
     <Compile Include="Runtime\Error.cs" />
     <Compile Include="Runtime\Record.cs" />
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
@@ -55,12 +56,6 @@
     <Compile Include="Runtime\Library.cs" />
     <Compile Include="Runtime\Runtime.cs" />
     <Compile Include="Runtime\Pipe.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="library.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\sartrey\Sartrey\Sartrey.csproj">

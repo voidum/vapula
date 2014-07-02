@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Base.cs" />
-    <Compile Include="Model\Field.cs" />
-    <Compile Include="Model\Library.cs" />
-    <Compile Include="Model\Method.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="Method.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +50,11 @@
       <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
       <Name>Sartrey</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="library.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

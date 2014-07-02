@@ -4,26 +4,42 @@ using System.Xml.Linq;
 namespace Vapula.Flow
 {
     /// <summary>
-    /// 基于有向图描述的模型图
+    /// flow model schema based on DG
     /// </summary>
     public partial class Graph
     {
-        #region 字段
+        #region Fields
         private List<Node> _Nodes 
             = new List<Node>();
         private List<Link> _Links 
             = new List<Link>();
         #endregion
 
-        #region 构造
+        #region Ctor
         public Graph() 
         {
         }
         #endregion
 
-        #region 序列化
+        #region Indexer
         /// <summary>
-        /// 加载模型图
+        /// 根据指定标识获取节点
+        /// </summary>
+        public Node this[int id]
+        {
+            get
+            {
+                foreach (var node in _Nodes)
+                    if (node.Id == id)
+                        return node;
+                return null;
+            }
+        }
+        #endregion
+
+        #region Serialization
+        /// <summary>
+        /// load flow model schema
         /// </summary>
         public static Graph Load(string path)
         {
@@ -63,23 +79,27 @@ namespace Vapula.Flow
         }
         #endregion
 
-        #region 索引器
+        #region Collection
         /// <summary>
-        /// 根据指定标识获取节点
+        /// 根据坐标检索参数存根
         /// </summary>
-        public Node this[int id]
+        public ParamStub FindParamStub(ParamPoint location)
         {
-            get
-            {
-                foreach (var node in _Nodes)
-                    if (node.Id == id) 
-                        return node;
-                return null;
-            }
+            var node = this[location.NodeId];
+            if (node != null)
+                return node[location.ParamId];
+            return null;
+        }
+
+        public Link AddLink()
+        {
+            var link = new Link();
+            _Links.Add(link);
+            return link;
         }
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
         /// 获取图的节点集合
         /// </summary>
@@ -132,26 +152,6 @@ namespace Vapula.Flow
                 stage.Id = 1;
                 return stage;
             }
-        }
-        #endregion
-
-        #region 集合
-        /// <summary>
-        /// 根据坐标检索参数存根
-        /// </summary>
-        public ParamStub FindParamStub(ParamPoint location)
-        {
-            var node = this[location.NodeId];
-            if (node != null)
-                return node[location.ParamId];
-            return null;
-        }
-
-        public Link AddLink()
-        {
-            var link = new Link();
-            _Links.Add(link);
-            return link;
         }
         #endregion
     }
