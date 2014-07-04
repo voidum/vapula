@@ -19,10 +19,6 @@
     <Filter Include="core\source">
       <UniqueIdentifier>{74ea52ca-e884-423f-872f-5e0ecb348756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="res">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="sdk">
       <UniqueIdentifier>{b54294e6-7b43-4b1b-a0ec-c85220f7f154}</UniqueIdentifier>
     </Filter>
@@ -31,6 +27,37 @@
     </Filter>
     <Filter Include="sdk\source">
       <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{ce083cfe-477b-44ac-8064-8a2be08adccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\header">
+      <UniqueIdentifier>{6292e1c8-b402-4cca-aca5-c543f34d4a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\source">
+      <UniqueIdentifier>{91a32e44-6b38-4c32-999c-72968713c089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="transfer">
+      <UniqueIdentifier>{dc911d9a-ea1f-485d-b9d5-4b0dcea68685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="transfer\header">
+      <UniqueIdentifier>{7c782718-d949-4ed7-95cf-fd3b86b4d83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="transfer\source">
+      <UniqueIdentifier>{be2e818c-51f1-4d7e-8cdc-b17fb62fc727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{4e6377e7-3654-42cc-b7a0-aa404bd3550f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\header">
+      <UniqueIdentifier>{f757cc48-ccb8-4683-9921-2eb175948b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime\source">
+      <UniqueIdentifier>{abc149c3-84c0-497b-b43f-f1b669c2bbd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,15 +82,6 @@
     <ClInclude Include="include\vf_driver.h">
       <Filter>core\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_stack.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_pipe.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_context.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_debug.h">
       <Filter>base\header</Filter>
     </ClInclude>
@@ -71,27 +89,6 @@
       <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_error.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dataset.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_record.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_worker.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_thread.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_weaver.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_task.h">
-      <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_runtime.h">
       <Filter>core\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_aspect.h">
@@ -112,8 +109,35 @@
     <ClInclude Include="include\vf_dev_invoker.h">
       <Filter>sdk\header</Filter>
     </ClInclude>
-    <ClInclude Include="include\vf_core.h">
-      <Filter>base\header</Filter>
+    <ClInclude Include="include\vf_pipe.h">
+      <Filter>transfer\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_record.h">
+      <Filter>data\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dataset.h">
+      <Filter>data\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_worker.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_context.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_runtime.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_stack.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_task.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_thread.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_weaver.h">
+      <Filter>runtime\header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,16 +159,7 @@
     <ClCompile Include="src\vf_setting.cpp">
       <Filter>base\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_context.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_stack.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_driver.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_pipe.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_debug.cpp">
@@ -156,24 +171,6 @@
     <ClCompile Include="src\vf_error.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_dataset.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_record.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_runtime.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_worker.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_weaver.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_task.cpp">
-      <Filter>core\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\vf_aspect.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
@@ -183,18 +180,45 @@
     <ClCompile Include="src\vf_method.cpp">
       <Filter>core\source</Filter>
     </ClCompile>
+    <ClCompile Include="src\vf_record.cpp">
+      <Filter>data\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_dataset.cpp">
+      <Filter>data\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_worker.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_runtime.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_stack.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_task.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
     <ClCompile Include="src\vf_thread.cpp">
-      <Filter>core\source</Filter>
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_weaver.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_pipe.cpp">
+      <Filter>transfer\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_context.cpp">
+      <Filter>runtime\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt">
-      <Filter>res</Filter>
+      <Filter>resource</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc">
-      <Filter>res</Filter>
+      <Filter>resource</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

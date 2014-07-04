@@ -48,8 +48,6 @@ namespace vapula
 			return (list<Core*>*)(&_Drivers);
 		case VF_CORE_LIBRARY:
 			return (list<Core*>*)(&_Libraries);
-		case VF_CORE_STACK:
-			return (list<Core*>*)(&_Stacks);
 		case VF_CORE_ASPECT:
 			return (list<Core*>*)(&_Aspects);
 		default:
@@ -136,7 +134,6 @@ namespace vapula
 		worker->Offline();
 		KickAllObjects(VF_CORE_DRIVER);
 		KickAllObjects(VF_CORE_LIBRARY);
-		KickAllObjects(VF_CORE_STACK);
 		KickAllObjects(VF_CORE_ASPECT);
 	}
 

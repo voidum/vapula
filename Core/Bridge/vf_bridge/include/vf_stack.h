@@ -10,14 +10,13 @@ namespace vapula
 	class Error;
 
 	//stack
-	class VAPULA_API Stack : public Core
+	class VAPULA_API Stack
 	{
 	public:
 		Stack();
 		~Stack();
 
 	private:
-		pcstr _StackId;
 		pcstr _MethodId;
 		bool _HasProtect;
 		Context* _Context;
@@ -28,9 +27,6 @@ namespace vapula
 		//get current stack
 		static Stack* Instance();
 	
-		//get current stack id
-		static pcstr CurrentId();
-
 	public:
 		//set stack id
 		void SetStackId(pcstr id, Task* owner);
@@ -68,10 +64,5 @@ namespace vapula
 
 		//get error
 		Error* GetError();
-
-	public:
-		uint8 GetType();
-
-		pcstr GetCoreId();
 	};
 }

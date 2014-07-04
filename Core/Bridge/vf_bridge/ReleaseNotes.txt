@@ -2,10 +2,12 @@ vPLAN
 +)support json - reduce inter file size ?
 +)support smart pointer with GC?
 +)support logger
-+)support dynamic envelope
++)support dynamic dataset
+
 
 v2.1.4.1
 *)remove code
+=)remove pipe data type
 
 
 v2.1.4.0

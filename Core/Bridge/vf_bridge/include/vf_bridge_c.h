@@ -90,8 +90,6 @@ extern "C"
 	VAPULA_API pcstr vfeListenPipe(raw pipe);
 	VAPULA_API int vfeConnectPipe(raw pipe, pcstr id);
 	VAPULA_API void vfeClosePipe(raw pipe);
-	VAPULA_API void vfeWritePipe(raw pipe, pcstr data);
-	VAPULA_API void vfeWritePipeW(raw pipe, pcwstr data);
-	VAPULA_API pcstr vfeReadPipe(raw pipe);
-	VAPULA_API pcwstr vfeReadPipeW(raw pipe);
+	VAPULA_API void vfeWritePipe(raw pipe, raw data, uint32 size);
+	VAPULA_API raw vfeReadPipe(raw pipe);
 }

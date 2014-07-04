@@ -423,31 +423,14 @@ void vfeClosePipe(raw pipe)
 	object->Close();
 }
 
-void vfeWritePipe(raw pipe, pcstr data)
+void vfeWritePipe(raw pipe, raw data, uint32 size)
 {
 	Pipe* object = (Pipe*)pipe;
-	object->Write(data);
+	object->Write(data, size);
 }
 
-void vfeWritePipeW(raw pipe, pcwstr data)
+raw vfeReadPipe(raw pipe)
 {
 	Pipe* object = (Pipe*)pipe;
-	pcstr cs8_data = str::ToStr(data, _vf_cp_msg);
-	object->Write(cs8_data);
-	delete cs8_data;
-}
-
-pcstr vfeReadPipe(raw pipe)
-{
-	Pipe* obj = (Pipe*)pipe;
-	return obj->Read();
-}
-
-pcwstr vfeReadPipeW(raw pipe)
-{
-	Pipe* obj =(Pipe*)pipe;
-	pcstr data = obj->Read();
-	pcwstr cs16_data = str::ToStrW(data, _vf_cp_msg);
-	delete data;
-	return cs16_data;
+	return object->Read();
 }

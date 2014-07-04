@@ -33,8 +33,6 @@ namespace vapula
 		void _SetFlag(uint32 offset, uint8 value);
 		uint32 _GetValue(uint32 offset);
 		void _SetValue(uint32 offset, uint32 value);
-		void _Write(raw data, uint32 len);
-		raw _Read();
 
 	//link
 	public: 
@@ -66,9 +64,9 @@ namespace vapula
 		uint32 GetReadSize();
 
 		//write data
-		void Write(pcstr data);
+		void Write(raw data, uint32 size);
 
 		//read data
-		pcstr Read();
+		raw Read();
 	};
 }

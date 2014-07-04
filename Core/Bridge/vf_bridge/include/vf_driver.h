@@ -8,7 +8,7 @@ namespace vapula
 	class Task;
 
 	//driver {base}
-	class VAPULA_API Driver : public Core
+	class VAPULA_API Driver
 	{
 	private:
 		HMODULE _Module;
@@ -38,10 +38,5 @@ namespace vapula
 		//create invoker
 		virtual Task*
 			CreateTask() = 0;
-
-	public:
-		uint8 GetType();
-
-		pcstr GetCoreId();
 	};
 }

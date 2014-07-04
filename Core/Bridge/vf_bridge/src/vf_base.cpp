@@ -1,6 +1,7 @@
 #include "vf_base.h"
 #include "vf_stack.h"
 #include "vf_setting.h"
+#include "modp_b64/modp_b64.h"
 
 namespace vapula
 {
@@ -66,6 +67,33 @@ namespace vapula
 		int v = _Value;
 		_Lock->Leave();
 		return ((v & flag) == flag);
+	}
+
+	pcstr RawToBase64(raw data, uint32 size)
+	{
+		int size_target = modp_b64_encode_len(size);
+		char* result = new char[size_target];
+		int code = modp_b64_encode(result, (pcstr)data, size);
+		if (code == -1)
+		{
+			delete result;
+			return null;
+		}
+		return result;
+	}
+
+	raw Base64ToRaw(pcstr data)
+	{
+		int size = strlen(data);
+		int size_target = modp_b64_decode_len(size);
+		char* result = new char[size_target];
+		int code = modp_b64_decode(result, data, size);
+		if (code == -1)
+		{
+			delete result;
+			return null;
+		}
+		return result;
 	}
 
 	void ShowMsgbox(pcstr value, pcstr caption)

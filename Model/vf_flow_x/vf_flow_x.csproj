@@ -41,29 +41,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graph\Graph.Action.cs" />
-    <Compile Include="Graph\Graph.cs" />
-    <Compile Include="Graph\Graph.ISyncable.cs" />
-    <Compile Include="Graph\Link.cs" />
-    <Compile Include="Node\Node.Action.cs" />
-    <Compile Include="Node\Node.cs" />
-    <Compile Include="Node\Node.ISyncable.cs" />
-    <Compile Include="Node\Nodes\NodeDecision.cs" />
-    <Compile Include="Node\Nodes\NodeProcess.cs" />
-    <Compile Include="Node\Nodes\NodeStart.cs" />
-    <Compile Include="Node\Nodes\NodeVariable.cs" />
-    <Compile Include="Node\Nodes\NodeCode.cs" />
-    <Compile Include="Node\Nodes\NodeBatch.cs" />
-    <Compile Include="Parameter\ParamPoint.cs" />
-    <Compile Include="Stage\Stage.cs" />
-    <Compile Include="Parameter\ParamStub.cs" />
-    <Compile Include="Stage\Stage.Action.cs" />
+    <Compile Include="Model\Graph\Graph.Action.cs" />
+    <Compile Include="Model\Graph\Graph.cs" />
+    <Compile Include="Model\Graph\Graph.ISyncable.cs" />
+    <Compile Include="Model\Graph\Link.cs" />
+    <Compile Include="Model\Node\Node.Action.cs" />
+    <Compile Include="Model\Node\Node.cs" />
+    <Compile Include="Model\Node\Node.ISyncable.cs" />
+    <Compile Include="Model\Node\NodeFactory.cs" />
+    <Compile Include="Model\Node\Nodes\NodeDecision.cs" />
+    <Compile Include="Model\Node\Nodes\NodeProcess.cs" />
+    <Compile Include="Model\Node\Nodes\NodeStart.cs" />
+    <Compile Include="Model\Node\Nodes\NodeVariable.cs" />
+    <Compile Include="Model\Node\Nodes\NodeCode.cs" />
+    <Compile Include="Model\Node\Nodes\NodeBatch.cs" />
+    <Compile Include="Model\Parameter\ParamPoint.cs" />
+    <Compile Include="Model\Stage\Stage.cs" />
+    <Compile Include="Model\Parameter\ParamStub.cs" />
+    <Compile Include="Model\Stage\Stage.Action.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XSD\model.xml">
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sartrey\Sartrey\Sartrey.csproj">
+      <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
+      <Name>Sartrey</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

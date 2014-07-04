@@ -1,5 +1,4 @@
 #include "vf_task.h"
-#include "vf_runtime.h"
 #include "vf_stack.h"
 #include "vf_method.h"
 #include "vf_context.h"
@@ -30,10 +29,6 @@ namespace vapula
 
 	void Task::Invoke()
 	{
-		Runtime* runtime = Runtime::Instance();
-		pcstr stack_id = Stack::CurrentId();
-		_Stack->SetStackId(stack_id, this);
-		runtime->LinkObject(_Stack);
 		Context* context = _Stack->GetContext();
 		try {
 			context->SetControlCode(VF_CTRL_NULL, this);
@@ -52,7 +47,6 @@ namespace vapula
 				OnRollback();
 			context->SetReturnCode(VF_RETURN_ERROR);
 		}
-		runtime->KickObject(VF_CORE_STACK, stack_id);
 		context->SetState(VF_STATE_IDLE, this);
 	}
 

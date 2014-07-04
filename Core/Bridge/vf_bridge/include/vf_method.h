@@ -27,9 +27,6 @@ namespace vapula
 		//protect flag
 		bool _HasProtect;
 
-		//advice flag : AOP
-		bool _IsAdvice;
-
 		//entry symbol
 		pcstr _RollbackSym;
 
@@ -51,9 +48,6 @@ namespace vapula
 
 		//get protect flag
 		bool HasProtect();
-
-		//get advice flag
-		bool IsAdvice();
 
 		//get dataset
 		Dataset* GetDataset();

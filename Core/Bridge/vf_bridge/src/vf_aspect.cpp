@@ -81,7 +81,7 @@ namespace vapula
 		if(_Task == null)
 		{
 			Runtime* runtime = Runtime::Instance();
-			Library* library = (Library*)runtime->SelectObject(VF_CORE_LIBRARY, _LibraryId);
+			Library* library = runtime->FindLibrary(_LibraryId);
 			if (library != null)
 				_Task = library->CreateTask(_MethodId);
 		}
@@ -95,15 +95,5 @@ namespace vapula
 		string str_frame = frame;
 		bool match = std::regex_match(str_frame, pattern);
 		return match;
-	}
-
-	uint8 Aspect::GetType()
-	{
-		return VF_CORE_ASPECT;
-	}
-
-	pcstr Aspect::GetCoreId()
-	{
-		return GetAspectId();
 	}
 }

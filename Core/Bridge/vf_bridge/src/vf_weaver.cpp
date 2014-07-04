@@ -24,7 +24,7 @@ namespace vapula
 	void Weaver::Invoke(Aspect* aspect)
 	{
 		Task* task = aspect->GetTask();
-		Stack* stack = task->GetStack();
+		//Stack* stack = task->GetStack();
 		//Dataset* dataset = stack->GetDataset();
 		//init record
 		//Record* record = (*dataset)[1];

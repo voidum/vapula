@@ -18,7 +18,6 @@
       </symbols>
       <schema>
         <field id="1">
-          <type>3</type>
           <access>0</access>
           <tags>
             <tag key="name">加数1</tag>
@@ -26,7 +25,6 @@
           </tags>
         </field>
         <field id="2">
-          <type>3</type>
           <access>0</access>
           <tags>
             <tag key="name">加数2</tag>
@@ -34,7 +32,6 @@
           </tags>
         </field>
         <field id="3">
-          <type>3</type>
           <access>1</access>
           <tags>
             <tag key="name">和</tag>
@@ -56,7 +53,6 @@
       </symbols>
       <schema>
         <field id="1">
-          <type>21</type>
           <access>1</access>
           <tags>
             <tag key="name">输出</tag>
@@ -143,7 +139,6 @@
       </symbols>
       <schema>
         <field id="1">
-          <type>7</type>
           <access>0</access>
           <tags>
             <tag key="name">目标栈标识</tag>

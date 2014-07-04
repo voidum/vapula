@@ -1,5 +1,6 @@
 #include "vf_stack.h"
-#include "vf_runtime.h"
+#include "vf_worker.h"
+#include "vf_thread.h"
 #include "vf_task.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
@@ -9,7 +10,6 @@ namespace vapula
 {
 	Stack::Stack() 
 	{
-		_StackId = null;
 		_MethodId = null;
 		_HasProtect = false;
 		_Context = null;
@@ -19,38 +19,19 @@ namespace vapula
 
 	Stack::~Stack()
 	{
-		Clear(_StackId);
 		Clear(_MethodId);
 		Clear(_Context);
 		Clear(_Dataset);
 		Clear(_Error);
 	}
 
-	pcstr Stack::CurrentId()
-	{
-		return str::Value(GetCurrentThreadId());
-	}
-
 	Stack* Stack::Instance()
 	{
-		Runtime* runtime = Runtime::Instance();
-		pcstr id = CurrentId();
-		Stack* stack = (Stack*)runtime->SelectObject(VF_CORE_STACK, id);
+		int thread_id = GetCurrentThreadId();
+		Worker* worker = Worker::Instance();
+		Thread* thread = worker->GetThreadById(thread_id);
+		Stack* stack = thread->GetTask()->GetStack();
 		return stack;
-	}
-
-	pcstr Stack::GetStackId()
-	{
-		return _StackId;
-	}
-
-	void Stack::SetStackId(pcstr id, Task* owner)
-	{
-		if (owner->GetStack() == this)
-		{
-			Clear(_StackId);
-			_StackId = id;
-		}
 	}
 
 	pcstr Stack::GetMethodId()
@@ -106,15 +87,5 @@ namespace vapula
 	{
 		Clear(_Error);
 		_Error = error;
-	}
-
-	uint8 Stack::GetType()
-	{
-		return VF_CORE_STACK;
-	}
-
-	pcstr Stack::GetCoreId()
-	{
-		return GetStackId();
 	}
 }

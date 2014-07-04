@@ -57,6 +57,12 @@ namespace vapula
 		bool Valid(int flag);
 	};
 
+	//convert raw data to base64 string
+	VAPULA_API pcstr RawToBase64(raw data, uint32 size);
+
+	//convert base64 string to raw data
+	VAPULA_API raw Base64ToRaw(pcstr data);
+
 	//show value by simple message box
 	template<typename T>
 	VAPULA_API void ShowMsgbox(T value)
@@ -72,7 +78,4 @@ namespace vapula
 
 	//test if file can be opened as read
 	VAPULA_API bool TryOpenRead(pcstr file);
-
-	//wait for a moment by ms
-	VAPULA_API void WaitSpan(uint32 wait);
 }

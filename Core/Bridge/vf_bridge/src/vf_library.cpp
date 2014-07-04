@@ -14,8 +14,11 @@ namespace vapula
 
 	Library::~Library()
 	{
+		typedef list<Method*>::iterator iter;
+		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
+			Clear(*i);
+		_Methods.clear();
 		Clear(_Id);
-		ClearAll();
 	}
 
 	Library* Library::Load(pcstr path)
@@ -32,7 +35,7 @@ namespace vapula
 		Scoped autop1((raw)cs8_runtime);
 
 		Runtime* runtime = Runtime::Instance();
-		Driver* driver = (Driver*)runtime->SelectObject(VF_CORE_DRIVER, cs8_runtime);
+		Driver* driver = runtime->FindDriver(cs8_runtime);
 		if (driver == null)
 			return null;
 
@@ -57,14 +60,6 @@ namespace vapula
 			xe_method = XML::Next(xe_method);
 		}
 		return library;
-	}
-
-	void Library::ClearAll()
-	{
-		typedef list<Method*>::iterator iter;
-		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
-			Clear(*i);
-		_Methods.clear();
 	}
 
 	Driver* Library::GetDriver()
@@ -100,15 +95,5 @@ namespace vapula
 			delete task;
 			return null;
 		}
-	}
-
-	uint8 Library::GetType()
-	{
-		return VF_CORE_LIBRARY;
-	}
-
-	pcstr Library::GetCoreId()
-	{
-		return GetLibraryId();
 	}
 }

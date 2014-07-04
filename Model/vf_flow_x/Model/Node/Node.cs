@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Vapula.Model;
+using Vapula.Flow;
 
 namespace Vapula.Flow
 {
@@ -17,43 +17,28 @@ namespace Vapula.Flow
     }
 
     /// <summary>
-    /// 模型图节点，对应有向图的顶点
+    /// node of flow model, DG vertex
     /// </summary>
-    public abstract partial class Node : IDisposable
+    public abstract partial class Node : Sartrey.DisposableObject
     {
-        #region 字段
+        #region Fields
         protected int _Id = -1;
-        protected List<Node> _InNodes 
-            = new List<Node>();
-        protected List<Node> _OutNodes 
-            = new List<Node>();
-        protected List<ParamStub> _ParamStubs
-            = new List<ParamStub>();
-        protected Graph _Parent 
+        protected List<Link> _InLinks 
+            = new List<Link>();
+        protected List<Link> _OutLinks 
+            = new List<Link>();
+        protected Graph _Container 
             = null;
-        protected TagList _Attach 
+        protected Sartrey.Table<object> _Attach 
             = null;
         #endregion
 
-        #region 索引器
-        /// <summary>
-        /// 根据指定标识获取参数存根
-        /// </summary>
-        public ParamStub this[int id]
-        {
-            get
-            {
-                foreach (var stub in _ParamStubs)
-                    if (stub.Self.ParamId == id) 
-                        return stub;
-                return null;
-            }
-        }
+        #region Indexer
         #endregion
 
-        #region 属性
+        #region Properties
         /// <summary>
-        /// 获取或设置节点的标识
+        /// get node id
         /// </summary>
         public int Id
         {
@@ -95,24 +80,19 @@ namespace Vapula.Flow
         public abstract NodeType Type { get; }
 
         /// <summary>
-        /// 获取是否支持自定义参数
+        /// get links into node
         /// </summary>
-        public abstract bool CanCustomParam { get; }
-
-        /// <summary>
-        /// 获取节点的输入节点
-        /// </summary>
-        public List<Node> InNodes
+        public List<Link> InLinks
         {
-            get { return _InNodes; }
+            get { return _InLinks; }
         }
 
         /// <summary>
-        /// 获取节点的输出节点
+        /// get links out of nodes
         /// </summary>
-        public List<Node> OutNodes 
+        public List<Link> OutLinks
         {
-            get { return _OutNodes; }
+            get { return _OutLinks; }
         }
 
         /// <summary>
@@ -129,20 +109,20 @@ namespace Vapula.Flow
         }
 
         /// <summary>
-        /// 获取节点的附加数据
+        /// get attached data
         /// </summary>
-        public TagList Attach
+        public Sartrey.Table<object> Attach
         {
             get 
             {
                 if (_Attach == null)
-                    _Attach = new TagList();
+                    _Attach = new Sartrey.Table<object>();
                 return _Attach;
             }
         }
         #endregion
 
-        #region 序列化
+        #region Serialization
         /// <summary>
         /// 由XML解析节点对象
         /// </summary>
@@ -176,8 +156,7 @@ namespace Vapula.Flow
         }
         #endregion
 
-        #region 方法
-        public virtual void Dispose()
+        protected override void DisposeManaged()
         {
             foreach (var node in _InNodes)
                 node.OutNodes.Remove(this);
@@ -187,6 +166,9 @@ namespace Vapula.Flow
             _OutNodes.Clear();
             _SyncTarget = null;
         }
-        #endregion
+
+        protected override void DisposeNative()
+        {
+        }
     }
 }

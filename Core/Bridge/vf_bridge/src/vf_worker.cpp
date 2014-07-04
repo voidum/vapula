@@ -77,6 +77,24 @@ namespace vapula
 		_Lock->Leave();
 	}
 
+	Thread* Worker::GetThreadById(int id)
+	{
+		typedef list<Thread*>::iterator iter;
+		Thread* thread = null;
+		_Lock->Enter();
+		for (iter i = _BusyThreads.begin(); i != _BusyThreads.end();)
+		{
+			Thread* temp_thread = *i;
+			if (temp_thread->GetThreadId() == id)
+			{
+				thread = temp_thread;
+				break;
+			}
+		}
+		_Lock->Leave();
+		return thread;
+	}
+
 	Thread* Worker::GetIdleThread()
 	{
 		if (_IdleThreads.size() > 0)

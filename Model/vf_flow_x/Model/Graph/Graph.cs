@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace Vapula.Flow
 {
     /// <summary>
-    /// flow model schema based on DG
+    /// flow model based on DG
     /// </summary>
     public partial class Graph
     {

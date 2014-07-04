@@ -48,14 +48,6 @@ namespace vapula
 	typedef const char* pcstr;
 	typedef const wchar_t* pcwstr;
 
-	enum CoreType
-	{
-		VF_CORE_DRIVER = 0,
-		VF_CORE_LIBRARY = 1,
-		VF_CORE_STACK = 2,
-		VF_CORE_ASPECT = 3
-	};
-
 	//define enum
 	enum AccessMode
 	{

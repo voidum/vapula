@@ -36,19 +36,9 @@ namespace vapula
 		return 0;
 	}
 
-	bool Thread::IsTemp()
+	int Thread::GetThreadId()
 	{
-		return _IsTemp;
-	}
-
-	bool Thread::IsSuspend()
-	{
-		return _IsSuspend;
-	}
-
-	uint32 Thread::GetCPUs()
-	{
-		return _CPUMask;
+		return ::GetThreadId(_Handle);
 	}
 
 	Task* Thread::GetTask()
@@ -56,11 +46,26 @@ namespace vapula
 		return _Task;
 	}
 
+	void Thread::SetTask(Task* task)
+	{
+		_Task = task;
+	}
+
+	bool Thread::IsTemp()
+	{
+		return _IsTemp;
+	}
+
 	void Thread::SetTemp(bool temp)
 	{
 		_IsTemp = temp;
 	}
 
+	uint32 Thread::GetCPUs()
+	{
+		return _CPUMask;
+	}
+	
 	void Thread::SetCPUs(uint32 mask)
 	{
 		_CPUMask = mask;
@@ -68,9 +73,9 @@ namespace vapula
 			SetThreadAffinityMask(_Handle, _CPUMask);
 	}
 
-	void Thread::SetTask(Task* task)
+	bool Thread::IsSuspend()
 	{
-		_Task = task;
+		return _IsSuspend;
 	}
 
 	void Thread::Start()

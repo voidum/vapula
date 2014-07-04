@@ -23,15 +23,23 @@ namespace vapula
 		static uint32 WINAPI Handler(raw sender);
 
 	public:
-		bool IsTemp();
-		bool IsSuspend();
-		uint32 GetCPUs();
-		Task* GetTask();
+		//get OS thread id
+		int GetThreadId();
 
 	public:
-		void SetTemp(bool temp);
-		void SetCPUs(uint32 mask);
+		Task* GetTask();
 		void SetTask(Task* task);
+
+	public:
+		uint32 GetCPUs();
+		void SetCPUs(uint32 mask);
+
+	public:
+		bool IsTemp();
+		void SetTemp(bool temp);
+
+	public:
+		bool IsSuspend();
 
 	public:
 		void Start();

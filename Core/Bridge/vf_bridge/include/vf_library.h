@@ -9,19 +9,20 @@ namespace vapula
 	class Task;
 
 	//library {base}
-	class VAPULA_API Library : public Core
+	class VAPULA_API Library
 	{
 	protected:
+		//library id
 		pcstr _Id;
-
-		//driver
-		Driver* _Driver;
 
 		//library bin path
 		pcstr _Path;
 
 		//methods
 		list<Method*> _Methods;
+
+		//driver
+		Driver* _Driver;
 
 	protected:
 		Library();
@@ -32,20 +33,18 @@ namespace vapula
 		//load library by path
 		static Library* Load(pcstr path);
 
-	protected:
-		void ClearAll();
-
 	public:
 		//get library id
 		pcstr GetLibraryId();
 
-		//get driver
-		Driver* GetDriver();
-
 		//get method by id
 		Method* GetMethod(pcstr id);
 
-		//create task by id
+		//get driver
+		Driver* GetDriver();
+
+	public:
+		//create task by method id
 		Task* CreateTask(pcstr id);
 
 	public:
@@ -54,10 +53,5 @@ namespace vapula
 
 		//unmount library
 		virtual void Unmount() = 0;
-
-	public:
-		uint8 GetType();
-
-		pcstr GetCoreId();
 	};
 }

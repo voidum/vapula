@@ -92,43 +92,6 @@ namespace vapula
 			((uint32*)((uint32)_Data + offset))[0] = value;
 	}
 
-	void Pipe::_Write(raw data, uint32 len)
-	{
-		if(_IsServer)
-		{
-			((uint32*)((uint32)_Data + 7))[0] = len;
-			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE), data, len);
-			_SetFlag(1, 1);
-		}
-		else
-		{
-			((uint32*)((uint32)_Data + 11))[0] = len;
-			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), data, len);
-			_SetFlag(2, 1);
-		}
-	}
-
-	raw Pipe::_Read()
-	{
-		raw data = null;
-		uint32 len = 0;
-		if(_IsServer)
-		{
-			len = _GetValue(11);
-			data = new byte[len];
-			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), len);
-			_SetFlag(2, 0);
-		}
-		else
-		{
-			len = _GetValue(7);
-			data = new byte[len];
-			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE), len);
-			_SetFlag(1, 0);
-		}
-		return data;
-	}
-
 	pcstr Pipe::GetPipeId()
 	{
 		return _Id;
@@ -196,15 +159,41 @@ namespace vapula
 		return size;
 	}
 
-	void Pipe::Write(pcstr data)
+
+	void Pipe::Write(raw data, uint32 size)
 	{
-		uint32 len = strlen(data) + 1;
-		_Write((raw)data, len);
+		if (_IsServer)
+		{
+			((uint32*)((uint32)_Data + 7))[0] = size;
+			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE), data, size);
+			_SetFlag(1, 1);
+		}
+		else
+		{
+			((uint32*)((uint32)_Data + 11))[0] = size;
+			memcpy((raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), data, size);
+			_SetFlag(2, 1);
+		}
 	}
 
-	pcstr Pipe::Read()
+	raw Pipe::Read()
 	{
-		pcstr data = (pcstr)_Read();
+		raw data = null;
+		uint32 size = 0;
+		if (_IsServer)
+		{
+			size = _GetValue(11);
+			data = new byte[size];
+			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE + _Volume), size);
+			_SetFlag(2, 0);
+		}
+		else
+		{
+			size = _GetValue(7);
+			data = new byte[size];
+			memcpy(data, (raw)((uint32)_Data + VF_PIPE_PRTCSIZE), size);
+			_SetFlag(1, 0);
+		}
 		return data;
 	}
 }

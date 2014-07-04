@@ -7,7 +7,6 @@ namespace vapula
 	class Driver;
 	class Aspect;
 	class Library;
-	class Stack;
 
 	//runtime
 	class VAPULA_API Runtime : Uncopiable
@@ -27,7 +26,6 @@ namespace vapula
 		Lock* _Lock;
 		list<Driver*> _Drivers;
 		list<Library*> _Libraries;
-		list<Stack*> _Stacks;
 		list<Aspect*> _Aspects;
 
 	private:
