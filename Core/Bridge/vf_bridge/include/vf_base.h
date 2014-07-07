@@ -4,7 +4,6 @@
 #pragma warning(disable:4275)
 
 #include "vf_assist.h"
-#include "vf_core.h"
 #include "vf_string.h"
 
 namespace vapula

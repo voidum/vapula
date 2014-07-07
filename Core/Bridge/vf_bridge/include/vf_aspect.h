@@ -5,19 +5,28 @@
 namespace vapula
 {
 	class Task;
+	class AspectHub;
+	class Weaver;
 
 	//aspect
 	class VAPULA_API Aspect
 	{
+	friend class Weaver;
+
 	private:
-		pcstr _Id;
+		static AspectHub* _Hub;
+		static AspectHub* Hub();
+
+	public:
+		static Aspect* Find(pcstr id);
+		static int Count();
+
+	private:
+		pcstr _AspectId;
 		pcstr _Contact;
 		pcstr _LibraryId;
 		pcstr _MethodId;
 		bool _Async;
-
-	private:
-		Task* _Task;
 
 	public:
 		Aspect();
@@ -43,10 +52,18 @@ namespace vapula
 		//get method id
 		pcstr GetMethodId();
 
-		//get task
-		Task* GetTask();
+	public:
+		//create task
+		Task* CreateTask();
 
 		//test if frame match with contact
 		bool TryMatch(pcstr frame);
+
+	public:
+		//link aspect into hub
+		void LinkHub();
+
+		//kick out aspect from hub
+		void KickHub();
 	};
 }

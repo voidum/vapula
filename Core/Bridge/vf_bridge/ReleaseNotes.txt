@@ -8,6 +8,13 @@ vPLAN
 v2.1.4.1
 *)remove code
 =)remove pipe data type
++)hub for core
+-)remove core base
+*)move C entry to vf_bridge_c
+*)seperate hub from runtime
+*)combine hub into core
+*)task
+*)+)add join
 
 
 v2.1.4.0

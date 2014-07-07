@@ -58,5 +58,8 @@ namespace vapula
 
 		//resume
 		void Resume();
+
+	public:
+		void Join();
 	};
 }

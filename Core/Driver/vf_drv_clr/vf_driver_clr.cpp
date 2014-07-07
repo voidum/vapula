@@ -60,9 +60,8 @@ Task* DriverCLR::CreateTask()
 
 DriverCLR* DriverCLR::Instance()
 {
-	Runtime* runtime = Runtime::Instance();
 	DriverCLR* driver = 
-		(DriverCLR*)runtime->SelectObject(VF_CORE_DRIVER, _vf_runtime_id);
+		(DriverCLR*)Driver::Find(_vf_runtime_id);
 	return driver;
 }
 

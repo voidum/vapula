@@ -26,7 +26,7 @@ void Test1(Library* library)
 	Task* task = library->CreateTask("context");
 	Assert(task != NULL);
 
-	cout << "[invoke function context]" << endl;
+	cout << "[invoke method context]" << endl;
 	task->Start();
 
 	Stack* stack = task->GetStack();
@@ -66,19 +66,23 @@ void Test2(Library* library)
 
 	Stack* stack = task->GetStack();
 	Dataset* dataset = stack->GetDataset();
+	int* data = new int[4];
+	data[0] = 12;
+	data[1] = 21;
+	data[2] = -5;
+	data[3] = -10;
 
-	(*dataset)[1]->WriteAt(12);
-	(*dataset)[2]->WriteAt(23);
+	(*dataset)[1]->Write(data, 4 * sizeof(int));
 
-	cout << "[invoke function math]" << endl;
+	cout << "[invoke method math]" << endl;
 	task->Start();
 
 	Context* context = stack->GetContext();
 	while (context->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 
-	int result = (*dataset)[3]->ReadAt<int>();
-	cout << "<valid> - out:" << result << endl;
+	int* result = (int*)((*dataset)[2]->Read());
+	cout << "<valid> - out:" << result[0] << endl;
 
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
@@ -91,8 +95,7 @@ void Test2(Library* library)
 		tasks.push_back(task);
 		Stack* stack = task->GetStack();
 		Dataset* dataset = stack->GetDataset();
-		(*dataset)[1]->WriteAt(12);
-		(*dataset)[2]->WriteAt(23);
+		(*dataset)[1]->Write(data, 4 * sizeof(int));
 		task->Start();
 	}
 	typedef list<Task*>::iterator iter;
@@ -105,7 +108,7 @@ void Test2(Library* library)
 		Context* context = stack->GetContext();
 		while (context->GetCurrentState() != VF_STATE_IDLE)
 			Sleep(0);
-		int result = (*dataset)[3]->ReadAt<int>();
+		int* result = (int*)((*dataset)[2]->Read());
 		//cout << "<valid> - out:" << result << endl;
 
 		Clear(task);
@@ -122,14 +125,13 @@ void Test2(Library* library)
 		Task* task = library->CreateTask("math");
 		Stack* stack = task->GetStack();
 		Dataset* dataset = stack->GetDataset();
-		(*dataset)[1]->WriteAt(12);
-		(*dataset)[2]->WriteAt(23);
+		(*dataset)[1]->Write(data, 4 * sizeof(int));
 		task->Start();
 
 		Context* context = stack->GetContext();
 		while (context->GetCurrentState() != VF_STATE_IDLE)
 			Sleep(0);
-		int result = (*dataset)[3]->ReadAt<int>();
+		int* result = (int*)((*dataset)[2]->Read());
 		//cout << "<valid> - out:" << result << endl;
 
 		Clear(task);
@@ -151,13 +153,13 @@ void Test3(Library* library)
 	Context* context = stack->GetContext();
 	Dataset* dataset = stack->GetDataset();
 
-	cout << "[invoke function output]" << endl;
+	cout << "[invoke method output]" << endl;
 	task->Start();
 	while (context->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 
 	pcstr data = (pcstr)(*dataset)[1]->Read();
-	pcstr cs8_oem = str::Encode(data, _vf_msg_cp, _vf_oem_cp);
+	pcstr cs8_oem = str::Encode(data, _vf_cp_msg, _vf_cp_oem);
 	ShowMsgbox(cs8_oem);
 	delete cs8_oem;
 	Clear(task);
@@ -172,7 +174,7 @@ void Test4(Library* library)
 
 	Context* context = stack->GetContext();
 
-	cout << "[invoke function context2]" << endl;
+	cout << "[invoke method context2]" << endl;
 	task->Start();
 	while (context->GetCurrentState() != VF_STATE_IDLE)
 	{
@@ -187,9 +189,8 @@ void Test5(Library* library)
 	cout << "[load aspect] ... ";
 	Aspect* aspect = Aspect::Load("E:\\Projects\\vapula\\Core\\OutDir\\Debug\\aspect.xml");
 	Assert(aspect != null);
-	Runtime* runtime = Runtime::Instance();
-	runtime->LinkObject(aspect);
-	Task* task = library->CreateTask("protect");
+	aspect->LinkHub();
+	Task* task = library->CreateTask("aop");
 	task->Start();
 	Stack* stack = task->GetStack();
 	Context* context = stack->GetContext();
@@ -209,55 +210,55 @@ void Test6()
 	cout << "data:" << data2[122] << endl;
 }
 
-void Test7()
+void Test7(Library* library)
 {
-	pcstr data = "-23";
-	uint8 i = (uint8)atoi(data);
-	cout << (uint32)i << endl;
+	cout << "[create task] ... ";
+	Task* task = library->CreateTask("protect");
+	Assert(task != NULL);
+	Stack* stack = task->GetStack();
+	Context* context = stack->GetContext();
+	cout << "[invoke method protect]" << endl;
+	task->Start();
+	while (context->GetCurrentState() != VF_STATE_IDLE)
+		Sleep(50);
+	Clear(task);
 }
 
 int main()
 {
-	//activate runtime
-	cout << "[activate runtime]" << endl;
 	Runtime* runtime = Runtime::Instance();
-	runtime->Activate();
+	runtime->Start();
 
 	//load & link driver manually
 	cout << "[load & link driver crt] ... ";
 	ostringstream oss;
-	oss << runtime->GetProcessDir() << "clr.driver";
+	oss << runtime->GetProcessDir() << "crt.driver";
 	Driver* driver = Driver::Load(oss.str().c_str());
 	Assert(driver != null);
-	runtime->LinkObject(driver);
-	//cout<<"[register driver clr] ... ";
-	//Assert(drv_hub->Link("clr"));
+	driver->LinkHub();
 
 	cout << "[load library] ... ";
 	oss.str("");
-	oss << runtime->GetProcessDir() << "sample_xlib.library";
+	oss << runtime->GetProcessDir() << "sample_lib.library";
 	Library* library = Library::Load(oss.str().c_str());
 	Assert(library != NULL);
-	runtime->LinkObject(library);
+	library->LinkHub();
 
 	cout << "[mount library] ... ";
 	Assert(library->Mount());
 
 	//Test1(library);
 	//Test2(library);
-	Test3(library);
+	//Test3(library);
 	//Test4(library);
-	//Test5(library);
+	Test5(library);
 	//Test6();
-	//Test7();
+	//Test7(library);
 
 	cout << "[unmount library]" << endl;
 	library->Unmount();
 
-	//deactivate runtime
-	cout << "[deactivate runtime]" << endl;
-	runtime->Deactivate();
-
+	runtime->Stop();
 	//_CrtDumpMemoryLeaks();
 	system("pause");
 	return 0;

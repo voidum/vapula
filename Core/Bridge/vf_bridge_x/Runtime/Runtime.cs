@@ -31,36 +31,14 @@ namespace Vapula.Runtime
         {
         }
 
-        /// <summary>
-        /// count core objects
-        /// </summary>
-        public int CountObjects(CoreType type)
+        public void Start() 
         {
-            return Bridge.CountObjects((byte)type);
+            Bridge.StartRuntime();
         }
 
-        /// <summary>
-        /// link object into runtime
-        /// </summary>
-        public void LinkObject(IntPtr handle)
+        public void Stop() 
         {
-            Bridge.LinkObject(handle);
-        }
-
-        /// <summary>
-        /// kick out object from runtime
-        /// </summary>
-        public void KickObject(CoreType type, string id)
-        {
-            Bridge.KickObject((byte)type, id);
-        }
-
-        /// <summary>
-        /// kick out all objects
-        /// </summary>
-        public void KickAllObects(CoreType type)
-        {
-            Bridge.KickAllObjects((byte)type);
+            Bridge.StopRuntime();
         }
     }
 }

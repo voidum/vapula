@@ -22,12 +22,6 @@
     <Filter Include="sdk">
       <UniqueIdentifier>{b54294e6-7b43-4b1b-a0ec-c85220f7f154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sdk\header">
-      <UniqueIdentifier>{2d73aab2-7452-44cc-b541-3ad54056648b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sdk\source">
-      <UniqueIdentifier>{0e73639c-c904-44d1-a6cf-6d785cdd4822}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{ce083cfe-477b-44ac-8064-8a2be08adccf}</UniqueIdentifier>
     </Filter>
@@ -36,10 +30,6 @@
     </Filter>
     <Filter Include="data\source">
       <UniqueIdentifier>{91a32e44-6b38-4c32-999c-72968713c089}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resource">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="transfer">
       <UniqueIdentifier>{dc911d9a-ea1f-485d-b9d5-4b0dcea68685}</UniqueIdentifier>
@@ -59,6 +49,10 @@
     <Filter Include="runtime\source">
       <UniqueIdentifier>{abc149c3-84c0-497b-b43f-f1b669c2bbd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include=".resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_base.h">
@@ -75,9 +69,6 @@
     </ClInclude>
     <ClInclude Include="include\vf_string.h">
       <Filter>base\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_bridge_c.h">
-      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_driver.h">
       <Filter>core\header</Filter>
@@ -99,15 +90,6 @@
     </ClInclude>
     <ClInclude Include="include\vf_method.h">
       <Filter>core\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dev_driver.h">
-      <Filter>sdk\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dev_library.h">
-      <Filter>sdk\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_dev_invoker.h">
-      <Filter>sdk\header</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_pipe.h">
       <Filter>transfer\header</Filter>
@@ -139,6 +121,27 @@
     <ClInclude Include="include\vf_weaver.h">
       <Filter>runtime\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_dev_driver.h">
+      <Filter>sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_invoker.h">
+      <Filter>sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_dev_library.h">
+      <Filter>sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_stack_hub.h">
+      <Filter>runtime\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_aspect_hub.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_driver_hub.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_library_hub.h">
+      <Filter>core\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -152,9 +155,6 @@
     </ClCompile>
     <ClCompile Include="src\vf_xml.cpp">
       <Filter>base\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vf_bridge_c.cpp">
-      <Filter>sdk\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_setting.cpp">
       <Filter>base\source</Filter>
@@ -210,15 +210,27 @@
     <ClCompile Include="src\vf_context.cpp">
       <Filter>runtime\source</Filter>
     </ClCompile>
+    <ClCompile Include="src\vf_stack_hub.cpp">
+      <Filter>runtime\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_aspect_hub.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_driver_hub.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_library_hub.cpp">
+      <Filter>core\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt">
-      <Filter>resource</Filter>
+      <Filter>.resource</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_bridge.rc">
-      <Filter>resource</Filter>
+      <Filter>.resource</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

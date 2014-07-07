@@ -17,23 +17,33 @@ extern "C"
 	VAPULA_API void vfeThrowError(int what);
 
 	//Runtime
-	VAPULA_API void vfeActivateRuntime();
-	VAPULA_API void vfeDeactivateRuntime();
-	VAPULA_API int vfeCountObjects(uint8 type);
-	VAPULA_API raw vfeSelectObject(uint8 type, pcstr id);
-	VAPULA_API void vfeLinkObject(raw target);
-	VAPULA_API void vfeKickObject(uint8 type, pcstr id);
-	VAPULA_API void vfeKickAllObjects(uint8 type);
+	VAPULA_API void vfeStartRuntime();
+	VAPULA_API void vfeStopRuntime();
 	VAPULA_API void vfeReachFrame(pcstr frame);
 
-	VAPULA_API raw vfeLoadDriver(pcstr path);
-	VAPULA_API raw vfeLoadDriverW(pcwstr path);
-	VAPULA_API raw vfeLoadLibrary(pcstr path);
-	VAPULA_API raw vfeLoadLibraryW(pcwstr path);
+	//Aspect
 	VAPULA_API raw vfeLoadAspect(pcstr path);
 	VAPULA_API raw vfeLoadAspectW(pcwstr path);
+	VAPULA_API int vfeCountAspect();
+	VAPULA_API raw vfeFindAspect(pcstr id);
+	VAPULA_API void vfeLinkAspect(raw aspect);
+	VAPULA_API void vfeKickAspect(pcstr id);
+
+	//Driver
+	VAPULA_API raw vfeLoadDriver(pcstr path);
+	VAPULA_API raw vfeLoadDriverW(pcwstr path);
+	VAPULA_API int vfeCountDriver();
+	VAPULA_API raw vfeFindDriver(pcstr id);
+	VAPULA_API void vfeLinkDriver(raw driver);
+	VAPULA_API void vfeKickDriver(raw driver);
 
 	//Library
+	VAPULA_API raw vfeLoadLibrary(pcstr path);
+	VAPULA_API raw vfeLoadLibraryW(pcwstr path);
+	VAPULA_API int vfeCountLibrary();
+	VAPULA_API raw vfeFindLibrary(pcstr id);
+	VAPULA_API void vfeLinkLibrary(raw library);
+	VAPULA_API void vfeKickLibrary(pcstr id);
 	VAPULA_API pcstr vfeGetRuntime(raw library);
 	VAPULA_API pcstr vfeGetLibraryId(raw library);
 	VAPULA_API pcstr vfeGetProcessSym(raw library, pcstr id);

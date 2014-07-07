@@ -27,7 +27,7 @@ bool LibraryCLR::Mount()
 	args += "|";
 	args += _Path;
 	args += "|";
-	args += _Id;
+	args += _LibraryId;
 
 	DriverCLR* drv = DriverCLR::Instance();
 	int ret = drv->CallBridge("Mount", args.c_str());

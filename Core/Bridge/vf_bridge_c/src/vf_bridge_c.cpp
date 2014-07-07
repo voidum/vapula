@@ -48,46 +48,16 @@ void vfeThrowError(int what)
 
 //Runtime
 
-void vfeActivateRuntime()
+void vfeStartRuntime()
 {
 	Runtime* runtime = Runtime::Instance();
-	runtime->Activate();
+	runtime->Start();
 }
 
-void vfeDeactivateRuntime()
+void vfeStopRuntime()
 {
 	Runtime* runtime = Runtime::Instance();
-	runtime->Deactivate();
-}
-
-int vfeCountObjects(uint8 type)
-{
-	Runtime* runtime = Runtime::Instance();
-	return runtime->CountObjects(type);
-}
-
-raw vfeSelectObject(uint8 type, pcstr id)
-{
-	Runtime* runtime = Runtime::Instance();
-	return runtime->SelectObject(type, id);
-}
-
-void vfeLinkObject(raw target)
-{
-	Runtime* runtime = Runtime::Instance();
-	return runtime->LinkObject((Core*)target);
-}
-
-void vfeKickObject(uint8 type, pcstr id)
-{
-	Runtime* runtime = Runtime::Instance();
-	return runtime->KickObject(type, id);
-}
-
-void vfeKickAllObjects(uint8 type)
-{
-	Runtime* runtime = Runtime::Instance();
-	return runtime->KickAllObjects(type);
+	runtime->Stop();
 }
 
 void vfeReachFrame(pcstr frame)
@@ -96,31 +66,8 @@ void vfeReachFrame(pcstr frame)
 	runtime->Reach(frame);
 }
 
-raw vfeLoadDriver(pcstr path)
-{
-	return Driver::Load(path);
-}
 
-raw vfeLoadDriverW(pcwstr path)
-{
-	pcstr cs8_path = str::ToStr(path);
-	raw driver = Driver::Load(cs8_path);
-	delete cs8_path;
-	return driver;
-}
-
-raw vfeLoadLibrary(pcstr path)
-{
-	return Library::Load(path);
-}
-
-raw vfeLoadLibraryW(pcwstr path)
-{
-	pcstr cs8_path = str::ToStr(path);
-	raw library = Library::Load(cs8_path);
-	delete cs8_path;
-	return library;
-}
+//Aspect
 
 raw vfeLoadAspect(pcstr path)
 {
@@ -135,8 +82,103 @@ raw vfeLoadAspectW(pcwstr path)
 	return aspect;
 }
 
+int vfeCountAspect()
+{
+	return Aspect::Count();
+}
+
+raw vfeFindAspect(pcstr id)
+{
+	return Aspect::Find(id);
+}
+
+void vfeLinkAspect(raw aspect)
+{
+	Aspect* object = (Aspect*)aspect;
+	object->LinkHub();
+}
+
+void vfeKickAspect(raw aspect)
+{
+	Aspect* object = (Aspect*)aspect;
+	object->KickHub();
+}
+
+
+//Driver
+
+raw vfeLoadDriver(pcstr path)
+{
+	return Driver::Load(path);
+}
+
+raw vfeLoadDriverW(pcwstr path)
+{
+	pcstr cs8_path = str::ToStr(path);
+	raw driver = Driver::Load(cs8_path);
+	delete cs8_path;
+	return driver;
+}
+
+int vfeCountDriver()
+{
+	return Driver::Count();
+}
+
+raw vfeFindDriver(pcstr id)
+{
+	return Driver::Find(id);
+}
+
+void vfeLinkDriver(raw driver)
+{
+	Driver* object = (Driver*)driver;
+	object->LinkHub();
+}
+
+void vfeKickDriver(raw driver)
+{
+	Driver* object = (Driver*)driver;
+	object->KickHub();
+}
+
 
 //Library
+
+raw vfeLoadLibrary(pcstr path)
+{
+	return Library::Load(path);
+}
+
+raw vfeLoadLibraryW(pcwstr path)
+{
+	pcstr cs8_path = str::ToStr(path);
+	raw library = Library::Load(cs8_path);
+	delete cs8_path;
+	return library;
+}
+
+int vfeCountLibrary()
+{
+	return Library::Count();
+}
+
+raw vfeFindLibrary(pcstr id)
+{
+	return Library::Find(id);
+}
+
+void vfeLinkLibrary(raw library)
+{
+	Library* object = (Library*)library;
+	object->LinkHub();
+}
+
+void vfeKickLibrary(raw library)
+{
+	Library* object = (Library*)library;
+	object->KickHub();
+}
 
 pcstr vfeGetRuntime(raw library)
 {

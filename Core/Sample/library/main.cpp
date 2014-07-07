@@ -8,12 +8,15 @@ void Process_Math()
 	Dataset* dataset = stack->GetDataset();
 	Context* context = stack->GetContext();
 
-	int a = (*dataset)[1]->ReadAt<int>();
-	int b = (*dataset)[2]->ReadAt<int>();
+	Record* record = (*dataset)[1];
+	int* data = (int*)record->Read();
+	uint32 count = record->GetSize() / sizeof(int);
 
-	int c = a + b;
+	int result = 0;
+	for (uint32 i = 0; i < count; i++)
+		result += (data[i]);
 
-	(*dataset)[3]->WriteAt(c);
+	(*dataset)[2]->Write(&result, 1 * sizeof(int));
 
 	context->SetProgress(100);
 	context->SetReturnCode(VF_RETURN_NORMAL);
@@ -28,51 +31,13 @@ void Process_Out()
 
 	pcwstr cs16 = L"中文Engligh日本語テスト";
 	pcstr cs8 = str::ToStr(cs16);
-	(*dataset)[1]->WriteText(cs8);
+	(*dataset)[1]->Write((raw)cs8, strlen(cs8) + 1);
 
 	context->SetProgress(100);
 	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
 //3rd
-void Process_Array()
-{
-	Stack* stack = Stack::Instance();
-	Dataset* dataset = stack->GetDataset();
-	Context* context = stack->GetContext();
-
-	Record* record = (*dataset)[1];
-	int* data = (int*)(record->Read());
-	int count = record->GetSize() / sizeof(int);
-
-	int result = 0;
-	for(int i=0; i<count; i++)
-		result += data[i];
-
-	(*dataset)[2]->WriteAt(result);
-
-	context->SetProgress(100);
-	context->SetReturnCode(VF_RETURN_NORMAL);
-}
-
-//4th
-void Process_Object()
-{
-	Stack* stack = Stack::Instance();
-	Dataset* dataset = stack->GetDataset();
-	Context* context = stack->GetContext();
-
-	ClassA* object = (ClassA*)(*dataset)[1]->Read();
-	bool inc = (*dataset)[2]->ReadAt<bool>();
-
-	if (inc) object->Inc();
-	else object->Dec();
-
-	context->SetProgress(100);
-	context->SetReturnCode(VF_RETURN_NORMAL);
-}
-
-//5th
 void Process_Context()
 {
 	Stack* stack = Stack::Instance();
@@ -109,7 +74,7 @@ void Process_Context()
 	context->SetReturnCode(VF_RETURN_NORMAL);
 }
 
-//6th
+//4th
 void Process_Context2()
 {
 	Stack* stack = Stack::Instance();
@@ -125,7 +90,7 @@ void Process_Context2()
 	}
 }
 
-//6th rollback
+//4th rollback
 void Rollback_Context2()
 {
 	Stack* stack = Stack::Instance();
@@ -138,29 +103,33 @@ void Rollback_Context2()
 	}
 }
 
-//7th
+//5th
 void Process_Protect()
 {
-	Runtime* runtime = Runtime::Instance();
-	runtime->Reach("msg");
 	int* err_ptr = null;
 	err_ptr[0] = 42;
 }
 
-//7th rollback
+//5th rollback
 void Rollback_Protect()
 {
 	int* err_ptr = null;
 	err_ptr[0] = 42;
 }
 
-//8th
-void Process_Msgbox()
+//6th
+void Process_AOP()
 {
+	Runtime* runtime = Runtime::Instance();
+
 	Stack* stack = Stack::Instance();
 	Dataset* dataset = stack->GetDataset();
-	pcstr target = (pcstr)(*dataset)[1]->Read();
-
-	Runtime* runtime = Runtime::Instance();
-	Stack* stack_tar = (Stack*)runtime->SelectObject(VF_CORE_STACK, target);
+	Record* record = (*dataset)[1];
+	if (record->GetSize() > 0)
+	{
+		uint32* data = (uint32*)record->Read();
+		Stack* stack_attached = (Stack*)data[0];
+		ShowMsgbox(data[0]);
+	}
+	runtime->Reach("aop");
 }

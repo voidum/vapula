@@ -3,9 +3,9 @@
   <id>sample_lib</id>
   <runtime>crt</runtime>
   <tags>
-    <tag key="name">Vapula C++示例组件</tag>
+    <tag key="name">Vapula C++ 示例组件</tag>
     <tag key="description"></tag>
-    <tag key="version">1.0</tag>
+    <tag key="version">1.1</tag>
     <tag key="publisher"></tag>
   </tags>
   <methods>
@@ -20,22 +20,15 @@
         <field id="1">
           <access>0</access>
           <tags>
-            <tag key="name">加数1</tag>
-            <tag key="description">参与运算的第1个加数</tag>
+            <tag key="name">加数</tag>
+            <tag key="description">参与运算的所有加数</tag>
           </tags>
         </field>
         <field id="2">
-          <access>0</access>
-          <tags>
-            <tag key="name">加数2</tag>
-            <tag key="description">参与运算的第2个加数</tag>
-          </tags>
-        </field>
-        <field id="3">
           <access>1</access>
           <tags>
             <tag key="name">和</tag>
-            <tag key="description">两个加数的和</tag>
+            <tag key="description">所有加数的和</tag>
           </tags>
         </field>
       </schema>
@@ -63,32 +56,6 @@
       <tags>
         <tag key="name">输出示例</tag>
         <tag key="description">输出一个字符串</tag>
-      </tags>
-    </method>
-    <method>
-      <id>array</id>
-      <protect>false</protect>
-      <symbols>
-        <process>Process_Array</process>
-        <rollback />
-      </symbols>
-      <schema />
-      <tags>
-        <tag key="name">数组操作</tag>
-        <tag key="description">暂未实现</tag>
-      </tags>
-    </method>
-    <method>
-      <id>object</id>
-      <protect>false</protect>
-      <symbols>
-        <process>Process_Object</process>
-        <rollback />
-      </symbols>
-      <schema />
-      <tags>
-        <tag key="name">对象操作</tag>
-        <tag key="description">暂未实现</tag>
       </tags>
     </method>
     <method>
@@ -131,10 +98,10 @@
       </tags>
     </method>
     <method>
-      <id>msgbox</id>
+      <id>aop</id>
       <protect>false</protect>
       <symbols>
-        <process>Process_Msgbox</process>
+        <process>Process_AOP</process>
         <rollback />
       </symbols>
       <schema>
@@ -147,8 +114,8 @@
         </field>
       </schema>
       <tags>
-        <tag key="name">信息框</tag>
-        <tag key="description">测试用途信息框</tag>
+        <tag key="name">AOP</tag>
+        <tag key="description">测试AOP机制</tag>
       </tags>
     </method>
   </methods>

@@ -4,6 +4,7 @@
 #include "vf_context.h"
 #include "vf_dataset.h"
 #include "vf_worker.h"
+#include "vf_setting.h"
 
 namespace vapula
 {
@@ -29,6 +30,7 @@ namespace vapula
 
 	void Task::Invoke()
 	{
+		_Stack->LinkHub();
 		Context* context = _Stack->GetContext();
 		try {
 			context->SetControlCode(VF_CTRL_NULL, this);
@@ -48,6 +50,7 @@ namespace vapula
 			context->SetReturnCode(VF_RETURN_ERROR);
 		}
 		context->SetState(VF_STATE_IDLE, this);
+		_Stack->KickHub();
 	}
 
 	void Task::OnSafeProcess()
@@ -139,5 +142,14 @@ namespace vapula
 			Context* context = _Stack->GetContext();
 			context->SetControlCode(VF_CTRL_RESUME, this);
 		}
+	}
+
+	void Task::Join()
+	{
+		Context* context = _Stack->GetContext();
+		Setting* setting = Setting::Instance();
+		int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
+		while (context->GetCurrentState() != VF_STATE_IDLE)
+			Sleep(freq_monitor);
 	}
 }

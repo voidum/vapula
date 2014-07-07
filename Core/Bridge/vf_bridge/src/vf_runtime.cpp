@@ -1,9 +1,6 @@
 #include "vf_runtime.h"
-#include "vf_driver.h"
-#include "vf_library.h"
 #include "vf_stack.h"
 #include "vf_context.h"
-#include "vf_aspect.h"
 #include "vf_worker.h"
 #include "vf_weaver.h"
 
@@ -26,115 +23,22 @@ namespace vapula
 
 	Runtime::Runtime()
 	{
-		_Lock = new Lock();
 	}
 
 	Runtime::~Runtime()
 	{
-		Deactivate();
-		Clear(_Lock);
 	}
 
-	pcstr Runtime::IndexOfObject(Core* target)
-	{
-		return target->GetCoreId();
-	}
-
-	list<Core*>* Runtime::ListObjects(uint8 type)
-	{
-		switch (type)
-		{
-		case VF_CORE_DRIVER:
-			return (list<Core*>*)(&_Drivers);
-		case VF_CORE_LIBRARY:
-			return (list<Core*>*)(&_Libraries);
-		case VF_CORE_ASPECT:
-			return (list<Core*>*)(&_Aspects);
-		default:
-			return null;
-		}
-	}
-
-	int Runtime::CountObjects(uint8 type)
-	{
-		_Lock->Enter();
-		list<Core*>* cores = ListObjects(type);
-		int count = cores->size();
-		_Lock->Leave();
-		return count;
-	}
-
-	Core* Runtime::SelectObject(uint8 type, pcstr id)
-	{
-		_Lock->Enter();
-		Core* object = null;
-		if (id != null)
-		{
-			typedef list<Core*>::iterator iter;
-			list<Core*>* cores = ListObjects(type);
-			for (iter i = cores->begin(); i != cores->end(); i++)
-			{
-				pcstr cur_id = IndexOfObject(*i);
-				if (cur_id == null)
-					continue;
-				if (strcmp(id, cur_id) == 0)
-				{
-					object = *i;
-					break;
-				}
-			}
-		}
-		_Lock->Leave();
-		return object;
-	}
-
-	void Runtime::LinkObject(Core* target)
-	{
-		pcstr id = IndexOfObject(target);
-		raw object = SelectObject(target->GetType(), id);
-		if (object != null)
-			return;
-		_Lock->Enter();
-		list<Core*>* cores = ListObjects(target->GetType());
-		cores->push_back(target);
-		_Lock->Leave();
-	}
-
-	void Runtime::KickObject(uint8 type, pcstr id)
-	{
-		Core* object = SelectObject(type, id);
-		if (object == null)
-			return;
-		_Lock->Enter();
-		list<Core*>* cores = ListObjects(type);
-		cores->remove(object);
-		_Lock->Leave();
-	}
-
-	void Runtime::KickAllObjects(uint8 type)
-	{
-		_Lock->Enter();
-		typedef list<Core*>::iterator iter;
-		list<Core*>* cores = (list<Core*>*)ListObjects(type);
-		for (iter i = cores->begin(); i != cores->end(); i++)
-			Clear(*i);
-		cores->clear();
-		_Lock->Leave();
-	}
-
-	void Runtime::Activate()
+	void Runtime::Start()
 	{
 		Worker* worker = Worker::Instance();
 		worker->Online();
 	}
 
-	void Runtime::Deactivate()
+	void Runtime::Stop()
 	{
 		Worker* worker = Worker::Instance();
 		worker->Offline();
-		KickAllObjects(VF_CORE_DRIVER);
-		KickAllObjects(VF_CORE_LIBRARY);
-		KickAllObjects(VF_CORE_ASPECT);
 	}
 
 	void Runtime::Reach(pcstr frame)
@@ -144,21 +48,7 @@ namespace vapula
 		context->SetKeyFrame(frame);
 
 		Weaver* weaver = Weaver::Instance();
-
-		typedef list<Aspect*>::iterator iter;
-		list<Aspect*> joins;
-		for (iter i = _Aspects.begin(); i != _Aspects.end(); i++)
-		{
-			Aspect* aspect = (Aspect*)(*i);
-			if (aspect->TryMatch(frame))
-			{
-				weaver->Invoke(aspect);
-				if (!aspect->IsAsync())
-					joins.push_back(aspect);
-			}
-		}
-		for (iter i = joins.begin(); i != joins.end(); i++)
-			weaver->Join(*i);
+		weaver->OnReachFrame(frame);
 	}
 
 	pcstr Runtime::GetRuntimeDir()

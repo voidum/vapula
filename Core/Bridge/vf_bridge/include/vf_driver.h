@@ -6,10 +6,19 @@ namespace vapula
 {
 	class Library;
 	class Task;
+	class DriverHub;
 
 	//driver {base}
 	class VAPULA_API Driver
 	{
+	private:
+		static DriverHub* _Hub;
+		static DriverHub* Hub();
+
+	public:
+		static Driver* Find(pcstr id);
+		static int Count();
+
 	private:
 		HMODULE _Module;
 
@@ -38,5 +47,12 @@ namespace vapula
 		//create invoker
 		virtual Task*
 			CreateTask() = 0;
+
+	public:
+		//link driver into hub
+		void LinkHub();
+
+		//kick out driver from hub
+		void KickHub();
 	};
 }

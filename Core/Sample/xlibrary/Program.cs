@@ -12,10 +12,10 @@ namespace sample_xlib
         {
             Stack stack = Stack.Instance;
             Dataset dataset = stack.Dataset;
-            int a = dataset[1].ReadAt<int>();
-            int b = dataset[2].ReadAt<int>();
+            IntPtr data = dataset[1].Read();
+            //int[] 
             int c = a + b;
-            dataset[3].WriteAt(c);
+            dataset[3].Write(c);
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
@@ -27,41 +27,6 @@ namespace sample_xlib
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
-        public void Function_Array()
-        {
-            Stack stack = Stack.Instance;
-            stack.Context.ReturnCode = ReturnCode.NullTask;
-            /*
-            int count = int.Parse(_Envelope.Read(0));
-            //TODO: 实现读取数组
-            int[] data = new int[3];
-                //new IntPtr(int.Parse(_Envelope.Read(1)));
-            int result = 0;
-            for (int i = 0; i < count; i++)
-                result += data[i];
-            _Envelope.Write(2, result.ToString());
-            return ReturnCode.Normal;
-             */
-        }
-
-        //第四个任务
-        public void Function_Object()
-        {
-            Stack stack = Stack.Instance;
-            stack.Context.ReturnCode = ReturnCode.NullTask;
-            /*
-            TestClassA* obj = (TestClassA*)envelope->Read<LPVOID>(0);
-            bool ifinc = envelope->Read<bool>(1);
-
-            if (ifinc) obj->Inc();
-            else obj->Dec();
-
-            envelope->Write(2, (LPVOID)obj);
-             */
-            //TODO: 实现序列化
-        }
-
-        //第五个任务
         public void Function_Context()
         {
             Stack stack = Stack.Instance;

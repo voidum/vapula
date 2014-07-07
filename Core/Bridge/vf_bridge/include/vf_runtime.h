@@ -5,8 +5,8 @@
 namespace vapula
 {
 	class Driver;
-	class Aspect;
 	class Library;
+	class Aspect;
 
 	//runtime
 	class VAPULA_API Runtime : Uncopiable
@@ -22,34 +22,14 @@ namespace vapula
 	public:
 		static Runtime* Instance();
 
-	private:
-		Lock* _Lock;
-		list<Driver*> _Drivers;
-		list<Library*> _Libraries;
-		list<Aspect*> _Aspects;
+	public:
+		//start
+		void Start();
 
-	private:
-		pcstr IndexOfObject(Core* target);
-		list<Core*>* ListObjects(uint8 type);
+		//stop
+		void Stop();
 
 	public:
-		int CountObjects(uint8 type);
-
-		Core* SelectObject(uint8 type, pcstr id);
-
-		void LinkObject(Core* target);
-		
-		void KickObject(uint8 type, pcstr id);
-
-		void KickAllObjects(uint8 type);
-
-	public:
-		//activate runtime
-		void Activate();
-
-		//deactivate runtime
-		void Deactivate();
-		
 		//reach frame
 		void Reach(pcstr frame);
 

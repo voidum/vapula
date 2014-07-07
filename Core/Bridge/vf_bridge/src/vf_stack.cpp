@@ -1,6 +1,5 @@
 #include "vf_stack.h"
-#include "vf_worker.h"
-#include "vf_thread.h"
+#include "vf_stack_hub.h"
 #include "vf_task.h"
 #include "vf_context.h"
 #include "vf_dataset.h"
@@ -8,6 +7,21 @@
 
 namespace vapula
 {
+	StackHub* Stack::_Hub = null;
+
+	StackHub* Stack::Hub()
+	{
+		if (_Hub == null)
+		{
+			Lock* lock = Lock::GetCtorLock();
+			lock->Enter();
+			if (_Hub == null)
+				_Hub = new StackHub();
+			lock->Leave();
+		}
+		return _Hub;
+	}
+
 	Stack::Stack() 
 	{
 		_MethodId = null;
@@ -25,13 +39,20 @@ namespace vapula
 		Clear(_Error);
 	}
 
+	int Stack::CurrentId()
+	{
+		return GetCurrentThreadId();
+	}
+
 	Stack* Stack::Instance()
 	{
-		int thread_id = GetCurrentThreadId();
-		Worker* worker = Worker::Instance();
-		Thread* thread = worker->GetThreadById(thread_id);
-		Stack* stack = thread->GetTask()->GetStack();
-		return stack;
+		StackHub* hub = Stack::Hub();
+		return hub->Find(CurrentId());
+	}
+
+	int Stack::GetStackId()
+	{
+		return _StackId;
 	}
 
 	pcstr Stack::GetMethodId()
@@ -87,5 +108,18 @@ namespace vapula
 	{
 		Clear(_Error);
 		_Error = error;
+	}
+
+	void Stack::LinkHub()
+	{
+		_StackId = CurrentId();
+		StackHub* hub = Stack::Hub();
+		hub->Link(this);
+	}
+
+	void Stack::KickHub()
+	{
+		StackHub* hub = Stack::Hub();
+		hub->Kick(this);
 	}
 }

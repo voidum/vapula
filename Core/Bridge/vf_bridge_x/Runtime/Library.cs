@@ -27,7 +27,7 @@ namespace Vapula.Runtime
         /// <summary>
         /// get library id
         /// </summary>
-        public string Id
+        public string LibraryId
         {
             get 
             {

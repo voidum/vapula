@@ -37,8 +37,6 @@ namespace vapula
 		void Offline();
 
 	public:
-		Thread* GetThreadById(int id);
-
 		//get thread with no task
 		Thread* GetIdleThread();
 

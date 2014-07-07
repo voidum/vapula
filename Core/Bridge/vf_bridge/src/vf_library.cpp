@@ -1,15 +1,43 @@
 #include "vf_library.h"
-#include "vf_runtime.h"
+#include "vf_library_hub.h"
 #include "vf_driver.h"
+#include "vf_driver_hub.h"
 #include "vf_method.h"
 #include "vf_task.h"
 #include "vf_xml.h"
 
 namespace vapula
 {
+	LibraryHub* Library::_Hub = null;
+
+	LibraryHub* Library::Hub()
+	{
+		if (_Hub == null)
+		{
+			Lock* lock = Lock::GetCtorLock();
+			lock->Enter();
+			if (_Hub == null)
+				_Hub = new LibraryHub();
+			lock->Leave();
+		}
+		return _Hub;
+	}
+
+	Library* Library::Find(pcstr id)
+	{
+		LibraryHub* hub = Library::Hub();
+		return hub->Find(id);
+	}
+
+	int Library::Count()
+	{
+		LibraryHub* hub = Library::Hub();
+		return hub->Count();
+	}
+
 	Library::Library()
 	{
-		_Id = null;
+		_LibraryId = null;
 	}
 
 	Library::~Library()
@@ -18,7 +46,7 @@ namespace vapula
 		for (iter i = _Methods.begin(); i != _Methods.end(); i++)
 			Clear(*i);
 		_Methods.clear();
-		Clear(_Id);
+		Clear(_LibraryId);
 	}
 
 	Library* Library::Load(pcstr path)
@@ -34,8 +62,7 @@ namespace vapula
 		pcstr cs8_runtime = XML::ValStr(XML::XElem(xe_library, "runtime"));
 		Scoped autop1((raw)cs8_runtime);
 
-		Runtime* runtime = Runtime::Instance();
-		Driver* driver = runtime->FindDriver(cs8_runtime);
+		Driver* driver = Driver::Find(cs8_runtime);
 		if (driver == null)
 			return null;
 
@@ -43,12 +70,12 @@ namespace vapula
 		library->_Driver = driver;
 
 		raw xe_id = XML::XElem(xe_library, "id");
-		library->_Id = XML::ValStr(xe_id);
+		library->_LibraryId = XML::ValStr(xe_id);
 
 		pcstr cs8_dir = GetPathDir(path, true);
 		Scoped autop2((raw)cs8_dir);
 		ostringstream oss;
-		oss << cs8_dir << library->_Id << "." << driver->GetBinExt();
+		oss << cs8_dir << library->_LibraryId << "." << driver->GetBinExt();
 		library->_Path = str::Copy(oss.str().c_str());
 
 		raw xe_method = XML::XPath(xe_library, 2, "methods", "method");
@@ -69,7 +96,7 @@ namespace vapula
 
 	pcstr Library::GetLibraryId()
 	{
-		return _Id;
+		return _LibraryId;
 	}
 
 	Method* Library::GetMethod(pcstr id)
@@ -95,5 +122,17 @@ namespace vapula
 			delete task;
 			return null;
 		}
+	}
+
+	void Library::LinkHub()
+	{
+		LibraryHub* hub = Library::Hub();
+		hub->Link(this);
+	}
+
+	void Library::KickHub()
+	{
+		LibraryHub* hub = Library::Hub();
+		hub->Kick(_LibraryId);
 	}
 }

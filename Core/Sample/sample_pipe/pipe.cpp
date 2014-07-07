@@ -16,7 +16,8 @@ void Pipe_Server()
 		cin>>input;
 		if(input == "quit")
 			break;
-		pipe->Write(str::Encode(input.c_str(), _vf_oem_cp, _vf_msg_cp));
+		pcstr data = str::Encode(input.c_str(), _vf_cp_oem, _vf_cp_msg);
+		pipe->Write((raw)data, strlen(data) + 1);
 	}
 	pipe->Close();
 }
@@ -40,7 +41,7 @@ void Pipe_Client()
 			break;
 		if(pipe->HasNewData())
 		{
-			pcstr msg = pipe->Read();
+			pcstr msg = (pcstr)pipe->Read();
 			cout<<"recv: "<<msg<<endl;
 		}
 		Sleep(20);

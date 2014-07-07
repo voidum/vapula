@@ -1,6 +1,7 @@
 #include "vf_aspect.h"
-#include "vf_runtime.h"
+#include "vf_aspect_hub.h"
 #include "vf_library.h"
+#include "vf_library_hub.h"
 #include "vf_task.h"
 #include "vf_xml.h"
 
@@ -8,23 +9,48 @@
 
 namespace vapula
 {
+	AspectHub* Aspect::_Hub = null;
+
+	AspectHub* Aspect::Hub()
+	{
+		if (_Hub == null)
+		{
+			Lock* lock = Lock::GetCtorLock();
+			lock->Enter();
+			if (_Hub == null)
+				_Hub = new AspectHub();
+			lock->Leave();
+		}
+		return _Hub;
+	}
+
+	Aspect* Aspect::Find(pcstr id)
+	{
+		AspectHub* hub = Aspect::Hub();
+		return hub->Find(id);
+	}
+
+	int Aspect::Count()
+	{
+		AspectHub* hub = Aspect::Hub();
+		return hub->Count();
+	}
+
 	Aspect::Aspect()
 	{
-		_Id = null;
+		_AspectId = null;
 		_Contact = null;
 		_LibraryId = null;
 		_MethodId = null;
 		_Async = false;
-		_Task = null;
 	}
 
 	Aspect::~Aspect()
 	{
-		Clear(_Id);
+		Clear(_AspectId);
 		Clear(_Contact);
 		Clear(_LibraryId);
 		Clear(_MethodId);
-		Clear(_Task);
 	}
 
 	Aspect* Aspect::Load(pcstr path)
@@ -43,7 +69,7 @@ namespace vapula
 		raw xe_contact = XML::XElem(xe_aspect, "contact");
 		
 		Aspect* aspect = new Aspect();
-		aspect->_Id = XML::ValStr(xe_id);
+		aspect->_AspectId = XML::ValStr(xe_id);
 		aspect->_LibraryId = XML::ValStr(xe_library);
 		aspect->_MethodId = XML::ValStr(xe_method);
 		aspect->_Contact = XML::ValStr(xe_contact);
@@ -53,7 +79,7 @@ namespace vapula
 
 	pcstr Aspect::GetAspectId()
 	{
-		return _Id;
+		return _AspectId;
 	}
 
 	bool Aspect::IsAsync()
@@ -76,16 +102,13 @@ namespace vapula
 		return _MethodId;
 	}
 
-	Task* Aspect::GetTask()
+	Task* Aspect::CreateTask()
 	{
-		if(_Task == null)
-		{
-			Runtime* runtime = Runtime::Instance();
-			Library* library = runtime->FindLibrary(_LibraryId);
-			if (library != null)
-				_Task = library->CreateTask(_MethodId);
-		}
-		return _Task;
+		Library* library = Library::Find(_LibraryId);
+		Task* task = null;
+		if (library != null)
+			task = library->CreateTask(_MethodId);
+		return task;
 	}
 
 	bool Aspect::TryMatch(pcstr frame)
@@ -95,5 +118,17 @@ namespace vapula
 		string str_frame = frame;
 		bool match = std::regex_match(str_frame, pattern);
 		return match;
+	}
+
+	void Aspect::LinkHub()
+	{
+		AspectHub* hub = Aspect::Hub();
+		hub->Link(this);
+	}
+
+	void Aspect::KickHub()
+	{
+		AspectHub* hub = Aspect::Hub();
+		hub->Kick(_AspectId);
 	}
 }

@@ -5,7 +5,8 @@
 namespace vapula
 {
 	class Aspect;
-
+	class Task;
+	
 	//weaver
 	class Weaver
 	{
@@ -21,11 +22,12 @@ namespace vapula
 	public:
 		~Weaver();
 
-	public:
+	private:
 		//invoke aspect
-		void Invoke(Aspect* aspect);
+		Task* Invoke(Aspect* aspect);
 
-		//wait for aspect
-		void Join(Aspect* aspect);
+	public:
+		//raise reach frame event
+		void OnReachFrame(pcstr frame);
 	};
 }
