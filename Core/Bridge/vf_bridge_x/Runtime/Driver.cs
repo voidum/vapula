@@ -1,40 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Vapula.Runtime
 {
-    public class Aspect : Sartrey.DisposableObject
+    public class Driver : Sartrey.DisposableObject
     {
         protected IntPtr _Handle 
             = IntPtr.Zero;
 
-        protected Aspect(IntPtr handle)
+        protected Driver(IntPtr handle)
         {
             _Handle = handle;
         }
 
         /// <summary>
-        /// load aspect from file
+        /// load driver from file
         /// </summary>
-        public static Aspect Load(string path)
+        public static Driver Load(string path)
         {
-            IntPtr handle = Bridge.LoadAspect(path);
+            IntPtr handle = Bridge.LoadDriver(path);
             if (handle == IntPtr.Zero)
                 return null;
-            Aspect aspect = new Aspect(handle);
-            return aspect;
+            Driver driver = new Driver(handle);
+            return driver;
         }
 
-        public void Link() 
+        public void LinkHub()
         {
-            Bridge.LinkAspect(_Handle);
+            Bridge.LinkDriver(_Handle);
         }
 
-        public void Kick()
+        public void KickHub()
         {
-            Bridge.KickAspect(_Handle);
+            Bridge.KickDriver(_Handle);
         }
 
         protected override void DisposeManaged()

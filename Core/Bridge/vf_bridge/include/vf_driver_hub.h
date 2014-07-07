@@ -24,10 +24,10 @@ namespace vapula
 
 		Driver* Find(pcstr id);
 
-		void Link(Driver* driver);
+		void Add(Driver* driver);
 
-		void Kick(pcstr id);
+		void Remove(Driver* driver);
 
-		void KickAll();
+		void RemoveAll();
 	};
 }

@@ -123,12 +123,12 @@ namespace vapula
 	void Aspect::LinkHub()
 	{
 		AspectHub* hub = Aspect::Hub();
-		hub->Link(this);
+		hub->Add(this);
 	}
 
 	void Aspect::KickHub()
 	{
 		AspectHub* hub = Aspect::Hub();
-		hub->Kick(_AspectId);
+		hub->Remove(this);
 	}
 }

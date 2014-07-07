@@ -27,7 +27,7 @@ extern "C"
 	VAPULA_API int vfeCountAspect();
 	VAPULA_API raw vfeFindAspect(pcstr id);
 	VAPULA_API void vfeLinkAspect(raw aspect);
-	VAPULA_API void vfeKickAspect(pcstr id);
+	VAPULA_API void vfeKickAspect(raw aspect);
 
 	//Driver
 	VAPULA_API raw vfeLoadDriver(pcstr path);
@@ -43,7 +43,7 @@ extern "C"
 	VAPULA_API int vfeCountLibrary();
 	VAPULA_API raw vfeFindLibrary(pcstr id);
 	VAPULA_API void vfeLinkLibrary(raw library);
-	VAPULA_API void vfeKickLibrary(pcstr id);
+	VAPULA_API void vfeKickLibrary(raw library);
 	VAPULA_API pcstr vfeGetRuntime(raw library);
 	VAPULA_API pcstr vfeGetLibraryId(raw library);
 	VAPULA_API pcstr vfeGetProcessSym(raw library, pcstr id);

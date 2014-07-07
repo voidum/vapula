@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{24DA7D2B-5931-49CE-BD0A-74B460FDC192}</ProjectGuid>
+    <ProjectGuid>{ADFD729F-5B97-4C6C-93DD-F8E4673E3134}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vapula</RootNamespace>
-    <AssemblyName>vf_bridge_x</AssemblyName>
+    <RootNamespace>sample_xlib</RootNamespace>
+    <AssemblyName>sample_xlib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,40 +33,29 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base.cs" />
-    <Compile Include="Runtime\Aspect.cs" />
-    <Compile Include="Runtime\Driver.cs" />
-    <Compile Include="Runtime\Error.cs" />
-    <Compile Include="Runtime\Record.cs" />
-    <Compile Include="Helper\Logger\ConsoleLogger.cs" />
-    <Compile Include="Helper\Logger\FileLogger.cs" />
-    <Compile Include="Runtime\Stack.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="API\Bridge.cs" />
-    <Compile Include="Runtime\Context.cs" />
-    <Compile Include="Runtime\Dataset.cs" />
-    <Compile Include="Runtime\Task.cs" />
-    <Compile Include="Runtime\Library.cs" />
-    <Compile Include="Runtime\Runtime.cs" />
-    <Compile Include="Runtime\Pipe.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\sartrey\Sartrey\Sartrey.csproj">
-      <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
-      <Name>Sartrey</Name>
+    <None Include="sample_xlib.library">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bridge\vf_bridge_x\vf_bridge_x.csproj">
+      <Project>{24da7d2b-5931-49ce-bd0a-74b460fdc192}</Project>
+      <Name>vf_bridge_x</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

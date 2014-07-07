@@ -24,10 +24,10 @@ namespace vapula
 
 		Library* Find(pcstr id);
 
-		void Link(Library* library);
+		void Add(Library* library);
 
-		void Kick(pcstr id);
+		void Remove(Library* library);
 
-		void KickAll();
+		void RemoveAll();
 	};
 }

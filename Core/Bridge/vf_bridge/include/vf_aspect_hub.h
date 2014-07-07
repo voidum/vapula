@@ -24,10 +24,10 @@ namespace vapula
 
 		Aspect* Find(pcstr id);
 
-		void Link(Aspect* aspect);
+		void Add(Aspect* aspect);
 
-		void Kick(pcstr id);
+		void Remove(Aspect* aspect);
 
-		void KickAll();
+		void RemoveAll();
 	};
 }

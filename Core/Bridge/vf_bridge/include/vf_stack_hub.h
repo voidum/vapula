@@ -24,10 +24,10 @@ namespace vapula
 
 		Stack* Find(int id);
 
-		void Link(Stack* stack);
+		void Add(Stack* stack);
 
-		void Kick(Stack* stack);
+		void Remove(Stack* stack);
 
-		void KickAll();
+		void RemoveAll();
 	};
 }

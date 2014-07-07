@@ -127,12 +127,12 @@ namespace vapula
 	void Library::LinkHub()
 	{
 		LibraryHub* hub = Library::Hub();
-		hub->Link(this);
+		hub->Add(this);
 	}
 
 	void Library::KickHub()
 	{
 		LibraryHub* hub = Library::Hub();
-		hub->Kick(_LibraryId);
+		hub->Remove(this);
 	}
 }

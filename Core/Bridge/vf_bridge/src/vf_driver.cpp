@@ -58,12 +58,12 @@ namespace vapula
 	void Driver::LinkHub()
 	{
 		DriverHub* hub = Driver::Hub();
-		hub->Link(this);
+		hub->Add(this);
 	}
 
 	void Driver::KickHub()
 	{
 		DriverHub* hub = Driver::Hub();
-		hub->Kick(GetRuntimeId());
+		hub->Remove(this);
 	}
 }

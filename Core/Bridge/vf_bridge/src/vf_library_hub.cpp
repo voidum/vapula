@@ -10,7 +10,7 @@ namespace vapula
 
 	LibraryHub::~LibraryHub()
 	{
-		KickAll();
+		RemoveAll();
 		Clear(_Lock);
 	}
 
@@ -42,7 +42,7 @@ namespace vapula
 		return library;
 	}
 
-	void LibraryHub::Link(Library* library)
+	void LibraryHub::Add(Library* library)
 	{
 		typedef list<Library*>::iterator iter;
 		_Lock->Enter();
@@ -60,14 +60,14 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void LibraryHub::Kick(pcstr id)
+	void LibraryHub::Remove(Library* library)
 	{
 		typedef list<Library*>::iterator iter;
 		_Lock->Enter();
 		for (iter i = _Libraries.begin(); i != _Libraries.end(); i++)
 		{
 			Library* tmp = *i;
-			if (strcmp(tmp->GetLibraryId(), id) == 0)
+			if (library == tmp)
 			{
 				Clear(tmp);
 				_Libraries.erase(i);
@@ -77,7 +77,7 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void LibraryHub::KickAll()
+	void LibraryHub::RemoveAll()
 	{
 		typedef list<Library*>::iterator iter;
 		_Lock->Enter();

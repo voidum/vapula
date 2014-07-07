@@ -10,7 +10,7 @@ namespace vapula
 
 	StackHub::~StackHub()
 	{
-		KickAll();
+		RemoveAll();
 		Clear(_Lock);
 	}
 
@@ -42,7 +42,7 @@ namespace vapula
 		return stack;
 	}
 
-	void StackHub::Link(Stack* stack)
+	void StackHub::Add(Stack* stack)
 	{
 		typedef list<Stack*>::iterator iter;
 		_Lock->Enter();
@@ -60,7 +60,7 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void StackHub::Kick(Stack* stack)
+	void StackHub::Remove(Stack* stack)
 	{
 		typedef list<Stack*>::iterator iter;
 		_Lock->Enter();
@@ -76,7 +76,7 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void StackHub::KickAll()
+	void StackHub::RemoveAll()
 	{
 		typedef list<Stack*>::iterator iter;
 		_Lock->Enter();

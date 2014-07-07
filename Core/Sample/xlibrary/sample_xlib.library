@@ -13,32 +13,22 @@
       <id>math</id>
       <protect>false</protect>
       <symbols>
-        <process>Sample.Function_Math</process>
+        <process>Sample.Math</process>
         <rollback />
       </symbols>
       <schema>
         <field id="1">
-          <type>3</type>
           <access>0</access>
           <tags>
-            <tag key="name">加数1</tag>
-            <tag key="description">参与运算的第1个加数</tag>
+            <tag key="name">加数</tag>
+            <tag key="description">参与运算的所有加数</tag>
           </tags>
         </field>
         <field id="2">
-          <type>3</type>
-          <access>0</access>
-          <tags>
-            <tag key="name">加数2</tag>
-            <tag key="description">参与运算的第2个加数</tag>
-          </tags>
-        </field>
-        <field id="3">
-          <type>3</type>
           <access>1</access>
           <tags>
             <tag key="name">和</tag>
-            <tag key="description">两个加数的和</tag>
+            <tag key="description">所有加数的和</tag>
           </tags>
         </field>
       </schema>
@@ -51,12 +41,11 @@
       <id>output</id>
       <protect>false</protect>
       <symbols>
-        <process>Sample.Function_Out</process>
+        <process>Sample.Out</process>
         <rollback />
       </symbols>
       <schema>
         <field id="1">
-          <type>21</type>
           <access>1</access>
           <tags>
             <tag key="name">输出</tag>
@@ -70,42 +59,63 @@
       </tags>
     </method>
     <method>
-      <id>array</id>
-      <protect>false</protect>
-      <symbols>
-        <process>Sample.Function_Array</process>
-        <rollback />
-      </symbols>
-      <schema />
-      <tags>
-        <tag key="name">数组操作</tag>
-        <tag key="description">暂未实现</tag>
-      </tags>
-    </method>
-    <method>
-      <id>object</id>
-      <protect>false</protect>
-      <symbols>
-        <process>Sample.Function_Object</process>
-        <rollback />
-      </symbols>
-      <schema />
-      <tags>
-        <tag key="name">对象操作</tag>
-        <tag key="description">暂未实现</tag>
-      </tags>
-    </method>
-    <method>
       <id>context</id>
       <protect>false</protect>
       <symbols>
-        <process>Sample.Function_Context</process>
+        <process>Sample.Context</process>
         <rollback />
       </symbols>
       <schema />
       <tags>
         <tag key="name">上下文示例</tag>
         <tag key="description">示例上下文控制</tag>
+      </tags>
+    </method>
+    <method>
+      <id>context2</id>
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.Context2</process>
+        <rollback>Sample.RollbackContext2</rollback>
+      </symbols>
+      <schema />
+      <tags>
+        <tag key="name">上下文示例2</tag>
+        <tag key="description">示例上下文控制2</tag>
+      </tags>
+    </method>
+    <method>
+      <id>protect</id>
+      <protect>true</protect>
+      <symbols>
+        <process>Sample.Protect</process>
+        <rollback>Sample.RollbackProtect</rollback>
+      </symbols>
+      <schema />
+      <tags>
+        <tag key="name">保护模式示例</tag>
+        <tag key="description">示例保护模式</tag>
+      </tags>
+    </method>
+    <method>
+      <id>aop</id>
+      <protect>false</protect>
+      <symbols>
+        <process>Sample.AOP</process>
+        <rollback />
+      </symbols>
+      <schema>
+        <field id="1">
+          <access>0</access>
+          <tags>
+            <tag key="name">目标栈标识</tag>
+            <tag key="description"></tag>
+          </tags>
+        </field>
+      </schema>
+      <tags>
+        <tag key="name">AOP</tag>
+        <tag key="description">测试AOP机制</tag>
       </tags>
     </method>
   </methods>

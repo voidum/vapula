@@ -61,12 +61,12 @@ namespace Vapula
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeLinkAspect",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void LinkAspect(IntPtr target);
+        public static extern void LinkAspect(IntPtr aspect);
 	
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeKickAspect",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void KickAspect(string id);
+        public static extern void KickAspect(IntPtr aspect);
         #endregion
 
         #region Driver
@@ -86,12 +86,12 @@ namespace Vapula
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeLinkDriver",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void LinkDriver(IntPtr target);
+        public static extern void LinkDriver(IntPtr driver);
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeKickDriver",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void KickDriver(string id);
+        public static extern void KickDriver(IntPtr driver);
         #endregion
 
         #region Library
@@ -111,12 +111,12 @@ namespace Vapula
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeLinkLibrary",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void LinkLibrary(IntPtr target);
+        public static extern void LinkLibrary(IntPtr library);
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeKickLibrary",
             CharSet = CharSet.Ansi,
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void KickLibrary(string id);
+        public static extern void KickLibrary(IntPtr library);
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetRuntime",
             CallingConvention = CallingConvention.Cdecl)]

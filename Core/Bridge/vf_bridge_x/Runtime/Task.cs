@@ -1,12 +1,11 @@
-﻿using Sartrey;
-using System;
+﻿using System;
 
 namespace Vapula.Runtime
 {
     /// <summary>
     /// task
     /// </summary>
-    public class Task : DisposableObject
+    public class Task : Sartrey.DisposableObject
     {
         #region Fields
         protected IntPtr _Handle;

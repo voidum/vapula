@@ -10,7 +10,7 @@ namespace vapula
 
 	AspectHub::~AspectHub()
 	{
-		KickAll();
+		RemoveAll();
 		Clear(_Lock);
 	}
 
@@ -42,7 +42,7 @@ namespace vapula
 		return aspect;
 	}
 
-	void AspectHub::Link(Aspect* aspect)
+	void AspectHub::Add(Aspect* aspect)
 	{
 		typedef list<Aspect*>::iterator iter;
 		_Lock->Enter();
@@ -60,14 +60,14 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void AspectHub::Kick(pcstr id)
+	void AspectHub::Remove(Aspect* aspect)
 	{
 		typedef list<Aspect*>::iterator iter;
 		_Lock->Enter();
 		for (iter i = _Aspects.begin(); i != _Aspects.end(); i++)
 		{
 			Aspect* tmp = *i;
-			if (strcmp(tmp->GetAspectId(), id) == 0)
+			if (aspect == tmp)
 			{
 				Clear(tmp);
 				_Aspects.erase(i);
@@ -77,7 +77,7 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void AspectHub::KickAll()
+	void AspectHub::RemoveAll()
 	{
 		typedef list<Aspect*>::iterator iter;
 		_Lock->Enter();

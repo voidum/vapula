@@ -114,12 +114,12 @@ namespace vapula
 	{
 		_StackId = CurrentId();
 		StackHub* hub = Stack::Hub();
-		hub->Link(this);
+		hub->Add(this);
 	}
 
 	void Stack::KickHub()
 	{
 		StackHub* hub = Stack::Hub();
-		hub->Kick(this);
+		hub->Remove(this);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vapula;
@@ -8,26 +9,35 @@ namespace sample_xlib
 {
     public class Sample
     {
-        public void Function_Math()
+        public void Math()
         {
             Stack stack = Stack.Instance;
             Dataset dataset = stack.Dataset;
-            IntPtr data = dataset[1].Read();
-            //int[] 
-            int c = a + b;
-            dataset[3].Write(c);
+            IntPtr handle = dataset[1].Read();
+            int size = (int)dataset[1].Size / sizeof(int);
+            int[] data = new int[size];
+            Marshal.Copy(handle, data, 0, size);
+            int[] result = new int[1];
+            foreach (int v in data)
+                result[0] += v;
+            IntPtr handle_out = Bridge.NewData(sizeof(int));
+            Marshal.Copy(result, 0, handle_out, 1);
+            dataset[2].Write(handle_out, sizeof(int));
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
-        public void Function_Out()
+        public void Out()
         {
             Stack stack = Stack.Instance;
             Dataset dataset = stack.Dataset;
-            dataset[1].WriteText("中文English日本語テスト");
+            string data = "中文English日本語テスト";
+            IntPtr handle_out = Bridge.NewData((uint)(data.Length * sizeof(char)));
+            Marshal.Copy(data.ToCharArray(), 0, handle_out, data.Length);
+            dataset[1].Write(handle_out, (uint)(data.Length * sizeof(char)));
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
-        public void Function_Context()
+        public void Context()
         {
             Stack stack = Stack.Instance;
             Context ctx = stack.Context;

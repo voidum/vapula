@@ -17,11 +17,11 @@ namespace Vapula.Runtime
         /// </summary>
         public static Library Load(string path)
         {
-            IntPtr ptr = Bridge.LoadLibrary(path);
-            if (ptr == IntPtr.Zero)
+            IntPtr handle = Bridge.LoadLibrary(path);
+            if (handle == IntPtr.Zero)
                 return null;
-            Library lib = new Library(ptr);
-            return lib;
+            Library library = new Library(handle);
+            return library;
         }
 
         /// <summary>
@@ -50,6 +50,16 @@ namespace Vapula.Runtime
                     Bridge.GetRuntime(_Handle));
                 return value;
             }
+        }
+
+        public void LinkHub() 
+        {
+            Bridge.LinkLibrary(_Handle);
+        }
+
+        public void KickHub() 
+        {
+            Bridge.KickLibrary(_Handle);
         }
 
 		/// <summary>

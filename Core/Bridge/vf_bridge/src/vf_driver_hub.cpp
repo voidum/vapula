@@ -10,7 +10,7 @@ namespace vapula
 
 	DriverHub::~DriverHub()
 	{
-		KickAll();
+		RemoveAll();
 		Clear(_Lock);
 	}
 
@@ -42,7 +42,7 @@ namespace vapula
 		return driver;
 	}
 
-	void DriverHub::Link(Driver* driver)
+	void DriverHub::Add(Driver* driver)
 	{
 		typedef list<Driver*>::iterator iter;
 		_Lock->Enter();
@@ -60,14 +60,14 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void DriverHub::Kick(pcstr id)
+	void DriverHub::Remove(Driver* driver)
 	{
 		typedef list<Driver*>::iterator iter;
 		_Lock->Enter();
 		for (iter i = _Drivers.begin(); i != _Drivers.end(); i++)
 		{
 			Driver* tmp = *i;
-			if (strcmp(tmp->GetRuntimeId(), id) == 0)
+			if (driver == tmp)
 			{
 				Clear(tmp);
 				_Drivers.erase(i);
@@ -77,7 +77,7 @@ namespace vapula
 		_Lock->Leave();
 	}
 
-	void DriverHub::KickAll()
+	void DriverHub::RemoveAll()
 	{
 		typedef list<Driver*>::iterator iter;
 		_Lock->Enter();

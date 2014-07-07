@@ -60,10 +60,10 @@ namespace vapula
 		bool TryMatch(pcstr frame);
 
 	public:
-		//link aspect into hub
+		//add aspect into hub
 		void LinkHub();
 
-		//kick out aspect from hub
+		//remove aspect from hub
 		void KickHub();
 	};
 }
