@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\sartrey\Sartrey\Sartrey.csproj">
+      <Project>{47cd54c3-3019-48f3-a812-704cafb679ce}</Project>
+      <Name>Sartrey</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Bridge\vf_bridge_x\vf_bridge_x.csproj">
       <Project>{24da7d2b-5931-49ce-bd0a-74b460fdc192}</Project>
       <Name>vf_bridge_x</Name>

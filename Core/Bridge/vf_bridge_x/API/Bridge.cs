@@ -266,19 +266,29 @@ namespace Vapula
         #region Record
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetRecordSize",
             CallingConvention = CallingConvention.Cdecl)]
-	    public static extern uint GetRecordSize(IntPtr record);
+	    public static extern UInt32 GetRecordSize(IntPtr record);
 
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeWriteRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void WriteRecord(IntPtr record, IntPtr data, UInt32 size);
+        public static extern void WriteRecord(IntPtr record, IntPtr data, UInt32 size, bool copy);
         
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeReadRecord",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr ReadRecord(IntPtr record);
+        public static extern IntPtr ReadRecord(IntPtr record, bool copy);
         
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeDeliverRecord",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeliverRecord(IntPtr src, IntPtr dst);
+        #endregion
+
+        #region Pointer
+        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetPointerSize",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern UInt32 GetPointerSize(IntPtr pointer);
+
+        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetPointerData",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetPointerData(IntPtr pointer);
         #endregion
 
         #region Pipe

@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +46,7 @@
     <Compile Include="Runtime\Aspect.cs" />
     <Compile Include="Runtime\Driver.cs" />
     <Compile Include="Runtime\Error.cs" />
+    <Compile Include="Runtime\Pointer.cs" />
     <Compile Include="Runtime\Record.cs" />
     <Compile Include="Helper\Logger\ConsoleLogger.cs" />
     <Compile Include="Helper\Logger\FileLogger.cs" />

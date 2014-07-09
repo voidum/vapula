@@ -24,7 +24,9 @@ namespace sample_invoker_x
         public void Test1() 
         {
             var task = _Library.CreateTask("math");
-            task.Stack.Dataset[0].Write();
+            var pointer = new Pointer();
+            pointer.WriteArray(new int[] { 0, 1, 2, 3 });
+            task.Stack.Dataset[0].Write(pointer.Data, pointer.Size, false);
             task.Start();
             //join
             task.Dispose();

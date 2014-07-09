@@ -30,17 +30,17 @@ namespace Vapula.Runtime
         /// <summary>
         /// write data
         /// </summary>
-        public void Write(IntPtr data, UInt32 size)
+        public void Write(IntPtr data, UInt32 size, bool copy = false)
         {
-            Bridge.WriteRecord(_Handle, data, size);
+            Bridge.WriteRecord(_Handle, data, size, copy);
         }
 
         /// <summary>
         /// read data
         /// </summary>
-        public IntPtr Read() 
+        public IntPtr Read(bool copy = false) 
         {
-            return Bridge.ReadRecord(_Handle);
+            return Bridge.ReadRecord(_Handle, copy);
         }
 
         public void Deliver(Record to) 
