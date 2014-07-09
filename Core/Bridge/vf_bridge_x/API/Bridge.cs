@@ -14,9 +14,17 @@ namespace Vapula
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr NewData(UInt32 size);
 
-        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeDeleteRaw",
+        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeDeleteData",
             CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeleteRaw(IntPtr obj);
+        public static extern void DeleteData(IntPtr data);
+
+        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeOffsetData",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr OffsetData(IntPtr data, UInt32 offset);
+
+        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeCopyData",
+            CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr CopyData(IntPtr dst, IntPtr src, UInt32 size);
         #endregion
 
         #region Error
@@ -279,16 +287,6 @@ namespace Vapula
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeDeliverRecord",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern void DeliverRecord(IntPtr src, IntPtr dst);
-        #endregion
-
-        #region Pointer
-        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetPointerSize",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern UInt32 GetPointerSize(IntPtr pointer);
-
-        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeGetPointerData",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr GetPointerData(IntPtr pointer);
         #endregion
 
         #region Pipe

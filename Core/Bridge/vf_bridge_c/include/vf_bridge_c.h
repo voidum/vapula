@@ -10,7 +10,9 @@ extern "C"
 	VAPULA_API pcstr vfeGetVersion();
 
 	VAPULA_API raw vfeNewData(uint32 size);
-	VAPULA_API void vfeDeleteRaw(raw data);
+	VAPULA_API void vfeDeleteData(raw data);
+	VAPULA_API raw vfeOffsetData(raw data, uint32 offset);
+	VAPULA_API void vfeCopyData(raw dst, raw src, uint32 size);
 
 	//Error
 	VAPULA_API int vfeWhatError(raw error);

@@ -10,7 +10,7 @@ namespace sample_invoker_x
         static void Main(string[] args)
         {
             App app = new App();
-            app.Start();
+            //app.Start();
             app.Test1();
             app.Stop();
         }

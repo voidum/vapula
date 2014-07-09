@@ -13,6 +13,16 @@ namespace vapula
 		//do nothing
 	}
 
+	raw Pointer::GetData()
+	{
+		return _Data;
+	}
+
+	uint32 Pointer::GetSize()
+	{
+		return _Size;
+	}
+
 	void Pointer::Capture(raw data, uint32 size)
 	{
 		_Data = data;

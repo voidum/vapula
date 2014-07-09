@@ -15,6 +15,10 @@ namespace vapula
 		~Pointer();
 
 	public:
+		raw GetData();
+		uint32 GetSize();
+
+	public:
 		void Capture(raw data, uint32 size);
 		void Release();
 

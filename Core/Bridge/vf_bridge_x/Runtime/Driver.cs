@@ -42,7 +42,7 @@ namespace Vapula.Runtime
         {
             if (_Handle != IntPtr.Zero)
             {
-                Bridge.DeleteRaw(_Handle);
+                Bridge.DeleteData(_Handle);
                 _Handle = IntPtr.Zero;
             }
         }

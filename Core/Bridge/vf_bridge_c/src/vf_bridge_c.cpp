@@ -26,9 +26,19 @@ raw vfeNewData(uint32 size)
 	return data;
 }
 
-void vfeDeleteRaw(raw data)
+void vfeDeleteData(raw data)
 {
 	Clear(data);
+}
+
+raw vfeOffsetData(raw data, uint32 offset)
+{
+	return (raw)((uint32)data + offset);
+}
+
+void vfeCopyData(raw dst, raw src, uint32 size)
+{
+	memcpy(dst, src, size);
 }
 
 
