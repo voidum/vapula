@@ -66,13 +66,9 @@ void Test2(Library* library)
 
 	Stack* stack = task->GetStack();
 	Dataset* dataset = stack->GetDataset();
-	int* data = new int[4];
-	data[0] = 12;
-	data[1] = 21;
-	data[2] = -5;
-	data[3] = -10;
+	int* data = new int[4]{12, 21, -5, 10};
 
-	(*dataset)[1]->Write(data, 4 * sizeof(int));
+	(*dataset)[1]->Write(data, 4 * sizeof(int), true);
 
 	cout << "[invoke method math]" << endl;
 	task->Start();
@@ -81,8 +77,12 @@ void Test2(Library* library)
 	while (context->GetCurrentState() != VF_STATE_IDLE)
 		Sleep(50);
 
-	int* result = (int*)((*dataset)[2]->Read());
-	cout << "<valid> - out:" << result[0] << endl;
+	Record* record = (*dataset)[2];
+	Pointer* pointer = new Pointer();
+	pointer->Capture(record->Read(), record->GetSize());
+	int result = pointer->ReadValue<int>();
+	cout << "<valid> - out:" << result << endl;
+	delete pointer;
 
 	LARGE_INTEGER freq, t1, t2;
 	QueryPerformanceFrequency(&freq);
@@ -95,7 +95,7 @@ void Test2(Library* library)
 		tasks.push_back(task);
 		Stack* stack = task->GetStack();
 		Dataset* dataset = stack->GetDataset();
-		(*dataset)[1]->Write(data, 4 * sizeof(int));
+		(*dataset)[1]->Write(data, 4 * sizeof(int), true);
 		task->Start();
 	}
 	typedef list<Task*>::iterator iter;
@@ -125,7 +125,7 @@ void Test2(Library* library)
 		Task* task = library->CreateTask("math");
 		Stack* stack = task->GetStack();
 		Dataset* dataset = stack->GetDataset();
-		(*dataset)[1]->Write(data, 4 * sizeof(int));
+		(*dataset)[1]->Write(data, 4 * sizeof(int), true);
 		task->Start();
 
 		Context* context = stack->GetContext();
@@ -248,10 +248,10 @@ int main()
 	Assert(library->Mount());
 
 	//Test1(library);
-	//Test2(library);
+	Test2(library);
 	//Test3(library);
 	//Test4(library);
-	Test5(library);
+	//Test5(library);
 	//Test6();
 	//Test7(library);
 

@@ -4,6 +4,7 @@
 
 #include "vf_base.h"
 #include "vf_record.h"
+#include "vf_pointer.h"
 
 namespace vapula
 {

@@ -8,15 +8,27 @@ void Process_Math()
 	Dataset* dataset = stack->GetDataset();
 	Context* context = stack->GetContext();
 
-	Record* record = (*dataset)[1];
-	int* data = (int*)record->Read();
-	uint32 count = record->GetSize() / sizeof(int);
+	Pointer* pointer = new Pointer();
+	Record* record1 = (*dataset)[1];
+	pointer->Capture(record1->Read(), record1->GetSize());
+	int* input = null;
+	uint32 count = pointer->ReadArray(input);
 
-	int result = 0;
+	uint32 output = 0;
 	for (uint32 i = 0; i < count; i++)
-		result += (data[i]);
+		output += (input[i]);
 
-	(*dataset)[2]->Write(&result, 1 * sizeof(int));
+	Record* record2 = (*dataset)[2];
+	//also we can write data in the following way:
+	//record2->Write(&output, 1 * sizeof(uint32));
+
+	//pointer make it more flexible
+	pointer->Release();
+	pointer->WriteValue(output);
+	raw data = null;
+	count = pointer->ReadArray(data);
+	record2->Write(data, count);
+	delete pointer;
 
 	context->SetProgress(100);
 	context->SetReturnCode(VF_RETURN_NORMAL);

@@ -4,6 +4,12 @@ vPLAN
 +)support logger
 +)support dynamic dataset
 
+v2.1.4.2
+*)improve record
+*)*)support write data non-copy
++)add pointer
+....+)add compiler
+
 
 v2.1.4.1
 *)remove code

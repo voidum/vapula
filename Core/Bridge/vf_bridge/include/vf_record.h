@@ -37,8 +37,8 @@ namespace vapula
 		void Zero();
 
 	public:
-		//write data by copy
-		void Write(raw data, uint32 size);
+		//write data
+		void Write(raw data, uint32 size, bool copy = false);
 
 		//read data
 		raw Read(bool copy = false);

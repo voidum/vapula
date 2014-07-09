@@ -89,8 +89,8 @@ extern "C"
 
 	//Record
 	VAPULA_API uint32 vfeGetRecordSize(raw record);
-	VAPULA_API void vfeWriteRecord(raw record, raw data, uint32 size);
-	VAPULA_API raw vfeReadRecord(raw record);
+	VAPULA_API void vfeWriteRecord(raw record, raw data, uint32 size, bool copy);
+	VAPULA_API raw vfeReadRecord(raw record, bool copy);
 	VAPULA_API void vfeDeliverRecord(raw src, raw dst);
 
 	//Pipe

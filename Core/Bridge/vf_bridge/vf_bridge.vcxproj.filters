@@ -142,6 +142,9 @@
     <ClInclude Include="include\vf_library_hub.h">
       <Filter>core\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_pointer.h">
+      <Filter>data\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="src\vf_library_hub.cpp">
       <Filter>core\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_pointer.cpp">
+      <Filter>data\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

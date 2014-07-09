@@ -45,7 +45,7 @@ namespace vapula
 		return record;
 	}
 
-	void Record::Write(raw data, uint32 size)
+	void Record::Write(raw data, uint32 size, bool copy)
 	{
 		//null data
 		if (data == null)
@@ -56,13 +56,16 @@ namespace vapula
 			return;
 
 		//write data
-		if (_Size != size)
-		{
-			if (_Data != null)
-				Clear(_Data);
-			_Data = new byte[size];
+		if (!copy) {
+			_Data = data;
 		}
-		memcpy(_Data, data, size);
+		else {
+			if (_Size != size) {
+				Clear(_Data);
+				_Data = new byte[size];
+			}
+			memcpy(_Data, data, size);
+		}
 		_Size = size;
 	}
 

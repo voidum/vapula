@@ -89,7 +89,7 @@ namespace vapula
 	pcstr const _vf_error_2 = "invalid invoke";
 
 	pcstr const _vf_bridge = "Vapula Bridge";
-	pcstr const _vf_version = "2.1.4.1";
+	pcstr const _vf_version = "2.1.4.2";
 	pcstr const _vf_fatal = "!!! FATAL ERROR !!!";
 
 	uint32 const _vf_cp_oem = CP_OEMCP;

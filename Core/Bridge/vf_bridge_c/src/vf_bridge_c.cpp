@@ -406,16 +406,16 @@ uint32 vfeGetRecordSize(raw record)
 	return object->GetSize();
 }
 
-void vfeWriteRecord(raw record, raw data, uint32 size)
+void vfeWriteRecord(raw record, raw data, uint32 size, bool copy)
 {
 	Record* object = (Record*)record;
-	object->Write(data, size);
+	object->Write(data, size, copy);
 }
 
-raw vfeReadRecord(raw record)
+raw vfeReadRecord(raw record, bool copy)
 {
 	Record* object = (Record*)record;
-	return object->Read();
+	return object->Read(copy);
 }
 
 void vfeDeliverRecord(raw src, raw dst)

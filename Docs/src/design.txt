@@ -34,6 +34,17 @@ Vapula Bridge 核心的对象构建
 AccessMode 用于Deliver时验证双方的访问方向
 State ControlCode ReturnCode 用于Context对象
 
+Vapula做如下考虑：
+由于数据集的每个记录都可能具有不同的基本特性（方向、长度）
+所以直接使用某种预先设定的数据定义中间语言（Thrift或BGCC）会限制潜在的数据组织灵活性
+因此Vapula将Record设计成无类型，然后将数据编译操作通过Pointer实现
+这样，用户可以使用Pointer自行实现任何数据描述协议
+也可以直接操作无类型裸数据
+
+当然，Pointer的API是可组合的，容易使用自动化工具生成Pointer操作指令序列
+并基于此实现特定数据描述协议的Compiler
+
+
 	//candy for C++
 	public:
 		//write string as 8-bit (UTF8)
