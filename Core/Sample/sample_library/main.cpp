@@ -140,7 +140,6 @@ void Process_AOP()
 	if (record->GetSize() > 0)
 	{
 		uint32* data = (uint32*)record->Read();
-		Stack* stack_attached = (Stack*)data[0];
 		ShowMsgbox(data[0]);
 	}
 	runtime->Reach("aop");

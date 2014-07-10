@@ -31,11 +31,6 @@ namespace vapula
 			data = null;
 			if (_Size <= offset)
 				return 0;
-			if (offset == 0 && sizeof(T) == 1)
-			{
-				data = (T*)_Data;
-				return _Size;
-			}
 			uint32 size = _Size - offset;
 			uint32 length = size / sizeof(T);
 			if (length > 0)
@@ -52,11 +47,6 @@ namespace vapula
 			data = null;
 			if (_Size <= offset)
 				return 0;
-			if (offset == 0)
-			{
-				data = _Data;
-				return _Size;
-			}
 			uint32 size = _Size - offset;
 			if (size > 0)
 			{
@@ -90,6 +80,12 @@ namespace vapula
 			}
 			raw target = (raw)((uint32)_Data + offset);
 			memcpy(target, data, size_need);
+		}
+
+		template<>
+		void WriteArray(raw data, uint32 length, uint32 offset)
+		{
+			WriteArray((byte*)data, length, offset);
 		}
 
 	public:

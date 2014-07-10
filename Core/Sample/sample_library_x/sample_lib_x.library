@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <library>
-  <id>sample_xlib</id>
+  <id>sample_lib_x</id>
   <runtime>clr</runtime>
   <tags>
     <tag key="name">Vapula .NET示例组件</tag>

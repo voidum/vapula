@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Threading;
+using Vapula;
 using Vapula.Runtime;
 
 namespace sample_invoker_x
@@ -11,10 +14,11 @@ namespace sample_invoker_x
         public void Start() 
         {
             Runtime.Instance.Start();
-            var driver = Driver.Load("");
+            var driver = Driver.Load(Path.Combine(Base.RuntimeDir, "clr.driver"));
             driver.LinkHub();
-            _Library = Library.Load("");
+            _Library = Library.Load(Path.Combine(Base.RuntimeDir, "sample_lib_x.library"));
             _Library.LinkHub();
+            _Library.Mount();
         }
 
         public void Stop() 
@@ -24,16 +28,26 @@ namespace sample_invoker_x
 
         public void Test1() 
         {
-            var pointer = new Pointer();
-            int[] data1 = new int[] { 1, 2, 3, 4 };
-            pointer.WriteArray(data1);
-            byte[] data2 = pointer.ReadArray<byte>();
-
+            Console.WriteLine("create task: math");
             var task = _Library.CreateTask("math");
-            pointer = new Pointer();
-            pointer.WriteArray(new int[] { 0, 1, 2, 3 });
-            task.Stack.Dataset[0].Write(pointer.Data, (UInt32)pointer.Size, false);
+            int[] data1 = new int[] { 1, 2, 3, 4 };
+            var pointer = new Pointer();
+            pointer.WriteArray(data1);
+            task.Stack.Dataset[1].Write(pointer.Data, pointer.Size, false);
+
+            Console.WriteLine("invoke task: math");
             task.Start();
+            var context = task.Stack.Context;
+            while (context.CurrentState != State.Idle)
+                Thread.Sleep(50);
+
+            Record record = task.Stack.Dataset[2];
+            pointer.Capture(record.Read(), record.Size);
+            int result = pointer.ReadValue<int>();
+            Console.WriteLine("<valid> - out:" + result.ToString());
+
+            
+
             //join
             task.Dispose();
         }

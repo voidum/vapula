@@ -1,11 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Forms;
+﻿using System.Threading;
 using Vapula;
 using Vapula.Runtime;
 
-namespace sample_xlib
+namespace sample_lib_x
 {
     public class Sample
     {
@@ -13,16 +10,16 @@ namespace sample_xlib
         {
             Stack stack = Stack.Instance;
             Dataset dataset = stack.Dataset;
-            IntPtr handle = dataset[1].Read();
-            int size = (int)dataset[1].Size / sizeof(int);
-            int[] data = new int[size];
-            Marshal.Copy(handle, data, 0, size);
-            int[] result = new int[1];
+            Record record = dataset[1];
+            Pointer pointer = new Pointer();
+            pointer.Capture(record.Read(), record.Size);
+            int[] data = pointer.ReadArray<int>();
+            int result = 0;
             foreach (int v in data)
-                result[0] += v;
-            IntPtr handle_out = Bridge.NewData(sizeof(int));
-            Marshal.Copy(result, 0, handle_out, 1);
-            dataset[2].Write(handle_out, sizeof(int));
+                result += v;
+            pointer.Release();
+            pointer.WriteValue(result);
+            dataset[2].Write(pointer.Data, pointer.Size);
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 
@@ -31,9 +28,9 @@ namespace sample_xlib
             Stack stack = Stack.Instance;
             Dataset dataset = stack.Dataset;
             string data = "中文English日本語テスト";
-            IntPtr handle_out = Bridge.NewData((uint)(data.Length * sizeof(char)));
-            Marshal.Copy(data.ToCharArray(), 0, handle_out, data.Length);
-            dataset[1].Write(handle_out, (uint)(data.Length * sizeof(char)));
+            Pointer pointer = new Pointer();
+            pointer.WriteArray(data.ToCharArray());
+            dataset[1].Write(pointer.Data, pointer.Size);
             stack.Context.ReturnCode = ReturnCode.Normal;
         }
 

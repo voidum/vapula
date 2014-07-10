@@ -1,17 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Vapula
 {
-    public enum CoreType
-    {
-        Driver = 0,
-        Library = 1,
-        Stack = 2,
-        Aspect = 3
-    };
-
     public enum State
     {
         Idle = 0,
@@ -53,19 +44,6 @@ namespace Vapula
         public static string RuntimeDir
         {
             get { return Sartrey.IOHelper.GetTypeDirectory(typeof(Base)); }
-        }
-
-        public static byte[] ToBytes(IntPtr ptr, int size) 
-        {
-            byte[] data = new byte[size];
-            Marshal.Copy(ptr, data, 0, size);
-            return data;
-        }
-        public static IntPtr ToIntPtr(byte[] data)
-        {
-            IntPtr ptr = Bridge.NewData((UInt32)data.Length);
-            Marshal.Copy(data, 0, ptr, data.Length);
-            return ptr;
         }
 
         /// <summary>
