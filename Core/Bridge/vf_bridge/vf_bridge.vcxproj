@@ -113,6 +113,7 @@
     <ClInclude Include="include\vf_aspect_hub.h" />
     <ClInclude Include="include\vf_driver_hub.h" />
     <ClInclude Include="include\vf_library_hub.h" />
+    <ClInclude Include="include\vf_mapper.h" />
     <ClInclude Include="include\vf_pointer.h" />
     <ClInclude Include="include\vf_stack_hub.h" />
     <ClInclude Include="include\vf_method.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="src\vf_aspect_hub.cpp" />
     <ClCompile Include="src\vf_driver_hub.cpp" />
     <ClCompile Include="src\vf_library_hub.cpp" />
+    <ClCompile Include="src\vf_mapper.cpp" />
     <ClCompile Include="src\vf_pointer.cpp" />
     <ClCompile Include="src\vf_stack_hub.cpp" />
     <ClCompile Include="src\vf_record.cpp" />

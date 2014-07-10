@@ -145,6 +145,9 @@
     <ClInclude Include="include\vf_pointer.h">
       <Filter>data\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_mapper.h">
+      <Filter>data\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -226,6 +229,9 @@
       <Filter>core\source</Filter>
     </ClCompile>
     <ClCompile Include="src\vf_pointer.cpp">
+      <Filter>data\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_mapper.cpp">
       <Filter>data\source</Filter>
     </ClCompile>
   </ItemGroup>

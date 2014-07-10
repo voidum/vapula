@@ -77,16 +77,4 @@ namespace vapula
 		memcpy(data, _Data, _Size);
 		return data;
 	}
-
-	void Record::Deliver(Record* who)
-	{
-		if (_Data == null)
-			return;
-
-		if (_Access == VF_ACCESS_IN 
-			|| who->_Access == VF_ACCESS_OUT)
-			return;
-
-		who->Write(_Data, _Size);
-	}
 }

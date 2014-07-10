@@ -283,10 +283,6 @@ namespace Vapula
         [DllImport("vf_bridge_c.dll", EntryPoint = "vfeReadRecord",
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ReadRecord(IntPtr record, bool copy);
-        
-        [DllImport("vf_bridge_c.dll", EntryPoint = "vfeDeliverRecord",
-            CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeliverRecord(IntPtr src, IntPtr dst);
         #endregion
 
         #region Pipe

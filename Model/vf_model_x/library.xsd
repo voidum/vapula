@@ -33,10 +33,10 @@
           </xs:all>
         </xs:complexType>
       </xs:element>
-      <xs:element name="schema">
+      <xs:element name="dataset">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="field" type="field" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="record" type="record" minOccurs="0" maxOccurs="unbounded" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -44,7 +44,7 @@
     </xs:all>
   </xs:complexType>
   
-  <xs:complexType name="field">
+  <xs:complexType name="record">
     <xs:all>
       <xs:element name="access" type="xs:int" />
       <xs:element name="tags" type="tags" />

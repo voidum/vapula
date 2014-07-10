@@ -42,10 +42,5 @@ namespace Vapula.Runtime
         {
             return Bridge.ReadRecord(_Handle, copy);
         }
-
-        public void Deliver(Record to) 
-        {
-            Bridge.DeliverRecord(Handle, to.Handle);
-        }
     }
 }

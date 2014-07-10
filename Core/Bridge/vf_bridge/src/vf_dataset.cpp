@@ -26,7 +26,7 @@ namespace vapula
 		if (xobj == null)
 			return null;
 		raw xdoc = xobj->GetEntity();
-		raw xe = XML::XElem(xdoc, "schema");
+		raw xe = XML::XElem(xdoc, "dataset");
 		return Parse(xe);
 	}
 
@@ -34,7 +34,7 @@ namespace vapula
 	{
 		list<int> ids;
 		list<PRecord> records;
-		raw xe = XML::XElem(xml, "field");
+		raw xe = XML::XElem(xml, "record");
 		while(xe != null)
 		{
 			PRecord record = Record::Parse(xe);

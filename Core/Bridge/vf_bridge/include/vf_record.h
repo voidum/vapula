@@ -42,9 +42,6 @@ namespace vapula
 
 		//read data
 		raw Read(bool copy = false);
-
-		//deliver this to target
-		void Deliver(Record* target);
 	};
 
 	typedef Record* PRecord;

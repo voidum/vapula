@@ -16,22 +16,22 @@
         <process>Process_Math</process>
         <rollback />
       </symbols>
-      <schema>
-        <field id="1">
+      <dataset>
+        <record id="1">
           <access>0</access>
           <tags>
             <tag key="name">加数</tag>
             <tag key="description">参与运算的所有加数</tag>
           </tags>
-        </field>
-        <field id="2">
+        </record>
+        <record id="2">
           <access>1</access>
           <tags>
             <tag key="name">和</tag>
             <tag key="description">所有加数的和</tag>
           </tags>
-        </field>
-      </schema>
+        </record>
+      </dataset>
       <tags>
         <tag key="name">运算示例</tag>
         <tag key="description"></tag>
@@ -44,15 +44,15 @@
         <process>Process_Out</process>
         <rollback />
       </symbols>
-      <schema>
-        <field id="1">
+      <dataset>
+        <record id="1">
           <access>1</access>
           <tags>
             <tag key="name">输出</tag>
             <tag key="description">输出的字符串</tag>
           </tags>
-        </field>
-      </schema>
+        </record>
+      </dataset>
       <tags>
         <tag key="name">输出示例</tag>
         <tag key="description">输出一个字符串</tag>
@@ -65,7 +65,7 @@
         <process>Process_Context</process>
         <rollback />
       </symbols>
-      <schema />
+      <dataset />
       <tags>
         <tag key="name">上下文示例</tag>
         <tag key="description">示例上下文控制</tag>
@@ -78,7 +78,7 @@
         <process>Process_Context2</process>
         <rollback>Rollback_Context2</rollback>
       </symbols>
-      <schema />
+      <dataset />
       <tags>
         <tag key="name">上下文示例2</tag>
         <tag key="description">示例上下文控制2</tag>
@@ -91,7 +91,7 @@
         <process>Process_Protect</process>
         <rollback>Rollback_Protect</rollback>
       </symbols>
-      <schema />
+      <dataset />
       <tags>
         <tag key="name">保护模式示例</tag>
         <tag key="description">示例保护模式</tag>
@@ -104,15 +104,15 @@
         <process>Process_AOP</process>
         <rollback />
       </symbols>
-      <schema>
-        <field id="1">
+      <dataset>
+        <record id="1">
           <access>0</access>
           <tags>
             <tag key="name">目标栈标识</tag>
             <tag key="description"></tag>
           </tags>
-        </field>
-      </schema>
+        </record>
+      </dataset>
       <tags>
         <tag key="name">AOP</tag>
         <tag key="description">测试AOP机制</tag>

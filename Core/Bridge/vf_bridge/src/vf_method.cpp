@@ -30,14 +30,14 @@ namespace vapula
 		raw xe_symbols = XML::XElem(xml, "symbols");
 		raw xe_sym_process = XML::XElem(xe_symbols, "process");
 		raw xe_sym_rollback = XML::XElem(xe_symbols, "rollback");
-		raw xe_schema = XML::XElem(xml, "schema");
+		raw xe_dataset = XML::XElem(xml, "dataset");
 
 		Method* mt = new Method();
 		mt->_Id = XML::ValStr(xe_id);
 		mt->_HasProtect = XML::ValBool(xe_protect, "true");
 		mt->_ProcessSym = XML::ValStr(xe_sym_process);
 		mt->_RollbackSym = XML::ValStr(xe_sym_rollback);
-		mt->_Dataset = Dataset::Parse(xe_schema);
+		mt->_Dataset = Dataset::Parse(xe_dataset);
 
 		return mt;
 	}

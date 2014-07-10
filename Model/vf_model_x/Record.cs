@@ -4,9 +4,9 @@ using System.Xml.Linq;
 namespace Vapula.Model
 {
     /// <summary>
-    /// schema for Vapula field
+    /// schema for Vapula record
     /// </summary>
-    public class Field
+    public class Record
     {
         #region Fields
         private int _Id;
@@ -19,22 +19,22 @@ namespace Vapula.Model
         #endregion
 
         #region Ctor
-        public Field() { }
+        public Record() { }
         #endregion
 
         #region Serialization
         /// <summary>
         /// parse schema from XML
         /// </summary>
-        public static Field Parse(XElement xml)
+        public static Record Parse(XElement xml)
         {
-            Field field = new Field();
-            field.Id = int.Parse(xml.Attribute("id").Value);
-            field.Access = (AccessMode)int.Parse(xml.Element("access").Value);
+            Record record = new Record();
+            record.Id = int.Parse(xml.Attribute("id").Value);
+            record.Access = (AccessMode)int.Parse(xml.Element("access").Value);
             var xes_tag = xml.Element("tags").Elements("tag");
             foreach (var xe in xes_tag)
-                field._Tags[xe.Attribute("key").Value] = xe.Value;
-            return field;
+                record._Tags[xe.Attribute("key").Value] = xe.Value;
+            return record;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Vapula.Model
         /// </summary>
         public XElement ToXML()
         {
-            XElement xml = new XElement("field",
+            XElement xml = new XElement("record",
                 new XAttribute("id", Id),
                 new XElement("access", (int)Access),
                 _Tags.ToXML("tags", "tag", "key"));

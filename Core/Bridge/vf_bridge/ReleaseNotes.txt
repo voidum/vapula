@@ -8,7 +8,8 @@ v2.1.4.2
 *)improve record
 *)*)support write data non-copy
 +)add pointer
-....+)add compiler
++)add mapper
+=)edit XSD
 
 
 v2.1.4.1

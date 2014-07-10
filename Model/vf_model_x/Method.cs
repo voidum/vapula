@@ -15,8 +15,8 @@ namespace Vapula.Model
         private string _ProcessSym;
         private string _RollbackSym;
         private Library _Library;
-        private List<Field> _Fields
-            = new List<Field>();
+        private List<Record> _Records
+            = new List<Record>();
         private Table<string> _Tags
             = new Table<string>();
         #endregion
@@ -27,15 +27,15 @@ namespace Vapula.Model
 
         #region Indexer
         /// <summary>
-        /// get field by id
+        /// get record by id
         /// </summary>
-        public Field this[int id]
+        public Record this[int id]
         {
             get
             {
-                foreach (var field in Fields)
-                    if (field.Id == id)
-                        return field;
+                foreach (var record in Records)
+                    if (record.Id == id)
+                        return record;
                 return null;
             }
         }
@@ -55,12 +55,12 @@ namespace Vapula.Model
             var xes_tag = xml.Element("tags").Elements("tag");
             foreach (var xe in xes_tag)
                 method._Tags[xe.Attribute("key").Value] = xe.Value;
-            var xes = xml.Element("schema").Elements("fields");
+            var xes = xml.Element("dataset").Elements("record");
             foreach (var xe in xes)
             {
-                var param = Field.Parse(xe);
-                param.Method = method;
-                method.Fields.Add(param);
+                var record = Record.Parse(xe);
+                record.Method = method;
+                method.Records.Add(record);
             }
             return method;
         }
@@ -71,17 +71,17 @@ namespace Vapula.Model
         public XElement ToXML()
         {
             XElement xml = new XElement("method",
-                new XElement("schema"),
+                new XElement("dataset"),
                 new XElement("id", Id),
                 new XElement("protect", _HasProtect ? "true" : "false"),
                 new XElement("symbols",
                     new XElement("process", ProcessSym),
                     new XElement("rollback", RollbackSym)),
                 _Tags.ToXML("tags", "tag", "key"));
-            foreach (var field in Fields)
+            foreach (var record in Records)
             {
-                var xe = field.ToXML();
-                xml.Element("schema").Add(xe);
+                var xe = record.ToXML();
+                xml.Element("dataset").Add(xe);
             }
             return xml;
         }
@@ -93,9 +93,9 @@ namespace Vapula.Model
         /// </summary>
         public void Clear()
         {
-            foreach(var field in Fields)
-                field.Clear();
-            Fields.Clear();
+            foreach(var record in Records)
+                record.Clear();
+            Records.Clear();
             Tags.Clear();
         }
         #endregion
@@ -161,12 +161,12 @@ namespace Vapula.Model
             set { _Library = value; }
         }
 
-                /// <summary>
-        /// get fields
+        /// <summary>
+        /// get records
         /// </summary>
-        public List<Field> Fields
+        public List<Record> Records
         {
-            get { return _Fields; }
+            get { return _Records; }
         }
         
         /// <summary>
