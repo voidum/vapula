@@ -13,8 +13,6 @@ namespace vapula
 		pcstr _Path;
 		Library* _Library;
 		pcstr _MethodId;
-		int _CtrlMode;
-		pcstr _CtrlSetting;
 
 	private:
 		Plan();
@@ -37,13 +35,6 @@ namespace vapula
 
 		//get method for task
 		pcstr GetMethodId();
-
-	public:
-		//get control mode
-		int GetCtrlMode();
-
-		//get control setting
-		pcstr GetCtrlSetting();
 
 	public:
 		//run as specified worker

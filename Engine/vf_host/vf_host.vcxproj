@@ -70,7 +70,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\3rdparty;$(SolutionDir)Bridge\vf_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Vapula)3rdparty;$(Vapula)Core\Bridge\vf_bridge\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
     </ClCompile>
@@ -124,18 +124,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\vf_host.h" />
+    <ClInclude Include="include\vf_loop_socket.h" />
     <ClInclude Include="include\vf_plan.h" />
-    <ClInclude Include="include\vf_worker.h" />
-    <ClInclude Include="include\worker_null.h" />
-    <ClInclude Include="include\worker_pipe.h" />
+    <ClInclude Include="include\vf_loop.h" />
+    <ClInclude Include="include\vf_loop_file.h" />
+    <ClInclude Include="include\vf_loop_pipe.h" />
     <ClInclude Include="res\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\vf_task.cpp" />
-    <ClCompile Include="src\vf_worker.cpp" />
-    <ClCompile Include="src\worker_null.cpp" />
-    <ClCompile Include="src\worker_pipe.cpp" />
+    <ClCompile Include="src\vf_loop_socket.cpp" />
+    <ClCompile Include="src\vf_plan.cpp" />
+    <ClCompile Include="src\vf_loop.cpp" />
+    <ClCompile Include="src\vf_loop_file.cpp" />
+    <ClCompile Include="src\vf_loop_pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_host.rc" />

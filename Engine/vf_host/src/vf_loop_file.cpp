@@ -1,9 +1,27 @@
-#include "worker_null.h"
-#include "vf_invoker.h"
-#include "vf_stack.h"
-#include "vf_context.h"
-#include "vf_setting.h"
+#include "vf_loop_file.h"
 
+namespace vapula
+{
+	LoopFile::LoopFile()
+	{
+	}
+
+	LoopFile::~LoopFile()
+	{
+	}
+
+	bool LoopFile::Run()
+	{
+		while (true)
+		{
+			ShowMsgbox("test");
+			Sleep(50);
+		}
+		return true;
+	}
+}
+
+/*
 using namespace vapula;
 
 Worker_Null::Worker_Null() { }
@@ -32,3 +50,4 @@ bool Worker_Null::OnFinish()
 {
 	return Worker::OnFinish();
 }
+*/

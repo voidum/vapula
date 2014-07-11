@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vf_host", "vf_host\vf_host.vcxproj", "{9730E928-8EBF-4F69-9A7C-297A086AE4A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14459A3D-4981-4F7F-BF0B-9E4ACA9DE1B5} = {14459A3D-4981-4F7F-BF0B-9E4ACA9DE1B5}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vf_bridge", "..\Core\Bridge\vf_bridge\vf_bridge.vcxproj", "{14459A3D-4981-4F7F-BF0B-9E4ACA9DE1B5}"
 EndProject

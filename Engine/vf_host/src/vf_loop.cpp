@@ -1,4 +1,29 @@
-#include "vf_worker.h"
+#include "vf_loop.h"
+#include "vf_loop_file.h"
+#include "vf_loop_pipe.h"
+#include "vf_loop_socket.h"
+
+#include "vf_xml.h"
+
+
+namespace vapula
+{
+	Loop::Loop()
+	{
+	}
+
+	Loop::~Loop()
+	{
+	}
+
+	Loop* Loop::Load(pcstr path)
+	{
+		Loop* loop = new LoopFile();
+		return loop;
+	}
+}
+
+/*
 #include "vf_task.h"
 #include "vf_xml.h"
 #include "vf_stack.h"
@@ -144,3 +169,4 @@ namespace vapula
 		return true;
 	}
 }
+*/

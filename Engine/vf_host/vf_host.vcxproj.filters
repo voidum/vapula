@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="worker">
-      <UniqueIdentifier>{2b609a57-ca5a-48cf-88ab-7540cee274e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="worker\header">
-      <UniqueIdentifier>{39a5746e-6500-4c7d-a067-1f2ac4d83f1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="worker\source">
-      <UniqueIdentifier>{e2c092d7-4f8a-45fa-9070-d722e45f4e12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="base">
       <UniqueIdentifier>{991aaf33-794b-4382-8930-a7447fd71f8b}</UniqueIdentifier>
     </Filter>
@@ -19,58 +10,73 @@
     <Filter Include="base\source">
       <UniqueIdentifier>{df556f55-c693-41a1-a0f2-c4db9dd20a86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="res">
+    <Filter Include=".resource">
       <UniqueIdentifier>{c1ca27ac-c1d0-43d7-a984-c272538aa4c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loop">
+      <UniqueIdentifier>{2b609a57-ca5a-48cf-88ab-7540cee274e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loop\header">
+      <UniqueIdentifier>{39a5746e-6500-4c7d-a067-1f2ac4d83f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loop\source">
+      <UniqueIdentifier>{e2c092d7-4f8a-45fa-9070-d722e45f4e12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\worker_null.h">
-      <Filter>worker\header</Filter>
-    </ClInclude>
-    <ClInclude Include="include\worker_pipe.h">
-      <Filter>worker\header</Filter>
-    </ClInclude>
     <ClInclude Include="include\vf_host.h">
       <Filter>base\header</Filter>
     </ClInclude>
     <ClInclude Include="res\resource.h">
-      <Filter>res</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vf_worker.h">
-      <Filter>base\header</Filter>
+      <Filter>.resource</Filter>
     </ClInclude>
     <ClInclude Include="include\vf_plan.h">
       <Filter>base\header</Filter>
     </ClInclude>
+    <ClInclude Include="include\vf_loop.h">
+      <Filter>base\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_loop_pipe.h">
+      <Filter>loop\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_loop_file.h">
+      <Filter>loop\header</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vf_loop_socket.h">
+      <Filter>loop\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\worker_null.cpp">
-      <Filter>worker\source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\worker_pipe.cpp">
-      <Filter>worker\source</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>base\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_task.cpp">
+    <ClCompile Include="src\vf_plan.cpp">
       <Filter>base\source</Filter>
     </ClCompile>
-    <ClCompile Include="src\vf_worker.cpp">
+    <ClCompile Include="src\vf_loop.cpp">
       <Filter>base\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_loop_pipe.cpp">
+      <Filter>loop\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_loop_socket.cpp">
+      <Filter>loop\source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vf_loop_file.cpp">
+      <Filter>loop\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\vf_host.rc">
-      <Filter>res</Filter>
+      <Filter>.resource</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="tmpl_task.xml">
-      <Filter>res</Filter>
+      <Filter>.resource</Filter>
     </None>
     <None Include="tmpl_data.xml">
-      <Filter>res</Filter>
+      <Filter>.resource</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -6,14 +6,14 @@
 using vapula::Pipe;
 using vapula::Worker;
 
-class Worker_Pipe : public Worker
+class WorkerPipe : public Worker
 {
 private:
 	Pipe* _Pipe;
 
 public:
-	Worker_Pipe();
-	~Worker_Pipe();
+	WorkerPipe();
+	~WorkerPipe();
 
 public:
 	bool OnPrepare();

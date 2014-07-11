@@ -7,7 +7,8 @@ namespace vapula
 	enum Settings
 	{
 		VF_SETTING_SILENT = 1,
-		VF_SETTING_RTMON = 2
+		VF_SETTING_REALTIME = 2,
+		VF_SETTING_LOG = 4
 	};
 
 	//runtime setting
@@ -27,6 +28,7 @@ namespace vapula
 		Flag* GetFlag();
 	public:
 		bool IsSilent();
-		bool IsRealTimeMonitor();
+		bool IsRealTime();
+		bool HasLog();
 	};
 }

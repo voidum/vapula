@@ -8,7 +8,8 @@ namespace vapula
 	{
 		_Flag = new Flag();
 		_Flag->Disable(VF_SETTING_SILENT);
-		_Flag->Disable(VF_SETTING_RTMON);
+		_Flag->Disable(VF_SETTING_REALTIME);
+		_Flag->Disable(VF_SETTING_LOG);
 	}
 
 	Setting::~Setting()
@@ -39,8 +40,13 @@ namespace vapula
 		return _Flag->Valid(VF_SETTING_SILENT);
 	}
 
-	bool Setting::IsRealTimeMonitor()
+	bool Setting::IsRealTime()
 	{
-		return _Flag->Valid(VF_SETTING_RTMON);
+		return _Flag->Valid(VF_SETTING_REALTIME);
+	}
+
+	bool Setting::HasLog()
+	{
+		return _Flag->Valid(VF_SETTING_LOG);
 	}
 }

@@ -1,4 +1,5 @@
-#include "vf_task.h"
+/*
+#include "vf_plan.h"
 #include "vf_worker.h"
 #include "vf_xml.h"
 #include "vf_stack.h"
@@ -137,3 +138,4 @@ namespace vapula
 		return ret;
 	}
 }
+*/

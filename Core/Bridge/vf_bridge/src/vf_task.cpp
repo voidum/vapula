@@ -148,8 +148,8 @@ namespace vapula
 	{
 		Context* context = _Stack->GetContext();
 		Setting* setting = Setting::Instance();
-		int freq_monitor = setting->IsRealTimeMonitor() ? 5 : 50;
+		int span = setting->IsRealTime() ? 0 : 50;
 		while (context->GetCurrentState() != VF_STATE_IDLE)
-			Sleep(freq_monitor);
+			Sleep(span);
 	}
 }

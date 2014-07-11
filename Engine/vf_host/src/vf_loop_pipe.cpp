@@ -1,11 +1,6 @@
-#include "worker_pipe.h"
-#include "vf_task.h"
-#include "vf_invoker.h"
-#include "vf_stack.h"
-#include "vf_context.h"
-#include "vf_setting.h"
-#include "vf_xml.h"
+#include "vf_loop_pipe.h"
 
+/*
 Worker_Pipe::Worker_Pipe()
 {
 	_Pipe = new Pipe();
@@ -81,3 +76,4 @@ bool Worker_Pipe::OnFinish()
 	Worker::OnFinish();
 	return false;
 }
+*/
