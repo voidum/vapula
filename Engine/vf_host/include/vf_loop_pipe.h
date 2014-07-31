@@ -1,22 +1,17 @@
 #pragma once
 
-#include "vf_worker.h"
+#include "vf_loop.h"
 #include "vf_pipe.h"
 
-using vapula::Pipe;
-using vapula::Worker;
-
-class WorkerPipe : public Worker
+namespace vapula
 {
-private:
-	Pipe* _Pipe;
+	class LoopPipe : public Loop
+	{
+	public:
+		LoopPipe();
+		~LoopPipe();
 
-public:
-	WorkerPipe();
-	~WorkerPipe();
-
-public:
-	bool OnPrepare();
-	bool OnProcess();
-	bool OnFinish();
-};
+	public:
+		bool Run();
+	};
+}
