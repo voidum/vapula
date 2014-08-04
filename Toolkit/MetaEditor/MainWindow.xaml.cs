@@ -4,7 +4,6 @@ using Sartrey;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace MetaEditor
 {
@@ -32,8 +31,9 @@ namespace MetaEditor
         public MainWindow()
         {
             InitializeComponent();
-            ShowAssetsToolbar = false;
             InitLang();
+            InitAssets();
+            ShowAssetsToolbar = false;
         }
 
         private void InitLang() 
@@ -41,6 +41,20 @@ namespace MetaEditor
             var lang = Runtime.Instance.LangPack;
             Title = lang["app_title"];
             BtnSave.Content = lang["main_btn_save"];
+        }
+
+        private void InitAssets() 
+        {
+            var runtime = Runtime.Instance;
+            if (runtime.Library == null)
+            {
+                var node = new TreeViewItem();
+                node.Header = "library";
+                TrvAssets.Items.Add(node);
+            }
+            else 
+            {
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -58,13 +72,6 @@ namespace MetaEditor
             ShowAssetsToolbar = true;
         }
 
-        private void BtnNew_Click(object sender, RoutedEventArgs e) 
-        {
-            var node = new TreeViewItem();
-            node.Header = "library";
-            TrvAssets.Items.Add(node);
-        }
-
         private void BtnLoad_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog();
@@ -72,16 +79,12 @@ namespace MetaEditor
             dlg.CheckFileExists = true;
             if (!dlg.ShowDialog().Value)
                 return;
-
             MessageBox.Show(dlg.FileName);
         }
 
-        private void BtnSave_MouseUp(object sender, MouseButtonEventArgs e)
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if(e.ChangedButton == MouseButton.Left)
-                MessageBox.Show("save");
-            else
-                MessageBox.Show("save as");
+            MessageBox.Show("abc");
         }
     }
 }

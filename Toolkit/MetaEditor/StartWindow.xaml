@@ -4,10 +4,11 @@
         xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="Meta Editor" Height="150" Width="450"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        Style="{StaticResource GlobalWindow}">
     <MahApps:MetroWindow.Resources>
         <ResourceDictionary>
-            <Style TargetType="Button" x:Key="StartButton">
+            <Style x:Key="StartButton" TargetType="Button">
                 <Setter Property="FontSize" Value="14" />
             </Style>
         </ResourceDictionary>
@@ -27,11 +28,11 @@
                    Name="TxtStart" />
         <Button Grid.Row="1" Grid.Column="0" Margin="20,10,10,20" 
                 Name="BtnNew" Click="BtnNew_Click"
-                Style="{StaticResource StartButton}" 
-                Background="#FFC8DCFF" />
+                Background="#FFC8DCFF"
+                Style="{StaticResource StartButton}" />
         <Button Grid.Row="1" Grid.Column="1" Margin="10,10,20,20" 
                 Name="BtnOpen" Click="BtnOpen_Click"
-                Style="{StaticResource StartButton}"
-                Background="#FFDCFFD4" />
+                Background="#FFDCFFD4" 
+                Style="{StaticResource StartButton}" />
     </Grid>
 </MahApps:MetroWindow>

@@ -3,12 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="Meta Editor" Height="400" Width="600"
-        WindowStartupLocation="CenterScreen">
-    <MahApps:MetroWindow.RightWindowCommands>
-        <MahApps:WindowCommands>
-            <Button Name="BtnSave" Content="Save" MouseUp="BtnSave_MouseUp" />
-        </MahApps:WindowCommands>
-    </MahApps:MetroWindow.RightWindowCommands>
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource GlobalWindow}">
     <MahApps:MetroWindow.Resources>
         <ResourceDictionary>
             <Style TargetType="StackPanel" x:Key="ToolBar">
@@ -31,9 +27,15 @@
             </Style>
         </ResourceDictionary>
     </MahApps:MetroWindow.Resources>
+    <MahApps:MetroWindow.RightWindowCommands>
+        <MahApps:WindowCommands>
+            <Button Content="Save" Name="BtnSave" Click="BtnSave_Click" />
+        </MahApps:WindowCommands>
+    </MahApps:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
@@ -47,15 +49,13 @@
                 <Button Content="Remove" Style="{StaticResource ToolbarButton}" />
             </StackPanel>
         </Grid>
-        <Border Grid.Column="1">
-            <Border.BorderThickness>5,0,0,0</Border.BorderThickness>
-            <Border.BorderBrush>
-                <LinearGradientBrush MappingMode="Absolute" 
-                                     StartPoint="0,0" EndPoint="5,0">
+        <Rectangle Grid.Column="1">
+            <Rectangle.Fill>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="5,0">
+                    <GradientStop Offset="1" />
                     <GradientStop Color="#FFBBC0C0" Offset="0" />
-                    <GradientStop Color="White" Offset="1" />
                 </LinearGradientBrush>
-            </Border.BorderBrush>
-        </Border>
+            </Rectangle.Fill>
+        </Rectangle>
     </Grid>
 </MahApps:MetroWindow>

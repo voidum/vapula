@@ -11,6 +11,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="GlobalWindow" TargetType="Window">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
