@@ -6,10 +6,31 @@
         WindowStartupLocation="CenterScreen">
     <MahApps:MetroWindow.RightWindowCommands>
         <MahApps:WindowCommands>
-            <Button Name="BtnLoad" Content="Load" Click="BtnLoad_Click" />
-            <Button Name="BtnSave" Content="Save" Click="BtnSave_Click" />
+            <Button Name="BtnSave" Content="Save" MouseUp="BtnSave_MouseUp" />
         </MahApps:WindowCommands>
     </MahApps:MetroWindow.RightWindowCommands>
+    <MahApps:MetroWindow.Resources>
+        <ResourceDictionary>
+            <Style TargetType="StackPanel" x:Key="ToolBar">
+                <Setter Property="Background" Value="SkyBlue" />
+            </Style>
+            <Style TargetType="Button" x:Key="ToolbarButton">
+                <Setter Property="Foreground" Value="#FF183036" />
+                <Setter Property="Background"  Value="Transparent" />
+                <Setter Property="Padding" Value="15,0" />
+                <Setter Property="Margin" Value="-5,0,0,0" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="#FF301414" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Foreground" Value="Black" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </MahApps:MetroWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240" />
@@ -18,14 +39,23 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="30" />
+                <RowDefinition Height="30" Name="AssetsToolbarRow" />
             </Grid.RowDefinitions>
             <TreeView Grid.Row="0" Name="TrvAssets" TreeViewItem.Selected="TrvAssets_Selected" />
             <StackPanel Grid.Row="1" Orientation="Horizontal" Style="{StaticResource ToolBar}">
-                <Button Content="Add" Style="{StaticResource FlatButton}" />
-                <Button Content="Remove" Style="{StaticResource FlatButton}" />
+                <Button Content="Add" Style="{StaticResource ToolbarButton}" />
+                <Button Content="Remove" Style="{StaticResource ToolbarButton}" />
             </StackPanel>
         </Grid>
-        <Border Grid.Column="1" Style="{StaticResource SplitBorder}" />
+        <Border Grid.Column="1">
+            <Border.BorderThickness>5,0,0,0</Border.BorderThickness>
+            <Border.BorderBrush>
+                <LinearGradientBrush MappingMode="Absolute" 
+                                     StartPoint="0,0" EndPoint="5,0">
+                    <GradientStop Color="#FFBBC0C0" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+        </Border>
     </Grid>
 </MahApps:MetroWindow>

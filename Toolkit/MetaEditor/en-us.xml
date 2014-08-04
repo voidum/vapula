@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<lang>
+  <item key="app_title">Meta Editor</item>
+  <item key="start_text">Please choose one of the following tasks.</item>
+  <item key="start_btn_new">New</item>
+  <item key="start_btn_open">Open</item>
+  <item key="main_btn_save">Save</item>
+</lang>

@@ -104,7 +104,7 @@ namespace Vapula.Model
                 new XElement("id", Id),
                 new XElement("runtime", Runtime),
                 new XElement("methods"),
-                _Tags.ToXML("tags", "tag", "key"));
+                _Tags.ToXML("tags|tag|key"));
             foreach (var method in _Methods)
             {
                 var xe = method.ToXML();

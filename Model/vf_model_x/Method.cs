@@ -77,7 +77,7 @@ namespace Vapula.Model
                 new XElement("symbols",
                     new XElement("process", ProcessSym),
                     new XElement("rollback", RollbackSym)),
-                _Tags.ToXML("tags", "tag", "key"));
+                _Tags.ToXML("tags|tag|key"));
             foreach (var record in Records)
             {
                 var xe = record.ToXML();

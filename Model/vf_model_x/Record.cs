@@ -45,7 +45,7 @@ namespace Vapula.Model
             XElement xml = new XElement("record",
                 new XAttribute("id", Id),
                 new XElement("access", (int)Access),
-                _Tags.ToXML("tags", "tag", "key"));
+                _Tags.ToXML("tags|tag|key"));
             return xml;
         }
         #endregion
